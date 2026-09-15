@@ -65,7 +65,7 @@ export const posts: BlogPost[] = [
     date: '2026-05-03',
     dateLabel: '3 mai 2026',
     dateLabelAr: '3 مايو 2026',
-    img: 'parcours/viz-10.jpg',
+    img: 'parcours/viz-03.jpg',
     readMin: 3,
     tags: ['Finitions', 'Design'],
   },

@@ -759,11 +759,11 @@
   }
 
   .explore--compact .choose-plan {
-    @apply aspect-[16/11] lg:aspect-auto lg:min-h-[23rem] lg:max-h-[27rem];
+    @apply aspect-[16/11] lg:aspect-auto lg:min-h-[23rem] lg:max-h-[30rem];
   }
 
   .explore--compact .choose-side {
-    @apply min-h-[19rem] lg:min-h-[23rem] lg:max-h-[27rem];
+    @apply min-h-[19rem] lg:min-h-[23rem] lg:max-h-[30rem];
     box-shadow: 0 12px 40px rgb(0 45 45 / 0.05);
   }
 
