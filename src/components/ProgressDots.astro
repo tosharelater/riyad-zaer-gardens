@@ -1,0 +1,28 @@
+---
+const chapters = [
+  { id: 'arrive', key: 'nav_arrive', label: 'Arriver' },
+  { id: 'live', key: 'nav_live', label: 'Vivre' },
+  { id: 'choose', key: 'nav_choose', label: 'Choisir' },
+  { id: 'trust', key: 'nav_trust', label: 'Confiance' },
+  { id: 'talk', key: 'nav_talk', label: 'Parler' },
+] as const;
+---
+
+<nav class="progress-dots" aria-label="Parcours" data-i18n-aria="progress_label">
+  {
+    chapters.map((c) => (
+      <a
+        class="progress-dot"
+        href={`#${c.id}`}
+        data-chapter={c.id}
+        title={c.label}
+        aria-label={c.label}
+      >
+        <span class="progress-dot__pip" aria-hidden="true" />
+        <span class="progress-dot__label" data-i18n={c.key}>
+          {c.label}
+        </span>
+      </a>
+    ))
+  }
+</nav>

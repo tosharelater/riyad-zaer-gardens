@@ -1,35 +1,36 @@
-# Riyad Zaer Gardens
+# Riyad Zaer Gardens — Le parcours Riyad
 
-Marketing site (UI only) for **Riyad Zaer Gardens** — mid-standing Moroccan real estate in Rabat / Aïn Aouda.
+Single Astro story-showroom for **Riyad Zaer Gardens** (mid-standing, Rabat / Aïn Aouda).
 
 Live: https://tosharelater.github.io/riyad-zaer-gardens/
 
-## Routes
+## Parcours (Home)
 
-- `/` — editorial asymmetric hero, project stats, pull-quote, family story
-- `/services` — photography-led F3 / F4 / fonds stories + quiet amenities
-- `/contact` — WhatsApp-first CTA + quiet lead form
+Five scroll chapters on one page:
+
+1. **Arrive** `#arrive` — full-bleed 3D, huge type, one solid WhatsApp
+2. **Live** `#live` — lifestyle / cadre de vie (folder photography)
+3. **Choose** `#choose` — interactive plan hotspots → F3 / F4 / fonds panels
+4. **Trust** `#trust` — aides + chantier markers (no forms)
+5. **Talk** `#talk` — WhatsApp CTA (prefills chosen typology client-side)
+
+Optional sticky progress dots (skippable). `/services` and `/contact` redirect into `#choose` / `#talk`.
 
 Base path: `/riyad-zaer-gardens/`
 
 ## Brand
 
-Editorial Moroccan real-estate magazine — photography-led, cream/dark section rhythm.
+| Token | Hex |
+| --- | --- |
+| Vert Forêt Profond | `#002D2D` |
+| Vert Canopée | `#0A3D35` |
+| Or Champagne | `#C8B568` |
+| Or Pâle | `#D9C987` |
+| Crème Ivoire | `#F7F2E8` |
 
-| Token | Hex | Use |
-| --- | --- | --- |
-| Vert Forêt Profond | `#002D2D` | main dark surfaces |
-| Vert Canopée | `#0A3D35` | panels |
-| Or Champagne | `#C8B568` | accents |
-| Or Pâle | `#D9C987` | soft accents |
-| Crème Ivoire | `#F7F2E8` | light sections / cream text on dark |
+Display: Bodoni Moda · Body: Poppins · FR / AR RTL
 
-### Typography
-
-- **Display (sparingly):** Bodoni Moda
-- **Body / UI:** Poppins (300 / 400 / 500 / 700)
-
-FR / AR language toggle with real RTL for Arabic.
+WhatsApp placeholder: `wa.me/212600000000`
 
 ## Develop
 
@@ -41,7 +42,7 @@ npm run build && npm run preview
 
 ## Deploy (GitHub Pages)
 
-Always keep `public/.nojekyll` and publish with `--dotfiles` so `_astro` CSS is not stripped by Jekyll:
+Keep `public/.nojekyll` and publish with `--dotfiles`:
 
 ```bash
 npm run build

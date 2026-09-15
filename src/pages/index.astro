@@ -2,143 +2,399 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import ArchFrame from '../components/ArchFrame.astro';
-import ArchDivider from '../components/ArchDivider.astro';
+import ProgressDots from '../components/ProgressDots.astro';
+import ContactForm from '../components/ContactForm.astro';
+
 const base = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
   : import.meta.env.BASE_URL + '/';
+
+const typologies = [
+  {
+    id: 'F3',
+    titleKey: 'choose_f3_title',
+    title: 'F3',
+    surfaceKey: 'choose_f3_surface',
+    surface: '65–75 m²',
+    bodyKey: 'choose_f3_body',
+    body:
+      'Séjour lumineux, deux chambres, cuisine ouverte, rangements pensés. Idéal pour démarrer ou se réancrer.',
+    priceKey: 'choose_f3_price',
+    price: 'À partir de ~420 000 DHS',
+    img: 'parcours/viz-09.jpg',
+    imgAlt: 'Cuisine — typologie F3',
+    hotspot: { top: '42%', left: '28%' },
+  },
+  {
+    id: 'F4',
+    titleKey: 'choose_f4_title',
+    title: 'F4',
+    surfaceKey: 'choose_f4_surface',
+    surface: 'jusqu’à 86 m²',
+    bodyKey: 'choose_f4_body',
+    body:
+      'Troisième chambre, plus d’espace familial, volumes clairs — pour s’ancrer durablement.',
+    priceKey: 'choose_f4_price',
+    price: 'À partir de ~480 000 DHS',
+    img: 'parcours/viz-06.jpg',
+    imgAlt: 'Façade — typologie F4',
+    hotspot: { top: '38%', left: '58%' },
+  },
+  {
+    id: 'Fonds',
+    titleKey: 'choose_fonds_title',
+    title: 'Fonds de commerce',
+    surfaceKey: 'choose_fonds_surface',
+    surface: 'Rez-de-chaussée',
+    bodyKey: 'choose_fonds_body',
+    body:
+      'Locaux en pied d’immeuble pour commerces de proximité — une adresse vivante au seuil de la résidence.',
+    priceKey: 'choose_fonds_price',
+    price: 'Sur consultation',
+    img: 'parcours/viz-05.jpg',
+    imgAlt: 'Commerces en rez-de-chaussée',
+    hotspot: { top: '68%', left: '48%' },
+  },
+] as const;
 ---
 
-<BaseLayout title="Riyad Zaer Gardens — Accueil">
+<BaseLayout title="Le parcours Riyad — Riyad Zaer Gardens">
   <Header current="home" />
+  <ProgressDots />
 
-  <section class="hero">
-    <div class="hero-copy">
-      <div class="masthead">
-        <span class="marker" data-num="01" data-i18n="coming_soon">Bientôt disponible</span>
-      </div>
-      <p class="label" style="margin:0 0 1.25rem; opacity:0.85;" data-i18n="teasing"
-        >Résidence exclusive · Aïn Aouda · Rabat</p
-      >
-      <h1 data-i18n="hero_title">Vivre l’élégance au cœur de Riyad Zaer</h1>
-      <p class="hero-pitch" data-i18n="hero_pitch">
-        F3 & F4 de 65 à 86 m² · 120 appartements + fonds de commerce. Une adresse familiale, moderne et
-        sécurisée entre Rabat et Aïn Aouda.
+  <!-- 1. ARRIVE -->
+  <section id="arrive" class="chapter chapter-arrive" data-chapter-section="arrive">
+    <div class="arrive-media" aria-hidden="false">
+      <img
+        class="arrive-poster"
+        src={`${base}parcours/viz-08.jpg`}
+        alt="Riyad Zaer Gardens — visualisation 3D"
+        width="1920"
+        height="1080"
+        fetchpriority="high"
+        decoding="async"
+      />
+      <div class="arrive-veil" aria-hidden="true"></div>
+    </div>
+    <div class="arrive-copy">
+      <p class="kicker" data-i18n="arrive_kicker">Riyad Zaer Gardens</p>
+      <p class="hero-locale" data-i18n="teasing">Résidence exclusive · Aïn Aouda · Rabat</p>
+      <h1 class="arrive-title" data-i18n="arrive_title">Le parcours Riyad</h1>
+      <p class="arrive-lead" data-i18n="arrive_lead">
+        Une adresse familiale, moderne et sécurisée entre Rabat et Aïn Aouda.
       </p>
-      <div class="aides-note">
-        <span class="label" data-i18n="aides_title">Éligible aux aides au logement</span>
-        <p data-i18n="aides_body">
-          Projet conçu pour maximiser votre éligibilité aux dispositifs d’aide à l’accession —
-          renseignez-vous dès maintenant.
-        </p>
-      </div>
-      <div class="hero-actions">
+      <div class="arrive-actions">
         <a
           class="btn btn-solid"
           href="https://wa.me/212600000000"
           target="_blank"
           rel="noopener noreferrer"
+          data-wa
           data-i18n="cta_whatsapp">WhatsApp</a
         >
-        <a class="btn-ghost-link" href={`${base}contact`} data-i18n="cta_contact">Nous contacter</a>
+        <a class="btn-ghost-link arrive-skip" href="#live" data-i18n="cta_scroll"
+          >Commencer le parcours</a
+        >
       </div>
-    </div>
-
-    <div class="hero-media" aria-hidden="false">
-      <div class="hero-fade" aria-hidden="true"></div>
-      <div class="hero-kb">
-        <img
-          class="hero-poster"
-          src={`${base}courtyard.jpg`}
-          alt="Cour végétalisée de Riyad Zaer Gardens"
-          width="1600"
-          height="1000"
-          fetchpriority="high"
-          decoding="async"
-        />
-      </div>
-      <div class="hero-caption" data-i18n="hero_caption">Cour végétalisée · Aïn Aouda</div>
     </div>
   </section>
 
-  <section class="section theme-cream">
+  <!-- 2. LIVE -->
+  <section id="live" class="chapter chapter-live theme-cream" data-chapter-section="live">
     <div class="container">
-      <div class="section-head" data-reveal>
-        <span class="marker" data-num="02" data-i18n="pitch_label">Le projet</span>
-        <h2 class="serif" data-i18n="pitch_title">120 appartements · F3 / F4 · 65–86 m²</h2>
-        <p class="muted" data-i18n="hero_pitch">
-          F3 & F4 de 65 à 86 m² · 120 appartements + fonds de commerce. Une adresse familiale, moderne et
-          sécurisée entre Rabat et Aïn Aouda.
+      <header class="chapter-head" data-reveal>
+        <p class="kicker kicker--ink" data-i18n="live_kicker">Cadre de vie</p>
+        <h2 class="serif chapter-title" data-i18n="live_title">Vivre autrement. C’est possible.</h2>
+        <p class="muted chapter-lead" data-i18n="live_body">
+          Cour végétalisée, lumière naturelle, commerces de proximité — un quotidien élégant, sans
+          le bruit du luxe générique.
         </p>
-      </div>
+      </header>
 
-      <ArchDivider />
-
-      <div class="stats-editorial" data-reveal>
-        <div class="stat-ed">
-          <strong>120</strong>
-          <span class="muted" data-i18n="stats_apts">appartements</span>
-        </div>
-        <div class="stat-ed">
-          <strong>65–86</strong>
-          <span class="muted" data-i18n="stats_surface">m² F3–F4</span>
-        </div>
-        <div class="stat-ed">
-          <strong>+</strong>
-          <span class="muted" data-i18n="stats_commerce">fonds de commerce</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section theme-dark">
-    <div class="container">
-      <div class="quote-band" data-reveal>
-        <blockquote class="pull-quote">
-          <span data-i18n="pull_quote"
-            >« Une adresse familiale, moderne et sécurisée — sans le bruit du luxe générique. »</span
-          >
-          <cite data-i18n="pull_cite">Riyad Zaer Gardens · Éditorial</cite>
-        </blockquote>
-        <div class="aside muted">
-          <span class="marker" data-num="03" data-i18n="feature_label">Cadre de vie</span>
-          <p style="margin:1rem 0 0;" data-i18n="feature_body">
-            Lumière naturelle, finitions soignées et cour végétalisée — un quotidien élégant, sans
-            compromis.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section theme-cream">
-    <div class="container">
-      <article class="story" data-reveal>
-        <div class="story-media">
+      <div class="live-folder" data-reveal>
+        <figure class="live-shot live-shot--hero">
           <img
-            src={`${base}kids-bedroom.jpg`}
-            alt="Chambre enfant — finitions modernes"
+            src={`${base}parcours/viz-01.jpg`}
+            alt="Cour végétalisée — cadre de vie"
+            width="1600"
+            height="1000"
+            loading="lazy"
+          />
+          <figcaption data-i18n="live_cap_courtyard">Cour &amp; jardins</figcaption>
+        </figure>
+        <figure class="live-shot live-shot--a">
+          <img
+            src={`${base}parcours/viz-11.jpg`}
+            alt="Façade et palmiers"
             width="1200"
             height="800"
             loading="lazy"
           />
-          <ArchFrame />
+          <figcaption data-i18n="live_cap_street">Adresse vivante</figcaption>
+        </figure>
+        <figure class="live-shot live-shot--b">
+          <img
+            src={`${base}parcours/tease-08.jpg`}
+            alt="Famille — moments de vie"
+            width="1200"
+            height="800"
+            loading="lazy"
+          />
+          <figcaption data-i18n="live_cap_family">Moments en famille</figcaption>
+        </figure>
+        <figure class="live-shot live-shot--c">
+          <img
+            src={`${base}parcours/tease-05.jpg`}
+            alt="Promenade sous les palmiers"
+            width="1200"
+            height="800"
+            loading="lazy"
+          />
+          <figcaption data-i18n="live_cap_palm">Promenade</figcaption>
+        </figure>
+        <figure class="live-shot live-shot--d">
+          <img
+            src={`${base}parcours/viz-12.jpg`}
+            alt="Perspective rue — Riyad Zaer Gardens"
+            width="1200"
+            height="800"
+            loading="lazy"
+          />
+          <figcaption data-i18n="live_cap_street">Adresse vivante</figcaption>
+        </figure>
+      </div>
+
+      <div class="live-stats" data-reveal>
+        <div class="stat-loose stat-loose--lg">
+          <strong>120</strong>
+          <span>appartements</span>
         </div>
-        <div class="story-body">
-          <span class="marker" data-num="04" data-i18n="feature_label">Cadre de vie</span>
-          <h3 class="serif" data-i18n="feature_title">Espaces pensés pour la famille</h3>
-          <p class="muted" data-i18n="feature_body">
-            Lumière naturelle, finitions soignées et cour végétalisée — un quotidien élégant, sans
-            compromis.
-          </p>
-          <a
-            class="btn-ghost-link"
-            href={`${base}services`}
-            style="align-self:flex-start; margin-top:0.75rem;"
-            data-i18n="cta_discover">Découvrir les prestations</a
-          >
+        <div class="stat-loose">
+          <strong>65–86</strong>
+          <span>m² F3–F4</span>
         </div>
-      </article>
+        <div class="stat-loose stat-loose--quiet">
+          <strong>+</strong>
+          <span>fonds de commerce</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. CHOOSE — only interactive island -->
+  <section id="choose" class="chapter chapter-choose theme-cream" data-chapter-section="choose">
+    <div class="container">
+      <header class="chapter-head" data-reveal>
+        <p class="kicker kicker--ink" data-i18n="choose_kicker">Typologies</p>
+        <h2 class="serif chapter-title" data-i18n="choose_title">Choisissez votre adresse</h2>
+        <p class="muted chapter-lead" data-i18n="choose_body">
+          Explorez le plan, ouvrez une typologie, gardez votre choix pour la conversation WhatsApp.
+        </p>
+      </header>
+
+      <div class="choose-island" data-reveal>
+        <div class="choose-plan">
+          <img
+            src={`${base}parcours/viz-04.jpg`}
+            alt="Plan aérien — Riyad Zaer Gardens"
+            width="1600"
+            height="1000"
+            loading="lazy"
+          />
+          <p class="choose-hint" data-i18n="choose_hint">Touchez un hotspot sur le plan</p>
+          {
+            typologies.map((t) => (
+              <button
+                type="button"
+                class="hotspot"
+                style={`top:${t.hotspot.top};left:${t.hotspot.left}`}
+                data-hotspot={t.id}
+                aria-label={t.title}
+              >
+                <span class="hotspot__ring" aria-hidden="true" />
+                <span class="hotspot__label">{t.title === 'Fonds de commerce' ? 'Fonds' : t.title}</span>
+              </button>
+            ))
+          }
+        </div>
+
+        <div class="choose-panels">
+          {
+            typologies.map((t) => (
+              <article class="typo-panel" data-panel={t.id} hidden>
+                <button type="button" class="typo-panel__close" data-panel-close aria-label="Fermer">
+                  <span data-i18n="choose_close">Fermer</span>
+                </button>
+                <div class="typo-panel__media">
+                  <img src={`${base}${t.img}`} alt={t.imgAlt} width="900" height="600" loading="lazy" />
+                </div>
+                <div class="typo-panel__body">
+                  <p class="surface-tag" data-i18n={t.surfaceKey}>
+                    {t.surface}
+                  </p>
+                  <h3 class="serif" data-i18n={t.titleKey}>
+                    {t.title}
+                  </h3>
+                  <p class="muted" data-i18n={t.bodyKey}>
+                    {t.body}
+                  </p>
+                  <p class="typo-price" data-i18n={t.priceKey}>
+                    {t.price}
+                  </p>
+                  <p class="typo-aides label" data-i18n="choose_aides">
+                    Éligible aux aides au logement
+                  </p>
+                  <div class="story-meta">
+                    {t.id !== 'Fonds' ? (
+                      <>
+                        <span class="chip" data-i18n="chip_family">
+                          Familial
+                        </span>
+                        <span class="chip" data-i18n="chip_light">
+                          Lumière naturelle
+                        </span>
+                        <span class="chip" data-i18n="chip_aides">
+                          Aides
+                        </span>
+                      </>
+                    ) : (
+                      <span class="chip" data-i18n="chip_rdc">
+                        RDC
+                      </span>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    class="btn btn-solid"
+                    data-select-typo={t.id}
+                    data-i18n="choose_select"
+                  >
+                    Sélectionner
+                  </button>
+                </div>
+              </article>
+            ))
+          }
+
+          <aside class="choose-rail" aria-live="polite">
+            <p
+              class="choose-rail__sel is-empty"
+              data-selected-label
+              data-empty="Aucune typologie sélectionnée"
+              data-prefix="Votre choix :"
+              data-i18n-empty="talk_selected_none"
+            >
+              Aucune typologie sélectionnée
+            </p>
+            <a
+              class="btn btn-solid"
+              href="https://wa.me/212600000000"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-wa
+              data-i18n="cta_whatsapp">WhatsApp</a
+            >
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. TRUST -->
+  <section id="trust" class="chapter chapter-trust theme-cream" data-chapter-section="trust">
+    <div class="container">
+      <header class="chapter-head" data-reveal>
+        <p class="kicker kicker--ink" data-i18n="trust_kicker">Transparence</p>
+        <h2 class="serif chapter-title" data-i18n="trust_title">Confiance, sans formalités</h2>
+        <p class="muted chapter-lead" data-i18n="trust_body">
+          Des repères clairs — aides, chantier, livraison — pour avancer sereinement.
+        </p>
+      </header>
+
+      <ol class="trust-markers" data-reveal>
+        <li class="trust-marker">
+          <span class="trust-marker__num" aria-hidden="true">01</span>
+          <div>
+            <h3 data-i18n="trust_aides_t">Aides au logement</h3>
+            <p class="muted" data-i18n="trust_aides_d">
+              Projet conçu pour maximiser l’éligibilité aux dispositifs d’accession. On vous
+              oriente, sans dossier en ligne.
+            </p>
+          </div>
+        </li>
+        <li class="trust-marker">
+          <span class="trust-marker__num" aria-hidden="true">02</span>
+          <div>
+            <h3 data-i18n="trust_chantier_t">Chantier suivi</h3>
+            <p class="muted" data-i18n="trust_chantier_d">
+              Jalons visibles, communication régulière, visite sur rendez-vous — le chantier reste
+              lisible.
+            </p>
+          </div>
+        </li>
+        <li class="trust-marker">
+          <span class="trust-marker__num" aria-hidden="true">03</span>
+          <div>
+            <h3 data-i18n="trust_livraison_t">Livraison anticipée</h3>
+            <p class="muted" data-i18n="trust_livraison_d">
+              Calendrier partagé dès la réservation. Vous savez où en est votre futur chez-vous.
+            </p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="trust-visual" data-reveal>
+        <img
+          src={`${base}parcours/viz-07.jpg`}
+          alt="Perspectives du projet"
+          width="1600"
+          height="900"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. TALK -->
+  <section id="talk" class="chapter chapter-talk theme-dark" data-chapter-section="talk">
+    <div class="container talk-inner">
+      <header class="chapter-head chapter-head--dark" data-reveal>
+        <p class="kicker" data-i18n="talk_kicker">Échange</p>
+        <h2 class="serif chapter-title" data-i18n="talk_title">Parlons de votre futur chez-vous</h2>
+        <p class="chapter-lead talk-lead" data-i18n="talk_body">
+          Une question, une visite, une réservation — réponse prioritaire sur WhatsApp.
+        </p>
+        <p
+          class="talk-choice is-empty"
+          data-selected-label
+          data-empty="Aucune typologie sélectionnée"
+          data-prefix="Votre choix :"
+        >
+          Aucune typologie sélectionnée
+        </p>
+      </header>
+
+      <div class="talk-cta" data-reveal>
+        <a
+          class="btn btn-solid btn-wa-lg"
+          href="https://wa.me/212600000000"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-wa
+          data-i18n="talk_wa">Discuter sur WhatsApp</a
+        >
+        <button
+          type="button"
+          class="btn-ghost-link"
+          data-form-toggle
+          aria-expanded="false"
+          data-i18n="talk_form_toggle">Préférer un message écrit ?</button
+        >
+      </div>
+
+      <div class="talk-form" data-quiet-form hidden data-reveal>
+        <ContactForm />
+      </div>
     </div>
   </section>
 

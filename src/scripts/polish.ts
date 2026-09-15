@@ -18,9 +18,9 @@ export function initReveal() {
   nodes.forEach((n) => io.observe(n));
 }
 
-/** Soft Ken Burns on hero only — no parallax layers / sparkle */
+/** Soft Ken Burns on arrive hero only */
 export function initParallax() {
-  const hero = document.querySelector<HTMLElement>('.hero');
+  const hero = document.querySelector<HTMLElement>('.chapter-arrive');
   if (!hero) return;
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -29,7 +29,7 @@ export function initParallax() {
     return;
   }
 
-  const poster = hero.querySelector<HTMLImageElement>('.hero-poster, .hero-kb img');
+  const poster = hero.querySelector<HTMLImageElement>('.arrive-media img');
   const enableMotion = () => {
     hero.classList.add('hero--cinematic');
   };
