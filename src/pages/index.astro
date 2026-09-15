@@ -146,6 +146,58 @@ const faqItems = [
     a: 'Choisissez votre typologie sur cette page, puis écrivez-nous sur WhatsApp. Nous vous guidons pour la réservation et les prochaines étapes.',
   },
 ] as const;
+
+const galleryImages = [
+  { img: 'parcours/viz-01.jpg', key: 'gallery_img1', alt: 'Cour végétalisée' },
+  { img: 'parcours/viz-04.jpg', key: 'gallery_img2', alt: 'Vue aérienne du plan de masse' },
+  { img: 'parcours/viz-05.jpg', key: 'gallery_img3', alt: 'Commerces en rez-de-chaussée, ambiance nocturne' },
+  { img: 'parcours/viz-06.jpg', key: 'gallery_img4', alt: 'Façade et volumes' },
+  { img: 'parcours/viz-11.jpg', key: 'gallery_img5', alt: 'Rue intérieure et accès résidents' },
+  { img: 'parcours/viz-09.jpg', key: 'gallery_img6', alt: 'Cuisine ouverte, typologie F3' },
+  { img: 'parcours/viz-12.jpg', key: 'gallery_img7', alt: 'Adresse au coucher du soleil' },
+  { img: 'courtyard.jpg', key: 'gallery_img8', alt: 'Entrée de résidence et jardins' },
+] as const;
+
+const timelineSteps = [
+  { id: 1, state: 'is-done', statusKey: 'timeline_1_status', status: 'Terminé', titleKey: 'timeline_1_title', title: 'Terrassement & fondations', bodyKey: 'timeline_1_body', body: 'Études de sol, VRD et fondations des premiers îlots.' },
+  { id: 2, state: 'is-done', statusKey: 'timeline_2_status', status: 'Terminé', titleKey: 'timeline_2_title', title: 'Gros œuvre', bodyKey: 'timeline_2_body', body: 'Structure et élévation des bâtiments, îlot par îlot.' },
+  { id: 3, state: 'is-current', statusKey: 'timeline_3_status', status: 'En cours', titleKey: 'timeline_3_title', title: 'Second œuvre', bodyKey: 'timeline_3_body', body: 'Cloisons, réseaux, menuiseries et façades.' },
+  { id: 4, state: '', statusKey: 'timeline_4_status', status: 'À venir', titleKey: 'timeline_4_title', title: 'Finitions', bodyKey: 'timeline_4_body', body: 'Sols, faïences, cuisines équipées et aménagements extérieurs.' },
+  { id: 5, state: '', statusKey: 'timeline_5_status', status: 'À venir', titleKey: 'timeline_5_title', title: 'Livraison', bodyKey: 'timeline_5_body', body: 'Remise des clés et accompagnement à l’installation.' },
+] as const;
+
+const testimonials = [
+  {
+    id: 1,
+    quoteKey: 'testimonial_1_quote',
+    quote: '« Le dossier d’aides au logement a été traité pas à pas avec nous. On savait toujours où on en était. »',
+    nameKey: 'testimonial_1_name',
+    name: 'Yassine B.',
+    roleKey: 'testimonial_1_role',
+    role: 'Réservataire F3',
+    initials: 'YB',
+  },
+  {
+    id: 2,
+    quoteKey: 'testimonial_2_quote',
+    quote: '« Ce qui nous a convaincus, c’est l’échelle du projet — jardins, commerces, écoles à proximité, tout au même endroit. »',
+    nameKey: 'testimonial_2_name',
+    name: 'Salma K.',
+    roleKey: 'testimonial_2_role',
+    role: 'Réservataire F4',
+    initials: 'SK',
+  },
+  {
+    id: 3,
+    quoteKey: 'testimonial_3_quote',
+    quote: '« Le local a trouvé son emplacement idéal en rez-de-chaussée, avec une vraie clientèle de résidents dès l’ouverture. »',
+    nameKey: 'testimonial_3_name',
+    name: 'Omar & Nadia',
+    roleKey: 'testimonial_3_role',
+    role: 'Fonds de commerce',
+    initials: 'ON',
+  },
+] as const;
 ---
 
 <BaseLayout title="Riyad Zaer Gardens — Nouveau pôle urbain">
@@ -546,6 +598,102 @@ C’est possible.
             Texture, lumière, silence — le détail sans bruit.
           </p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Showcase · Galerie -->
+  <section id="galerie" class="showcase-section showcase-section--cream section-seam" aria-labelledby="galerie-title">
+    <div class="container-rzg">
+      <header class="max-w-2xl mx-auto text-center mb-10 md:mb-14" data-reveal>
+        <p class="kicker kicker--ink" data-i18n="gallery_kicker">Galerie</p>
+        <h2 id="galerie-title" class="serif text-[clamp(2rem,4.5vw,3.25rem)] m-0 mb-5" data-i18n="gallery_title">
+          Riyad Zaer Gardens en images
+        </h2>
+        <p class="text-foret/70 text-lg leading-relaxed m-0" data-i18n="gallery_body">
+          Façades, jardins, intérieurs — un aperçu du projet, typologie après typologie.
+        </p>
+      </header>
+
+      <div class="gallery-grid" data-stagger>
+        {
+          galleryImages.map((g) => (
+            <figure class="gallery-tile" data-reveal>
+              <img src={`${base}${g.img}`} alt={g.alt} width="640" height="800" loading="lazy" />
+              <span class="gallery-tile__veil" aria-hidden="true" />
+              <figcaption class="gallery-tile__label" data-i18n={g.key}>{g.alt}</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Showcase · Chantier -->
+  <section id="chantier" class="showcase-section showcase-section--cream section-seam border-t border-foret/8" aria-labelledby="chantier-title">
+    <div class="container-rzg max-w-5xl">
+      <header class="max-w-2xl mx-auto text-center mb-14 md:mb-20" data-reveal>
+        <p class="kicker kicker--ink" data-i18n="timeline_kicker">Calendrier</p>
+        <h2 id="chantier-title" class="serif text-[clamp(2rem,4.5vw,3.25rem)] m-0 mb-5" data-i18n="timeline_title">
+          Un chantier suivi, étape par étape
+        </h2>
+        <p class="text-foret/70 text-lg leading-relaxed m-0" data-i18n="timeline_body">
+          Le calendrier de livraison est partagé dès la réservation, avec des jalons visibles à chaque étape.
+        </p>
+      </header>
+
+      <ol class="timeline" data-reveal aria-label="Étapes du chantier">
+        {
+          timelineSteps.map((s) => (
+            <li class:list={['timeline-step', s.state]}>
+              <span class="timeline-step__marker" aria-hidden="true" />
+              <div class="timeline-step__body">
+                <p class="timeline-step__status" data-i18n={s.statusKey}>{s.status}</p>
+                <p class="timeline-step__title" data-i18n={s.titleKey}>{s.title}</p>
+                <p data-i18n={s.bodyKey}>{s.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- Showcase · Témoignages -->
+  <section id="temoignages" class="showcase-section showcase-section--foret section-seam" aria-labelledby="temoignages-title">
+    <div class="container-rzg">
+      <header class="max-w-2xl mx-auto text-center mb-14 md:mb-20" data-reveal>
+        <p class="kicker" data-i18n="testimonials_kicker">Témoignages</p>
+        <h2 id="temoignages-title" class="serif text-[clamp(2rem,4.5vw,3.25rem)] m-0 mb-5" data-i18n="testimonials_title">
+          Ce qu’ils en disent
+        </h2>
+        <p class="text-cream/65 text-lg leading-relaxed m-0" data-i18n="testimonials_body">
+          Des familles qui ont déjà réservé leur adresse à Riyad Zaer Gardens.
+        </p>
+      </header>
+
+      <div class="testimonial-grid" data-stagger>
+        {
+          testimonials.map((t) => (
+            <article class="testimonial-card" data-reveal>
+              <div class="testimonial-card__stars" aria-hidden="true">
+                {Array.from({ length: 5 }).map(() => (
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10 1.5l2.6 5.6 6.1.7-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6-4.5-4.2 6.1-.7z" />
+                  </svg>
+                ))}
+              </div>
+              <p class="testimonial-card__quote" data-i18n={t.quoteKey}>{t.quote}</p>
+              <div class="testimonial-card__meta">
+                <span class="testimonial-card__avatar" aria-hidden="true">{t.initials}</span>
+                <div>
+                  <p class="testimonial-card__name" data-i18n={t.nameKey}>{t.name}</p>
+                  <p class="testimonial-card__role" data-i18n={t.roleKey}>{t.role}</p>
+                </div>
+              </div>
+            </article>
+          ))
+        }
       </div>
     </div>
   </section>
