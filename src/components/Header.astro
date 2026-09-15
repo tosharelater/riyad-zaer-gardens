@@ -6,9 +6,10 @@ const { current = 'home' } = Astro.props;
 const base = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
   : import.meta.env.BASE_URL + '/';
+const solid = current !== 'home';
 ---
 
-<header class="site-header">
+<header class:list={['site-header', { 'is-scrolled': solid, 'site-header--solid': solid }]}>
   <div class="inner">
     <a class="brand" href={base} aria-label="Riyad Zaer Gardens">
       <img src={`${base}logo.png`} alt="Riyad Zaer Gardens" width="160" height="64" />

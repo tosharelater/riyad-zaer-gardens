@@ -106,6 +106,10 @@ export function initLiveParallax() {
 export function initHeaderScroll() {
   const header = document.querySelector<HTMLElement>('.site-header');
   if (!header) return;
+  if (header.classList.contains('site-header--solid')) {
+    header.classList.add('is-scrolled');
+    return;
+  }
   const onScroll = () => {
     header.classList.toggle('is-scrolled', window.scrollY > 12);
   };

@@ -21,7 +21,6 @@ const base = import.meta.env.BASE_URL.endsWith('/')
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- FOUC-safe: splash always pending on every load — no localStorage skip -->
     <style is:inline>
       .rzg-splash {
         display: none;
@@ -51,7 +50,6 @@ const base = import.meta.env.BASE_URL.endsWith('/')
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Display: Audrey (@font-face) when present; TEMP Cormorant Garamond (never Georgia). UI: Poppins. -->
     <link
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Poppins:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap"
       rel="stylesheet"
@@ -73,7 +71,6 @@ const base = import.meta.env.BASE_URL.endsWith('/')
         initFaq,
       } from '../scripts/polish.ts';
       import { initChoose } from '../scripts/choose.ts';
-      import { initQuartier } from '../scripts/quartier3d.ts';
       initSplash();
       initLangToggle();
       initReveal();
@@ -82,7 +79,6 @@ const base = import.meta.env.BASE_URL.endsWith('/')
       initHeaderScroll();
       initChapterVideos();
       initChoose();
-      initQuartier();
       initFaq();
     </script>
   </body>

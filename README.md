@@ -1,20 +1,22 @@
 # Riyad Zaer Gardens
 
-Cinematic Astro showroom for **Riyad Zaer Gardens** (mid-standing, Rabat / Aïn Aouda).
+Premium Astro + Tailwind showroom for **Riyad Zaer Gardens** (mid-standing, Rabat / Aïn Aouda).
 
 Live: https://tosharelater.github.io/riyad-zaer-gardens/
 
+## Stack
+
+- Astro 7 + Tailwind CSS v4 (`@tailwindcss/vite`)
+- FR / AR i18n · base `/riyad-zaer-gardens/`
+- Display: Audrey when present, else Cormorant Garamond (temp) · UI: Poppins
+
 ## Structure
 
-- **Home** — 4 beats: Hero (where + scale) → Living (Cadre de vie + quiet trust) → Explore typology (monumental plan L / panel R) → WhatsApp handoff
-- **Prestations** (`/services`) — deep typologies & amenities
-- **Contact** (`/contact`) — one WhatsApp conversion + quiet form (prefills typology from session)
+- **Home** — 4 beats: Hero → Living (Cadre de vie) → Explore (plan L / panel R, F3 default) → WhatsApp handoff
+- **Prestations** (`/services`) — typologies & amenities
+- **Contact** (`/contact`) — solid WhatsApp + visible form + FAQ
 
-No chapter labels, no progress-dot tour UI, no 5-step game framing.
-
-Hero motion: Arrive / Live / Explore use `public/parcours/video/{arrive,live,explore}.*` (poster-first, `preload=none` until in view; `prefers-reduced-motion` keeps still posters). Clips are Ken Burns / crossfades rebuilt from `public/parcours/viz-*.jpg`.
-
-Base path: `/riyad-zaer-gardens/`
+Splash: exact 3s every visit, logo on `#002D2D`, soft angled gold fade band L→R.
 
 ## Brand
 
@@ -25,8 +27,6 @@ Base path: `/riyad-zaer-gardens/`
 | Or Champagne | `#C8B568` |
 | Or Pâle | `#D9C987` |
 | Crème Ivoire | `#F7F2E8` |
-
-Display: Audrey when present, else Cormorant Garamond (temp) · Body/UI: Poppins · FR / AR RTL
 
 WhatsApp placeholder: `wa.me/212600000000`
 
@@ -40,11 +40,9 @@ npm run build && npm run preview
 
 ## Deploy (GitHub Pages)
 
-Keep `public/.nojekyll` and publish with `--dotfiles`:
-
 ```bash
 npm run build
 npx gh-pages -d dist -b gh-pages --dotfiles
 ```
 
-Requires Node.js ≥ 22.12.
+Keep `public/.nojekyll`. Requires Node.js ≥ 22.12.

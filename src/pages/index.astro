@@ -67,12 +67,12 @@ const typologies = [
 <BaseLayout title="Riyad Zaer Gardens — Nouveau pôle urbain">
   <Header current="home" />
 
-  <!-- 1 · HERO — where + scale -->
-  <section id="arrive" class="beat beat-arrive">
-    <div class="arrive-media arrive-collage" aria-hidden="true">
-      <div class="arrive-collage__bg" data-arrive-depth="0.1">
+  <!-- 1 · HERO -->
+  <section id="arrive" class="beat beat-arrive relative min-h-[100svh] flex items-end md:items-center overflow-hidden bg-foret text-cream">
+    <div class="arrive-media arrive-collage absolute inset-0" aria-hidden="true">
+      <div class="absolute inset-0 scale-105" data-arrive-depth="0.1">
         <img
-          class="arrive-poster media-poster"
+          class="arrive-poster media-poster w-full h-full object-cover"
           src={`${base}${vizAll[7]}`}
           alt=""
           width="1920"
@@ -82,50 +82,41 @@ const typologies = [
         />
       </div>
 
-      <div class="arrive-collage__featured" data-arrive-depth="0.22">
-        <figure class="arrive-frame arrive-frame--a">
-          <img src={`${base}${vizAll[0]}`} alt="" width="1400" height="900" loading="eager" decoding="async" />
+      <div class="absolute inset-0 pointer-events-none hidden lg:block" data-arrive-depth="0.22">
+        <figure class="absolute top-[14%] left-[8%] w-[28%] aspect-[4/3] overflow-hidden rounded-sm shadow-2xl opacity-90">
+          <img src={`${base}${vizAll[0]}`} alt="" width="1400" height="900" class="w-full h-full object-cover" loading="eager" decoding="async" />
         </figure>
-        <figure class="arrive-frame arrive-frame--b">
-          <img src={`${base}${vizAll[10]}`} alt="" width="1200" height="800" loading="eager" decoding="async" />
+        <figure class="absolute top-[18%] right-[10%] w-[22%] aspect-[3/4] overflow-hidden rounded-sm shadow-2xl opacity-85">
+          <img src={`${base}${vizAll[10]}`} alt="" width="1200" height="800" class="w-full h-full object-cover" loading="eager" decoding="async" />
         </figure>
-        <figure class="arrive-frame arrive-frame--c">
-          <img src={`${base}${vizAll[5]}`} alt="" width="1200" height="800" loading="eager" decoding="async" />
-        </figure>
-        <figure class="arrive-frame arrive-frame--d">
-          <img src={`${base}${vizAll[3]}`} alt="" width="1200" height="800" loading="lazy" decoding="async" />
+        <figure class="absolute bottom-[18%] right-[22%] w-[24%] aspect-[5/3] overflow-hidden rounded-sm shadow-2xl opacity-80">
+          <img src={`${base}${vizAll[5]}`} alt="" width="1200" height="800" class="w-full h-full object-cover" loading="eager" decoding="async" />
         </figure>
       </div>
 
-      <div class="arrive-collage__film" data-arrive-depth="0.34" aria-hidden="true">
-        {
-          vizAll.map((src) => (
-            <img src={`${base}${src}`} alt="" width="360" height="240" loading="lazy" decoding="async" />
-          ))
-        }
-      </div>
-
-      <div class="arrive-veil"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-foret via-foret/55 to-foret/25"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-foret/80 via-foret/35 to-transparent"></div>
     </div>
-    <div class="arrive-copy">
-      <p class="hero-locale" data-i18n="teasing">Aïn Aouda · Rabat</p>
-      <h1 class="arrive-title" data-i18n="arrive_title">Un nouveau pôle urbain</h1>
-      <p class="arrive-lead" data-i18n="arrive_lead">
+
+    <div class="arrive-copy relative z-10 container-rzg w-full pb-20 pt-32 md:py-36 md:max-w-2xl">
+      <p class="text-[0.75rem] font-medium tracking-[0.22em] uppercase text-gold/90 mb-5" data-i18n="teasing">Aïn Aouda · Rabat</p>
+      <h1 class="serif text-[clamp(2.75rem,7vw,5rem)] text-cream m-0 mb-6" data-i18n="arrive_title">Un nouveau pôle urbain</h1>
+      <p class="text-cream/75 text-lg leading-relaxed max-w-xl m-0 mb-10" data-i18n="arrive_lead">
         Une adresse familiale, moderne et sécurisée — lumière, jardins, horizon ouvert entre Rabat et
         Aïn Aouda.
       </p>
-      <div class="arrive-scale" data-stagger aria-label="Échelle du projet">
-        <div class="arrive-scale__item">
-          <strong>120</strong>
-          <span>appartements</span>
+      <div class="arrive-scale flex flex-wrap gap-x-10 gap-y-6 mb-12" data-stagger aria-label="Échelle du projet">
+        <div class="min-w-[5.5rem]">
+          <strong class="block serif text-3xl text-gold font-medium">120</strong>
+          <span class="text-sm text-cream/60">appartements</span>
         </div>
-        <div class="arrive-scale__item">
-          <strong>65–86</strong>
-          <span>m² F3–F4</span>
+        <div class="min-w-[5.5rem]">
+          <strong class="block serif text-3xl text-gold font-medium">65–86</strong>
+          <span class="text-sm text-cream/60">m² F3–F4</span>
         </div>
-        <div class="arrive-scale__item arrive-scale__item--quiet">
-          <strong>+</strong>
-          <span>fonds de commerce</span>
+        <div class="min-w-[5.5rem] opacity-80">
+          <strong class="block serif text-3xl text-gold-soft font-medium">+</strong>
+          <span class="text-sm text-cream/60">fonds de commerce</span>
         </div>
       </div>
       <div class="arrive-actions">
@@ -134,31 +125,32 @@ const typologies = [
     </div>
   </section>
 
-  <!-- 2 · LIVING — Cadre de vie + quiet trust fold -->
-  <section id="live" class="beat beat-live theme-cream">
-    <div class="container">
-      <header class="beat-head live-copy" data-reveal>
+  <!-- 2 · LIVING -->
+  <section id="live" class="beat beat-live bg-cream text-foret py-24 md:py-36">
+    <div class="container-rzg">
+      <header class="max-w-2xl mb-16 md:mb-24" data-reveal>
         <p class="kicker kicker--ink" data-i18n="live_kicker">Cadre de vie</p>
-        <h2 class="serif beat-title beat-title--billboard" data-i18n="live_title">
-          Vivre autrement. C’est possible.
+        <h2 class="serif text-[clamp(2.25rem,5vw,4rem)] m-0 mb-6 whitespace-pre-line" data-i18n="live_title">
+          Vivre autrement.
+C’est possible.
         </h2>
-        <p class="muted beat-lead" data-i18n="live_body">
+        <p class="text-foret/75 text-lg leading-relaxed m-0 max-w-xl" data-i18n="live_body">
           Cour végétalisée, volumes clairs, commerces de proximité — un quotidien élégant, sans le
           bruit du luxe générique.
         </p>
       </header>
 
-      <div class="live-monument" data-reveal="clip">
-        <div class="live-depth live-hero">
-          <div class="live-depth__layer live-depth__layer--back" data-live-parallax="0.28" aria-hidden="true">
-            <img src={`${base}parcours/viz-12.jpg`} alt="" width="1600" height="1000" loading="lazy" />
+      <div class="mb-10 md:mb-16" data-reveal="clip">
+        <div class="live-depth live-hero relative aspect-[16/10] md:aspect-[21/10] overflow-hidden rounded-sm bg-canopee">
+          <div class="absolute inset-[-8%] opacity-40" data-live-parallax="0.28" aria-hidden="true">
+            <img src={`${base}parcours/viz-12.jpg`} alt="" width="1600" height="1000" class="w-full h-full object-cover" loading="lazy" />
           </div>
-          <div class="live-depth__layer live-depth__layer--mid" data-live-parallax="0.18" aria-hidden="true">
-            <img src={`${base}parcours/viz-11.jpg`} alt="" width="1200" height="800" loading="lazy" />
+          <div class="absolute inset-[8%] md:inset-[10%_42%_18%_8%] opacity-70 shadow-xl overflow-hidden rounded-sm" data-live-parallax="0.18" aria-hidden="true">
+            <img src={`${base}parcours/viz-11.jpg`} alt="" width="1200" height="800" class="w-full h-full object-cover" loading="lazy" />
           </div>
-          <div class="live-depth__layer live-depth__layer--front" data-live-parallax="0.1">
+          <div class="absolute inset-0 md:inset-[12%_8%_8%_28%] overflow-hidden rounded-sm shadow-2xl" data-live-parallax="0.1">
             <img
-              class="media-poster"
+              class="media-poster absolute inset-0 w-full h-full object-cover"
               src={`${base}parcours/viz-01.jpg`}
               alt="Cour végétalisée"
               width="1600"
@@ -179,44 +171,49 @@ const typologies = [
               <source src={`${base}parcours/video/live.mp4`} type="video/mp4" />
             </video>
           </div>
-          <p class="live-depth__caption" data-i18n="live_cap_courtyard">Cour &amp; jardins</p>
+          <p class="absolute bottom-4 left-4 md:bottom-6 md:left-6 z-10 text-[0.7rem] tracking-[0.16em] uppercase text-cream/90 bg-foret/50 backdrop-blur-sm px-3 py-1.5 rounded-sm" data-i18n="live_cap_courtyard">Cour &amp; jardins</p>
         </div>
       </div>
 
-      <div class="live-strip" data-stagger>
-        <figure class="live-shot" data-live-parallax="0.2">
-          <img src={`${base}parcours/viz-06.jpg`} alt="Façade — volumes" width="1200" height="800" loading="lazy" />
-          <figcaption data-i18n="live_cap_facade">Façade & volumes</figcaption>
+      <div class="grid md:grid-cols-2 gap-6 md:gap-10 mb-16 md:mb-24" data-stagger>
+        <figure class="m-0 group" data-live-parallax="0.2">
+          <div class="overflow-hidden rounded-sm aspect-[5/3]">
+            <img src={`${base}parcours/viz-06.jpg`} alt="Façade — volumes" width="1200" height="800" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" loading="lazy" />
+          </div>
+          <figcaption class="mt-4 text-sm text-canopee/80 tracking-wide" data-i18n="live_cap_facade">Façade & volumes</figcaption>
         </figure>
-        <figure class="live-shot" data-live-parallax="0.16">
-          <img src={`${base}parcours/viz-02.jpg`} alt="Intérieur lumineux" width="1200" height="800" loading="lazy" />
-          <figcaption data-i18n="live_cap_interior">Intérieurs lumineux</figcaption>
+        <figure class="m-0 group md:mt-12" data-live-parallax="0.16">
+          <div class="overflow-hidden rounded-sm aspect-[5/3]">
+            <img src={`${base}parcours/viz-02.jpg`} alt="Intérieur lumineux" width="1200" height="800" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" loading="lazy" />
+          </div>
+          <figcaption class="mt-4 text-sm text-canopee/80 tracking-wide" data-i18n="live_cap_interior">Intérieurs lumineux</figcaption>
         </figure>
       </div>
 
-      <aside class="trust-strip" data-reveal aria-label="Confiance">
-        <p class="trust-strip__item" data-i18n="trust_aides_t">Aides au logement</p>
-        <span class="trust-strip__dot" aria-hidden="true"></span>
-        <p class="trust-strip__item" data-i18n="trust_chantier_t">Chantier suivi</p>
-        <span class="trust-strip__dot" aria-hidden="true"></span>
-        <p class="trust-strip__item" data-i18n="trust_livraison_t">Livraison anticipée</p>
+      <aside class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 py-8 border-y border-foret/10" data-reveal aria-label="Confiance">
+        <p class="m-0 text-sm font-medium tracking-wide text-canopee" data-i18n="trust_aides_t">Aides au logement</p>
+        <span class="hidden sm:block w-1.5 h-1.5 rounded-full bg-gold" aria-hidden="true"></span>
+        <p class="m-0 text-sm font-medium tracking-wide text-canopee" data-i18n="trust_chantier_t">Chantier suivi</p>
+        <span class="hidden sm:block w-1.5 h-1.5 rounded-full bg-gold" aria-hidden="true"></span>
+        <p class="m-0 text-sm font-medium tracking-wide text-canopee" data-i18n="trust_livraison_t">Livraison anticipée</p>
       </aside>
     </div>
   </section>
 
-  <!-- 3 · EXPLORE — one monumental set-piece -->
-  <section id="explore" class="beat beat-explore theme-cream">
-    <header class="beat-head explore-head container" data-reveal>
-      <h2 class="serif beat-title beat-title--billboard" data-i18n="explore_title">
+  <!-- 3 · EXPLORE -->
+  <section id="explore" class="beat beat-explore bg-cream text-foret pb-24 md:pb-36">
+    <header class="container-rzg max-w-2xl mb-12 md:mb-16" data-reveal>
+      <p class="kicker kicker--ink" data-i18n="explore_kicker">Explorer</p>
+      <h2 class="serif text-[clamp(2.25rem,5vw,4rem)] m-0 mb-5" data-i18n="explore_title">
         Trouvez votre adresse
       </h2>
-      <p class="muted beat-lead" data-i18n="explore_body">
+      <p class="text-foret/75 text-lg leading-relaxed m-0" data-i18n="explore_body">
         Survolez le plan, ouvrez une typologie. Votre choix vous suit jusqu’à la conversation.
       </p>
     </header>
 
-    <div class="choose-monument" data-reveal>
-      <ul class="choose-legend choose-legend--overlay" role="list" aria-label="Typologies" data-i18n-aria="choose_legend_label">
+    <div class="container-rzg" data-reveal>
+      <ul class="flex flex-wrap gap-2 mb-8 list-none p-0 m-0" role="list" aria-label="Typologies" data-i18n-aria="choose_legend_label">
         {
           typologies.map((t) => (
             <li>
@@ -225,18 +222,24 @@ const typologies = [
                 data-legend={t.id}
                 data-hotspot-trigger={t.id}
                 aria-pressed={t.id === 'F3' ? 'true' : 'false'}
-                class:list={['choose-legend__btn', { 'is-active': t.id === 'F3' }]}
+                class:list={[
+                  'choose-legend__btn inline-flex items-center gap-3 min-h-12 px-4 py-2.5 rounded-sm border transition-colors cursor-pointer',
+                  t.id === 'F3'
+                    ? 'is-active border-gold bg-foret text-cream'
+                    : 'border-foret/15 bg-cream text-foret hover:border-gold/60',
+                ]}
               >
-                <span class="choose-legend__swatch" aria-hidden="true" />
-                <span class="choose-legend__copy">
+                <span class="w-2 h-2 rounded-full bg-gold shrink-0" aria-hidden="true" />
+                <span class="flex flex-col items-start text-left leading-tight">
                   <span
+                    class="text-[0.8rem] font-medium tracking-wide"
                     data-i18n={
                       t.id === 'Fonds' ? 'choose_legend_fonds' : `choose_legend_${t.id.toLowerCase()}`
                     }
                   >
                     {t.title === 'Fonds de commerce' ? 'Fonds' : t.title}
                   </span>
-                  <span class="choose-legend__meta" data-i18n={t.surfaceKey}>
+                  <span class="text-[0.7rem] opacity-70" data-i18n={t.surfaceKey}>
                     {t.surface}
                   </span>
                 </span>
@@ -246,16 +249,18 @@ const typologies = [
         }
       </ul>
 
-      <div class="choose-split choose-split--monument">
-        <div class="choose-plan" role="group" aria-label="Plan interactif">
+      <div class="choose-split grid lg:grid-cols-2 gap-6 lg:gap-10 items-stretch">
+        <div class="choose-plan relative overflow-hidden rounded-sm bg-canopee aspect-[4/3] lg:aspect-auto lg:min-h-[36rem]" role="group" aria-label="Plan interactif">
           <img
             src={`${base}parcours/viz-04.jpg`}
             alt="Plan aérien — Riyad Zaer Gardens"
             width="1600"
             height="1000"
+            class="absolute inset-0 w-full h-full object-cover"
             loading="lazy"
           />
-          <p id="explore-hint" class="choose-hint" data-i18n="explore_hint">Touchez un point sur le plan</p>
+          <div class="absolute inset-0 bg-foret/25"></div>
+          <p id="explore-hint" class="absolute top-4 left-4 z-20 m-0 text-[0.7rem] tracking-[0.12em] uppercase text-cream/85 bg-foret/55 backdrop-blur-sm px-3 py-1.5 rounded-sm" data-i18n="explore_hint">Touchez un point sur le plan</p>
           {
             typologies.map((t) => (
               <button
@@ -277,33 +282,33 @@ const typologies = [
           }
         </div>
 
-        <div class="choose-side choose-side--monument">
-          <div class="choose-panel-stage" data-panel-stage>
-            <p class="choose-empty is-hidden" data-choose-empty hidden aria-hidden="true" data-i18n="choose_empty">
+        <div class="choose-side relative bg-cream border border-foret/10 rounded-sm min-h-[28rem] lg:min-h-[36rem]">
+          <div class="choose-panel-stage relative h-full p-6 md:p-8 overflow-y-auto" data-panel-stage>
+            <p class="choose-empty is-hidden absolute inset-0 flex items-center justify-center p-8 text-center text-foret/50" data-choose-empty hidden aria-hidden="true" data-i18n="choose_empty">
               Choisissez F3, F4 ou un fonds — le détail s’ouvre ici.
             </p>
             {
               typologies.map((t) => (
                 <article
-                  class:list={['typo-panel', { 'is-open': t.id === 'F3' }]}
+                  class:list={['typo-panel flex flex-col h-full', { 'is-open': t.id === 'F3' }]}
                   data-panel={t.id}
                   aria-hidden={t.id === 'F3' ? 'false' : 'true'}
                   inert={t.id === 'F3' ? undefined : true}
                 >
-                  <div class="typo-panel__media">
-                    <img src={`${base}${t.img}`} alt={t.imgAlt} width="900" height="600" loading="lazy" />
+                  <div class="overflow-hidden rounded-sm aspect-[16/10] mb-6 shrink-0">
+                    <img src={`${base}${t.img}`} alt={t.imgAlt} width="900" height="600" class="w-full h-full object-cover" loading="lazy" />
                   </div>
-                  <div class="typo-panel__body">
-                    <h3 class="serif" data-i18n={t.titleKey}>
+                  <div class="flex flex-col flex-1 gap-3">
+                    <h3 class="serif text-3xl md:text-4xl m-0" data-i18n={t.titleKey}>
                       {t.title}
                     </h3>
-                    <p class="typo-panel__rooms" data-i18n={t.roomsKey}>
+                    <p class="m-0 text-sm text-canopee/80 tracking-wide" data-i18n={t.roomsKey}>
                       {t.rooms}
                     </p>
-                    <p class="muted" data-i18n={t.bodyKey}>
+                    <p class="m-0 text-foret/75 leading-relaxed" data-i18n={t.bodyKey}>
                       {t.body}
                     </p>
-                    <div class="typo-panel__facts">
+                    <div class="flex flex-wrap items-baseline gap-x-6 gap-y-2 mt-2">
                       <p class="surface-tag" data-i18n={t.surfaceKey}>
                         {t.surface}
                       </p>
@@ -311,31 +316,25 @@ const typologies = [
                         {t.price}
                       </p>
                     </div>
-                    <p class="typo-aides label" data-i18n="choose_aides">
+                    <p class="m-0 text-[0.75rem] tracking-[0.1em] uppercase text-canopee/70" data-i18n="choose_aides">
                       Éligible aux aides au logement
                     </p>
-                    <div class="story-meta">
+                    <div class="flex flex-wrap gap-2 mt-1">
                       {t.id !== 'Fonds' ? (
                         <>
-                          <span class="chip" data-i18n="chip_family">
-                            Familial
-                          </span>
-                          <span class="chip" data-i18n="chip_light">
-                            Lumière naturelle
-                          </span>
-                          <span class="chip" data-i18n="chip_aides">
-                            Aides
-                          </span>
+                          <span class="chip" data-i18n="chip_family">Familial</span>
+                          <span class="chip" data-i18n="chip_light">Lumière naturelle</span>
+                          <span class="chip" data-i18n="chip_aides">Aides</span>
                         </>
                       ) : (
-                        <span class="chip" data-i18n="chip_rdc">
-                          RDC
-                        </span>
+                        <span class="chip" data-i18n="chip_rdc">RDC</span>
                       )}
                     </div>
-                    <button type="button" class="btn btn-solid" data-select-typo={t.id} data-i18n="choose_select">
-                      Garder ce choix
-                    </button>
+                    <div class="mt-auto pt-6">
+                      <button type="button" class="btn btn-solid" data-select-typo={t.id} data-i18n="choose_select">
+                        Garder ce choix
+                      </button>
+                    </div>
                   </div>
                 </article>
               ))
@@ -346,16 +345,16 @@ const typologies = [
     </div>
   </section>
 
-  <!-- 4 · HANDOFF — one solid WhatsApp -->
-  <section id="handoff" class="beat beat-handoff theme-dark">
-    <div class="container handoff-inner">
-      <header class="beat-head beat-head--dark" data-reveal>
-        <h2 class="serif beat-title" data-i18n="handoff_title">Parlons de votre futur chez-vous</h2>
-        <p class="beat-lead handoff-lead" data-i18n="handoff_body">
+  <!-- 4 · HANDOFF -->
+  <section id="handoff" class="beat beat-handoff bg-foret text-cream py-28 md:py-36">
+    <div class="container-rzg max-w-2xl text-center">
+      <header data-reveal>
+        <h2 class="serif text-[clamp(2rem,4.5vw,3.5rem)] m-0 mb-5" data-i18n="handoff_title">Parlons de votre futur chez-vous</h2>
+        <p class="text-cream/70 text-lg leading-relaxed m-0 mb-4" data-i18n="handoff_body">
           Une question, une visite, une réservation — réponse prioritaire sur WhatsApp.
         </p>
         <p
-          class="talk-choice is-empty"
+          class="talk-choice is-empty text-gold text-sm tracking-wide m-0 mb-10"
           data-selected-label
           data-empty=""
           data-prefix="Votre choix :"
