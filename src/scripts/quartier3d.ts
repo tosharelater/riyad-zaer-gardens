@@ -6,10 +6,13 @@
 const CREAM = 0xf7f2e8;
 const CREAM_DEEP = 0xede4d4;
 const BEIGE = 0xe8dfc8;
+const STONE = 0xddd2bb;
 const GROUND = 0x0a3d35;
 const FOREST = 0x002d2d;
 const GOLD = 0xc8b568;
 const GOLD_PALE = 0xd9c987;
+const WINDOW = 0x1a3f3a;
+const FOLIAGE = 0x0e4a40;
 
 type ThreeModule = typeof import('three');
 
@@ -66,6 +69,11 @@ function showStatic(
   if (fallback) fallback.hidden = false;
 }
 
+function smoothstep(t: number) {
+  const x = Math.min(1, Math.max(0, t));
+  return x * x * (3 - 2 * x);
+}
+
 async function boot(
   section: HTMLElement,
   canvas: HTMLCanvasElement,
@@ -82,10 +90,10 @@ async function boot(
   }
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xf0ebe0);
-  scene.fog = new THREE.Fog(0xf0ebe0, 22, 58);
+  scene.background = new THREE.Color(0xefe8da);
+  scene.fog = new THREE.Fog(0xefe8da, 18, 52);
 
-  const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 120);
+  const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 140);
   camera.position.set(16, 9, 18);
 
   const renderer = new THREE.WebGLRenderer({
@@ -96,69 +104,116 @@ async function boot(
   });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.25 : 1.75));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.12;
   renderer.shadowMap.enabled = !mobile;
   if (!mobile) renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-  // Lights
-  const hemi = new THREE.HemisphereLight(0xfff6e8, GROUND, 0.85);
+  // ——— Lighting: warm key, cool fill, gold rim ———
+  const hemi = new THREE.HemisphereLight(0xfff4e4, 0x16332e, 0.72);
   scene.add(hemi);
-  const sun = new THREE.DirectionalLight(0xfff2d8, 1.15);
-  sun.position.set(12, 22, 8);
+
+  const amb = new THREE.AmbientLight(0xf3ead8, 0.22);
+  scene.add(amb);
+
+  const sun = new THREE.DirectionalLight(0xfff1d6, 1.55);
+  sun.position.set(14, 24, 10);
   if (!mobile) {
     sun.castShadow = true;
-    sun.shadow.mapSize.set(1024, 1024);
+    sun.shadow.mapSize.set(2048, 2048);
+    sun.shadow.bias = -0.00018;
+    sun.shadow.normalBias = 0.04;
+    sun.shadow.radius = 2.4;
     sun.shadow.camera.near = 2;
-    sun.shadow.camera.far = 50;
-    sun.shadow.camera.left = -20;
-    sun.shadow.camera.right = 20;
-    sun.shadow.camera.top = 20;
-    sun.shadow.camera.bottom = -20;
+    sun.shadow.camera.far = 60;
+    sun.shadow.camera.left = -22;
+    sun.shadow.camera.right = 22;
+    sun.shadow.camera.top = 22;
+    sun.shadow.camera.bottom = -22;
   }
   scene.add(sun);
-  const rim = new THREE.DirectionalLight(GOLD_PALE, 0.35);
-  rim.position.set(-10, 6, -8);
+
+  const fill = new THREE.DirectionalLight(0xc9ddd6, 0.38);
+  fill.position.set(-12, 8, 6);
+  scene.add(fill);
+
+  const rim = new THREE.DirectionalLight(GOLD_PALE, 0.48);
+  rim.position.set(-8, 7, -14);
   scene.add(rim);
+
+  const bounce = new THREE.PointLight(GOLD, 6.5, 22, 2);
+  bounce.position.set(0, 3.2, 2);
+  scene.add(bounce);
 
   // Ground
   const groundMat = new THREE.MeshStandardMaterial({
     color: GROUND,
-    roughness: 0.92,
+    roughness: 0.94,
     metalness: 0.02,
   });
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(80, 80), groundMat);
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(90, 90), groundMat);
   ground.rotation.x = -Math.PI / 2;
   ground.receiveShadow = !mobile;
   scene.add(ground);
 
   // Soft cream plaza disk
   const plaza = new THREE.Mesh(
-    new THREE.CircleGeometry(9.5, 48),
-    new THREE.MeshStandardMaterial({ color: CREAM_DEEP, roughness: 0.88, metalness: 0.04 })
+    new THREE.CircleGeometry(10.4, 64),
+    new THREE.MeshStandardMaterial({ color: CREAM_DEEP, roughness: 0.86, metalness: 0.05 })
   );
   plaza.rotation.x = -Math.PI / 2;
   plaza.position.y = 0.02;
   plaza.receiveShadow = !mobile;
   scene.add(plaza);
 
+  const innerPlaza = new THREE.Mesh(
+    new THREE.CircleGeometry(5.4, 48),
+    new THREE.MeshStandardMaterial({ color: 0xe7dcc4, roughness: 0.8, metalness: 0.06 })
+  );
+  innerPlaza.rotation.x = -Math.PI / 2;
+  innerPlaza.position.y = 0.035;
+  innerPlaza.receiveShadow = !mobile;
+  scene.add(innerPlaza);
+
   const bodyMat = new THREE.MeshStandardMaterial({
     color: CREAM,
-    roughness: 0.78,
-    metalness: 0.05,
+    roughness: 0.62,
+    metalness: 0.08,
   });
   const beigeMat = new THREE.MeshStandardMaterial({
     color: BEIGE,
-    roughness: 0.82,
-    metalness: 0.04,
+    roughness: 0.66,
+    metalness: 0.07,
+  });
+  const stoneMat = new THREE.MeshStandardMaterial({
+    color: STONE,
+    roughness: 0.7,
+    metalness: 0.05,
   });
   const goldMat = new THREE.MeshStandardMaterial({
     color: GOLD,
-    roughness: 0.42,
-    metalness: 0.55,
+    roughness: 0.32,
+    metalness: 0.62,
   });
   const forestMat = new THREE.MeshStandardMaterial({
     color: FOREST,
-    roughness: 0.7,
-    metalness: 0.08,
+    roughness: 0.58,
+    metalness: 0.1,
+  });
+  const windowMat = new THREE.MeshStandardMaterial({
+    color: WINDOW,
+    roughness: 0.22,
+    metalness: 0.35,
+  });
+  const canopyMat = new THREE.MeshStandardMaterial({
+    color: FOLIAGE,
+    roughness: 0.85,
+    metalness: 0.02,
+  });
+  const trunkMat = new THREE.MeshStandardMaterial({
+    color: 0x3a2a1c,
+    roughness: 0.9,
+    metalness: 0,
   });
 
   const root = new THREE.Group();
@@ -170,99 +225,199 @@ async function boot(
     w: number;
     d: number;
     h: number;
+    rot?: number;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mat?: any;
     goldBand?: boolean;
+    floors?: number;
   };
 
   const buildings: BuildingSpec[] = mobile
     ? [
-        { x: -3.2, z: -1.5, w: 2.4, d: 2.2, h: 4.2 },
-        { x: 0.2, z: 1.8, w: 2.8, d: 2.0, h: 5.6, mat: beigeMat, goldBand: true },
-        { x: 3.6, z: -0.8, w: 2.2, d: 2.4, h: 3.6 },
-        { x: -1.0, z: -4.2, w: 3.0, d: 1.8, h: 3.1, mat: beigeMat },
-        { x: 2.4, z: 4.0, w: 1.8, d: 1.8, h: 2.8 },
+        { x: -3.2, z: -1.5, w: 2.5, d: 2.3, h: 4.6, floors: 5 },
+        { x: 0.2, z: 1.8, w: 2.9, d: 2.1, h: 6.0, mat: beigeMat, goldBand: true, floors: 6 },
+        { x: 3.6, z: -0.8, w: 2.3, d: 2.5, h: 3.8, floors: 4 },
+        { x: -1.0, z: -4.2, w: 3.1, d: 1.9, h: 3.3, mat: stoneMat, floors: 3 },
+        { x: 2.4, z: 4.0, w: 1.9, d: 1.9, h: 3.0, floors: 3 },
       ]
     : [
-        { x: -4.2, z: -2.0, w: 2.6, d: 2.4, h: 4.8 },
-        { x: -1.4, z: 1.2, w: 2.2, d: 2.0, h: 3.4, mat: beigeMat },
-        { x: 1.6, z: -1.0, w: 2.8, d: 2.6, h: 6.2, goldBand: true },
-        { x: 4.4, z: 1.6, w: 2.0, d: 2.2, h: 4.0, mat: beigeMat },
-        { x: -3.0, z: 3.6, w: 2.4, d: 1.8, h: 2.9 },
-        { x: 0.4, z: 4.2, w: 1.9, d: 1.9, h: 3.8, goldBand: true },
-        { x: 3.8, z: -3.6, w: 2.3, d: 2.0, h: 5.1, mat: beigeMat },
-        { x: -5.2, z: 0.6, w: 1.6, d: 1.6, h: 2.4 },
-        { x: 5.6, z: -0.4, w: 1.7, d: 2.1, h: 3.2 },
+        { x: -4.4, z: -2.1, w: 2.7, d: 2.5, h: 5.2, rot: 0.06, floors: 6 },
+        { x: -1.5, z: 1.35, w: 2.3, d: 2.1, h: 3.6, mat: beigeMat, rot: -0.08, floors: 4 },
+        { x: 1.7, z: -1.05, w: 2.9, d: 2.7, h: 6.6, goldBand: true, floors: 7 },
+        { x: 4.55, z: 1.7, w: 2.1, d: 2.3, h: 4.3, mat: beigeMat, rot: 0.1, floors: 5 },
+        { x: -3.15, z: 3.75, w: 2.5, d: 1.9, h: 3.1, floors: 3 },
+        { x: 0.45, z: 4.35, w: 2.0, d: 2.0, h: 4.1, goldBand: true, rot: -0.04, floors: 4 },
+        { x: 3.95, z: -3.7, w: 2.4, d: 2.1, h: 5.4, mat: stoneMat, floors: 6 },
+        { x: -5.45, z: 0.55, w: 1.7, d: 1.7, h: 2.6, floors: 3 },
+        { x: 5.75, z: -0.45, w: 1.8, d: 2.2, h: 3.4, mat: beigeMat, floors: 4 },
       ];
 
+  const winGeoX = new THREE.BoxGeometry(0.08, 0.28, 0.22);
+  const winGeoZ = new THREE.BoxGeometry(0.22, 0.28, 0.08);
+
   for (const b of buildings) {
-    const mesh = new THREE.Mesh(
-      new THREE.BoxGeometry(b.w, b.h, b.d),
-      b.mat ?? bodyMat
+    const group = new THREE.Group();
+    group.position.set(b.x, 0, b.z);
+    group.rotation.y = b.rot ?? 0;
+    const mat = b.mat ?? bodyMat;
+
+    // Podium / plinth — reads as a building base
+    const plinth = new THREE.Mesh(
+      new THREE.BoxGeometry(b.w + 0.22, 0.28, b.d + 0.22),
+      forestMat
     );
-    mesh.position.set(b.x, b.h / 2, b.z);
+    plinth.position.y = 0.14;
+    plinth.castShadow = !mobile;
+    plinth.receiveShadow = !mobile;
+    group.add(plinth);
+
+    // Main mass
+    const mesh = new THREE.Mesh(new THREE.BoxGeometry(b.w, b.h, b.d), mat);
+    mesh.position.y = 0.28 + b.h / 2;
     mesh.castShadow = !mobile;
     mesh.receiveShadow = !mobile;
-    root.add(mesh);
+    group.add(mesh);
+
+    // Slight upper setback so the silhouette isn't a single box
+    const capH = Math.min(0.55, b.h * 0.12);
+    const cap = new THREE.Mesh(
+      new THREE.BoxGeometry(b.w * 0.82, capH, b.d * 0.82),
+      mat
+    );
+    cap.position.y = 0.28 + b.h + capH / 2;
+    cap.castShadow = !mobile;
+    group.add(cap);
 
     // Roof slab accent
     const roof = new THREE.Mesh(
-      new THREE.BoxGeometry(b.w + 0.12, 0.12, b.d + 0.12),
+      new THREE.BoxGeometry(b.w * 0.88, 0.1, b.d * 0.88),
       goldMat
     );
-    roof.position.set(b.x, b.h + 0.06, b.z);
+    roof.position.y = 0.28 + b.h + capH + 0.05;
     roof.castShadow = !mobile;
-    root.add(roof);
+    group.add(roof);
 
     if (b.goldBand) {
       const band = new THREE.Mesh(
-        new THREE.BoxGeometry(b.w + 0.04, 0.14, b.d + 0.04),
+        new THREE.BoxGeometry(b.w + 0.05, 0.12, b.d + 0.05),
         goldMat
       );
-      band.position.set(b.x, b.h * 0.38, b.z);
-      root.add(band);
+      band.position.y = 0.28 + b.h * 0.36;
+      group.add(band);
     }
+
+    // Window bays — skip on very small mobile counts
+    if (!mobile || (b.floors ?? 0) >= 4) {
+      const floors = b.floors ?? 4;
+      const colsX = Math.max(2, Math.round(b.w / 0.7));
+      const colsZ = Math.max(2, Math.round(b.d / 0.7));
+      const startY = 0.28 + 0.55;
+      const endY = 0.28 + b.h - 0.45;
+      for (let f = 0; f < floors; f++) {
+        const fy = startY + ((endY - startY) * f) / Math.max(floors - 1, 1);
+        for (let c = 0; c < colsX; c++) {
+          const zx = -b.w / 2 + 0.38 + (c * (b.w - 0.76)) / Math.max(colsX - 1, 1);
+          const w1 = new THREE.Mesh(winGeoZ, windowMat);
+          w1.position.set(zx, fy, b.d / 2 + 0.01);
+          group.add(w1);
+          const w2 = new THREE.Mesh(winGeoZ, windowMat);
+          w2.position.set(zx, fy, -b.d / 2 - 0.01);
+          group.add(w2);
+        }
+        for (let c = 0; c < colsZ; c++) {
+          const zz = -b.d / 2 + 0.38 + (c * (b.d - 0.76)) / Math.max(colsZ - 1, 1);
+          const w3 = new THREE.Mesh(winGeoX, windowMat);
+          w3.position.set(b.w / 2 + 0.01, fy, zz);
+          group.add(w3);
+          const w4 = new THREE.Mesh(winGeoX, windowMat);
+          w4.position.set(-b.w / 2 - 0.01, fy, zz);
+          group.add(w4);
+        }
+      }
+    }
+
+    root.add(group);
   }
 
-  // Arch gate motif (two pillars + curved lintel approximation)
+  // Arch gate motif (two pillars + curved lintel)
   const archGroup = new THREE.Group();
-  archGroup.position.set(0, 0, 6.4);
-  const pillarGeo = new THREE.BoxGeometry(0.35, 3.2, 0.35);
+  archGroup.position.set(0, 0, 6.6);
+  const pillarGeo = new THREE.BoxGeometry(0.38, 3.4, 0.38);
   const pL = new THREE.Mesh(pillarGeo, forestMat);
-  pL.position.set(-1.35, 1.6, 0);
+  pL.position.set(-1.4, 1.7, 0);
+  pL.castShadow = !mobile;
   const pR = new THREE.Mesh(pillarGeo, forestMat);
-  pR.position.set(1.35, 1.6, 0);
+  pR.position.set(1.4, 1.7, 0);
+  pR.castShadow = !mobile;
   archGroup.add(pL, pR);
 
   const archCurve = new THREE.Mesh(
-    new THREE.TorusGeometry(1.35, 0.16, 10, mobile ? 24 : 40, Math.PI),
+    new THREE.TorusGeometry(1.4, 0.14, 12, mobile ? 28 : 48, Math.PI),
     goldMat
   );
   archCurve.rotation.y = Math.PI / 2;
   archCurve.rotation.z = Math.PI / 2;
-  archCurve.position.set(0, 3.2, 0);
+  archCurve.position.set(0, 3.4, 0);
+  archCurve.castShadow = !mobile;
   archGroup.add(archCurve);
 
-  const lintel = new THREE.Mesh(new THREE.BoxGeometry(3.1, 0.18, 0.4), goldMat);
-  lintel.position.set(0, 3.35, 0);
+  const lintel = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.16, 0.42), goldMat);
+  lintel.position.set(0, 3.52, 0);
   archGroup.add(lintel);
   root.add(archGroup);
 
   // Low gold path
   const path = new THREE.Mesh(
-    new THREE.BoxGeometry(1.2, 0.04, 14),
-    new THREE.MeshStandardMaterial({ color: GOLD_PALE, roughness: 0.65, metalness: 0.2 })
+    new THREE.BoxGeometry(1.05, 0.045, 15.5),
+    new THREE.MeshStandardMaterial({ color: GOLD_PALE, roughness: 0.55, metalness: 0.28 })
   );
-  path.position.set(0, 0.04, 0.5);
+  path.position.set(0, 0.05, 0.35);
+  path.receiveShadow = !mobile;
   root.add(path);
+
+  // Courtyard trees
+  const treePositions: [number, number][] = mobile
+    ? [
+        [-2.2, 2.6],
+        [2.8, 2.2],
+        [-0.6, -2.8],
+      ]
+    : [
+        [-2.4, 2.7],
+        [2.9, 2.35],
+        [-0.7, -2.9],
+        [5.1, 3.4],
+        [-5.8, -2.4],
+        [1.2, 5.6],
+        [-4.8, 4.4],
+      ];
+
+  const canopyGeo = new THREE.SphereGeometry(0.55, mobile ? 8 : 12, mobile ? 6 : 10);
+  const trunkGeo = new THREE.CylinderGeometry(0.07, 0.1, 0.7, 6);
+
+  for (const [tx, tz] of treePositions) {
+    const tree = new THREE.Group();
+    tree.position.set(tx, 0, tz);
+    const trunk = new THREE.Mesh(trunkGeo, trunkMat);
+    trunk.position.y = 0.35;
+    trunk.castShadow = !mobile;
+    const canopy = new THREE.Mesh(canopyGeo, canopyMat);
+    canopy.position.y = 1.05;
+    canopy.scale.set(1, 0.85, 1);
+    canopy.castShadow = !mobile;
+    tree.add(trunk, canopy);
+    root.add(tree);
+  }
 
   if (fallback) fallback.hidden = true;
   canvas.hidden = false;
   section.classList.add('is-ready');
 
+  let target = 0;
   let progress = 0;
   let raf = 0;
   let disposed = false;
+  let inView = true;
 
   const resize = () => {
     const w = sticky.clientWidth || window.innerWidth;
@@ -279,52 +434,53 @@ async function boot(
     return Math.min(1, Math.max(0, scrolled / total));
   };
 
-  const setCamera = (t: number) => {
-    // Dolly + gentle orbit through the quartier
-    const angle = -0.55 + t * Math.PI * 1.15;
-    const radius = 17.5 - t * 5.5;
-    const y = 7.2 + Math.sin(t * Math.PI) * 2.4;
-    camera.position.set(
-      Math.sin(angle) * radius,
-      y,
-      Math.cos(angle) * radius
-    );
-    const lookY = 1.6 + t * 1.8;
-    camera.lookAt(0.2, lookY, -0.4 + t * -1.2);
-    root.rotation.y = t * 0.12;
+  const setCamera = (tRaw: number) => {
+    const t = smoothstep(tRaw);
+    const angle = -0.62 + t * Math.PI * 1.22;
+    const radius = 18.2 - t * 6.4;
+    const y = 7.6 + Math.sin(t * Math.PI) * 2.15;
+    camera.position.set(Math.sin(angle) * radius, y, Math.cos(angle) * radius);
+    const lookY = 1.45 + t * 1.65;
+    camera.lookAt(0.15, lookY, -0.35 + t * -1.05);
+    root.rotation.y = t * 0.1;
+    sun.position.set(14 - t * 4, 24, 10 + t * 3);
   };
 
-  const render = () => {
+  const tick = () => {
     if (disposed) return;
+    raf = 0;
+    const delta = target - progress;
+    // Critically damped-ish lerp — smooth scrub, no stair-step
+    progress += delta * (Math.abs(delta) > 0.002 ? 0.085 : 1);
+    if (Math.abs(delta) <= 0.002) progress = target;
     setCamera(progress);
     renderer.render(scene, camera);
-  };
-
-  const onScroll = () => {
-    progress = readProgress();
-    if (!raf) {
-      raf = requestAnimationFrame(() => {
-        raf = 0;
-        render();
-      });
+    if (inView && Math.abs(target - progress) > 0.0008) {
+      raf = requestAnimationFrame(tick);
     }
   };
 
+  const onScroll = () => {
+    target = readProgress();
+    if (!raf && inView) raf = requestAnimationFrame(tick);
+  };
+
   resize();
-  progress = readProgress();
-  render();
+  target = readProgress();
+  progress = target;
+  setCamera(progress);
+  renderer.render(scene, camera);
 
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', resize);
 
-  // Pause offscreen
   const vis = new IntersectionObserver(
     (entries) => {
-      const on = entries.some((e) => e.isIntersecting);
-      if (!on && raf) {
+      inView = entries.some((e) => e.isIntersecting);
+      if (!inView && raf) {
         cancelAnimationFrame(raf);
         raf = 0;
-      } else if (on) {
+      } else if (inView) {
         onScroll();
       }
     },
@@ -332,7 +488,6 @@ async function boot(
   );
   vis.observe(section);
 
-  // Cleanup if navigated away (SPA-less Astro still fine)
   const cleanup = () => {
     disposed = true;
     window.removeEventListener('scroll', onScroll);

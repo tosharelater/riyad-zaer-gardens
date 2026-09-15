@@ -21,6 +21,42 @@ const base = import.meta.env.BASE_URL.endsWith('/')
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Pre-paint splash gate: localStorage + critical CSS so refresh never flashes -->
+    <script is:inline>
+      try {
+        if (localStorage.getItem('rzg-splash-seen') === '1') {
+          document.documentElement.classList.add('rzg-splash-done');
+        } else {
+          document.documentElement.classList.add('rzg-splash-pending');
+        }
+      } catch (e) {
+        document.documentElement.classList.add('rzg-splash-pending');
+      }
+    </script>
+    <style is:inline>
+      /* Critical: apply before external CSS — hide splash unless pending */
+      .rzg-splash {
+        display: none;
+        visibility: hidden;
+      }
+      html.rzg-splash-pending .rzg-splash {
+        display: grid;
+        visibility: visible;
+        place-items: center;
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        background: #002d2d;
+      }
+      html.rzg-splash-done .rzg-splash {
+        display: none !important;
+        visibility: hidden !important;
+      }
+      html.rzg-splash-pending,
+      html.rzg-splash-pending body {
+        overflow: hidden;
+      }
+    </style>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#002D2D" />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
@@ -31,17 +67,6 @@ const base = import.meta.env.BASE_URL.endsWith('/')
       href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=Poppins:wght@300;400;500;700&display=swap"
       rel="stylesheet"
     />
-    <script is:inline>
-      try {
-        if (sessionStorage.getItem('rzg-splash-seen') === '1') {
-          document.documentElement.classList.add('rzg-splash-done');
-        } else {
-          document.documentElement.classList.add('rzg-splash-pending');
-        }
-      } catch (e) {
-        document.documentElement.classList.add('rzg-splash-pending');
-      }
-    </script>
     <title>{title}</title>
   </head>
   <body>

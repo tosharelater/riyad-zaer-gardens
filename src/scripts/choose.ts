@@ -66,14 +66,36 @@ function setSelectedUI(typo: Typology | null, opts: { openPanel?: boolean } = {}
   updateWaLinks(typo);
 }
 
+function persistTypology(id: Typology) {
+  try {
+    localStorage.setItem(STORAGE_KEY, id);
+  } catch {
+    /* private mode */
+  }
+}
+
+function readTypology(): Typology | null {
+  try {
+    const fromLocal = localStorage.getItem(STORAGE_KEY);
+    const fromSession = sessionStorage.getItem(STORAGE_KEY);
+    const raw = fromLocal || fromSession;
+    if (raw && ['F3', 'F4', 'Fonds'].includes(raw)) {
+      if (!fromLocal) persistTypology(raw as Typology);
+      return raw as Typology;
+    }
+  } catch {
+    /* private mode */
+  }
+  return null;
+}
+
 function activateTypology(id: Typology, openPanel = true) {
-  sessionStorage.setItem(STORAGE_KEY, id);
+  persistTypology(id);
   setSelectedUI(id, { openPanel });
 }
 
 export function initChoose() {
-  let current: Typology | null = (sessionStorage.getItem(STORAGE_KEY) as Typology | null) || null;
-  if (current && !['F3', 'F4', 'Fonds'].includes(current)) current = null;
+  let current: Typology | null = readTypology();
 
   setSelectedUI(current, { openPanel: !!current });
 

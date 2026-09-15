@@ -5,24 +5,40 @@ const HOLD_MS = 3000;
 const HOLD_REDUCED_MS = 1000;
 const FADE_REMOVE_BUFFER_MS = 500;
 
+function hasSeenSplash(): boolean {
+  try {
+    return localStorage.getItem(STORAGE_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function markSplashSeen() {
+  try {
+    localStorage.setItem(STORAGE_KEY, '1');
+  } catch {
+    /* private mode — still dismiss */
+  }
+}
+
 /** Editorial splash: exact 3000ms hold (1s max if prefers-reduced-motion), then fade. */
 export function initSplash() {
   const root = document.getElementById('rzg-splash');
-  if (!root) return;
+  const html = document.documentElement;
+  const alreadyDone = html.classList.contains('rzg-splash-done') || hasSeenSplash();
 
-  let seen = false;
-  try {
-    seen = sessionStorage.getItem(STORAGE_KEY) === '1';
-  } catch {
-    seen = false;
-  }
-
-  if (seen || document.documentElement.classList.contains('rzg-splash-done')) {
-    cleanup(root);
+  if (alreadyDone) {
+    html.classList.remove('rzg-splash-pending');
+    html.classList.add('rzg-splash-done');
+    document.body.classList.remove('rzg-splash-open');
+    if (root) cleanup(root);
     return;
   }
 
-  document.documentElement.classList.add('rzg-splash-pending');
+  if (!root) return;
+
+  html.classList.add('rzg-splash-pending');
+  html.classList.remove('rzg-splash-done');
   document.body.classList.add('rzg-splash-open');
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -43,26 +59,26 @@ export function initSplash() {
 }
 
 function dismiss(root: HTMLElement) {
-  try {
-    sessionStorage.setItem(STORAGE_KEY, '1');
-  } catch {
-    /* private mode — still dismiss */
-  }
+  markSplashSeen();
 
   root.classList.add('is-out');
   root.style.pointerEvents = 'none';
   document.body.classList.remove('rzg-splash-open');
-  document.documentElement.classList.remove('rzg-splash-pending');
-  document.documentElement.classList.add('rzg-splash-done');
+  // Keep html.rzg-splash-pending through the fade so display:none does not kill opacity.
 
-  const remove = () => {
+  let finished = false;
+  const finish = () => {
+    if (finished) return;
+    finished = true;
+    document.documentElement.classList.remove('rzg-splash-pending');
+    document.documentElement.classList.add('rzg-splash-done');
     if (root.isConnected) root.remove();
   };
 
   root.addEventListener('transitionend', (e) => {
-    if (e.target === root && e.propertyName === 'opacity') remove();
+    if (e.target === root && e.propertyName === 'opacity') finish();
   });
-  window.setTimeout(remove, FADE_REMOVE_BUFFER_MS);
+  window.setTimeout(finish, FADE_REMOVE_BUFFER_MS);
 }
 
 function cleanup(root: HTMLElement) {
