@@ -11,8 +11,8 @@
   --gold-soft: var(--or-pale);
   --cream: var(--creme);
 
-  /* Display: Audrey only (public/fonts). UI: Poppins. Never Bodoni. */
-  --font-display: "Audrey", Georgia, "Times New Roman", serif;
+  /* Display: Audrey when files exist; TEMP Cormorant Garamond (never Georgia/Times). UI: Poppins. */
+  --font-display: "Audrey", "Cormorant Garamond", "Cormorant", serif;
   --font-sans: "Poppins", system-ui, -apple-system, sans-serif;
 
   --nav-h: 4.75rem;
@@ -2231,23 +2231,23 @@ html.rzg-splash-done .rzg-splash {
 /* Long angled premium gold fade-shape (soft elongated diagonal band) L → R */
 .rzg-splash__sweep {
   position: absolute;
-  top: -35%;
-  left: -55%;
-  width: 48%;
-  height: 170%;
+  top: -45%;
+  left: -70%;
+  width: 72%;
+  height: 190%;
   pointer-events: none;
-  transform: rotate(22deg) translate3d(0, 0, 0);
+  transform: rotate(18deg) translate3d(0, 0, 0);
   background: linear-gradient(
     90deg,
     rgba(200, 181, 104, 0) 0%,
-    rgba(200, 181, 104, 0.04) 18%,
-    rgba(217, 201, 135, 0.22) 42%,
-    rgba(200, 181, 104, 0.38) 50%,
-    rgba(217, 201, 135, 0.18) 58%,
-    rgba(200, 181, 104, 0.05) 78%,
+    rgba(200, 181, 104, 0.03) 12%,
+    rgba(217, 201, 135, 0.16) 28%,
+    rgba(200, 181, 104, 0.42) 48%,
+    rgba(217, 201, 135, 0.22) 62%,
+    rgba(200, 181, 104, 0.06) 82%,
     rgba(200, 181, 104, 0) 100%
   );
-  filter: blur(28px);
+  filter: blur(42px);
   opacity: 0;
   will-change: transform, opacity;
 }
@@ -2304,17 +2304,17 @@ html.rzg-splash-done .rzg-splash {
 @keyframes rzg-splash-sweep {
   0% {
     opacity: 0;
-    transform: rotate(22deg) translate3d(0, 0, 0);
+    transform: rotate(18deg) translate3d(0, 0, 0);
   }
-  12% {
-    opacity: 0.95;
+  10% {
+    opacity: 0.9;
   }
-  55% {
+  50% {
     opacity: 1;
   }
   100% {
-    opacity: 0.15;
-    transform: rotate(22deg) translate3d(280%, 0, 0);
+    opacity: 0.12;
+    transform: rotate(18deg) translate3d(220%, 0, 0);
   }
 }
 
@@ -3418,4 +3418,362 @@ html.rzg-splash-done .arrive-copy .arrive-actions {
 /* Richer reveal defaults */
 [data-reveal="up"] {
   transform: translate3d(0, 32px, 0);
+}
+
+/* === UX 4-beat polish 2026-09 === */
+
+/* Hide choice line until typology picked — never show empty copy */
+.talk-choice.is-empty,
+.talk-choice[hidden],
+.choose-rail__sel.is-empty {
+  display: none !important;
+}
+
+/* Hero scale strip */
+.arrive-scale {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1.25rem, 4vw, 2.75rem);
+  margin: 1.35rem 0 1.75rem;
+}
+.arrive-scale__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.arrive-scale__item strong {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.5vw, 2.35rem);
+  font-weight: 500;
+  color: var(--gold-soft);
+  line-height: 1;
+}
+.arrive-scale__item span {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(247, 242, 232, 0.72);
+}
+.arrive-scale__item--quiet strong {
+  color: var(--gold);
+  opacity: 0.85;
+}
+
+/* Living — depth layers + tighter crop */
+.live-monument {
+  position: relative;
+  margin: 0 0 clamp(1.5rem, 3vw, 2.25rem);
+}
+.live-depth {
+  position: relative;
+  overflow: hidden;
+  min-height: clamp(18rem, 48vw, 32rem);
+  background: var(--ink);
+}
+.live-depth__layer {
+  position: absolute;
+  inset: -8% 0;
+  will-change: transform;
+}
+.live-depth__layer--back {
+  z-index: 0;
+  inset: -12% -4%;
+}
+.live-depth__layer--mid {
+  z-index: 1;
+  inset: -6% 8% auto;
+  height: 72%;
+  clip-path: inset(0 0 0 0);
+}
+.live-depth__layer--front {
+  z-index: 2;
+  position: relative;
+  inset: auto;
+  height: 100%;
+  min-height: clamp(18rem, 48vw, 32rem);
+}
+.live-depth__layer img,
+.live-depth__layer .media-poster,
+.live-depth__layer .beat-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+  display: block;
+  transform: translate3d(0, var(--live-y, 0px), 0) scale(1.12);
+  will-change: transform;
+}
+.live-depth__layer--back img {
+  object-position: center 28%;
+  opacity: 0.55;
+  filter: saturate(0.85);
+}
+.live-depth__layer--mid img {
+  object-position: center 55%;
+  border: 1px solid rgba(200, 181, 104, 0.28);
+  box-shadow: 0 18px 48px rgba(0, 45, 45, 0.28);
+}
+.live-depth__caption {
+  position: absolute;
+  z-index: 3;
+  bottom: 1rem;
+  inset-inline-start: 1rem;
+  margin: 0;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cream);
+  background: rgba(0, 45, 45, 0.72);
+  padding: 0.45rem 0.75rem;
+}
+#live.is-parallax-off .live-depth__layer img,
+#live.is-parallax-off .live-depth__layer .media-poster,
+#live.is-parallax-off .live-depth__layer .beat-video {
+  transform: scale(1.04);
+}
+
+.live-strip {
+  gap: clamp(0.75rem, 2vw, 1.15rem);
+}
+.live-shot {
+  min-height: clamp(11rem, 26vw, 16rem);
+  max-height: 18rem;
+}
+.live-shot img {
+  min-height: clamp(11rem, 26vw, 16rem);
+  max-height: 18rem;
+  object-position: center 40%;
+}
+
+/* Quiet trust strip inside Living — no 01–03 tour chrome */
+.trust-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem 1.15rem;
+  margin: clamp(2rem, 5vw, 3.25rem) 0 0;
+  padding: 1.15rem 0 0;
+  border-top: 1px solid rgba(0, 45, 45, 0.1);
+}
+.trust-strip__item {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--vert-canopee);
+  opacity: 0.82;
+}
+.trust-strip__dot {
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.7;
+}
+
+/* Explore monumental — full-bleed L/R */
+.beat-explore {
+  padding: clamp(2.75rem, 6vw, 4.75rem) 0 0;
+  overflow: hidden;
+}
+.explore-head {
+  margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+}
+.explore-head .beat-title {
+  max-width: 16ch;
+}
+.choose-monument {
+  position: relative;
+}
+.choose-legend--overlay {
+  position: relative;
+  z-index: 5;
+  width: min(var(--container), calc(100% - 2 * var(--gutter)));
+  margin: 0 auto 1rem;
+}
+.choose-split--monument {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 0;
+  width: 100%;
+  min-height: clamp(28rem, 72vh, 44rem);
+  align-items: stretch;
+}
+.choose-split--monument .choose-plan {
+  min-height: clamp(28rem, 72vh, 44rem);
+  height: 100%;
+  border-radius: 0;
+}
+.choose-split--monument .choose-plan > img {
+  min-height: clamp(28rem, 72vh, 44rem);
+  object-position: center 40%;
+}
+.choose-side--monument {
+  background: var(--cream);
+  border-inline-start: 1px solid rgba(0, 45, 45, 0.08);
+  min-height: 100%;
+  padding: 0;
+  gap: 0;
+}
+.choose-side--monument .choose-panel-stage {
+  min-height: 100%;
+  height: 100%;
+}
+.choose-split--monument .typo-panel {
+  grid-template-columns: 1fr;
+  border: 0;
+  height: 100%;
+  background: var(--cream);
+}
+.choose-split--monument .typo-panel__media {
+  max-height: clamp(10rem, 22vh, 14rem);
+}
+.choose-split--monument .typo-panel__media img {
+  min-height: clamp(10rem, 22vh, 14rem);
+  max-height: clamp(10rem, 22vh, 14rem);
+}
+.choose-split--monument .typo-panel__body {
+  padding: clamp(1.35rem, 3vw, 2.15rem);
+  gap: 0.75rem;
+}
+.choose-split--monument .typo-panel__body h3 {
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
+}
+.choose-empty {
+  display: none !important; /* never empty — F3 default */
+}
+
+/* Bigger clearer pins */
+.choose-split--monument .hotspot {
+  min-width: 5.5rem;
+  min-height: 5.5rem;
+}
+.choose-split--monument .hotspot__ring {
+  width: 3.15rem;
+  height: 3.15rem;
+  border-width: 3.5px;
+}
+.choose-split--monument .hotspot__label {
+  font-size: 0.82rem;
+  padding: 0.48rem 0.9rem;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+}
+.choose-split--monument .hotspot__pulse {
+  width: 3.8rem;
+  height: 3.8rem;
+  margin-left: -1.9rem;
+}
+
+/* Handoff — single solid WhatsApp */
+.beat-handoff .handoff-cta {
+  margin-top: 1.75rem;
+}
+.beat-handoff .btn-ghost-link {
+  display: none;
+}
+
+/* Contact — less top void, form visible */
+.page-hero {
+  padding: clamp(1.5rem, 4vw, 2.5rem) 0 clamp(1rem, 2.5vw, 1.5rem) !important;
+}
+.contact-layout--offset {
+  margin-top: 0 !important;
+  padding-top: 0.5rem;
+}
+.contact-section {
+  padding-top: 0.5rem !important;
+}
+.contact-form-wrap .btn-ghost-link[data-form-toggle] {
+  display: none !important;
+}
+.contact-form-wrap .talk-form {
+  margin-top: 0;
+  max-width: none;
+}
+.contact-form-wrap .talk-form[hidden] {
+  display: block !important;
+}
+
+/* Splash — wide soft angled gold fade band (not a thin line) */
+.rzg-splash__sweep {
+  top: -45%;
+  left: -70%;
+  width: 72%;
+  height: 190%;
+  transform: rotate(18deg) translate3d(0, 0, 0);
+  background: linear-gradient(
+    90deg,
+    rgba(200, 181, 104, 0) 0%,
+    rgba(200, 181, 104, 0.03) 12%,
+    rgba(217, 201, 135, 0.16) 28%,
+    rgba(200, 181, 104, 0.42) 48%,
+    rgba(217, 201, 135, 0.22) 62%,
+    rgba(200, 181, 104, 0.06) 82%,
+    rgba(200, 181, 104, 0) 100%
+  );
+  filter: blur(42px);
+}
+
+/* Refined beat motion */
+.beat-live .beat-head,
+.beat-explore .explore-head,
+.beat-handoff .beat-head {
+  transition: opacity 0.7s var(--ease), transform 0.85s var(--ease);
+}
+[data-reveal]:not(.is-in) {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+}
+[data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+[data-reveal="clip"]:not(.is-in) {
+  clip-path: inset(12% 0 12% 0);
+  opacity: 0.4;
+}
+[data-reveal="clip"].is-in {
+  clip-path: inset(0);
+  opacity: 1;
+  transition: clip-path 1s var(--ease), opacity 0.8s var(--ease);
+}
+
+@media (max-width: 960px) {
+  .choose-split--monument {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+  .choose-split--monument .choose-plan,
+  .choose-split--monument .choose-plan > img {
+    min-height: clamp(20rem, 78vw, 30rem);
+  }
+  .live-depth__layer--mid {
+    inset: -4% 4% auto;
+    height: 58%;
+  }
+  .trust-strip__dot {
+    display: none;
+  }
+  .trust-strip {
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal="clip"] {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+  .live-depth__layer img,
+  .live-depth__layer .media-poster,
+  .live-depth__layer .beat-video {
+    transform: scale(1.04) !important;
+  }
 }

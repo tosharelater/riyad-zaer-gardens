@@ -2,6 +2,7 @@ const WA_BASE = 'https://wa.me/212600000000';
 const STORAGE_KEY = 'rzg-typology';
 
 type Typology = 'F3' | 'F4' | 'Fonds';
+const DEFAULT_TYPO: Typology = 'F3';
 
 const LABELS: Record<Typology, string> = {
   F3: 'F3',
@@ -31,13 +32,12 @@ function setPanelOpen(el: HTMLElement, open: boolean) {
   else el.setAttribute('inert', '');
 }
 
-function setSelectedUI(typo: Typology | null, opts: { openPanel?: boolean } = {}) {
-  const openPanel = opts.openPanel !== false;
-
+/** Update explore UI. `committed` = user picked (show handoff label + WA prefill). */
+function setSelectedUI(typo: Typology, committed: boolean) {
   document.querySelectorAll<HTMLElement>('[data-hotspot]').forEach((el) => {
     const on = el.dataset.hotspot === typo;
-    el.classList.toggle('is-active', on && openPanel);
-    el.classList.toggle('is-selected', on);
+    el.classList.toggle('is-active', on);
+    el.classList.toggle('is-selected', on && committed);
     el.setAttribute('aria-pressed', on ? 'true' : 'false');
   });
 
@@ -49,36 +49,37 @@ function setSelectedUI(typo: Typology | null, opts: { openPanel?: boolean } = {}
   });
 
   const stage = document.querySelector<HTMLElement>('[data-panel-stage]');
-  let anyOpen = false;
   document.querySelectorAll<HTMLElement>('[data-panel]').forEach((el) => {
-    const open = openPanel && typo !== null && el.dataset.panel === typo;
-    setPanelOpen(el, open);
-    if (open) anyOpen = true;
+    setPanelOpen(el, el.dataset.panel === typo);
   });
-  stage?.classList.toggle('has-open', anyOpen);
+  stage?.classList.add('has-open');
 
   document.querySelectorAll<HTMLElement>('[data-choose-empty]').forEach((el) => {
-    el.classList.toggle('is-hidden', anyOpen);
-    el.setAttribute('aria-hidden', anyOpen ? 'true' : 'false');
+    el.classList.add('is-hidden');
+    el.setAttribute('aria-hidden', 'true');
+    el.setAttribute('hidden', '');
   });
 
+  // Never show “Aucune typologie sélectionnée” — hide until a typology is picked
   document.querySelectorAll<HTMLElement>('[data-selected-label]').forEach((el) => {
-    if (!typo) {
-      el.textContent = el.dataset.empty || '';
+    if (!committed) {
+      el.textContent = '';
       el.classList.add('is-empty');
+      el.setAttribute('hidden', '');
     } else {
       const prefix = el.dataset.prefix || '';
       el.textContent = `${prefix} ${LABELS[typo]}`.trim();
       el.classList.remove('is-empty');
+      el.removeAttribute('hidden');
     }
   });
 
   const formSelect = document.querySelector<HTMLSelectElement>('#typology');
-  if (formSelect && typo) {
+  if (formSelect) {
     const map: Record<Typology, string> = { F3: 'F3', F4: 'F4', Fonds: 'Commerce' };
     formSelect.value = map[typo];
   }
-  updateWaLinks(typo);
+  updateWaLinks(committed ? typo : null);
 }
 
 function persistTypology(id: Typology) {
@@ -104,20 +105,24 @@ function readTypology(): Typology | null {
   return null;
 }
 
-function activateTypology(id: Typology, openPanel = true) {
+function commitTypology(id: Typology) {
   persistTypology(id);
-  setSelectedUI(id, { openPanel });
+  setSelectedUI(id, true);
 }
 
 export function initChoose() {
-  let current: Typology | null = readTypology();
-
-  setSelectedUI(current, { openPanel: !!current });
+  const stored = readTypology();
+  // Explore always shows a summary (default F3); pins/legend change selection.
+  // Handoff label + WA prefill only after a committed pick (stored or click).
+  let current: Typology = stored || DEFAULT_TYPO;
+  let committed = !!stored;
+  setSelectedUI(current, committed);
 
   const openFromControl = (id: string | undefined) => {
     if (!id || !['F3', 'F4', 'Fonds'].includes(id)) return;
     current = id as Typology;
-    activateTypology(current, true);
+    committed = true;
+    commitTypology(current);
   };
 
   document.querySelectorAll<HTMLElement>('[data-hotspot]').forEach((btn) => {
@@ -142,24 +147,21 @@ export function initChoose() {
     });
   });
 
-  document.querySelectorAll<HTMLElement>('[data-panel-close]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      setSelectedUI(current, { openPanel: false });
-    });
-  });
-
   document.querySelectorAll<HTMLElement>('[data-select-typo]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const id = btn.dataset.selectTypo as Typology;
       if (!id) return;
       current = id;
-      activateTypology(current, true);
+      committed = true;
+      commitTypology(current);
     });
   });
 
   const toggle = document.querySelector<HTMLButtonElement>('[data-form-toggle]');
   const formWrap = document.querySelector<HTMLElement>('[data-quiet-form]');
+  if (formWrap) formWrap.removeAttribute('hidden');
   if (toggle && formWrap) {
+    toggle.setAttribute('aria-expanded', 'true');
     toggle.addEventListener('click', () => {
       const open = formWrap.hasAttribute('hidden');
       if (open) formWrap.removeAttribute('hidden');

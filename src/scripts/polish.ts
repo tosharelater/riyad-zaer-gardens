@@ -1,4 +1,4 @@
-const VIDEO_HOST = '.arrive-media, .live-shot, .live-hero, .explore-cinema';
+const VIDEO_HOST = '.arrive-media, .live-shot, .live-hero, .live-depth, .explore-cinema';
 
 export function initReveal() {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

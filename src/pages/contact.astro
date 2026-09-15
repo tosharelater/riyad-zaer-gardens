@@ -7,6 +7,51 @@ import ContactForm from '../components/ContactForm.astro';
 const base = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
   : import.meta.env.BASE_URL + '/';
+
+const faqItems = [
+  {
+    id: 'aides',
+    qKey: 'faq_aides_q',
+    q: 'Le projet est-il éligible aux aides au logement ?',
+    aKey: 'faq_aides_a',
+    a: 'Oui. Riyad Zaer Gardens est conçu pour maximiser l’éligibilité aux dispositifs d’accession. Notre équipe vous oriente dossier par dossier.',
+  },
+  {
+    id: 'livraison',
+    qKey: 'faq_livraison_q',
+    q: 'Quand est prévue la livraison ?',
+    aKey: 'faq_livraison_a',
+    a: 'Le calendrier de livraison est partagé dès la réservation, avec des jalons de chantier visibles. Vous savez où en est votre futur chez-vous.',
+  },
+  {
+    id: 'parking',
+    qKey: 'faq_parking_q',
+    q: 'Y a-t-il du stationnement ?',
+    aKey: 'faq_parking_a',
+    a: 'Des places dédiées sont prévues pour les résidents. Les détails (nombre, attribution) sont précisés à la réservation.',
+  },
+  {
+    id: 'visite',
+    qKey: 'faq_visite_q',
+    q: 'Puis-je visiter le site ou le showroom ?',
+    aKey: 'faq_visite_a',
+    a: 'Oui, sur rendez-vous. Contactez-nous via WhatsApp pour planifier une visite et découvrir les typologies en détail.',
+  },
+  {
+    id: 'reservation',
+    qKey: 'faq_resa_q',
+    q: 'Comment réserver un appartement ?',
+    aKey: 'faq_resa_a',
+    a: 'Choisissez votre typologie sur la page d’accueil, puis écrivez-nous sur WhatsApp. Nous vous guidons pour la réservation et les prochaines étapes.',
+  },
+  {
+    id: 'typologies',
+    qKey: 'faq_typo_q',
+    q: 'Quelles typologies sont disponibles ?',
+    aKey: 'faq_typo_a',
+    a: 'F3 (65–75 m²), F4 (jusqu’à 86 m²) et fonds de commerce en rez-de-chaussée — 120 appartements au total.',
+  },
+] as const;
 ---
 
 <BaseLayout title="Contact — Riyad Zaer Gardens">
@@ -17,21 +62,20 @@ const base = import.meta.env.BASE_URL.endsWith('/')
       <p class="kicker kicker--ink" data-i18n="contact_kicker">Contact</p>
       <h1 class="serif" data-i18n="contact_title">Écrivons la suite</h1>
       <p class="lead muted" data-i18n="contact_lead">
-        WhatsApp en priorité. Un formulaire discret si vous préférez écrire.
+        WhatsApp en priorité — ou laissez vos coordonnées ci-dessous.
       </p>
       <p
         class="talk-choice talk-choice--ink is-empty"
         data-selected-label
-        data-empty="Aucune typologie sélectionnée"
+        data-empty=""
         data-prefix="Votre choix :"
-      >
-        Aucune typologie sélectionnée
-      </p>
+        hidden
+      ></p>
     </div>
   </section>
 
   <section class="contact-section section theme-cream">
-    <div class="container contact-layout contact-layout--offset">
+    <div class="container contact-layout">
       <aside class="wa-first theme-dark" data-reveal>
         <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path
@@ -59,16 +103,51 @@ const base = import.meta.env.BASE_URL.endsWith('/')
       </aside>
 
       <div class="contact-form-wrap" data-reveal>
-        <button
-          type="button"
-          class="btn-ghost-link"
-          data-form-toggle
-          aria-expanded="false"
-          data-i18n="contact_form_toggle">Préférer un message écrit ?</button
-        >
-        <div class="talk-form" data-quiet-form hidden>
+        <div class="talk-form" data-quiet-form>
           <ContactForm />
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="beat beat-faq theme-cream">
+    <div class="container">
+      <header class="beat-head" data-reveal>
+        <p class="kicker kicker--ink" data-i18n="faq_kicker">Questions</p>
+        <h2 class="serif beat-title" data-i18n="faq_title">Tout ce qu’il faut savoir</h2>
+        <p class="muted beat-lead" data-i18n="faq_body">
+          Aides, livraison, parking, visite, réservation et typologies — réponses claires.
+        </p>
+      </header>
+
+      <div class="faq-list" data-faq data-stagger>
+        {
+          faqItems.map((item) => (
+            <div class="faq-item" data-faq-item>
+              <button
+                type="button"
+                class="faq-trigger"
+                data-faq-trigger
+                aria-expanded="false"
+                aria-controls={`faq-panel-${item.id}`}
+                id={`faq-btn-${item.id}`}
+              >
+                <span class="faq-q" data-i18n={item.qKey}>{item.q}</span>
+                <span class="faq-icon" aria-hidden="true" />
+              </button>
+              <div
+                class="faq-panel"
+                data-faq-panel
+                id={`faq-panel-${item.id}`}
+                role="region"
+                aria-labelledby={`faq-btn-${item.id}`}
+                aria-hidden="true"
+              >
+                <p data-i18n={item.aKey}>{item.a}</p>
+              </div>
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>

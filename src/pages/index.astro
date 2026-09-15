@@ -2,7 +2,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import Quartier3D from '../components/Quartier3D.astro';
 
 const base = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
@@ -63,57 +62,12 @@ const typologies = [
     hotspot: { top: '68%', left: '48%' },
   },
 ] as const;
-
-const faqItems = [
-  {
-    id: 'aides',
-    qKey: 'faq_aides_q',
-    q: 'Le projet est-il éligible aux aides au logement ?',
-    aKey: 'faq_aides_a',
-    a: 'Oui. Riyad Zaer Gardens est conçu pour maximiser l’éligibilité aux dispositifs d’accession. Notre équipe vous oriente dossier par dossier.',
-  },
-  {
-    id: 'livraison',
-    qKey: 'faq_livraison_q',
-    q: 'Quand est prévue la livraison ?',
-    aKey: 'faq_livraison_a',
-    a: 'Le calendrier de livraison est partagé dès la réservation, avec des jalons de chantier visibles. Vous savez où en est votre futur chez-vous.',
-  },
-  {
-    id: 'parking',
-    qKey: 'faq_parking_q',
-    q: 'Y a-t-il du stationnement ?',
-    aKey: 'faq_parking_a',
-    a: 'Des places dédiées sont prévues pour les résidents. Les détails (nombre, attribution) sont précisés à la réservation.',
-  },
-  {
-    id: 'visite',
-    qKey: 'faq_visite_q',
-    q: 'Puis-je visiter le site ou le showroom ?',
-    aKey: 'faq_visite_a',
-    a: 'Oui, sur rendez-vous. Contactez-nous via WhatsApp pour planifier une visite et découvrir les typologies en détail.',
-  },
-  {
-    id: 'reservation',
-    qKey: 'faq_resa_q',
-    q: 'Comment réserver un appartement ?',
-    aKey: 'faq_resa_a',
-    a: 'Choisissez votre typologie sur cette page, puis écrivez-nous sur WhatsApp. Nous vous guidons pour la réservation et les prochaines étapes.',
-  },
-  {
-    id: 'typologies',
-    qKey: 'faq_typo_q',
-    q: 'Quelles typologies sont disponibles ?',
-    aKey: 'faq_typo_a',
-    a: 'F3 (65–75 m²), F4 (jusqu’à 86 m²) et fonds de commerce en rez-de-chaussée — 120 appartements au total.',
-  },
-] as const;
 ---
 
 <BaseLayout title="Riyad Zaer Gardens — Nouveau pôle urbain">
   <Header current="home" />
 
-  <!-- ARRIVE — premium multi-layer collage from ALL viz stills -->
+  <!-- 1 · HERO — where + scale -->
   <section id="arrive" class="beat beat-arrive">
     <div class="arrive-media arrive-collage" aria-hidden="true">
       <div class="arrive-collage__bg" data-arrive-depth="0.1">
@@ -154,22 +108,33 @@ const faqItems = [
       <div class="arrive-veil"></div>
     </div>
     <div class="arrive-copy">
-      <p class="kicker" data-i18n="arrive_kicker">Riyad Zaer Gardens</p>
       <p class="hero-locale" data-i18n="teasing">Aïn Aouda · Rabat</p>
       <h1 class="arrive-title" data-i18n="arrive_title">Un nouveau pôle urbain</h1>
       <p class="arrive-lead" data-i18n="arrive_lead">
         Une adresse familiale, moderne et sécurisée — lumière, jardins, horizon ouvert entre Rabat et
         Aïn Aouda.
       </p>
+      <div class="arrive-scale" data-stagger aria-label="Échelle du projet">
+        <div class="arrive-scale__item">
+          <strong>120</strong>
+          <span>appartements</span>
+        </div>
+        <div class="arrive-scale__item">
+          <strong>65–86</strong>
+          <span>m² F3–F4</span>
+        </div>
+        <div class="arrive-scale__item arrive-scale__item--quiet">
+          <strong>+</strong>
+          <span>fonds de commerce</span>
+        </div>
+      </div>
       <div class="arrive-actions">
         <a class="btn btn-solid" href="#live" data-i18n="cta_scroll">Découvrir</a>
       </div>
     </div>
   </section>
 
-  <div class="cream-void" aria-hidden="true"></div>
-
-  <!-- LIFESTYLE — monumental + real parallax -->
+  <!-- 2 · LIVING — Cadre de vie + quiet trust fold -->
   <section id="live" class="beat beat-live theme-cream">
     <div class="container">
       <header class="beat-head live-copy" data-reveal>
@@ -184,366 +149,207 @@ const faqItems = [
       </header>
 
       <div class="live-monument" data-reveal="clip">
-        <figure class="live-hero" data-live-parallax="0.14">
-          <img
-            class="media-poster"
-            src={`${base}parcours/viz-01.jpg`}
-            alt="Cour végétalisée"
-            width="1600"
-            height="1000"
-            loading="lazy"
-          />
-          <video
-            class="beat-video"
-            data-chapter-video
-            poster={`${base}parcours/viz-01.jpg`}
-            muted
-            loop
-            playsinline
-            preload="none"
-            aria-hidden="true"
-          >
-            <source src={`${base}parcours/video/live.webm`} type="video/webm" />
-            <source src={`${base}parcours/video/live.mp4`} type="video/mp4" />
-          </video>
-          <figcaption data-i18n="live_cap_courtyard">Cour &amp; jardins</figcaption>
-        </figure>
+        <div class="live-depth live-hero">
+          <div class="live-depth__layer live-depth__layer--back" data-live-parallax="0.28" aria-hidden="true">
+            <img src={`${base}parcours/viz-12.jpg`} alt="" width="1600" height="1000" loading="lazy" />
+          </div>
+          <div class="live-depth__layer live-depth__layer--mid" data-live-parallax="0.18" aria-hidden="true">
+            <img src={`${base}parcours/viz-11.jpg`} alt="" width="1200" height="800" loading="lazy" />
+          </div>
+          <div class="live-depth__layer live-depth__layer--front" data-live-parallax="0.1">
+            <img
+              class="media-poster"
+              src={`${base}parcours/viz-01.jpg`}
+              alt="Cour végétalisée"
+              width="1600"
+              height="1000"
+              loading="lazy"
+            />
+            <video
+              class="beat-video"
+              data-chapter-video
+              poster={`${base}parcours/viz-01.jpg`}
+              muted
+              loop
+              playsinline
+              preload="none"
+              aria-hidden="true"
+            >
+              <source src={`${base}parcours/video/live.webm`} type="video/webm" />
+              <source src={`${base}parcours/video/live.mp4`} type="video/mp4" />
+            </video>
+          </div>
+          <p class="live-depth__caption" data-i18n="live_cap_courtyard">Cour &amp; jardins</p>
+        </div>
       </div>
 
       <div class="live-strip" data-stagger>
         <figure class="live-shot" data-live-parallax="0.2">
-          <img src={`${base}parcours/viz-11.jpg`} alt="Façade et palmiers" width="1200" height="800" loading="lazy" />
-          <figcaption data-i18n="live_cap_street">Adresse vivante</figcaption>
-        </figure>
-        <figure class="live-shot" data-live-parallax="0.16">
           <img src={`${base}parcours/viz-06.jpg`} alt="Façade — volumes" width="1200" height="800" loading="lazy" />
           <figcaption data-i18n="live_cap_facade">Façade & volumes</figcaption>
         </figure>
-        <figure class="live-shot" data-live-parallax="0.22">
+        <figure class="live-shot" data-live-parallax="0.16">
           <img src={`${base}parcours/viz-02.jpg`} alt="Intérieur lumineux" width="1200" height="800" loading="lazy" />
           <figcaption data-i18n="live_cap_interior">Intérieurs lumineux</figcaption>
         </figure>
       </div>
 
-      <div class="live-stats" data-stagger>
-        <div class="stat-loose stat-loose--lg">
-          <strong>120</strong>
-          <span>appartements</span>
-        </div>
-        <div class="stat-loose">
-          <strong>65–86</strong>
-          <span>m² F3–F4</span>
-        </div>
-        <div class="stat-loose stat-loose--quiet">
-          <strong>+</strong>
-          <span>fonds de commerce</span>
-        </div>
-      </div>
+      <aside class="trust-strip" data-reveal aria-label="Confiance">
+        <p class="trust-strip__item" data-i18n="trust_aides_t">Aides au logement</p>
+        <span class="trust-strip__dot" aria-hidden="true"></span>
+        <p class="trust-strip__item" data-i18n="trust_chantier_t">Chantier suivi</p>
+        <span class="trust-strip__dot" aria-hidden="true"></span>
+        <p class="trust-strip__item" data-i18n="trust_livraison_t">Livraison anticipée</p>
+      </aside>
     </div>
   </section>
 
-  <div class="section-rule" data-reveal="line" aria-hidden="true"></div>
-
-  <section class="cream-silence theme-cream" aria-hidden="false">
-    <div class="container" data-reveal>
-      <p class="silence-quote serif" data-i18n="silence_quote">
-        Long horizon. Adresse claire. Quotidien maîtrisé.
-      </p>
-    </div>
-  </section>
-
-  <!-- LOCATION / trust beat -->
-  <section id="lieu" class="beat beat-lieu theme-cream">
-    <div class="container lieu-grid">
-      <div class="lieu-copy" data-reveal="left">
-        <p class="kicker kicker--ink" data-i18n="lieu_kicker">Situation</p>
-        <h2 class="serif beat-title" data-i18n="lieu_title">Entre Rabat et Aïn Aouda</h2>
-        <p class="muted beat-lead" data-i18n="lieu_body">
-          Un nouveau pôle urbain accessible, à l’écart du bruit — proche des axes, ouvert sur l’horizon.
-        </p>
-        <ul class="lieu-points" data-stagger>
-          <li data-i18n="lieu_p1">Accès fluide vers Rabat et les communes sud</li>
-          <li data-i18n="lieu_p2">Résidence sécurisée, commerces en pied d’immeuble</li>
-          <li data-i18n="lieu_p3">Cadre familial pensé pour le quotidien</li>
-        </ul>
-      </div>
-      <figure class="lieu-visual" data-reveal="clip" data-live-parallax="0.1">
-        <img
-          src={`${base}parcours/viz-12.jpg`}
-          alt="Perspective urbaine — Riyad Zaer Gardens"
-          width="1400"
-          height="900"
-          loading="lazy"
-        />
-      </figure>
-    </div>
-  </section>
-
-  <Quartier3D />
-
-  <!-- EXPLORE — LEFT plan + hotspots, RIGHT info panel -->
+  <!-- 3 · EXPLORE — one monumental set-piece -->
   <section id="explore" class="beat beat-explore theme-cream">
-    <div class="container">
-      <header class="beat-head" data-reveal>
-        <p class="kicker kicker--ink" data-i18n="explore_kicker">Explorer</p>
-        <h2 class="serif beat-title beat-title--billboard" data-i18n="explore_title">
-          Trouvez votre adresse
-        </h2>
-        <p class="muted beat-lead" data-i18n="explore_body">
-          Survolez le plan, ouvrez une typologie. Votre choix vous suit jusqu’à la conversation.
-        </p>
-      </header>
+    <header class="beat-head explore-head container" data-reveal>
+      <h2 class="serif beat-title beat-title--billboard" data-i18n="explore_title">
+        Trouvez votre adresse
+      </h2>
+      <p class="muted beat-lead" data-i18n="explore_body">
+        Survolez le plan, ouvrez une typologie. Votre choix vous suit jusqu’à la conversation.
+      </p>
+    </header>
 
-      <div class="choose-island" data-reveal>
-        <ul class="choose-legend" role="list" aria-label="Typologies" data-i18n-aria="choose_legend_label">
+    <div class="choose-monument" data-reveal>
+      <ul class="choose-legend choose-legend--overlay" role="list" aria-label="Typologies" data-i18n-aria="choose_legend_label">
+        {
+          typologies.map((t) => (
+            <li>
+              <button
+                type="button"
+                data-legend={t.id}
+                data-hotspot-trigger={t.id}
+                aria-pressed={t.id === 'F3' ? 'true' : 'false'}
+                class:list={['choose-legend__btn', { 'is-active': t.id === 'F3' }]}
+              >
+                <span class="choose-legend__swatch" aria-hidden="true" />
+                <span class="choose-legend__copy">
+                  <span
+                    data-i18n={
+                      t.id === 'Fonds' ? 'choose_legend_fonds' : `choose_legend_${t.id.toLowerCase()}`
+                    }
+                  >
+                    {t.title === 'Fonds de commerce' ? 'Fonds' : t.title}
+                  </span>
+                  <span class="choose-legend__meta" data-i18n={t.surfaceKey}>
+                    {t.surface}
+                  </span>
+                </span>
+              </button>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="choose-split choose-split--monument">
+        <div class="choose-plan" role="group" aria-label="Plan interactif">
+          <img
+            src={`${base}parcours/viz-04.jpg`}
+            alt="Plan aérien — Riyad Zaer Gardens"
+            width="1600"
+            height="1000"
+            loading="lazy"
+          />
+          <p id="explore-hint" class="choose-hint" data-i18n="explore_hint">Touchez un point sur le plan</p>
           {
             typologies.map((t) => (
-              <li>
-                <button
-                  type="button"
-                  class="choose-legend__btn"
-                  data-legend={t.id}
-                  data-hotspot-trigger={t.id}
-                  aria-pressed="false"
-                >
-                  <span class="choose-legend__swatch" aria-hidden="true" />
-                  <span class="choose-legend__copy">
-                    <span
-                      data-i18n={
-                        t.id === 'Fonds' ? 'choose_legend_fonds' : `choose_legend_${t.id.toLowerCase()}`
-                      }
-                    >
-                      {t.title === 'Fonds de commerce' ? 'Fonds' : t.title}
-                    </span>
-                    <span class="choose-legend__meta" data-i18n={t.surfaceKey}>
-                      {t.surface}
-                    </span>
-                  </span>
-                </button>
-              </li>
+              <button
+                type="button"
+                style={`top:${t.hotspot.top};left:${t.hotspot.left}`}
+                data-hotspot={t.id}
+                aria-label={t.title}
+                aria-pressed={t.id === 'F3' ? 'true' : 'false'}
+                class:list={['hotspot', { 'is-active': t.id === 'F3', 'is-selected': t.id === 'F3' }]}
+                aria-describedby="explore-hint"
+              >
+                <span class="hotspot__pulse" aria-hidden="true" />
+                <span class="hotspot__ring" aria-hidden="true">
+                  <span class="hotspot__dot" aria-hidden="true" />
+                </span>
+                <span class="hotspot__label">{t.title === 'Fonds de commerce' ? 'Fonds' : t.title}</span>
+              </button>
             ))
           }
-        </ul>
+        </div>
 
-        <div class="choose-split">
-          <div class="choose-plan" role="group" aria-label="Plan interactif">
-            <img
-              src={`${base}parcours/viz-04.jpg`}
-              alt="Plan aérien — Riyad Zaer Gardens"
-              width="1600"
-              height="1000"
-              loading="lazy"
-            />
-            <p id="explore-hint" class="choose-hint" data-i18n="explore_hint">Touchez un point sur le plan</p>
+        <div class="choose-side choose-side--monument">
+          <div class="choose-panel-stage" data-panel-stage>
+            <p class="choose-empty is-hidden" data-choose-empty hidden aria-hidden="true" data-i18n="choose_empty">
+              Choisissez F3, F4 ou un fonds — le détail s’ouvre ici.
+            </p>
             {
               typologies.map((t) => (
-                <button
-                  type="button"
-                  class="hotspot"
-                  style={`top:${t.hotspot.top};left:${t.hotspot.left}`}
-                  data-hotspot={t.id}
-                  aria-label={t.title}
-                  aria-pressed="false"
-                  aria-describedby="explore-hint"
+                <article
+                  class:list={['typo-panel', { 'is-open': t.id === 'F3' }]}
+                  data-panel={t.id}
+                  aria-hidden={t.id === 'F3' ? 'false' : 'true'}
+                  inert={t.id === 'F3' ? undefined : true}
                 >
-                  <span class="hotspot__pulse" aria-hidden="true" />
-                  <span class="hotspot__ring" aria-hidden="true">
-                    <span class="hotspot__dot" aria-hidden="true" />
-                  </span>
-                  <span class="hotspot__label">{t.title === 'Fonds de commerce' ? 'Fonds' : t.title}</span>
-                </button>
+                  <div class="typo-panel__media">
+                    <img src={`${base}${t.img}`} alt={t.imgAlt} width="900" height="600" loading="lazy" />
+                  </div>
+                  <div class="typo-panel__body">
+                    <h3 class="serif" data-i18n={t.titleKey}>
+                      {t.title}
+                    </h3>
+                    <p class="typo-panel__rooms" data-i18n={t.roomsKey}>
+                      {t.rooms}
+                    </p>
+                    <p class="muted" data-i18n={t.bodyKey}>
+                      {t.body}
+                    </p>
+                    <div class="typo-panel__facts">
+                      <p class="surface-tag" data-i18n={t.surfaceKey}>
+                        {t.surface}
+                      </p>
+                      <p class="typo-price" data-i18n={t.priceKey}>
+                        {t.price}
+                      </p>
+                    </div>
+                    <p class="typo-aides label" data-i18n="choose_aides">
+                      Éligible aux aides au logement
+                    </p>
+                    <div class="story-meta">
+                      {t.id !== 'Fonds' ? (
+                        <>
+                          <span class="chip" data-i18n="chip_family">
+                            Familial
+                          </span>
+                          <span class="chip" data-i18n="chip_light">
+                            Lumière naturelle
+                          </span>
+                          <span class="chip" data-i18n="chip_aides">
+                            Aides
+                          </span>
+                        </>
+                      ) : (
+                        <span class="chip" data-i18n="chip_rdc">
+                          RDC
+                        </span>
+                      )}
+                    </div>
+                    <button type="button" class="btn btn-solid" data-select-typo={t.id} data-i18n="choose_select">
+                      Garder ce choix
+                    </button>
+                  </div>
+                </article>
               ))
             }
           </div>
-
-          <div class="choose-side">
-            <div class="choose-panel-stage" data-panel-stage>
-              <p class="choose-empty" data-choose-empty data-i18n="choose_empty">
-                Choisissez F3, F4 ou un fonds — le détail s’ouvre ici.
-              </p>
-              {
-                typologies.map((t) => (
-                  <article class="typo-panel" data-panel={t.id} aria-hidden="true" inert>
-                    <button type="button" class="typo-panel__close" data-panel-close aria-label="Fermer">
-                      <span data-i18n="choose_close">Fermer</span>
-                    </button>
-                    <div class="typo-panel__media">
-                      <img src={`${base}${t.img}`} alt={t.imgAlt} width="900" height="600" loading="lazy" />
-                    </div>
-                    <div class="typo-panel__body">
-                      <p class="kicker kicker--ink" data-i18n="choose_kicker">
-                        Typologie
-                      </p>
-                      <h3 class="serif" data-i18n={t.titleKey}>
-                        {t.title}
-                      </h3>
-                      <p class="typo-panel__rooms" data-i18n={t.roomsKey}>
-                        {t.rooms}
-                      </p>
-                      <p class="muted" data-i18n={t.bodyKey}>
-                        {t.body}
-                      </p>
-                      <div class="typo-panel__facts">
-                        <p class="surface-tag" data-i18n={t.surfaceKey}>
-                          {t.surface}
-                        </p>
-                        <p class="typo-price" data-i18n={t.priceKey}>
-                          {t.price}
-                        </p>
-                      </div>
-                      <p class="typo-aides label" data-i18n="choose_aides">
-                        Éligible aux aides au logement
-                      </p>
-                      <div class="story-meta">
-                        {t.id !== 'Fonds' ? (
-                          <>
-                            <span class="chip" data-i18n="chip_family">
-                              Familial
-                            </span>
-                            <span class="chip" data-i18n="chip_light">
-                              Lumière naturelle
-                            </span>
-                            <span class="chip" data-i18n="chip_aides">
-                              Aides
-                            </span>
-                          </>
-                        ) : (
-                          <span class="chip" data-i18n="chip_rdc">
-                            RDC
-                          </span>
-                        )}
-                      </div>
-                      <button type="button" class="btn btn-solid" data-select-typo={t.id} data-i18n="choose_select">
-                        Garder ce choix
-                      </button>
-                    </div>
-                  </article>
-                ))
-              }
-            </div>
-
-            <aside class="choose-rail" aria-live="polite">
-              <p
-                class="choose-rail__sel is-empty"
-                data-selected-label
-                data-empty="Aucune typologie sélectionnée"
-                data-prefix="Votre choix :"
-                data-i18n-empty="talk_selected_none"
-              >
-                Aucune typologie sélectionnée
-              </p>
-              <a class="btn-ghost-link" href={`${base}services/`} data-i18n="nav_services">Prestations</a>
-            </aside>
-          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="cream-void cream-void--tall" aria-hidden="true"></div>
-
-  <!-- TRUST -->
-  <section id="trust" class="beat beat-trust theme-cream">
-    <div class="container">
-      <header class="beat-head" data-reveal>
-        <p class="kicker kicker--ink" data-i18n="trust_kicker">Repères</p>
-        <h2 class="serif beat-title" data-i18n="trust_title">Avancer sereinement</h2>
-        <p class="muted beat-lead" data-i18n="trust_body">
-          Aides, chantier, livraison — des balises claires, sans formalités inutiles.
-        </p>
-      </header>
-
-      <ol class="trust-markers" data-stagger>
-        <li class="trust-marker">
-          <span class="trust-marker__num" aria-hidden="true">01</span>
-          <div>
-            <h3 data-i18n="trust_aides_t">Aides au logement</h3>
-            <p class="muted" data-i18n="trust_aides_d">
-              Projet conçu pour maximiser l’éligibilité aux dispositifs d’accession. On vous oriente.
-            </p>
-          </div>
-        </li>
-        <li class="trust-marker">
-          <span class="trust-marker__num" aria-hidden="true">02</span>
-          <div>
-            <h3 data-i18n="trust_chantier_t">Chantier suivi</h3>
-            <p class="muted" data-i18n="trust_chantier_d">
-              Jalons visibles, communication régulière, visite sur rendez-vous.
-            </p>
-          </div>
-        </li>
-        <li class="trust-marker">
-          <span class="trust-marker__num" aria-hidden="true">03</span>
-          <div>
-            <h3 data-i18n="trust_livraison_t">Livraison anticipée</h3>
-            <p class="muted" data-i18n="trust_livraison_d">
-              Calendrier partagé dès la réservation. Vous savez où en est votre futur chez-vous.
-            </p>
-          </div>
-        </li>
-      </ol>
-
-      <div class="trust-visual" data-reveal="clip">
-        <img
-          src={`${base}parcours/viz-07.jpg`}
-          alt="Perspectives du projet"
-          width="1600"
-          height="900"
-          loading="lazy"
-        />
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq" class="beat beat-faq theme-cream">
-    <div class="container">
-      <header class="beat-head" data-reveal>
-        <p class="kicker kicker--ink" data-i18n="faq_kicker">Questions</p>
-        <h2 class="serif beat-title" data-i18n="faq_title">Tout ce qu’il faut savoir</h2>
-        <p class="muted beat-lead" data-i18n="faq_body">
-          Aides, livraison, parking, visite, réservation et typologies — réponses claires.
-        </p>
-      </header>
-
-      <div class="faq-list" data-faq data-stagger>
-        {
-          faqItems.map((item, i) => (
-            <div class="faq-item" data-faq-item>
-              <button
-                type="button"
-                class="faq-trigger"
-                data-faq-trigger
-                aria-expanded="false"
-                aria-controls={`faq-panel-${item.id}`}
-                id={`faq-btn-${item.id}`}
-              >
-                <span class="faq-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-                <span class="faq-q" data-i18n={item.qKey}>{item.q}</span>
-                <span class="faq-icon" aria-hidden="true" />
-              </button>
-              <div
-                class="faq-panel"
-                data-faq-panel
-                id={`faq-panel-${item.id}`}
-                role="region"
-                aria-labelledby={`faq-btn-${item.id}`}
-                aria-hidden="true"
-              >
-                <p data-i18n={item.aKey}>{item.a}</p>
-              </div>
-            </div>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <!-- HANDOFF -->
+  <!-- 4 · HANDOFF — one solid WhatsApp -->
   <section id="handoff" class="beat beat-handoff theme-dark">
     <div class="container handoff-inner">
       <header class="beat-head beat-head--dark" data-reveal>
-        <p class="kicker" data-i18n="handoff_kicker">Suite</p>
         <h2 class="serif beat-title" data-i18n="handoff_title">Parlons de votre futur chez-vous</h2>
         <p class="beat-lead handoff-lead" data-i18n="handoff_body">
           Une question, une visite, une réservation — réponse prioritaire sur WhatsApp.
@@ -551,11 +357,10 @@ const faqItems = [
         <p
           class="talk-choice is-empty"
           data-selected-label
-          data-empty="Aucune typologie sélectionnée"
+          data-empty=""
           data-prefix="Votre choix :"
-        >
-          Aucune typologie sélectionnée
-        </p>
+          hidden
+        ></p>
       </header>
 
       <div class="handoff-cta" data-reveal>
@@ -566,9 +371,6 @@ const faqItems = [
           rel="noopener noreferrer"
           data-wa
           data-i18n="handoff_wa">Discuter sur WhatsApp</a
-        >
-        <a class="btn-ghost-link" href={`${base}contact/`} data-i18n="handoff_contact"
-          >Voir la page Contact</a
         >
       </div>
     </div>

@@ -6,7 +6,7 @@ Live: https://tosharelater.github.io/riyad-zaer-gardens/
 
 ## Structure
 
-- **Home** — one long monumental scroll: Arrive hero → lifestyle → woven plan explore (F3/F4/Fonds) → quiet trust → WhatsApp handoff
+- **Home** — 4 beats: Hero (where + scale) → Living (Cadre de vie + quiet trust) → Explore typology (monumental plan L / panel R) → WhatsApp handoff
 - **Prestations** (`/services`) — deep typologies & amenities
 - **Contact** (`/contact`) — one WhatsApp conversion + quiet form (prefills typology from session)
 
@@ -26,7 +26,7 @@ Base path: `/riyad-zaer-gardens/`
 | Or Pâle | `#D9C987` |
 | Crème Ivoire | `#F7F2E8` |
 
-Display: Audrey (`public/fonts`) · Body/UI: Poppins · FR / AR RTL
+Display: Audrey when present, else Cormorant Garamond (temp) · Body/UI: Poppins · FR / AR RTL
 
 WhatsApp placeholder: `wa.me/212600000000`
 

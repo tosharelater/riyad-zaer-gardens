@@ -131,7 +131,7 @@ export const strings = {
     contact_kicker: 'Contact',
     contact_title: 'Écrivons la suite',
     contact_lead:
-      'WhatsApp en priorité. Un formulaire discret si vous préférez écrire.',
+      'WhatsApp en priorité — ou laissez vos coordonnées ci-dessous.',
     contact_wa: 'Discuter sur WhatsApp',
     contact_form_toggle: 'Préférer un message écrit ?',
     form_intro_label: 'Demande écrite',
@@ -269,7 +269,7 @@ export const strings = {
     amenity_family_d: 'فضاءات مصممة للحياة المشتركة.',
     contact_kicker: 'تواصل',
     contact_title: 'لنكتب الخطوة التالية',
-    contact_lead: 'واتساب أولاً. نموذج هادئ إن فضّلتم الكتابة.',
+    contact_lead: 'واتساب أولاً — أو اتركوا بياناتكم أدناه.',
     contact_wa: 'تحدث عبر واتساب',
     contact_form_toggle: 'تفضلون رسالة مكتوبة؟',
     form_intro_label: 'طلب كتابي',
