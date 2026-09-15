@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ArchFrame from '../components/ArchFrame.astro';
+
+const services = [
+  { key: 'ascenseur', icon: 'M12 3v18M8 7h8M8 17h8M9 12h6' },
+  { key: 'espaces', icon: 'M12 21c-4-4-7-7-7-11a7 7 0 0 1 14 0c0 4-3 7-7 11z' },
+  { key: 'securite', icon: 'M12 3l8 4v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V7l8-4z' },
+  { key: 'parking', icon: 'M5 19V5h8a5 5 0 0 1 0 10H9v4M9 10h3.5' },
+  { key: 'finitions', icon: 'M4 20h16M6 16l4-10 3 6 2-4 3 8' },
+  { key: 'aides', icon: 'M12 3v18M7 8h7a3 3 0 0 1 0 6H7' },
+] as const;
+
+const titleMap = {
+  ascenseur: 'svc_ascenseur',
+  espaces: 'svc_espaces',
+  securite: 'svc_securite',
+  parking: 'svc_parking',
+  finitions: 'svc_finitions',
+  aides: 'svc_aides',
+} as const;
+
+const descMap = {
+  ascenseur: 'svc_ascenseur_d',
+  espaces: 'svc_espaces_d',
+  securite: 'svc_securite_d',
+  parking: 'svc_parking_d',
+  finitions: 'svc_finitions_d',
+  aides: 'svc_aides_d',
+} as const;
+
+const frTitles = {
+  ascenseur: 'Ascenseur',
+  espaces: 'Espaces verts & jeux',
+  securite: 'Sécurité',
+  parking: 'Parking titré',
+  finitions: 'Finitions modernes',
+  aides: 'Éligibilité aides logement',
+} as const;
+
+const frDescs = {
+  ascenseur: 'Accès fluide à tous les étages, confort familial et accessibilité.',
+  espaces: 'Cour végétalisée, aires de jeux et moments en famille en toute sérénité.',
+  securite: 'Résidence fermée, contrôle d’accès et tranquillité d’esprit.',
+  parking: 'Places de stationnement titrées pour un usage serein et durable.',
+  finitions: 'Matériaux soignés, lumière naturelle et espaces pensés pour la vie réelle.',
+  aides: 'Accompagnement pour les dispositifs d’aide à l’accession au logement.',
+} as const;
+---
+
+<BaseLayout title="Prestations — Riyad Zaer Gardens">
+  <Header current="services" />
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="label" data-i18n="nav_services">Prestations</span>
+      <h1 data-i18n="services_title">Prestations & confort</h1>
+      <p style="color:var(--muted); max-width:36rem;" data-i18n="services_sub">Tout ce qui fait la différence au quotidien</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:1.5rem;">
+    <div class="container">
+      <div class="feature-band" style="margin-top:0; margin-bottom:2.5rem;" data-reveal>
+        <div class="media">
+          <img src="/kids-bedroom.jpg" alt="Intérieur — finitions modernes" width="1200" height="800" />
+          <ArchFrame />
+        </div>
+        <div class="gold-card" style="display:flex; flex-direction:column; justify-content:center;">
+          <span class="label" data-i18n="svc_finitions">Finitions modernes</span>
+          <h2 class="serif" style="margin:0.5rem 0; font-size:2rem;" data-i18n="svc_espaces">Espaces verts & jeux</h2>
+          <p style="margin:0; color:var(--muted)" data-i18n="svc_espaces_d">
+            Cour végétalisée, aires de jeux et moments en famille en toute sérénité.
+          </p>
+        </div>
+      </div>
+
+      <div class="services-grid">
+        {
+          services.map((s) => (
+            <article class="gold-card" data-reveal>
+              <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                <path d={s.icon} stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <h3 data-i18n={titleMap[s.key]}>{frTitles[s.key]}</h3>
+              <p data-i18n={descMap[s.key]}>{frDescs[s.key]}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <div style="margin-top:2.5rem; display:flex; gap:0.85rem; flex-wrap:wrap;" data-reveal>
+        <a class="btn btn-solid" href="/contact" data-i18n="cta_contact">Nous contacter</a>
+        <a class="btn" href="https://wa.me/212600000000" target="_blank" rel="noopener noreferrer" data-i18n="cta_whatsapp">WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>

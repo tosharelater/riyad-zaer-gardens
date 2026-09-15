@@ -1,0 +1,35 @@
+<form id="lead-form" class="lead-form gold-card" novalidate>
+  <div class="field">
+    <label for="name" data-i18n="form_name">Nom complet</label>
+    <input id="name" name="name" type="text" required autocomplete="name" />
+  </div>
+  <div class="field">
+    <label for="phone" data-i18n="form_phone">Téléphone</label>
+    <input id="phone" name="phone" type="tel" required autocomplete="tel" />
+  </div>
+  <div class="field">
+    <label for="email" data-i18n="form_email">Email (optionnel)</label>
+    <input id="email" name="email" type="email" autocomplete="email" />
+  </div>
+  <div class="field">
+    <label for="typology" data-i18n="form_typology">Typologie</label>
+    <select id="typology" name="typology" required>
+      <option value="F3" data-i18n="form_opt_f3">F3</option>
+      <option value="F4" data-i18n="form_opt_f4">F4</option>
+      <option value="Commerce" data-i18n="form_opt_commerce">Commerce</option>
+    </select>
+  </div>
+  <div class="field">
+    <label for="message" data-i18n="form_message">Message</label>
+    <textarea id="message" name="message" rows="4"></textarea>
+  </div>
+  <button class="btn btn-solid" type="submit" data-i18n="form_submit">Envoyer ma demande</button>
+  <div id="form-toast" class="toast" role="status" data-i18n="form_success">
+    Merci ! Votre message a bien été enregistré. Nous vous recontactons bientôt.
+  </div>
+</form>
+
+<script>
+  import { initContactForm } from '../scripts/form.ts';
+  initContactForm();
+</script>

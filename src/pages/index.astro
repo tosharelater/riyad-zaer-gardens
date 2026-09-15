@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ArchFrame from '../components/ArchFrame.astro';
+---
+
+<BaseLayout title="Riyad Zaer Gardens — Accueil">
+  <Header current="home" />
+
+  <section class="hero">
+    <div class="hero-media">
+      <img
+        src="/courtyard.jpg"
+        alt="Cour végétalisée de Riyad Zaer Gardens"
+        data-parallax
+        width="1600"
+        height="1000"
+      />
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <div class="ribbon">
+        <span class="dot" aria-hidden="true"></span>
+        <span class="label" data-i18n="coming_soon">Bientôt disponible</span>
+        <span style="opacity:0.35">|</span>
+        <span class="label" style="color:var(--muted)" data-i18n="teasing">Résidence exclusive · Aïn Aouda · Rabat</span>
+      </div>
+      <h1 data-i18n="hero_title">Vivre l’élégance au cœur de Riyad Zaer</h1>
+      <p class="hero-pitch" data-i18n="hero_pitch">
+        F3 & F4 de 65 à 86 m² · 120 appartements + fonds de commerce. Une adresse familiale, moderne et sécurisée entre Rabat et Aïn Aouda.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-solid" href="/contact" data-i18n="cta_contact">Nous contacter</a>
+        <a class="btn" href="https://wa.me/212600000000" target="_blank" rel="noopener noreferrer" data-i18n="cta_whatsapp">WhatsApp</a>
+        <a class="btn btn-ghost" href="/services" data-i18n="cta_discover">Découvrir les prestations</a>
+      </div>
+      <div class="callout" data-reveal>
+        <span class="label" data-i18n="aides_title">Éligible aux aides au logement</span>
+        <p style="margin:0; color:var(--muted)" data-i18n="aides_body">
+          Projet conçu pour maximiser votre éligibilité aux dispositifs d’aide à l’accession — renseignez-vous dès maintenant.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="label" data-i18n="pitch_label">Le projet</span>
+        <h2 class="serif">120 appartements · F3 / F4 · 65–86 m²</h2>
+        <p data-i18n="hero_pitch">
+          F3 & F4 de 65 à 86 m² · 120 appartements + fonds de commerce. Une adresse familiale, moderne et sécurisée entre Rabat et Aïn Aouda.
+        </p>
+      </div>
+
+      <div class="stats" data-reveal>
+        <div class="stat">
+          <strong>120</strong>
+          <span data-i18n="stats_apts">appartements</span>
+        </div>
+        <div class="stat">
+          <strong>65–86</strong>
+          <span data-i18n="stats_surface">m² F3–F4</span>
+        </div>
+        <div class="stat">
+          <strong>+</strong>
+          <span data-i18n="stats_commerce">fonds de commerce</span>
+        </div>
+      </div>
+
+      <div class="feature-band" data-reveal>
+        <div class="media">
+          <img src="/kids-bedroom.jpg" alt="Chambre enfant — finitions modernes" width="1200" height="800" loading="lazy" />
+          <ArchFrame />
+        </div>
+        <div class="gold-card" style="display:flex; flex-direction:column; justify-content:center; gap:1rem;">
+          <span class="label" data-i18n="svc_finitions">Finitions modernes</span>
+          <h3 class="serif" style="margin:0; font-size:2rem;" data-i18n="services_title">Prestations & confort</h3>
+          <p style="margin:0; color:var(--muted)" data-i18n="svc_finitions_d">
+            Matériaux soignés, lumière naturelle et espaces pensés pour la vie réelle.
+          </p>
+          <a class="btn" href="/services" style="align-self:flex-start; margin-top:0.5rem;" data-i18n="cta_discover">Découvrir les prestations</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>
