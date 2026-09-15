@@ -3,7 +3,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ArchFrame from '../components/ArchFrame.astro';
-const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
+import ArchDivider from '../components/ArchDivider.astro';
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : import.meta.env.BASE_URL + '/';
 ---
 
 <BaseLayout title="Riyad Zaer Gardens — Accueil">
@@ -17,71 +20,105 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
         data-parallax
         width="1600"
         height="1000"
+        fetchpriority="high"
       />
       <div class="hero-overlay"></div>
+      <div class="hero-grain" aria-hidden="true"></div>
     </div>
     <div class="hero-content">
       <div class="ribbon">
         <span class="dot" aria-hidden="true"></span>
         <span class="label" data-i18n="coming_soon">Bientôt disponible</span>
-        <span style="opacity:0.35">|</span>
-        <span class="label" style="color:var(--muted)" data-i18n="teasing">Résidence exclusive · Aïn Aouda · Rabat</span>
+        <span class="tease-sep" style="opacity:0.35" aria-hidden="true">|</span>
+        <span class="label" style="color:var(--muted); letter-spacing:0.18em;" data-i18n="teasing"
+          >Résidence exclusive · Aïn Aouda · Rabat</span
+        >
+      </div>
+      <div class="callout callout--hero">
+        <span class="label" data-i18n="aides_title">Éligible aux aides au logement</span>
+        <p data-i18n="aides_body">
+          Projet conçu pour maximiser votre éligibilité aux dispositifs d’aide à l’accession —
+          renseignez-vous dès maintenant.
+        </p>
+      </div>
+      <div class="hero-ornament" aria-hidden="true">
+        <span></span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M12 3 L14.5 9.5 L21 12 L14.5 14.5 L12 21 L9.5 14.5 L3 12 L9.5 9.5 Z" stroke="currentColor" stroke-width="1"></path>
+        </svg>
       </div>
       <h1 data-i18n="hero_title">Vivre l’élégance au cœur de Riyad Zaer</h1>
       <p class="hero-pitch" data-i18n="hero_pitch">
-        F3 & F4 de 65 à 86 m² · 120 appartements + fonds de commerce. Une adresse familiale, moderne et sécurisée entre Rabat et Aïn Aouda.
+        F3 & F4 de 65 à 86 m² · 120 appartements + fonds de commerce. Une adresse familiale, moderne et
+        sécurisée entre Rabat et Aïn Aouda.
       </p>
       <div class="hero-actions">
-        <a class="btn btn-solid" href="https://wa.me/212600000000" target="_blank" rel="noopener noreferrer" data-i18n="cta_whatsapp">WhatsApp</a>
+        <a
+          class="btn btn-solid"
+          href="https://wa.me/212600000000"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-i18n="cta_whatsapp">WhatsApp</a
+        >
         <a class="btn" href={`${base}contact`} data-i18n="cta_contact">Nous contacter</a>
-        <a class="btn btn-ghost" href={`${base}services`} data-i18n="cta_discover">Découvrir les prestations</a>
-      </div>
-      <div class="callout" data-reveal>
-        <span class="label" data-i18n="aides_title">Éligible aux aides au logement</span>
-        <p style="margin:0; color:var(--muted)" data-i18n="aides_body">
-          Projet conçu pour maximiser votre éligibilité aux dispositifs d’aide à l’accession — renseignez-vous dès maintenant.
-        </p>
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section section--panel">
     <div class="container">
       <div class="section-head" data-reveal>
         <span class="label" data-i18n="pitch_label">Le projet</span>
-        <h2 class="serif">120 appartements · F3 / F4 · 65–86 m²</h2>
+        <h2 class="serif" data-i18n="pitch_title">120 appartements · F3 / F4 · 65–86 m²</h2>
         <p data-i18n="hero_pitch">
-          F3 & F4 de 65 à 86 m² · 120 appartements + fonds de commerce. Une adresse familiale, moderne et sécurisée entre Rabat et Aïn Aouda.
+          F3 & F4 de 65 à 86 m² · 120 appartements + fonds de commerce. Une adresse familiale, moderne et
+          sécurisée entre Rabat et Aïn Aouda.
         </p>
       </div>
 
-      <div class="stats" data-reveal>
-        <div class="stat">
+      <ArchDivider />
+
+      <div class="stats">
+        <div class="stat" data-reveal data-reveal-delay="1">
           <strong>120</strong>
           <span data-i18n="stats_apts">appartements</span>
         </div>
-        <div class="stat">
+        <div class="stat" data-reveal data-reveal-delay="2">
           <strong>65–86</strong>
           <span data-i18n="stats_surface">m² F3–F4</span>
         </div>
-        <div class="stat">
+        <div class="stat" data-reveal data-reveal-delay="3">
           <strong>+</strong>
           <span data-i18n="stats_commerce">fonds de commerce</span>
         </div>
       </div>
 
       <div class="feature-band" data-reveal>
-        <div class="media">
-          <img src={`${base}kids-bedroom.jpg`} alt="Chambre enfant — finitions modernes" width="1200" height="800" loading="lazy" />
+        <div class="media ken-burns">
+          <img
+            src={`${base}kids-bedroom.jpg`}
+            alt="Chambre enfant — finitions modernes"
+            width="1200"
+            height="800"
+            loading="lazy"
+          />
           <ArchFrame />
         </div>
         <div class="gold-card" style="display:flex; flex-direction:column; justify-content:center; gap:1rem;">
-          <span class="label" data-i18n="svc_finitions">Finitions modernes</span>
-          <h3 class="serif" style="margin:0; font-size:2rem;" data-i18n="services_title">Prestations & confort</h3>
-          <p style="margin:0; color:var(--muted)" data-i18n="svc_finitions_d">
-            Matériaux soignés, lumière naturelle et espaces pensés pour la vie réelle.
+          <span class="label" data-i18n="feature_label">Cadre de vie</span>
+          <h3 class="serif" style="margin:0; font-size:clamp(1.7rem, 3vw, 2.15rem);" data-i18n="feature_title"
+            >Espaces pensés pour la famille</h3
+          >
+          <p style="margin:0; color:var(--muted)" data-i18n="feature_body">
+            Lumière naturelle, finitions soignées et cour végétalisée — un quotidien élégant, sans
+            compromis.
           </p>
-          <a class="btn" href={`${base}services`} style="align-self:flex-start; margin-top:0.5rem;" data-i18n="cta_discover">Découvrir les prestations</a>
+          <a
+            class="btn"
+            href={`${base}services`}
+            style="align-self:flex-start; margin-top:0.5rem;"
+            data-i18n="cta_discover">Découvrir les prestations</a
+          >
         </div>
       </div>
     </div>

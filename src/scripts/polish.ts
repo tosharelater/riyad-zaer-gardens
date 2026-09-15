@@ -13,7 +13,7 @@ export function initReveal() {
         }
       });
     },
-    { threshold: 0.12 }
+    { threshold: 0.12, rootMargin: '0px 0px -6% 0px' }
   );
   nodes.forEach((n) => io.observe(n));
 }
@@ -21,9 +21,29 @@ export function initReveal() {
 export function initParallax() {
   const img = document.querySelector<HTMLElement>('[data-parallax]');
   if (!img) return;
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) return;
+
+  let ticking = false;
   const onScroll = () => {
-    const y = Math.min(window.scrollY * 0.18, 80);
-    img.style.transform = `scale(1.08) translate3d(0, ${y}px, 0)`;
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const y = Math.min(window.scrollY * 0.22, 110);
+      img.style.transform = `scale(1.1) translate3d(0, ${y}px, 0)`;
+      ticking = false;
+    });
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+}
+
+export function initHeaderScroll() {
+  const header = document.querySelector<HTMLElement>('.site-header');
+  if (!header) return;
+  const onScroll = () => {
+    header.classList.toggle('is-scrolled', window.scrollY > 12);
   };
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });

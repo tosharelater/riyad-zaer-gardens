@@ -6,8 +6,13 @@ interface Props {
   description?: string;
 }
 
-const { title, description = 'Riyad Zaer Gardens — résidence mid-standing à Aïn Aouda / Rabat. F3 & F4, 120 appartements.' } = Astro.props;
-const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
+const {
+  title,
+  description = 'Riyad Zaer Gardens — résidence mid-standing à Aïn Aouda / Rabat. F3 & F4, 120 appartements.',
+} = Astro.props;
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : import.meta.env.BASE_URL + '/';
 ---
 
 <!doctype html>
@@ -16,11 +21,13 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#002D2D" />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Audrey is not on Google Fonts; Bodoni Moda is the Didone twin used for display -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=Poppins:wght@300;400;500;700&display=swap"
       rel="stylesheet"
     />
     <title>{title}</title>
@@ -29,10 +36,11 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
     <slot />
     <script>
       import { initLangToggle } from '../scripts/i18n.ts';
-      import { initReveal, initParallax } from '../scripts/polish.ts';
+      import { initReveal, initParallax, initHeaderScroll } from '../scripts/polish.ts';
       initLangToggle();
       initReveal();
       initParallax();
+      initHeaderScroll();
     </script>
   </body>
 </html>

@@ -5,16 +5,25 @@ interface Props {
 const { class: className = '' } = Astro.props;
 ---
 
-<svg class={`arch-frame ${className}`} viewBox="0 0 200 280" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<svg
+  class={`arch-frame ${className}`}
+  viewBox="0 0 200 280"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+>
   <path
     d="M20 270 V110 C20 50 60 18 100 18 C140 18 180 50 180 110 V270"
     stroke="currentColor"
-    stroke-width="1.2"
-  />
+    stroke-width="1.2"></path>
   <path
     d="M32 270 V112 C32 58 68 30 100 30 C132 30 168 58 168 112 V270"
     stroke="currentColor"
     stroke-width="0.6"
-    opacity="0.55"
-  />
+    opacity="0.55"></path>
+  <path
+    d="M100 18 V30"
+    stroke="currentColor"
+    stroke-width="0.6"
+    opacity="0.4"></path>
 </svg>
