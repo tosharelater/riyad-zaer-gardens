@@ -24,6 +24,13 @@ function updateWaLinks(typo: Typology | null) {
   });
 }
 
+function setPanelOpen(el: HTMLElement, open: boolean) {
+  el.classList.toggle('is-open', open);
+  el.setAttribute('aria-hidden', open ? 'false' : 'true');
+  if (open) el.removeAttribute('inert');
+  else el.setAttribute('inert', '');
+}
+
 function setSelectedUI(typo: Typology | null, opts: { openPanel?: boolean } = {}) {
   const openPanel = opts.openPanel !== false;
 
@@ -41,10 +48,18 @@ function setSelectedUI(typo: Typology | null, opts: { openPanel?: boolean } = {}
     el.setAttribute('aria-pressed', on ? 'true' : 'false');
   });
 
+  const stage = document.querySelector<HTMLElement>('[data-panel-stage]');
+  let anyOpen = false;
   document.querySelectorAll<HTMLElement>('[data-panel]').forEach((el) => {
     const open = openPanel && typo !== null && el.dataset.panel === typo;
-    el.hidden = !open;
-    el.classList.toggle('is-open', open);
+    setPanelOpen(el, open);
+    if (open) anyOpen = true;
+  });
+  stage?.classList.toggle('has-open', anyOpen);
+
+  document.querySelectorAll<HTMLElement>('[data-choose-empty]').forEach((el) => {
+    el.classList.toggle('is-hidden', anyOpen);
+    el.setAttribute('aria-hidden', anyOpen ? 'true' : 'false');
   });
 
   document.querySelectorAll<HTMLElement>('[data-selected-label]').forEach((el) => {
@@ -129,27 +144,7 @@ export function initChoose() {
 
   document.querySelectorAll<HTMLElement>('[data-panel-close]').forEach((btn) => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll<HTMLElement>('[data-panel]').forEach((el) => {
-        el.hidden = true;
-        el.classList.remove('is-open');
-      });
-      document.querySelectorAll<HTMLElement>('[data-hotspot]').forEach((el) => {
-        el.classList.remove('is-active');
-      });
-      if (current) {
-        document
-          .querySelectorAll<HTMLElement>(`[data-hotspot="${current}"]`)
-          .forEach((el) => {
-            el.classList.add('is-selected');
-            el.setAttribute('aria-pressed', 'true');
-          });
-        document
-          .querySelectorAll<HTMLElement>(`[data-legend="${current}"], [data-hotspot-trigger="${current}"]`)
-          .forEach((el) => {
-            el.classList.add('is-active');
-            el.setAttribute('aria-pressed', 'true');
-          });
-      }
+      setSelectedUI(current, { openPanel: false });
     });
   });
 

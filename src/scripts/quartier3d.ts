@@ -90,11 +90,11 @@ async function boot(
   }
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xefe8da);
-  scene.fog = new THREE.Fog(0xefe8da, 18, 52);
+  scene.background = new THREE.Color(0xf3ead8);
+  scene.fog = new THREE.Fog(0xf3ead8, 16, 46);
 
   const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 140);
-  camera.position.set(16, 9, 18);
+  camera.position.set(14.6, 8.15, 16.4);
 
   const renderer = new THREE.WebGLRenderer({
     canvas,
@@ -105,18 +105,18 @@ async function boot(
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.25 : 1.75));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.12;
+  renderer.toneMappingExposure = 1.16;
   renderer.shadowMap.enabled = !mobile;
   if (!mobile) renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
   // ——— Lighting: warm key, cool fill, gold rim ———
-  const hemi = new THREE.HemisphereLight(0xfff4e4, 0x16332e, 0.72);
+  const hemi = new THREE.HemisphereLight(0xfff6e8, 0x16332e, 0.66);
   scene.add(hemi);
 
   const amb = new THREE.AmbientLight(0xf3ead8, 0.22);
   scene.add(amb);
 
-  const sun = new THREE.DirectionalLight(0xfff1d6, 1.55);
+  const sun = new THREE.DirectionalLight(0xfff1d6, 1.62);
   sun.position.set(14, 24, 10);
   if (!mobile) {
     sun.castShadow = true;
@@ -137,7 +137,7 @@ async function boot(
   fill.position.set(-12, 8, 6);
   scene.add(fill);
 
-  const rim = new THREE.DirectionalLight(GOLD_PALE, 0.48);
+  const rim = new THREE.DirectionalLight(GOLD_PALE, 0.56);
   rim.position.set(-8, 7, -14);
   scene.add(rim);
 
@@ -437,8 +437,8 @@ async function boot(
   const setCamera = (tRaw: number) => {
     const t = smoothstep(tRaw);
     const angle = -0.62 + t * Math.PI * 1.22;
-    const radius = 18.2 - t * 6.4;
-    const y = 7.6 + Math.sin(t * Math.PI) * 2.15;
+    const radius = 17.2 - t * 6.1;
+    const y = 7.15 + Math.sin(t * Math.PI) * 2.05;
     camera.position.set(Math.sin(angle) * radius, y, Math.cos(angle) * radius);
     const lookY = 1.45 + t * 1.65;
     camera.lookAt(0.15, lookY, -0.35 + t * -1.05);

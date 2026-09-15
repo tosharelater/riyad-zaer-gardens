@@ -20,6 +20,8 @@ const typologies = [
       'Séjour lumineux, deux chambres, cuisine ouverte, rangements pensés. Idéal pour démarrer ou se réancrer.',
     priceKey: 'choose_f3_price',
     price: 'À partir de ~420 000 DHS',
+    roomsKey: 'choose_rooms_f3',
+    rooms: '2 chambres · séjour · cuisine ouverte',
     img: 'parcours/viz-09.jpg',
     imgAlt: 'Cuisine — typologie F3',
     hotspot: { top: '42%', left: '28%' },
@@ -35,6 +37,8 @@ const typologies = [
       'Troisième chambre, plus d’espace familial, volumes clairs — pour s’ancrer durablement.',
     priceKey: 'choose_f4_price',
     price: 'À partir de ~480 000 DHS',
+    roomsKey: 'choose_rooms_f4',
+    rooms: '3 chambres · séjour · cuisine ouverte',
     img: 'parcours/viz-06.jpg',
     imgAlt: 'Façade — typologie F4',
     hotspot: { top: '38%', left: '58%' },
@@ -50,6 +54,8 @@ const typologies = [
       'Locaux en pied d’immeuble pour commerces de proximité — une adresse vivante au seuil de la résidence.',
     priceKey: 'choose_fonds_price',
     price: 'Sur consultation',
+    roomsKey: 'choose_rooms_fonds',
+    rooms: 'Local commercial · rez-de-chaussée',
     img: 'parcours/viz-05.jpg',
     imgAlt: 'Commerces en rez-de-chaussée',
     hotspot: { top: '68%', left: '48%' },
@@ -118,7 +124,7 @@ const typologies = [
         </p>
       </header>
 
-      <div class="live-monument" data-reveal>
+      <div class="live-monument" data-reveal="clip">
         <figure class="live-hero">
           <img
             class="media-poster"
@@ -128,11 +134,24 @@ const typologies = [
             height="1000"
             loading="lazy"
           />
+          <video
+            class="beat-video"
+            data-chapter-video
+            poster={`${base}parcours/viz-01.jpg`}
+            muted
+            loop
+            playsinline
+            preload="none"
+            aria-hidden="true"
+          >
+            <source src={`${base}parcours/video/live.webm`} type="video/webm" />
+            <source src={`${base}parcours/video/live.mp4`} type="video/mp4" />
+          </video>
           <figcaption data-i18n="live_cap_courtyard">Cour &amp; jardins</figcaption>
         </figure>
       </div>
 
-      <div class="live-strip" data-reveal>
+      <div class="live-strip" data-stagger>
         <figure class="live-shot">
           <img src={`${base}parcours/viz-11.jpg`} alt="Façade et palmiers" width="1200" height="800" loading="lazy" />
           <figcaption data-i18n="live_cap_street">Adresse vivante</figcaption>
@@ -147,7 +166,7 @@ const typologies = [
         </figure>
       </div>
 
-      <div class="live-stats" data-reveal>
+      <div class="live-stats" data-stagger>
         <div class="stat-loose stat-loose--lg">
           <strong>120</strong>
           <span>appartements</span>
@@ -165,6 +184,8 @@ const typologies = [
   </section>
 
   <!-- cream void + pull quote -->
+  <div class="section-rule" data-reveal="line" aria-hidden="true"></div>
+
   <section class="cream-silence theme-cream" aria-hidden="false">
     <div class="container" data-reveal>
       <p class="silence-quote serif" data-i18n="silence_quote">
@@ -189,6 +210,30 @@ const typologies = [
         </p>
       </header>
 
+      <figure class="explore-cinema" data-reveal="clip">
+        <img
+          class="media-poster"
+          src={`${base}parcours/viz-04.jpg`}
+          alt=""
+          width="1600"
+          height="1000"
+          loading="lazy"
+        />
+        <video
+          class="beat-video"
+          data-chapter-video
+          poster={`${base}parcours/viz-04.jpg`}
+          muted
+          loop
+          playsinline
+          preload="none"
+          aria-hidden="true"
+        >
+          <source src={`${base}parcours/video/explore.webm`} type="video/webm" />
+          <source src={`${base}parcours/video/explore.mp4`} type="video/mp4" />
+        </video>
+      </figure>
+
       <div class="choose-island" data-reveal>
         <ul class="choose-legend" role="list" aria-label="Typologies" data-i18n-aria="choose_legend_label">
           {
@@ -202,12 +247,17 @@ const typologies = [
                   aria-pressed="false"
                 >
                   <span class="choose-legend__swatch" aria-hidden="true" />
-                  <span
-                    data-i18n={
-                      t.id === 'Fonds' ? 'choose_legend_fonds' : `choose_legend_${t.id.toLowerCase()}`
-                    }
-                  >
-                    {t.title === 'Fonds de commerce' ? 'Fonds' : t.title}
+                  <span class="choose-legend__copy">
+                    <span
+                      data-i18n={
+                        t.id === 'Fonds' ? 'choose_legend_fonds' : `choose_legend_${t.id.toLowerCase()}`
+                      }
+                    >
+                      {t.title === 'Fonds de commerce' ? 'Fonds' : t.title}
+                    </span>
+                    <span class="choose-legend__meta" data-i18n={t.surfaceKey}>
+                      {t.surface}
+                    </span>
                   </span>
                 </button>
               </li>
@@ -243,57 +293,70 @@ const typologies = [
         </div>
 
         <div class="choose-panels">
-          {
-            typologies.map((t) => (
-              <article class="typo-panel" data-panel={t.id} hidden>
-                <button type="button" class="typo-panel__close" data-panel-close aria-label="Fermer">
-                  <span data-i18n="choose_close">Fermer</span>
-                </button>
-                <div class="typo-panel__media">
-                  <img src={`${base}${t.img}`} alt={t.imgAlt} width="900" height="600" loading="lazy" />
-                </div>
-                <div class="typo-panel__body">
-                  <p class="surface-tag" data-i18n={t.surfaceKey}>
-                    {t.surface}
-                  </p>
-                  <h3 class="serif" data-i18n={t.titleKey}>
-                    {t.title}
-                  </h3>
-                  <p class="muted" data-i18n={t.bodyKey}>
-                    {t.body}
-                  </p>
-                  <p class="typo-price" data-i18n={t.priceKey}>
-                    {t.price}
-                  </p>
-                  <p class="typo-aides label" data-i18n="choose_aides">
-                    Éligible aux aides au logement
-                  </p>
-                  <div class="story-meta">
-                    {t.id !== 'Fonds' ? (
-                      <>
-                        <span class="chip" data-i18n="chip_family">
-                          Familial
-                        </span>
-                        <span class="chip" data-i18n="chip_light">
-                          Lumière naturelle
-                        </span>
-                        <span class="chip" data-i18n="chip_aides">
-                          Aides
-                        </span>
-                      </>
-                    ) : (
-                      <span class="chip" data-i18n="chip_rdc">
-                        RDC
-                      </span>
-                    )}
-                  </div>
-                  <button type="button" class="btn btn-solid" data-select-typo={t.id} data-i18n="choose_select">
-                    Garder ce choix
+          <div class="choose-panel-stage" data-panel-stage>
+            <p class="choose-empty" data-choose-empty data-i18n="choose_empty">
+              Choisissez F3, F4 ou un fonds — le détail s’ouvre ici.
+            </p>
+            {
+              typologies.map((t) => (
+                <article class="typo-panel" data-panel={t.id} aria-hidden="true" inert>
+                  <button type="button" class="typo-panel__close" data-panel-close aria-label="Fermer">
+                    <span data-i18n="choose_close">Fermer</span>
                   </button>
-                </div>
-              </article>
-            ))
-          }
+                  <div class="typo-panel__media">
+                    <img src={`${base}${t.img}`} alt={t.imgAlt} width="900" height="600" loading="lazy" />
+                  </div>
+                  <div class="typo-panel__body">
+                    <p class="kicker kicker--ink" data-i18n="choose_kicker">
+                      Typologie
+                    </p>
+                    <h3 class="serif" data-i18n={t.titleKey}>
+                      {t.title}
+                    </h3>
+                    <p class="typo-panel__rooms" data-i18n={t.roomsKey}>
+                      {t.rooms}
+                    </p>
+                    <p class="muted" data-i18n={t.bodyKey}>
+                      {t.body}
+                    </p>
+                    <div class="typo-panel__facts">
+                      <p class="surface-tag" data-i18n={t.surfaceKey}>
+                        {t.surface}
+                      </p>
+                      <p class="typo-price" data-i18n={t.priceKey}>
+                        {t.price}
+                      </p>
+                    </div>
+                    <p class="typo-aides label" data-i18n="choose_aides">
+                      Éligible aux aides au logement
+                    </p>
+                    <div class="story-meta">
+                      {t.id !== 'Fonds' ? (
+                        <>
+                          <span class="chip" data-i18n="chip_family">
+                            Familial
+                          </span>
+                          <span class="chip" data-i18n="chip_light">
+                            Lumière naturelle
+                          </span>
+                          <span class="chip" data-i18n="chip_aides">
+                            Aides
+                          </span>
+                        </>
+                      ) : (
+                        <span class="chip" data-i18n="chip_rdc">
+                          RDC
+                        </span>
+                      )}
+                    </div>
+                    <button type="button" class="btn btn-solid" data-select-typo={t.id} data-i18n="choose_select">
+                      Garder ce choix
+                    </button>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
 
           <aside class="choose-rail" aria-live="polite">
             <p
@@ -325,7 +388,7 @@ const typologies = [
         </p>
       </header>
 
-      <ol class="trust-markers" data-reveal>
+      <ol class="trust-markers" data-stagger>
         <li class="trust-marker">
           <span class="trust-marker__num" aria-hidden="true">01</span>
           <div>
@@ -355,7 +418,7 @@ const typologies = [
         </li>
       </ol>
 
-      <div class="trust-visual" data-reveal>
+      <div class="trust-visual" data-reveal="clip">
         <img
           src={`${base}parcours/viz-07.jpg`}
           alt="Perspectives du projet"

@@ -1,9 +1,21 @@
+const VIDEO_HOST = '.arrive-media, .live-shot, .live-hero, .explore-cinema';
+
 export function initReveal() {
-  const nodes = document.querySelectorAll<HTMLElement>('[data-reveal]');
-  if (!nodes.length || !('IntersectionObserver' in window)) {
-    nodes.forEach((n) => n.classList.add('is-in'));
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll<HTMLElement>('[data-stagger]').forEach((parent) => {
+    [...parent.children].forEach((child, i) => {
+      const el = child as HTMLElement;
+      if (!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', 'up');
+      el.style.setProperty('--reveal-delay', `${i * 95}ms`);
+    });
+  });
+
+  const all = document.querySelectorAll<HTMLElement>('[data-reveal]');
+  if (reduced || !all.length || !('IntersectionObserver' in window)) {
+    all.forEach((n) => n.classList.add('is-in'));
     return;
   }
+
   const io = new IntersectionObserver(
     (entries) => {
       entries.forEach((e) => {
@@ -13,9 +25,9 @@ export function initReveal() {
         }
       });
     },
-    { threshold: 0.12, rootMargin: '0px 0px -6% 0px' }
+    { threshold: 0.06, rootMargin: '0px 0px -4% 0px' }
   );
-  nodes.forEach((n) => io.observe(n));
+  all.forEach((n) => io.observe(n));
 }
 
 /** Soft Ken Burns fallback on arrive poster when video unavailable / reduced motion */
@@ -78,7 +90,7 @@ export function initChapterVideos() {
       v.querySelectorAll('source').forEach((s) => s.remove());
       v.load();
       v.classList.add('is-poster-only');
-      v.closest('.arrive-media, .live-shot, .live-hero')?.classList.add('is-poster-only');
+      v.closest(VIDEO_HOST)?.classList.add('is-poster-only');
     });
     return;
   }
@@ -88,7 +100,7 @@ export function initChapterVideos() {
       v.muted = true;
       await v.play();
       v.classList.add('is-playing');
-      v.closest('.arrive-media, .live-shot, .live-hero')?.classList.add('is-video-playing');
+      v.closest(VIDEO_HOST)?.classList.add('is-video-playing');
     } catch {
       v.classList.remove('is-playing');
     }
@@ -118,7 +130,7 @@ export function initChapterVideos() {
         } else {
           v.pause();
           v.classList.remove('is-playing');
-          v.closest('.arrive-media, .live-shot, .live-hero')?.classList.remove('is-video-playing');
+          v.closest(VIDEO_HOST)?.classList.remove('is-video-playing');
         }
       });
     },

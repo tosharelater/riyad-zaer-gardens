@@ -12,7 +12,7 @@ Live: https://tosharelater.github.io/riyad-zaer-gardens/
 
 No chapter labels, no progress-dot tour UI, no 5-step game framing.
 
-Hero motion: Arrive uses `public/parcours/video/arrive.*` (poster-first, `preload=none` until in view; `prefers-reduced-motion` keeps still posters).
+Hero motion: Arrive / Live / Explore use `public/parcours/video/{arrive,live,explore}.*` (poster-first, `preload=none` until in view; `prefers-reduced-motion` keeps still posters). Clips are Ken Burns / crossfades rebuilt from `public/parcours/viz-*.jpg`.
 
 Base path: `/riyad-zaer-gardens/`
 
@@ -26,7 +26,7 @@ Base path: `/riyad-zaer-gardens/`
 | Or Pâle | `#D9C987` |
 | Crème Ivoire | `#F7F2E8` |
 
-Display: Bodoni Moda (TODO → Audrey) · Body/UI: Poppins · FR / AR RTL
+Display: Audrey (`public/fonts`) · Body/UI: Poppins · FR / AR RTL
 
 WhatsApp placeholder: `wa.me/212600000000`
 
