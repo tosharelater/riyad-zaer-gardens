@@ -8,7 +8,7 @@ Live: https://tosharelater.github.io/riyad-zaer-gardens/
 
 Five scroll chapters on one page:
 
-1. **Arrive** `#arrive` — full-bleed 3D, huge type, one solid WhatsApp
+1. **Arrive** `#arrive` — full-bleed 3D, clamp() type, **Commencer le parcours** only (WhatsApp on Talk)
 2. **Live** `#live` — lifestyle / cadre de vie (folder photography)
 3. **Choose** `#choose` — interactive plan hotspots → F3 / F4 / fonds panels
 4. **Trust** `#trust` — aides + chantier markers (no forms)
@@ -28,7 +28,7 @@ Base path: `/riyad-zaer-gardens/`
 | Or Pâle | `#D9C987` |
 | Crème Ivoire | `#F7F2E8` |
 
-Display: Bodoni Moda · Body: Poppins · FR / AR RTL
+Display: Bodoni Moda (TODO → Audrey) · Body/UI: Poppins · FR / AR RTL
 
 WhatsApp placeholder: `wa.me/212600000000`
 

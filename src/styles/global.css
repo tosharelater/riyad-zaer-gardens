@@ -11,7 +11,8 @@
   --gold-soft: var(--or-pale);
   --cream: var(--creme);
 
-  --font-display: "Bodoni Moda", "Times New Roman", Georgia, serif;
+  /* TODO: Audrey display face — use Bodoni Moda only until public/fonts Audrey .woff2/.otf arrive */
+  --font-display: "Audrey", "Bodoni Moda", "Times New Roman", Georgia, serif;
   --font-sans: "Poppins", system-ui, -apple-system, sans-serif;
 
   --nav-h: 4.75rem;
@@ -28,6 +29,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
 }
 
 body {
@@ -89,7 +91,7 @@ textarea {
 }
 
 .theme-cream .muted {
-  color: rgba(0, 45, 45, 0.62);
+  color: rgba(0, 45, 45, 0.78);
 }
 
 .theme-cream .label {
@@ -156,11 +158,11 @@ textarea {
 .kicker {
   font-family: var(--font-sans);
   font-size: 0.7rem;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   font-weight: 500;
   color: var(--gold);
-  margin: 0 0 0.85rem;
+  margin: 0 0 0.65rem;
 }
 
 .kicker--ink {
@@ -1115,38 +1117,62 @@ h3,
 .field select,
 .field textarea {
   width: 100%;
-  background: transparent;
-  border: 0;
-  border-bottom: 1px solid rgba(0, 45, 45, 0.2);
-  padding: 0.85rem 0;
+  background: rgba(247, 242, 232, 0.04);
+  border: 1px solid rgba(0, 45, 45, 0.28);
+  border-bottom: 1px solid rgba(0, 45, 45, 0.28);
+  padding: 0.85rem 0.9rem;
   outline: none;
-  color: inherit;
-  font-weight: 300;
+  color: var(--ink);
+  font-weight: 400;
   border-radius: 0;
-  transition: border-color 0.25s ease;
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
 }
 
 .theme-dark .field input,
 .theme-dark .field select,
 .theme-dark .field textarea {
-  border-bottom-color: rgba(217, 201, 135, 0.3);
+  border: 1px solid rgba(217, 201, 135, 0.45);
+  border-bottom-color: rgba(217, 201, 135, 0.45);
+  background: rgba(247, 242, 232, 0.06);
   color: var(--cream);
+  font-weight: 400;
+}
+
+.theme-dark .field textarea,
+.theme-cream .field textarea {
+  min-height: 140px;
+  border-width: 1.5px;
+  font-weight: 400;
+}
+
+.theme-dark .field textarea {
+  border-color: rgba(217, 201, 135, 0.55);
+  background: rgba(247, 242, 232, 0.08);
+  color: var(--cream);
+}
+
+.theme-cream .field textarea {
+  border-color: rgba(0, 45, 45, 0.4);
+  background: #fffef9;
+  color: var(--ink);
 }
 
 .field input::placeholder,
 .field textarea::placeholder {
-  color: rgba(0, 45, 45, 0.35);
+  color: rgba(0, 45, 45, 0.45);
 }
 
 .theme-dark .field input::placeholder,
 .theme-dark .field textarea::placeholder {
-  color: rgba(247, 242, 232, 0.3);
+  color: rgba(247, 242, 232, 0.45);
 }
 
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
+  border-color: var(--gold);
   border-bottom-color: var(--gold);
+  box-shadow: 0 0 0 1px rgba(200, 181, 104, 0.35);
 }
 
 .field textarea {
@@ -1158,8 +1184,8 @@ h3,
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%230A3D35' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 0 center;
-  padding-right: 1.5rem;
+  background-position: right 0.9rem center;
+  padding-right: 2.25rem;
 }
 
 .theme-dark .field select {
@@ -1167,9 +1193,9 @@ h3,
 }
 
 [dir="rtl"] .field select {
-  background-position: left 0 center;
-  padding-right: 0;
-  padding-left: 1.5rem;
+  background-position: left 0.9rem center;
+  padding-right: 0.9rem;
+  padding-left: 2.25rem;
 }
 
 .field-row {
@@ -1379,6 +1405,7 @@ h3,
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+    scroll-snap-type: none;
   }
 
   *,
@@ -1402,12 +1429,14 @@ h3,
 /* ========== LE PARCOURS RIYAD ========== */
 
 html {
-  scroll-padding-top: var(--nav-h);
+  scroll-padding-top: calc(var(--nav-h) + 0.75rem);
 }
 
 .chapter {
   position: relative;
-  scroll-margin-top: var(--nav-h);
+  scroll-margin-top: calc(var(--nav-h) + 0.75rem);
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
 }
 
 .chapter-head {
@@ -1459,7 +1488,7 @@ html {
   border-radius: 50%;
   border: 1px solid currentColor;
   background: transparent;
-  transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+  transition: background 0.4s var(--ease), transform 0.4s var(--ease), border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
 }
 
 .progress-dot__label {
@@ -1490,7 +1519,8 @@ html {
 .progress-dot.is-current .progress-dot__pip {
   background: var(--gold);
   border-color: var(--gold);
-  transform: scale(1.15);
+  transform: scale(1.2);
+  box-shadow: 0 0 0 3px rgba(200, 181, 104, 0.28);
 }
 
 .chapter-talk ~ .site-footer + .progress-dots,
@@ -1586,7 +1616,7 @@ body:has(.chapter-talk:hover) .progress-dots {
 }
 
 .arrive-title {
-  font-size: clamp(3.2rem, 9vw, 6.5rem);
+  font-size: clamp(2.75rem, 8.5vw, 6.25rem);
   line-height: 0.95;
   max-width: 10ch;
   margin: 0 0 1.25rem;
@@ -1608,26 +1638,30 @@ body:has(.chapter-talk:hover) .progress-dots {
   align-items: center;
 }
 
-.arrive-skip {
-  color: rgba(247, 242, 232, 0.55) !important;
+/* Arrive primary CTA stays solid gold — WhatsApp only dominant on Talk */
+.arrive-skip.btn-solid {
+  color: var(--ink) !important;
 }
 
-.arrive-skip:hover {
-  color: var(--gold-soft) !important;
-  border-bottom-color: var(--gold-soft) !important;
+.arrive-skip.btn-solid:hover {
+  color: var(--ink) !important;
 }
 
 /* ——— Live folder ——— */
 .chapter-live {
-  padding: clamp(4.5rem, 11vw, 8rem) 0;
+  padding: clamp(2.75rem, 6vw, 4.5rem) 0;
+}
+
+.chapter-live .chapter-head {
+  margin-bottom: clamp(1.5rem, 3.5vw, 2.5rem);
 }
 
 .live-folder {
   display: grid;
   grid-template-columns: 1.35fr 0.85fr 0.85fr;
   grid-template-rows: auto auto;
-  gap: clamp(0.75rem, 1.5vw, 1.15rem);
-  margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+  gap: clamp(0.55rem, 1.2vw, 0.9rem);
+  margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
 }
 
 .live-shot {
@@ -1682,13 +1716,69 @@ body:has(.chapter-talk:hover) .progress-dots {
 
 /* ——— Choose island ——— */
 .chapter-choose {
-  padding: clamp(4.5rem, 11vw, 8rem) 0;
+  padding: clamp(3.25rem, 7vw, 5.5rem) 0;
 }
 
 .choose-island {
   display: grid;
   gap: clamp(1.5rem, 3vw, 2.5rem);
 }
+
+/* Persistent F3 / F4 / Fonds legend — always visible */
+.choose-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.choose-legend__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  border: 1px solid rgba(0, 45, 45, 0.18);
+  background: rgba(247, 242, 232, 0.95);
+  color: var(--ink);
+  padding: 0.55rem 0.9rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.choose-legend__btn:hover,
+.choose-legend__btn:focus-visible {
+  border-color: var(--gold);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(200, 181, 104, 0.35);
+}
+
+.choose-legend__btn.is-active,
+.choose-legend__btn[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--gold-soft);
+  border-color: var(--ink);
+}
+
+.choose-legend__swatch {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+.choose-legend__btn.is-active .choose-legend__swatch,
+.choose-legend__btn[aria-pressed="true"] .choose-legend__swatch {
+  background: var(--gold);
+  box-shadow: 0 0 0 2px rgba(200, 181, 104, 0.4);
+}
+
+
 
 .choose-plan {
   position: relative;
@@ -1727,23 +1817,34 @@ body:has(.chapter-talk:hover) .progress-dots {
   border: 0;
   background: transparent;
   cursor: pointer;
-  padding: 0.35rem;
+  /* Large hit target (~44px+) for tactile touch + mouse */
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0.55rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.35rem;
+  justify-content: center;
+  gap: 0.4rem;
   color: var(--cream);
+  outline: none;
+}
+
+.hotspot:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+  border-radius: 4px;
 }
 
 .hotspot__ring {
-  width: 1.35rem;
-  height: 1.35rem;
+  width: 1.85rem;
+  height: 1.85rem;
   border-radius: 50%;
-  border: 2px solid var(--gold);
-  background: rgba(0, 45, 45, 0.55);
+  border: 2.5px solid var(--gold);
+  background: rgba(0, 45, 45, 0.6);
   box-shadow: 0 0 0 0 rgba(200, 181, 104, 0.45);
   animation: hotspotPulse 2.4s ease-out infinite;
-  transition: background 0.25s ease, transform 0.25s ease;
+  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .hotspot__label {
@@ -1757,15 +1858,24 @@ body:has(.chapter-talk:hover) .progress-dots {
 }
 
 .hotspot:hover .hotspot__ring,
+.hotspot:focus-visible .hotspot__ring,
 .hotspot.is-active .hotspot__ring,
 .hotspot.is-selected .hotspot__ring {
   background: var(--gold);
-  transform: scale(1.12);
+  transform: scale(1.14);
 }
 
 .hotspot.is-active .hotspot__label,
 .hotspot.is-selected .hotspot__label {
   color: var(--ink);
+  background: var(--gold);
+}
+
+.hotspot.is-selected:not(.is-active) .hotspot__ring {
+  box-shadow: 0 0 0 3px rgba(200, 181, 104, 0.55);
+}
+
+.hotspot[aria-pressed="true"] .hotspot__ring {
   background: var(--gold);
 }
 
@@ -1878,7 +1988,7 @@ body:has(.chapter-talk:hover) .progress-dots {
 
 /* ——— Trust ——— */
 .chapter-trust {
-  padding: clamp(4.5rem, 11vw, 8rem) 0;
+  padding: clamp(3.25rem, 7vw, 5.5rem) 0;
 }
 
 .trust-markers {
@@ -1918,23 +2028,35 @@ body:has(.chapter-talk:hover) .progress-dots {
 .trust-marker p {
   margin: 0;
   max-width: 36rem;
+  color: rgba(0, 45, 45, 0.82);
+}
+
+.chapter-trust .chapter-lead.muted {
+  color: rgba(0, 45, 45, 0.8);
 }
 
 .trust-visual {
   overflow: hidden;
-  max-height: clamp(14rem, 36vw, 22rem);
+  max-height: clamp(12rem, 30vw, 18rem);
 }
 
 .trust-visual img {
   width: 100%;
   height: 100%;
+  min-height: clamp(12rem, 30vw, 18rem);
   object-fit: cover;
-  object-position: center top;
+  object-position: center 28%;
+  transform: scale(1.08);
+  transform-origin: center 30%;
 }
 
 /* ——— Talk ——— */
 .chapter-talk {
-  padding: clamp(4.5rem, 11vw, 8rem) 0;
+  padding: clamp(2.5rem, 5vw, 4rem) 0 clamp(4rem, 9vw, 6.5rem);
+}
+
+.chapter-talk .chapter-head {
+  margin-bottom: clamp(1.25rem, 3vw, 2rem);
 }
 
 .talk-inner {
@@ -2061,7 +2183,16 @@ body:has(.chapter-talk:hover) .progress-dots {
 
 @media (max-width: 560px) {
   .arrive-title {
-    font-size: clamp(2.6rem, 12vw, 3.4rem);
+    font-size: clamp(2.4rem, 11vw, 3.2rem);
+  }
+
+  .choose-legend {
+    gap: 0.45rem;
+  }
+
+  .choose-legend__btn {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.65rem;
   }
 
   .live-folder {

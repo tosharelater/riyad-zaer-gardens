@@ -126,23 +126,23 @@ const typologies = [
         </figure>
         <figure class="live-shot live-shot--b">
           <img
-            src={`${base}parcours/tease-08.jpg`}
-            alt="Famille — moments de vie"
+            src={`${base}parcours/viz-06.jpg`}
+            alt="Façade — volumes et lumière"
             width="1200"
             height="800"
             loading="lazy"
           />
-          <figcaption data-i18n="live_cap_family">Moments en famille</figcaption>
+          <figcaption data-i18n="live_cap_facade">Façade & volumes</figcaption>
         </figure>
         <figure class="live-shot live-shot--c">
           <img
-            src={`${base}parcours/tease-05.jpg`}
-            alt="Promenade sous les palmiers"
+            src={`${base}parcours/viz-02.jpg`}
+            alt="Intérieur — chambre lumineuse"
             width="1200"
             height="800"
             loading="lazy"
           />
-          <figcaption data-i18n="live_cap_palm">Promenade</figcaption>
+          <figcaption data-i18n="live_cap_interior">Intérieurs lumineux</figcaption>
         </figure>
         <figure class="live-shot live-shot--d">
           <img
@@ -185,7 +185,27 @@ const typologies = [
       </header>
 
       <div class="choose-island" data-reveal>
-        <div class="choose-plan">
+        <ul class="choose-legend" role="list" aria-label="Typologies" data-i18n-aria="choose_legend_label">
+          {
+            typologies.map((t) => (
+              <li>
+                <button
+                  type="button"
+                  class="choose-legend__btn"
+                  data-legend={t.id}
+                  data-hotspot-trigger={t.id}
+                  aria-pressed="false"
+                >
+                  <span class="choose-legend__swatch" aria-hidden="true" />
+                  <span data-i18n={t.id === 'Fonds' ? 'choose_legend_fonds' : `choose_legend_${t.id.toLowerCase()}`}>
+                    {t.title === 'Fonds de commerce' ? 'Fonds' : t.title}
+                  </span>
+                </button>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="choose-plan" role="group" aria-label="Plan interactif">
           <img
             src={`${base}parcours/viz-04.jpg`}
             alt="Plan aérien — Riyad Zaer Gardens"
@@ -193,7 +213,7 @@ const typologies = [
             height="1000"
             loading="lazy"
           />
-          <p class="choose-hint" data-i18n="choose_hint">Touchez un hotspot sur le plan</p>
+          <p id="choose-hint-text" class="choose-hint" data-i18n="choose_hint">Touchez un hotspot ou utilisez la légende</p>
           {
             typologies.map((t) => (
               <button
@@ -202,6 +222,8 @@ const typologies = [
                 style={`top:${t.hotspot.top};left:${t.hotspot.left}`}
                 data-hotspot={t.id}
                 aria-label={t.title}
+                aria-pressed="false"
+                aria-describedby="choose-hint-text"
               >
                 <span class="hotspot__ring" aria-hidden="true" />
                 <span class="hotspot__label">{t.title === 'Fonds de commerce' ? 'Fonds' : t.title}</span>

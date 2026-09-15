@@ -24,15 +24,29 @@ function updateWaLinks(typo: Typology | null) {
   });
 }
 
-function setSelectedUI(typo: Typology | null) {
+function setSelectedUI(typo: Typology | null, opts: { openPanel?: boolean } = {}) {
+  const openPanel = opts.openPanel !== false;
+
   document.querySelectorAll<HTMLElement>('[data-hotspot]').forEach((el) => {
-    el.classList.toggle('is-active', el.dataset.hotspot === typo);
+    const on = el.dataset.hotspot === typo;
+    el.classList.toggle('is-active', on && openPanel);
+    el.classList.toggle('is-selected', on);
+    el.setAttribute('aria-pressed', on ? 'true' : 'false');
   });
+
+  document.querySelectorAll<HTMLElement>('[data-legend], [data-hotspot-trigger]').forEach((el) => {
+    const id = el.dataset.legend || el.dataset.hotspotTrigger;
+    const on = id === typo;
+    el.classList.toggle('is-active', on);
+    el.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+
   document.querySelectorAll<HTMLElement>('[data-panel]').forEach((el) => {
-    const open = typo !== null && el.dataset.panel === typo;
+    const open = openPanel && typo !== null && el.dataset.panel === typo;
     el.hidden = !open;
     el.classList.toggle('is-open', open);
   });
+
   document.querySelectorAll<HTMLElement>('[data-selected-label]').forEach((el) => {
     if (!typo) {
       el.textContent = el.dataset.empty || '';
@@ -43,6 +57,7 @@ function setSelectedUI(typo: Typology | null) {
       el.classList.remove('is-empty');
     }
   });
+
   const formSelect = document.querySelector<HTMLSelectElement>('#typology');
   if (formSelect && typo) {
     const map: Record<Typology, string> = { F3: 'F3', F4: 'F4', Fonds: 'Commerce' };
@@ -51,25 +66,47 @@ function setSelectedUI(typo: Typology | null) {
   updateWaLinks(typo);
 }
 
+function activateTypology(id: Typology, openPanel = true) {
+  sessionStorage.setItem(STORAGE_KEY, id);
+  setSelectedUI(id, { openPanel });
+}
+
 export function initChoose() {
   let current: Typology | null = (sessionStorage.getItem(STORAGE_KEY) as Typology | null) || null;
   if (current && !['F3', 'F4', 'Fonds'].includes(current)) current = null;
 
-  setSelectedUI(current);
+  setSelectedUI(current, { openPanel: !!current });
+
+  const openFromControl = (id: string | undefined) => {
+    if (!id || !['F3', 'F4', 'Fonds'].includes(id)) return;
+    current = id as Typology;
+    activateTypology(current, true);
+  };
 
   document.querySelectorAll<HTMLElement>('[data-hotspot]').forEach((btn) => {
+    btn.addEventListener('click', () => openFromControl(btn.dataset.hotspot));
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openFromControl(btn.dataset.hotspot);
+      }
+    });
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-legend], [data-hotspot-trigger]').forEach((btn) => {
     btn.addEventListener('click', () => {
-      const id = btn.dataset.hotspot as Typology;
-      if (!id) return;
-      current = id;
-      sessionStorage.setItem(STORAGE_KEY, id);
-      setSelectedUI(current);
+      openFromControl(btn.dataset.legend || btn.dataset.hotspotTrigger);
+    });
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openFromControl(btn.dataset.legend || btn.dataset.hotspotTrigger);
+      }
     });
   });
 
   document.querySelectorAll<HTMLElement>('[data-panel-close]').forEach((btn) => {
     btn.addEventListener('click', () => {
-      // keep selection for Talk; only close panel UI
       document.querySelectorAll<HTMLElement>('[data-panel]').forEach((el) => {
         el.hidden = true;
         el.classList.remove('is-open');
@@ -78,10 +115,18 @@ export function initChoose() {
         el.classList.remove('is-active');
       });
       if (current) {
-        // re-mark selected hotspot softly
         document
           .querySelectorAll<HTMLElement>(`[data-hotspot="${current}"]`)
-          .forEach((el) => el.classList.add('is-selected'));
+          .forEach((el) => {
+            el.classList.add('is-selected');
+            el.setAttribute('aria-pressed', 'true');
+          });
+        document
+          .querySelectorAll<HTMLElement>(`[data-legend="${current}"], [data-hotspot-trigger="${current}"]`)
+          .forEach((el) => {
+            el.classList.add('is-active');
+            el.setAttribute('aria-pressed', 'true');
+          });
       }
     });
   });
@@ -91,15 +136,10 @@ export function initChoose() {
       const id = btn.dataset.selectTypo as Typology;
       if (!id) return;
       current = id;
-      sessionStorage.setItem(STORAGE_KEY, id);
-      setSelectedUI(current);
-      document.querySelectorAll<HTMLElement>('[data-hotspot]').forEach((el) => {
-        el.classList.toggle('is-selected', el.dataset.hotspot === id);
-      });
+      activateTypology(current, true);
     });
   });
 
-  // form toggle in Talk
   const toggle = document.querySelector<HTMLButtonElement>('[data-form-toggle]');
   const formWrap = document.querySelector<HTMLElement>('[data-quiet-form]');
   if (toggle && formWrap) {
