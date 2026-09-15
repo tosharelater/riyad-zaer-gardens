@@ -64,16 +64,29 @@ const typologies = [
 
   <!-- 1. ARRIVE -->
   <section id="arrive" class="chapter chapter-arrive" data-chapter-section="arrive">
-    <div class="arrive-media" aria-hidden="false">
+    <div class="arrive-media" aria-hidden="true">
       <img
-        class="arrive-poster"
+        class="arrive-poster media-poster"
         src={`${base}parcours/viz-08.jpg`}
-        alt="Riyad Zaer Gardens — visualisation 3D"
+        alt=""
         width="1920"
         height="1080"
         fetchpriority="high"
         decoding="async"
       />
+      <video
+        class="chapter-video"
+        data-chapter-video
+        poster={`${base}parcours/viz-08.jpg`}
+        muted
+        loop
+        playsinline
+        preload="none"
+        aria-hidden="true"
+      >
+        <source src={`${base}parcours/video/arrive.webm`} type="video/webm" />
+        <source src={`${base}parcours/video/arrive.mp4`} type="video/mp4" />
+      </video>
       <div class="arrive-veil" aria-hidden="true"></div>
     </div>
     <div class="arrive-copy">
@@ -104,14 +117,28 @@ const typologies = [
       </header>
 
       <div class="live-folder" data-reveal>
-        <figure class="live-shot live-shot--hero">
+        <figure class="live-shot live-shot--hero live-shot--video">
           <img
+            class="media-poster"
             src={`${base}parcours/viz-01.jpg`}
             alt="Cour végétalisée — cadre de vie"
             width="1600"
             height="1000"
             loading="lazy"
           />
+          <video
+            class="chapter-video"
+            data-chapter-video
+            poster={`${base}parcours/viz-01.jpg`}
+            muted
+            loop
+            playsinline
+            preload="none"
+            aria-hidden="true"
+          >
+            <source src={`${base}parcours/video/live.webm`} type="video/webm" />
+            <source src={`${base}parcours/video/live.mp4`} type="video/mp4" />
+          </video>
           <figcaption data-i18n="live_cap_courtyard">Cour &amp; jardins</figcaption>
         </figure>
         <figure class="live-shot live-shot--a">

@@ -1574,19 +1574,45 @@ body:has(.chapter-talk:hover) .progress-dots {
   z-index: 0;
 }
 
-.arrive-media img {
+.arrive-media .media-poster,
+.arrive-media .chapter-video {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center 40%;
+}
+
+.arrive-media .media-poster {
+  z-index: 0;
+  transform: scale(1.02);
+}
+
+.arrive-media .chapter-video {
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.6s var(--ease);
+  /* No CTA chrome sits on the video layer — copy/CTA live above the veil */
+  pointer-events: none;
+}
+
+.arrive-media.is-video-playing .chapter-video,
+.arrive-media .chapter-video.is-playing {
+  opacity: 1;
+}
+
+.arrive-media.is-poster-only .chapter-video,
+.chapter-video.is-poster-only {
+  display: none;
+}
+
+.chapter-arrive.hero--cinematic .arrive-media .media-poster {
+  animation: kenBurnsSoft 32s var(--ease) infinite alternate;
   transform: scale(1.04);
 }
 
-.chapter-arrive.hero--cinematic .arrive-media img {
-  animation: kenBurnsSoft 32s var(--ease) infinite alternate;
-}
-
-.chapter-arrive.hero--static .arrive-media img {
+.chapter-arrive.hero--static .arrive-media .media-poster {
   transform: scale(1.02) !important;
   animation: none !important;
 }
@@ -1671,17 +1697,64 @@ body:has(.chapter-talk:hover) .progress-dots {
   background: var(--ink);
 }
 
-.live-shot img {
+.live-shot img,
+.live-shot .chapter-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
   min-height: 12rem;
+}
+
+.live-shot img {
   transition: transform 0.7s var(--ease);
 }
 
 .live-shot:hover img {
   transform: scale(1.03);
+}
+
+.live-shot--video {
+  position: relative;
+}
+
+.live-shot--video .media-poster,
+.live-shot--video .chapter-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  min-height: 100%;
+}
+
+.live-shot--video .media-poster {
+  position: relative; /* reserve height in grid before absolute video */
+  z-index: 0;
+}
+
+.live-shot--video .chapter-video {
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s var(--ease);
+}
+
+.live-shot--video.is-video-playing .chapter-video,
+.live-shot--video .chapter-video.is-playing {
+  opacity: 1;
+}
+
+.live-shot--video.is-poster-only .chapter-video {
+  display: none;
+}
+
+.live-shot--video:hover .media-poster {
+  transform: none; /* motion comes from video, not hover zoom */
+}
+
+.live-shot--video figcaption {
+  z-index: 2;
 }
 
 .live-shot figcaption {
@@ -1702,8 +1775,15 @@ body:has(.chapter-talk:hover) .progress-dots {
   min-height: clamp(22rem, 48vw, 34rem);
 }
 
-.live-shot--hero img {
+.live-shot--hero img,
+.live-shot--hero .chapter-video {
   min-height: 100%;
+}
+
+.live-shot--hero.live-shot--video .media-poster {
+  min-height: clamp(22rem, 48vw, 34rem);
+  height: 100%;
+  object-fit: cover;
 }
 
 .live-stats {
@@ -2207,5 +2287,14 @@ body:has(.chapter-talk:hover) .progress-dots {
 @media (prefers-reduced-motion: reduce) {
   .hotspot__ring {
     animation: none;
+  }
+
+  .chapter-video {
+    display: none !important;
+  }
+
+  .arrive-media .media-poster,
+  .live-shot--video .media-poster {
+    opacity: 1 !important;
   }
 }

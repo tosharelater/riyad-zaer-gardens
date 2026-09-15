@@ -16,6 +16,8 @@ Five scroll chapters on one page:
 
 Optional sticky progress dots (skippable). `/services` and `/contact` redirect into `#choose` / `#talk`.
 
+Hero motion: Arrive + Live use `public/parcours/video/*` (WebM/MP4), poster-first, `preload=none` until in view; `prefers-reduced-motion` keeps still posters only. Choose/Trust stay photo.
+
 Base path: `/riyad-zaer-gardens/`
 
 ## Brand
