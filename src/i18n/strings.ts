@@ -74,6 +74,35 @@ export const strings = {
     trust_livraison_t: 'Livraison anticipée',
     trust_livraison_d:
       'Calendrier partagé dès la réservation. Vous savez où en est votre futur chez-vous.',
+    lieu_kicker: 'Situation',
+    lieu_title: 'Entre Rabat et Aïn Aouda',
+    lieu_body:
+      'Un nouveau pôle urbain accessible, à l’écart du bruit — proche des axes, ouvert sur l’horizon.',
+    lieu_p1: 'Accès fluide vers Rabat et les communes sud',
+    lieu_p2: 'Résidence sécurisée, commerces en pied d’immeuble',
+    lieu_p3: 'Cadre familial pensé pour le quotidien',
+    faq_kicker: 'Questions',
+    faq_title: 'Tout ce qu’il faut savoir',
+    faq_body:
+      'Aides, livraison, parking, visite, réservation et typologies — réponses claires.',
+    faq_aides_q: 'Le projet est-il éligible aux aides au logement ?',
+    faq_aides_a:
+      'Oui. Riyad Zaer Gardens est conçu pour maximiser l’éligibilité aux dispositifs d’accession. Notre équipe vous oriente dossier par dossier.',
+    faq_livraison_q: 'Quand est prévue la livraison ?',
+    faq_livraison_a:
+      'Le calendrier de livraison est partagé dès la réservation, avec des jalons de chantier visibles. Vous savez où en est votre futur chez-vous.',
+    faq_parking_q: 'Y a-t-il du stationnement ?',
+    faq_parking_a:
+      'Des places dédiées sont prévues pour les résidents. Les détails (nombre, attribution) sont précisés à la réservation.',
+    faq_visite_q: 'Puis-je visiter le site ou le showroom ?',
+    faq_visite_a:
+      'Oui, sur rendez-vous. Contactez-nous via WhatsApp pour planifier une visite et découvrir les typologies en détail.',
+    faq_resa_q: 'Comment réserver un appartement ?',
+    faq_resa_a:
+      'Choisissez votre typologie sur cette page, puis écrivez-nous sur WhatsApp. Nous vous guidons pour la réservation et les prochaines étapes.',
+    faq_typo_q: 'Quelles typologies sont disponibles ?',
+    faq_typo_a:
+      'F3 (65–75 m²), F4 (jusqu’à 86 m²) et fonds de commerce en rez-de-chaussée — 120 appartements au total.',
     handoff_kicker: 'Suite',
     handoff_title: 'Parlons de votre futur chez-vous',
     handoff_body:
@@ -187,6 +216,34 @@ export const strings = {
     trust_chantier_d: 'محطات مرئية وتواصل منتظم وزيارة بموعد.',
     trust_livraison_t: 'تسليم مرتقب',
     trust_livraison_d: 'جدول مشترك منذ الحجز. تعرفون أين وصل منزل مستقبلكم.',
+    lieu_kicker: 'الموقع',
+    lieu_title: 'بين الرباط وعين عودة',
+    lieu_body:
+      'قطب حضري جديد سهل الوصول، بعيداً عن الضجيج — قريب من المحاور ومفتوح على الأفق.',
+    lieu_p1: 'وصول سلس نحو الرباط والبلديات الجنوبية',
+    lieu_p2: 'إقامة آمنة وتجارة بأسفل العمارات',
+    lieu_p3: 'إطار عائلي مصمم لليوميات',
+    faq_kicker: 'أسئلة',
+    faq_title: 'كل ما تحتاجون معرفته',
+    faq_body: 'مساعدات، تسليم، موقف، زيارة، حجز وأنواع — إجابات واضحة.',
+    faq_aides_q: 'هل المشروع مؤهل لمساعدات السكن؟',
+    faq_aides_a:
+      'نعم. رياض زعير غاردنز مصمم لتعظيم الأهلية لبرامج التملك. يوجّهكم فريقنا ملفاً بملف.',
+    faq_livraison_q: 'متى التسليم المتوقع؟',
+    faq_livraison_a:
+      'يُشارك جدول التسليم منذ الحجز مع محطات ورشة مرئية. تعرفون أين وصل منزل مستقبلكم.',
+    faq_parking_q: 'هل يتوفر موقف سيارات؟',
+    faq_parking_a:
+      'أماكن مخصصة للسكان. التفاصيل (العدد والتخصيص) تُوضح عند الحجز.',
+    faq_visite_q: 'هل يمكن زيارة الموقع أو المعرض؟',
+    faq_visite_a:
+      'نعم بموعد. تواصلوا عبر واتساب لجدولة زيارة واكتشاف الأنواع بالتفصيل.',
+    faq_resa_q: 'كيف أحجز شقة؟',
+    faq_resa_a:
+      'اختاروا نوعكم في هذه الصفحة ثم راسلونا عبر واتساب. نرافقكم في الحجز والخطوات التالية.',
+    faq_typo_q: 'ما الأنواع المتوفرة؟',
+    faq_typo_a:
+      'F3 (65–75 م²) وF4 (حتى 86 م²) ومحلات بالطابق الأرضي — 120 شقة إجمالاً.',
     handoff_kicker: 'التالي',
     handoff_title: 'لنتحدث عن منزل مستقبلكم',
     handoff_body: 'سؤال، زيارة أو حجز — رد أولوية عبر واتساب.',

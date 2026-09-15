@@ -6,7 +6,7 @@ export function initReveal() {
     [...parent.children].forEach((child, i) => {
       const el = child as HTMLElement;
       if (!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', 'up');
-      el.style.setProperty('--reveal-delay', `${i * 95}ms`);
+      el.style.setProperty('--reveal-delay', `${i * 110}ms`);
     });
   });
 
@@ -25,14 +25,14 @@ export function initReveal() {
         }
       });
     },
-    { threshold: 0.06, rootMargin: '0px 0px -4% 0px' }
+    { threshold: 0.08, rootMargin: '0px 0px -6% 0px' }
   );
   all.forEach((n) => io.observe(n));
 }
 
-/** Soft Ken Burns fallback on arrive poster when video unavailable / reduced motion */
+/** Soft Ken Burns on arrive collage when reduced-motion is off */
 export function initParallax() {
-  const hero = document.querySelector<HTMLElement>('.beat-arrive, .chapter-arrive');
+  const hero = document.querySelector<HTMLElement>('.beat-arrive');
   if (!hero) return;
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -41,27 +41,66 @@ export function initParallax() {
     return;
   }
 
-  const video = hero.querySelector<HTMLVideoElement>('[data-chapter-video]');
-  if (video) {
-    hero.classList.add('hero--static');
+  hero.classList.add('hero--cinematic');
+
+  const layers = hero.querySelectorAll<HTMLElement>('[data-arrive-depth]');
+  if (!layers.length) return;
+
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const rect = hero.getBoundingClientRect();
+      const view = window.innerHeight || 1;
+      const progress = Math.min(1, Math.max(0, 1 - rect.bottom / (view + rect.height)));
+      layers.forEach((layer) => {
+        const depth = Number(layer.dataset.arriveDepth || 0.2);
+        layer.style.transform = `translate3d(0, ${progress * depth * -48}px, 0)`;
+      });
+      ticking = false;
+    });
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+}
+
+/** Cadre de vie — images move slower than copy (real scroll parallax) */
+export function initLiveParallax() {
+  const section = document.querySelector<HTMLElement>('#live');
+  if (!section) return;
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) {
+    section.classList.add('is-parallax-off');
     return;
   }
 
-  const poster = hero.querySelector<HTMLImageElement>('.arrive-media img');
-  const enableMotion = () => {
-    hero.classList.add('hero--cinematic');
+  const targets = section.querySelectorAll<HTMLElement>('[data-live-parallax]');
+  if (!targets.length) return;
+
+  let ticking = false;
+  const update = () => {
+    const view = window.innerHeight || 1;
+    targets.forEach((el) => {
+      const speed = Number(el.dataset.liveParallax || 0.18);
+      const rect = el.getBoundingClientRect();
+      const mid = rect.top + rect.height / 2;
+      const offset = (mid - view / 2) * speed;
+      el.style.setProperty('--live-y', `${offset.toFixed(2)}px`);
+    });
+    ticking = false;
   };
 
-  if (poster) {
-    if (poster.complete && poster.naturalWidth > 0) {
-      requestAnimationFrame(enableMotion);
-    } else {
-      poster.addEventListener('load', () => requestAnimationFrame(enableMotion), { once: true });
-      poster.addEventListener('error', enableMotion, { once: true });
-    }
-  } else {
-    enableMotion();
-  }
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  };
+
+  update();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
 }
 
 export function initHeaderScroll() {
@@ -75,7 +114,7 @@ export function initHeaderScroll() {
 }
 
 /**
- * Hero videos: poster-first, preload=none until in view.
+ * Chapter videos: poster-first, preload=none until in view.
  * prefers-reduced-motion → poster only.
  */
 export function initChapterVideos() {
@@ -137,4 +176,30 @@ export function initChapterVideos() {
     { threshold: [0, 0.2, 0.45], rootMargin: '8% 0px 8% 0px' }
   );
   videos.forEach((v) => io.observe(v));
+}
+
+/** Premium FAQ accordion */
+export function initFaq() {
+  const root = document.querySelector<HTMLElement>('[data-faq]');
+  if (!root) return;
+
+  root.querySelectorAll<HTMLButtonElement>('[data-faq-trigger]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest<HTMLElement>('[data-faq-item]');
+      if (!item) return;
+      const open = item.classList.contains('is-open');
+      root.querySelectorAll<HTMLElement>('[data-faq-item]').forEach((other) => {
+        other.classList.remove('is-open');
+        const t = other.querySelector<HTMLButtonElement>('[data-faq-trigger]');
+        const p = other.querySelector<HTMLElement>('[data-faq-panel]');
+        t?.setAttribute('aria-expanded', 'false');
+        p?.setAttribute('aria-hidden', 'true');
+      });
+      if (!open) {
+        item.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+        item.querySelector<HTMLElement>('[data-faq-panel]')?.setAttribute('aria-hidden', 'false');
+      }
+    });
+  });
 }
