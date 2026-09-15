@@ -65,17 +65,17 @@ const base = import.meta.env.BASE_URL.endsWith('/')
       import {
         initReveal,
         initParallax,
-        initLiveParallax,
         initHeaderScroll,
         initChapterVideos,
         initFaq,
       } from '../scripts/polish.ts';
       import { initChoose } from '../scripts/choose.ts';
+      import { initStoryScroll } from '../scripts/story.ts';
       initSplash();
       initLangToggle();
       initReveal();
       initParallax();
-      initLiveParallax();
+      initStoryScroll();
       initHeaderScroll();
       initChapterVideos();
       initChoose();

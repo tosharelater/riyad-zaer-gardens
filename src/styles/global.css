@@ -355,15 +355,22 @@
   }
 
   .faq-panel {
-    @apply grid grid-rows-[0fr] transition-[grid-template-rows] duration-[400ms];
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s var(--ease-out-soft);
   }
 
   .faq-item.is-open .faq-panel {
     grid-template-rows: 1fr;
   }
 
-  .faq-panel > p {
-    @apply overflow-hidden m-0 pb-5 text-foret/75 leading-relaxed;
+  .faq-panel-inner {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .faq-panel p {
+    @apply m-0 pb-5 text-foret/75 leading-relaxed;
   }
 
   /* Form */
@@ -428,6 +435,272 @@
     [data-reveal] {
       opacity: 1;
       transform: none;
+    }
+  }
+
+  /* —— Cadre de vie: fullscreen scroll story —— */
+  .story-intro {
+    width: min(var(--container-max), calc(100% - 2 * clamp(1.25rem, 4vw, 2.5rem)));
+    margin-inline: auto;
+    max-width: 42rem;
+    padding-top: clamp(5rem, 12vw, 8rem);
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .story-beat {
+    position: relative;
+    height: 220vh;
+  }
+
+  .story-sticky {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+    background: var(--color-cream);
+  }
+
+  .story-media {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    opacity: var(--story-opacity, 0.55);
+    transform: scale(var(--story-scale, 0.78));
+    transform-origin: center center;
+    will-change: transform, opacity;
+  }
+
+  .story-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .story-media__veil {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgb(0 45 45 / 0.72) 0%,
+      rgb(0 45 45 / 0.28) 42%,
+      rgb(0 45 45 / 0.12) 100%
+    );
+    pointer-events: none;
+  }
+
+  .story-copy {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: clamp(1.5rem, 5vw, 4rem);
+    padding-bottom: clamp(3rem, 10vh, 6rem);
+    opacity: var(--copy-opacity, 0);
+    transform: translate3d(0, var(--copy-y, 28px), 0);
+    will-change: transform, opacity;
+    pointer-events: none;
+  }
+
+  .story-copy h3,
+  .story-copy p,
+  .story-copy .story-index {
+    max-width: 36rem;
+  }
+
+  .story-copy__silence {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 55%;
+    background: linear-gradient(
+      to top,
+      rgb(247 242 232 / 0.92) 0%,
+      rgb(247 242 232 / 0.55) 45%,
+      transparent 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .story-copy h3 {
+    position: relative;
+    z-index: 2;
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    @apply text-foret m-0 mb-3;
+    font-size: clamp(2rem, 4.5vw, 3.25rem);
+  }
+
+  .story-copy p {
+    position: relative;
+    z-index: 2;
+    @apply m-0 text-foret/75 text-base md:text-lg leading-relaxed max-w-md;
+  }
+
+  .story-copy .story-index {
+    position: relative;
+    z-index: 2;
+    @apply text-[0.7rem] font-medium tracking-[0.18em] uppercase text-canopee/70 mb-3;
+  }
+
+  /* Reduced motion: stack simply, no sticky scrub */
+  .story.is-reduced .story-beat {
+    height: auto;
+  }
+
+  .story.is-reduced .story-sticky {
+    position: relative;
+    height: auto;
+    min-height: min(72svh, 36rem);
+  }
+
+  .story.is-reduced .story-media {
+    position: relative;
+    inset: auto;
+    opacity: 1;
+    transform: none;
+    aspect-ratio: 16 / 10;
+  }
+
+  .story.is-reduced .story-copy__silence {
+    display: none;
+  }
+
+  .story.is-reduced .story-copy {
+    position: relative;
+    inset: auto;
+    opacity: 1;
+    transform: none;
+    padding: 1.75rem 0 3rem;
+    max-width: 36rem;
+    margin-inline: auto;
+    width: min(var(--container-max), calc(100% - 2 * clamp(1.25rem, 4vw, 2.5rem)));
+    justify-content: flex-start;
+  }
+
+  .story.is-reduced .story-copy h3 {
+    color: var(--color-foret);
+  }
+
+  /* —— Explorer compact —— */
+  .beat-explore.explore--compact {
+    @apply pt-8 md:pt-12 pb-16 md:pb-24;
+  }
+
+  .explore--compact .choose-legend__btn {
+    @apply min-h-10 px-3 py-2 gap-2;
+  }
+
+  .explore--compact .choose-plan {
+    @apply aspect-[16/11] lg:aspect-auto lg:min-h-[22rem] lg:max-h-[26rem];
+  }
+
+  .explore--compact .choose-side {
+    @apply min-h-[18rem] lg:min-h-[22rem] lg:max-h-[26rem];
+  }
+
+  .explore--compact .choose-panel-stage {
+    @apply p-4 md:p-5;
+  }
+
+  .explore--compact .typo-panel .aspect-\[16\/10\],
+  .explore--compact .typo-panel > div:first-child {
+    @apply mb-3;
+    aspect-ratio: 16 / 9;
+    max-height: 9rem;
+  }
+
+  .explore--compact .hotspot__ring {
+    @apply w-8 h-8;
+  }
+
+  .explore--compact .hotspot__dot {
+    @apply w-2 h-2;
+  }
+
+  .explore--compact .hotspot__pulse {
+    @apply w-8 h-8;
+  }
+
+  .explore--compact .hotspot__label {
+    @apply text-[0.65rem] px-2 py-0.5;
+  }
+
+  .explore--compact .typo-panel h3 {
+    @apply text-2xl md:text-3xl;
+  }
+
+  .explore--compact .chip {
+    @apply px-2.5 py-0.5 text-[0.65rem];
+  }
+
+  /* —— FAQ prominent —— */
+  .faq-section {
+    @apply bg-cream text-foret py-28 md:py-40;
+  }
+
+  .faq-section .faq-list {
+    @apply max-w-3xl mx-auto;
+  }
+
+  .faq-section .faq-item {
+    @apply border-b border-foret/12;
+  }
+
+  .faq-section .faq-trigger {
+    @apply py-6 md:py-7;
+  }
+
+  .faq-section .faq-q {
+    @apply text-[1.1rem] md:text-[1.25rem] font-medium tracking-[-0.01em];
+    font-family: var(--font-display);
+    font-weight: 500;
+  }
+
+  .faq-section .faq-panel p {
+    @apply pb-7 text-[1.05rem] leading-relaxed;
+  }
+
+  /* —— Showcase / lorem sections —— */
+  .showcase-section {
+    @apply py-28 md:py-36;
+  }
+
+  .showcase-section--cream {
+    @apply bg-cream text-foret;
+  }
+
+  .showcase-section--foret {
+    @apply bg-foret text-cream;
+  }
+
+  .showcase-grid {
+    @apply grid md:grid-cols-3 gap-10 md:gap-14 mt-16 md:mt-20;
+  }
+
+  .showcase-card h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    @apply text-2xl md:text-3xl m-0 mb-4;
+  }
+
+  .showcase-card p {
+    @apply m-0 text-[0.95rem] leading-relaxed opacity-75;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .story-media,
+    .story-copy {
+      transition: none !important;
     }
   }
 }

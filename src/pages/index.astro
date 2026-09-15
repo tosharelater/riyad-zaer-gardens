@@ -9,6 +9,45 @@ const base = import.meta.env.BASE_URL.endsWith('/')
 
 const vizAll = Array.from({ length: 12 }, (_, i) => `parcours/viz-${String(i + 1).padStart(2, '0')}.jpg`);
 
+const storyBeats = [
+  {
+    id: '01',
+    img: 'parcours/viz-01.jpg',
+    imgAlt: 'Cour végétalisée',
+    titleKey: 'story_1_title',
+    title: 'Cour & jardins',
+    bodyKey: 'story_1_body',
+    body: 'Un cœur planté, des promenades ombragées — le quotidien commence à l’air libre.',
+  },
+  {
+    id: '02',
+    img: 'parcours/viz-06.jpg',
+    imgAlt: 'Façade et volumes',
+    titleKey: 'story_2_title',
+    title: 'Volumes & lumière',
+    bodyKey: 'story_2_body',
+    body: 'Façades claires, proportions maîtrisées — une architecture qui respire sans forcer le geste.',
+  },
+  {
+    id: '03',
+    img: 'parcours/viz-02.jpg',
+    imgAlt: 'Intérieur lumineux',
+    titleKey: 'story_3_title',
+    title: 'Intérieurs calmes',
+    bodyKey: 'story_3_body',
+    body: 'Séjours ouverts, cuisine fluide, rangements pensés — des mètres carrés qui travaillent pour vous.',
+  },
+  {
+    id: '04',
+    img: 'parcours/viz-11.jpg',
+    imgAlt: 'Horizon et adresse',
+    titleKey: 'story_4_title',
+    title: 'Horizon ouvert',
+    bodyKey: 'story_4_body',
+    body: 'Entre Rabat et Aïn Aouda, une adresse familiale, sécurisée, tournée vers le long terme.',
+  },
+] as const;
+
 const typologies = [
   {
     id: 'F3',
@@ -60,6 +99,51 @@ const typologies = [
     img: 'parcours/viz-05.jpg',
     imgAlt: 'Commerces en rez-de-chaussée',
     hotspot: { top: '68%', left: '48%' },
+  },
+] as const;
+
+const faqItems = [
+  {
+    id: 'aides',
+    qKey: 'faq_aides_q',
+    q: 'Le projet est-il éligible aux aides au logement ?',
+    aKey: 'faq_aides_a',
+    a: 'Oui. Riyad Zaer Gardens est conçu pour maximiser l’éligibilité aux dispositifs d’accession. Notre équipe vous oriente dossier par dossier.',
+  },
+  {
+    id: 'livraison',
+    qKey: 'faq_livraison_q',
+    q: 'Quand est prévue la livraison ?',
+    aKey: 'faq_livraison_a',
+    a: 'Le calendrier de livraison est partagé dès la réservation, avec des jalons de chantier visibles. Vous savez où en est votre futur chez-vous.',
+  },
+  {
+    id: 'parking',
+    qKey: 'faq_parking_q',
+    q: 'Y a-t-il du stationnement ?',
+    aKey: 'faq_parking_a',
+    a: 'Des places dédiées sont prévues pour les résidents. Les détails (nombre, attribution) sont précisés à la réservation.',
+  },
+  {
+    id: 'visite',
+    qKey: 'faq_visite_q',
+    q: 'Puis-je visiter le site ou le showroom ?',
+    aKey: 'faq_visite_a',
+    a: 'Oui, sur rendez-vous. Contactez-nous via WhatsApp pour planifier une visite et découvrir les typologies en détail.',
+  },
+  {
+    id: 'typologies',
+    qKey: 'faq_typo_q',
+    q: 'Quelles typologies sont disponibles ?',
+    aKey: 'faq_typo_a',
+    a: 'F3 (65–75 m²), F4 (jusqu’à 86 m²) et fonds de commerce en rez-de-chaussée — 120 appartements au total.',
+  },
+  {
+    id: 'reservation',
+    qKey: 'faq_resa_q',
+    q: 'Comment réserver un appartement ?',
+    aKey: 'faq_resa_a',
+    a: 'Choisissez votre typologie sur cette page, puis écrivez-nous sur WhatsApp. Nous vous guidons pour la réservation et les prochaines étapes.',
   },
 ] as const;
 ---
@@ -125,95 +209,84 @@ const typologies = [
     </div>
   </section>
 
-  <!-- 2 · LIVING -->
-  <section id="live" class="beat beat-live bg-cream text-foret py-24 md:py-36">
-    <div class="container-rzg">
-      <header class="max-w-2xl mb-16 md:mb-24" data-reveal>
-        <p class="kicker kicker--ink" data-i18n="live_kicker">Cadre de vie</p>
-        <h2 class="serif text-[clamp(2.25rem,5vw,4rem)] m-0 mb-6 whitespace-pre-line" data-i18n="live_title">
-          Vivre autrement.
+  <!-- 2 · CADRE DE VIE — fullscreen scroll story -->
+  <section id="live" class="beat beat-live story bg-cream text-foret" data-story>
+    <header class="story-intro" data-reveal>
+      <p class="kicker kicker--ink" data-i18n="live_kicker">Cadre de vie</p>
+      <h2 class="serif text-[clamp(2.25rem,5vw,4rem)] m-0 mb-6 whitespace-pre-line" data-i18n="live_title">
+        Vivre autrement.
 C’est possible.
-        </h2>
-        <p class="text-foret/75 text-lg leading-relaxed m-0 max-w-xl" data-i18n="live_body">
-          Cour végétalisée, volumes clairs, commerces de proximité — un quotidien élégant, sans le
-          bruit du luxe générique.
-        </p>
-      </header>
+      </h2>
+      <p class="text-foret/75 text-lg leading-relaxed m-0 max-w-xl" data-i18n="live_body">
+        Cour végétalisée, volumes clairs, commerces de proximité — un quotidien élégant, sans le
+        bruit du luxe générique.
+      </p>
+    </header>
 
-      <div class="mb-10 md:mb-16" data-reveal="clip">
-        <div class="live-depth live-hero relative aspect-[16/10] md:aspect-[21/10] overflow-hidden rounded-sm bg-canopee">
-          <div class="absolute inset-[-8%] opacity-40" data-live-parallax="0.28" aria-hidden="true">
-            <img src={`${base}parcours/viz-12.jpg`} alt="" width="1600" height="1000" class="w-full h-full object-cover" loading="lazy" />
+    {
+      storyBeats.map((beat, i) => (
+        <div class="story-beat" data-story-beat={beat.id}>
+          <div class="story-sticky">
+            <div class="story-media" data-story-media>
+              <img
+                src={`${base}${beat.img}`}
+                alt={beat.imgAlt}
+                width="1920"
+                height="1080"
+                loading={i === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+              />
+              <div class="story-media__veil" aria-hidden="true" />
+            </div>
+            <div class="story-copy" data-story-copy>
+              <div class="story-copy__silence" aria-hidden="true" />
+              <span class="story-index">{String(i + 1).padStart(2, '0')} / {String(storyBeats.length).padStart(2, '0')}</span>
+              <h3 data-i18n={beat.titleKey}>{beat.title}</h3>
+              <p data-i18n={beat.bodyKey}>{beat.body}</p>
+            </div>
           </div>
-          <div class="absolute inset-[8%] md:inset-[10%_42%_18%_8%] opacity-70 shadow-xl overflow-hidden rounded-sm" data-live-parallax="0.18" aria-hidden="true">
-            <img src={`${base}parcours/viz-11.jpg`} alt="" width="1200" height="800" class="w-full h-full object-cover" loading="lazy" />
-          </div>
-          <div class="absolute inset-0 md:inset-[12%_8%_8%_28%] overflow-hidden rounded-sm shadow-2xl" data-live-parallax="0.1">
-            <img
-              class="media-poster absolute inset-0 w-full h-full object-cover"
-              src={`${base}parcours/viz-01.jpg`}
-              alt="Cour végétalisée"
-              width="1600"
-              height="1000"
-              loading="lazy"
-            />
-            <video
-              class="beat-video"
-              data-chapter-video
-              poster={`${base}parcours/viz-01.jpg`}
-              muted
-              loop
-              playsinline
-              preload="none"
-              aria-hidden="true"
-            >
-              <source src={`${base}parcours/video/live.webm`} type="video/webm" />
-              <source src={`${base}parcours/video/live.mp4`} type="video/mp4" />
-            </video>
-          </div>
-          <p class="absolute bottom-4 left-4 md:bottom-6 md:left-6 z-10 text-[0.7rem] tracking-[0.16em] uppercase text-cream/90 bg-foret/50 backdrop-blur-sm px-3 py-1.5 rounded-sm" data-i18n="live_cap_courtyard">Cour &amp; jardins</p>
         </div>
-      </div>
+      ))
+    }
 
-      <div class="grid md:grid-cols-2 gap-6 md:gap-10 mb-16 md:mb-24" data-stagger>
-        <figure class="m-0 group" data-live-parallax="0.2">
-          <div class="overflow-hidden rounded-sm aspect-[5/3]">
-            <img src={`${base}parcours/viz-06.jpg`} alt="Façade — volumes" width="1200" height="800" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" loading="lazy" />
-          </div>
-          <figcaption class="mt-4 text-sm text-canopee/80 tracking-wide" data-i18n="live_cap_facade">Façade & volumes</figcaption>
-        </figure>
-        <figure class="m-0 group md:mt-12" data-live-parallax="0.16">
-          <div class="overflow-hidden rounded-sm aspect-[5/3]">
-            <img src={`${base}parcours/viz-02.jpg`} alt="Intérieur lumineux" width="1200" height="800" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" loading="lazy" />
-          </div>
-          <figcaption class="mt-4 text-sm text-canopee/80 tracking-wide" data-i18n="live_cap_interior">Intérieurs lumineux</figcaption>
-        </figure>
-      </div>
+    <aside class="container-rzg flex flex-wrap items-center justify-center gap-x-6 gap-y-3 py-14 md:py-20 border-t border-foret/10" data-reveal aria-label="Confiance">
+      <p class="m-0 text-sm font-medium tracking-wide text-canopee" data-i18n="trust_aides_t">Aides au logement</p>
+      <span class="hidden sm:block w-1.5 h-1.5 rounded-full bg-gold" aria-hidden="true"></span>
+      <p class="m-0 text-sm font-medium tracking-wide text-canopee" data-i18n="trust_chantier_t">Chantier suivi</p>
+      <span class="hidden sm:block w-1.5 h-1.5 rounded-full bg-gold" aria-hidden="true"></span>
+      <p class="m-0 text-sm font-medium tracking-wide text-canopee" data-i18n="trust_livraison_t">Livraison anticipée</p>
+    </aside>
+  </section>
 
-      <aside class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 py-8 border-y border-foret/10" data-reveal aria-label="Confiance">
-        <p class="m-0 text-sm font-medium tracking-wide text-canopee" data-i18n="trust_aides_t">Aides au logement</p>
-        <span class="hidden sm:block w-1.5 h-1.5 rounded-full bg-gold" aria-hidden="true"></span>
-        <p class="m-0 text-sm font-medium tracking-wide text-canopee" data-i18n="trust_chantier_t">Chantier suivi</p>
-        <span class="hidden sm:block w-1.5 h-1.5 rounded-full bg-gold" aria-hidden="true"></span>
-        <p class="m-0 text-sm font-medium tracking-wide text-canopee" data-i18n="trust_livraison_t">Livraison anticipée</p>
-      </aside>
+  <!-- Showcase · Promesse -->
+  <section id="promesse" class="showcase-section showcase-section--foret" aria-labelledby="promesse-title">
+    <div class="container-rzg max-w-3xl text-center" data-reveal>
+      <p class="kicker" data-i18n="promesse_kicker">Promesse</p>
+      <h2 id="promesse-title" class="serif text-[clamp(2rem,4.5vw,3.5rem)] m-0 mb-6" data-i18n="promesse_title">
+        Une adresse qui tient sa parole
+      </h2>
+      <p class="text-cream/70 text-lg leading-relaxed m-0 max-w-2xl mx-auto" data-i18n="promesse_body">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
+        labore et dolore magna aliqua — lumen, silentium, spatium. Ut enim ad minim veniam, quis
+        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      </p>
     </div>
   </section>
 
-  <!-- 3 · EXPLORE -->
-  <section id="explore" class="beat beat-explore bg-cream text-foret pb-24 md:pb-36">
-    <header class="container-rzg max-w-2xl mb-12 md:mb-16" data-reveal>
+  <!-- 3 · EXPLORE — compact -->
+  <section id="explore" class="beat beat-explore explore--compact bg-cream text-foret">
+    <header class="container-rzg max-w-xl mb-8 md:mb-10" data-reveal>
       <p class="kicker kicker--ink" data-i18n="explore_kicker">Explorer</p>
-      <h2 class="serif text-[clamp(2.25rem,5vw,4rem)] m-0 mb-5" data-i18n="explore_title">
+      <h2 class="serif text-[clamp(1.85rem,4vw,2.75rem)] m-0 mb-3" data-i18n="explore_title">
         Trouvez votre adresse
       </h2>
-      <p class="text-foret/75 text-lg leading-relaxed m-0" data-i18n="explore_body">
+      <p class="text-foret/70 text-base leading-relaxed m-0" data-i18n="explore_body">
         Survolez le plan, ouvrez une typologie. Votre choix vous suit jusqu’à la conversation.
       </p>
     </header>
 
     <div class="container-rzg" data-reveal>
-      <ul class="flex flex-wrap gap-2 mb-8 list-none p-0 m-0" role="list" aria-label="Typologies" data-i18n-aria="choose_legend_label">
+      <ul class="flex flex-wrap gap-1.5 mb-5 list-none p-0 m-0" role="list" aria-label="Typologies" data-i18n-aria="choose_legend_label">
         {
           typologies.map((t) => (
             <li>
@@ -223,23 +296,23 @@ C’est possible.
                 data-hotspot-trigger={t.id}
                 aria-pressed={t.id === 'F3' ? 'true' : 'false'}
                 class:list={[
-                  'choose-legend__btn inline-flex items-center gap-3 min-h-12 px-4 py-2.5 rounded-sm border transition-colors cursor-pointer',
+                  'choose-legend__btn inline-flex items-center gap-2 min-h-10 px-3 py-2 rounded-sm border transition-colors cursor-pointer',
                   t.id === 'F3'
                     ? 'is-active border-gold bg-foret text-cream'
                     : 'border-foret/15 bg-cream text-foret hover:border-gold/60',
                 ]}
               >
-                <span class="w-2 h-2 rounded-full bg-gold shrink-0" aria-hidden="true" />
+                <span class="w-1.5 h-1.5 rounded-full bg-gold shrink-0" aria-hidden="true" />
                 <span class="flex flex-col items-start text-left leading-tight">
                   <span
-                    class="text-[0.8rem] font-medium tracking-wide"
+                    class="text-[0.75rem] font-medium tracking-wide"
                     data-i18n={
                       t.id === 'Fonds' ? 'choose_legend_fonds' : `choose_legend_${t.id.toLowerCase()}`
                     }
                   >
                     {t.title === 'Fonds de commerce' ? 'Fonds' : t.title}
                   </span>
-                  <span class="text-[0.7rem] opacity-70" data-i18n={t.surfaceKey}>
+                  <span class="text-[0.65rem] opacity-70" data-i18n={t.surfaceKey}>
                     {t.surface}
                   </span>
                 </span>
@@ -249,8 +322,8 @@ C’est possible.
         }
       </ul>
 
-      <div class="choose-split grid lg:grid-cols-2 gap-6 lg:gap-10 items-stretch">
-        <div class="choose-plan relative overflow-hidden rounded-sm bg-canopee aspect-[4/3] lg:aspect-auto lg:min-h-[36rem]" role="group" aria-label="Plan interactif">
+      <div class="choose-split grid lg:grid-cols-2 gap-4 lg:gap-6 items-stretch">
+        <div class="choose-plan relative overflow-hidden rounded-sm bg-canopee aspect-[16/11] lg:aspect-auto lg:min-h-[22rem] lg:max-h-[26rem]" role="group" aria-label="Plan interactif">
           <img
             src={`${base}parcours/viz-04.jpg`}
             alt="Plan aérien — Riyad Zaer Gardens"
@@ -260,7 +333,7 @@ C’est possible.
             loading="lazy"
           />
           <div class="absolute inset-0 bg-foret/25"></div>
-          <p id="explore-hint" class="absolute top-4 left-4 z-20 m-0 text-[0.7rem] tracking-[0.12em] uppercase text-cream/85 bg-foret/55 backdrop-blur-sm px-3 py-1.5 rounded-sm" data-i18n="explore_hint">Touchez un point sur le plan</p>
+          <p id="explore-hint" class="absolute top-3 left-3 z-20 m-0 text-[0.65rem] tracking-[0.12em] uppercase text-cream/85 bg-foret/55 backdrop-blur-sm px-2.5 py-1 rounded-sm" data-i18n="explore_hint">Touchez un point sur le plan</p>
           {
             typologies.map((t) => (
               <button
@@ -282,9 +355,9 @@ C’est possible.
           }
         </div>
 
-        <div class="choose-side relative bg-cream border border-foret/10 rounded-sm min-h-[28rem] lg:min-h-[36rem]">
-          <div class="choose-panel-stage relative h-full p-6 md:p-8 overflow-y-auto" data-panel-stage>
-            <p class="choose-empty is-hidden absolute inset-0 flex items-center justify-center p-8 text-center text-foret/50" data-choose-empty hidden aria-hidden="true" data-i18n="choose_empty">
+        <div class="choose-side relative bg-cream border border-foret/10 rounded-sm min-h-[18rem] lg:min-h-[22rem] lg:max-h-[26rem] overflow-hidden">
+          <div class="choose-panel-stage relative h-full p-4 md:p-5 overflow-y-auto" data-panel-stage>
+            <p class="choose-empty is-hidden absolute inset-0 flex items-center justify-center p-6 text-center text-foret/50 text-sm" data-choose-empty hidden aria-hidden="true" data-i18n="choose_empty">
               Choisissez F3, F4 ou un fonds — le détail s’ouvre ici.
             </p>
             {
@@ -295,31 +368,31 @@ C’est possible.
                   aria-hidden={t.id === 'F3' ? 'false' : 'true'}
                   inert={t.id === 'F3' ? undefined : true}
                 >
-                  <div class="overflow-hidden rounded-sm aspect-[16/10] mb-6 shrink-0">
+                  <div class="overflow-hidden rounded-sm aspect-[16/9] max-h-36 mb-3 shrink-0">
                     <img src={`${base}${t.img}`} alt={t.imgAlt} width="900" height="600" class="w-full h-full object-cover" loading="lazy" />
                   </div>
-                  <div class="flex flex-col flex-1 gap-3">
-                    <h3 class="serif text-3xl md:text-4xl m-0" data-i18n={t.titleKey}>
+                  <div class="flex flex-col flex-1 gap-2">
+                    <h3 class="serif text-2xl md:text-3xl m-0" data-i18n={t.titleKey}>
                       {t.title}
                     </h3>
-                    <p class="m-0 text-sm text-canopee/80 tracking-wide" data-i18n={t.roomsKey}>
+                    <p class="m-0 text-xs text-canopee/80 tracking-wide" data-i18n={t.roomsKey}>
                       {t.rooms}
                     </p>
-                    <p class="m-0 text-foret/75 leading-relaxed" data-i18n={t.bodyKey}>
+                    <p class="m-0 text-sm text-foret/75 leading-relaxed" data-i18n={t.bodyKey}>
                       {t.body}
                     </p>
-                    <div class="flex flex-wrap items-baseline gap-x-6 gap-y-2 mt-2">
+                    <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1 mt-1">
                       <p class="surface-tag" data-i18n={t.surfaceKey}>
                         {t.surface}
                       </p>
-                      <p class="typo-price" data-i18n={t.priceKey}>
+                      <p class="typo-price text-sm" data-i18n={t.priceKey}>
                         {t.price}
                       </p>
                     </div>
-                    <p class="m-0 text-[0.75rem] tracking-[0.1em] uppercase text-canopee/70" data-i18n="choose_aides">
+                    <p class="m-0 text-[0.7rem] tracking-[0.1em] uppercase text-canopee/70" data-i18n="choose_aides">
                       Éligible aux aides au logement
                     </p>
-                    <div class="flex flex-wrap gap-2 mt-1">
+                    <div class="flex flex-wrap gap-1.5 mt-0.5">
                       {t.id !== 'Fonds' ? (
                         <>
                           <span class="chip" data-i18n="chip_family">Familial</span>
@@ -330,8 +403,8 @@ C’est possible.
                         <span class="chip" data-i18n="chip_rdc">RDC</span>
                       )}
                     </div>
-                    <div class="mt-auto pt-6">
-                      <button type="button" class="btn btn-solid" data-select-typo={t.id} data-i18n="choose_select">
+                    <div class="mt-auto pt-4">
+                      <button type="button" class="btn btn-solid min-h-11 px-5 text-[0.75rem]" data-select-typo={t.id} data-i18n="choose_select">
                         Garder ce choix
                       </button>
                     </div>
@@ -341,6 +414,133 @@ C’est possible.
             }
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Showcase · Emplacement -->
+  <section id="emplacement" class="showcase-section showcase-section--cream" aria-labelledby="emplacement-title">
+    <div class="container-rzg">
+      <header class="max-w-2xl mb-4" data-reveal>
+        <p class="kicker kicker--ink" data-i18n="emplacement_kicker">Emplacement</p>
+        <h2 id="emplacement-title" class="serif text-[clamp(2rem,4.5vw,3.25rem)] m-0 mb-5" data-i18n="emplacement_title">
+          Entre Rabat et l’horizon
+        </h2>
+        <p class="text-foret/70 text-lg leading-relaxed m-0" data-i18n="emplacement_body">
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident — axes fluides, silence relatif,
+          proximité des communs.
+        </p>
+      </header>
+      <div class="showcase-grid" data-stagger>
+        <article class="showcase-card">
+          <h3 data-i18n="emplacement_c1_t">Axes & accès</h3>
+          <p data-i18n="emplacement_c1_b">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante
+            venenatis dapibus posuere velit aliquet.
+          </p>
+        </article>
+        <article class="showcase-card">
+          <h3 data-i18n="emplacement_c2_t">Quartier vivant</h3>
+          <p data-i18n="emplacement_c2_b">
+            Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed
+            consectetur. Maecenas faucibus mollis interdum.
+          </p>
+        </article>
+        <article class="showcase-card">
+          <h3 data-i18n="emplacement_c3_t">Horizon long</h3>
+          <p data-i18n="emplacement_c3_b">
+            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui —
+            spatium et lumen.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Showcase · Finitions -->
+  <section id="finitions" class="showcase-section showcase-section--cream border-t border-foret/8" aria-labelledby="finitions-title">
+    <div class="container-rzg grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <div data-reveal>
+        <p class="kicker kicker--ink" data-i18n="finitions_kicker">Finitions</p>
+        <h2 id="finitions-title" class="serif text-[clamp(2rem,4.5vw,3.25rem)] m-0 mb-5" data-i18n="finitions_title">
+          Matières & détail
+        </h2>
+        <p class="text-foret/70 text-lg leading-relaxed m-0 mb-8" data-i18n="finitions_body">
+          Curabitur blandit tempus porttitor. Nullam quis risus eget urna mollis ornare vel eu leo.
+          Cum sociis natoque penatibus et magnis dis parturient montes — texture, lumière, silence.
+        </p>
+        <ul class="list-none p-0 m-0 space-y-4 text-foret/80" data-stagger>
+          <li class="flex gap-3 items-start">
+            <span class="mt-2 w-1.5 h-1.5 rounded-full bg-gold shrink-0" aria-hidden="true"></span>
+            <span data-i18n="finitions_li1">Vestibulum id ligula porta felis euismod semper — finishes thoughtfully paced.</span>
+          </li>
+          <li class="flex gap-3 items-start">
+            <span class="mt-2 w-1.5 h-1.5 rounded-full bg-gold shrink-0" aria-hidden="true"></span>
+            <span data-i18n="finitions_li2">Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</span>
+          </li>
+          <li class="flex gap-3 items-start">
+            <span class="mt-2 w-1.5 h-1.5 rounded-full bg-gold shrink-0" aria-hidden="true"></span>
+            <span data-i18n="finitions_li3">Etiam porta sem malesuada magna mollis euismod — detail without noise.</span>
+          </li>
+        </ul>
+      </div>
+      <div class="relative aspect-[4/5] md:aspect-[5/6] overflow-hidden rounded-sm bg-canopee" data-reveal="clip">
+        <img
+          src={`${base}parcours/viz-10.jpg`}
+          alt=""
+          width="1200"
+          height="1500"
+          class="absolute inset-0 w-full h-full object-cover"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ — prominent -->
+  <section id="faq" class="faq-section" aria-labelledby="faq-title">
+    <div class="container-rzg">
+      <header class="max-w-2xl mx-auto text-center mb-14 md:mb-20" data-reveal>
+        <p class="kicker kicker--ink" data-i18n="faq_kicker">Questions</p>
+        <h2 id="faq-title" class="serif text-[clamp(2.25rem,5vw,3.75rem)] m-0 mb-5" data-i18n="faq_title">
+          Tout ce qu’il faut savoir
+        </h2>
+        <p class="text-foret/70 text-lg leading-relaxed m-0" data-i18n="faq_body">
+          Aides, livraison, parking, visite, réservation et typologies — réponses claires.
+        </p>
+      </header>
+
+      <div class="faq-list" data-faq data-stagger>
+        {
+          faqItems.map((item) => (
+            <div class="faq-item" data-faq-item>
+              <button
+                type="button"
+                class="faq-trigger"
+                data-faq-trigger
+                aria-expanded="false"
+                aria-controls={`faq-panel-home-${item.id}`}
+                id={`faq-btn-home-${item.id}`}
+              >
+                <span class="faq-q" data-i18n={item.qKey}>{item.q}</span>
+                <span class="faq-icon" aria-hidden="true" />
+              </button>
+              <div
+                class="faq-panel"
+                data-faq-panel
+                id={`faq-panel-home-${item.id}`}
+                role="region"
+                aria-labelledby={`faq-btn-home-${item.id}`}
+                aria-hidden="true"
+              >
+                <div class="faq-panel-inner">
+                  <p data-i18n={item.aKey}>{item.a}</p>
+                </div>
+              </div>
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>

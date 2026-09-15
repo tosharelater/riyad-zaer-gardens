@@ -182,28 +182,27 @@ export function initChapterVideos() {
   videos.forEach((v) => io.observe(v));
 }
 
-/** Premium FAQ accordion */
+/** Premium FAQ accordion (supports multiple roots) */
 export function initFaq() {
-  const root = document.querySelector<HTMLElement>('[data-faq]');
-  if (!root) return;
-
-  root.querySelectorAll<HTMLButtonElement>('[data-faq-trigger]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const item = btn.closest<HTMLElement>('[data-faq-item]');
-      if (!item) return;
-      const open = item.classList.contains('is-open');
-      root.querySelectorAll<HTMLElement>('[data-faq-item]').forEach((other) => {
-        other.classList.remove('is-open');
-        const t = other.querySelector<HTMLButtonElement>('[data-faq-trigger]');
-        const p = other.querySelector<HTMLElement>('[data-faq-panel]');
-        t?.setAttribute('aria-expanded', 'false');
-        p?.setAttribute('aria-hidden', 'true');
+  document.querySelectorAll<HTMLElement>('[data-faq]').forEach((root) => {
+    root.querySelectorAll<HTMLButtonElement>('[data-faq-trigger]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest<HTMLElement>('[data-faq-item]');
+        if (!item) return;
+        const open = item.classList.contains('is-open');
+        root.querySelectorAll<HTMLElement>('[data-faq-item]').forEach((other) => {
+          other.classList.remove('is-open');
+          const t = other.querySelector<HTMLButtonElement>('[data-faq-trigger]');
+          const p = other.querySelector<HTMLElement>('[data-faq-panel]');
+          t?.setAttribute('aria-expanded', 'false');
+          p?.setAttribute('aria-hidden', 'true');
+        });
+        if (!open) {
+          item.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+          item.querySelector<HTMLElement>('[data-faq-panel]')?.setAttribute('aria-hidden', 'false');
+        }
       });
-      if (!open) {
-        item.classList.add('is-open');
-        btn.setAttribute('aria-expanded', 'true');
-        item.querySelector<HTMLElement>('[data-faq-panel]')?.setAttribute('aria-hidden', 'false');
-      }
     });
   });
 }

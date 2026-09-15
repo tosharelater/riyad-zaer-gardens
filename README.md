@@ -12,7 +12,7 @@ Live: https://tosharelater.github.io/riyad-zaer-gardens/
 
 ## Structure
 
-- **Home** — 4 beats: Hero → Living (Cadre de vie) → Explore (plan L / panel R, F3 default) → WhatsApp handoff
+- **Home** — Hero → Cadre de vie (fullscreen sticky scroll story) → Promesse → Explorer (compact plan + F3 default) → Emplacement / Finitions → FAQ → WhatsApp handoff
 - **Prestations** (`/services`) — typologies & amenities
 - **Contact** (`/contact`) — solid WhatsApp + visible form + FAQ
 

@@ -137,7 +137,9 @@ const faqItems = [
                 aria-labelledby={`faq-btn-${item.id}`}
                 aria-hidden="true"
               >
-                <p data-i18n={item.aKey}>{item.a}</p>
+                <div class="faq-panel-inner">
+                  <p data-i18n={item.aKey}>{item.a}</p>
+                </div>
               </div>
             </div>
           ))
