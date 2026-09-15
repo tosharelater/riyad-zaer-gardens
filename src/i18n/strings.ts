@@ -21,6 +21,11 @@ export const strings = {
     live_cap_facade: 'Façade & volumes',
     live_cap_interior: 'Intérieurs lumineux',
     silence_quote: 'Long horizon. Adresse claire. Quotidien maîtrisé.',
+    quartier_kicker: 'Le quartier',
+    quartier_title: 'Volumes & horizon',
+    quartier_body:
+      'Faites défiler — la caméra traverse un fragment abstrait de Riyad Zaer Gardens.',
+    quartier_hint: 'Défilez pour explorer',
     explore_kicker: 'Explorer',
     explore_title: 'Trouvez votre adresse',
     explore_body:
@@ -130,6 +135,11 @@ export const strings = {
     live_cap_facade: 'الواجهة والأحجام',
     live_cap_interior: 'فضاءات مضيئة',
     silence_quote: 'أفق طويل. عنوان واضح. يومي متقن.',
+    quartier_kicker: 'الحي',
+    quartier_title: 'أحجام وأفق',
+    quartier_body:
+      'مرّروا — تتحرك الكاميرا عبر جزء مجرد من رياض زعير غاردنز.',
+    quartier_hint: 'مرّروا للاستكشاف',
     explore_kicker: 'استكشف',
     explore_title: 'اعثر على عنوانك',
     explore_body: 'مرّر على المخطط وافتح نوعاً. اختيارك يرافقك حتى المحادثة.',

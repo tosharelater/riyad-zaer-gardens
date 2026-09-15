@@ -1,6 +1,11 @@
 const STORAGE_KEY = 'rzg-splash-seen';
 
-/** Editorial splash: ~2.4–3.2s reveal, then fade out and remove from DOM. */
+/** Hold splash fully visible for exactly HOLD_MS, then fade out. */
+const HOLD_MS = 3000;
+const HOLD_REDUCED_MS = 1000;
+const FADE_REMOVE_BUFFER_MS = 500;
+
+/** Editorial splash: exact 3000ms hold (1s max if prefers-reduced-motion), then fade. */
 export function initSplash() {
   const root = document.getElementById('rzg-splash');
   if (!root) return;
@@ -13,7 +18,7 @@ export function initSplash() {
   }
 
   if (seen || document.documentElement.classList.contains('rzg-splash-done')) {
-    cleanup(root, false);
+    cleanup(root);
     return;
   }
 
@@ -21,22 +26,20 @@ export function initSplash() {
   document.body.classList.add('rzg-splash-open');
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hold = reduced ? HOLD_REDUCED_MS : HOLD_MS;
 
   if (reduced) {
     root.classList.add('is-static');
-    window.setTimeout(() => dismiss(root), 600);
-    return;
+  } else {
+    // Double rAF so initial styles paint before the animate class
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        root.classList.add('is-animate');
+      });
+    });
   }
 
-  // Double rAF so initial styles paint before the animate class
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      root.classList.add('is-animate');
-    });
-  });
-
-  // Total sequence ≈ 2.8s then fade-out begins
-  window.setTimeout(() => dismiss(root), 2800);
+  window.setTimeout(() => dismiss(root), hold);
 }
 
 function dismiss(root: HTMLElement) {
@@ -59,18 +62,13 @@ function dismiss(root: HTMLElement) {
   root.addEventListener('transitionend', (e) => {
     if (e.target === root && e.propertyName === 'opacity') remove();
   });
-  window.setTimeout(remove, 800);
+  window.setTimeout(remove, FADE_REMOVE_BUFFER_MS);
 }
 
-function cleanup(root: HTMLElement, animate: boolean) {
+function cleanup(root: HTMLElement) {
   document.body.classList.remove('rzg-splash-open');
   document.documentElement.classList.remove('rzg-splash-pending');
   document.documentElement.classList.add('rzg-splash-done');
   root.style.pointerEvents = 'none';
-  if (!animate) {
-    root.remove();
-    return;
-  }
-  root.classList.add('is-out');
-  window.setTimeout(() => root.remove(), 100);
+  root.remove();
 }

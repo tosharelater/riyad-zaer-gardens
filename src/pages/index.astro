@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Quartier3D from '../components/Quartier3D.astro';
 
 const base = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
@@ -171,6 +172,9 @@ const typologies = [
       </p>
     </div>
   </section>
+
+  <!-- QUARTIER — scroll-scrubbed 3D volumes -->
+  <Quartier3D />
 
   <!-- EXPLORE — woven choose, no chapter label -->
   <section id="explore" class="beat beat-explore theme-cream">
