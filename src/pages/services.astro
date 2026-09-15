@@ -4,6 +4,8 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ArchFrame from '../components/ArchFrame.astro';
 
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
+
 const services = [
   { key: 'ascenseur', icon: 'M12 3v18M8 7h8M8 17h8M9 12h6' },
   { key: 'espaces', icon: 'M12 21c-4-4-7-7-7-11a7 7 0 0 1 14 0c0 4-3 7-7 11z' },
@@ -65,7 +67,7 @@ const frDescs = {
     <div class="container">
       <div class="feature-band" style="margin-top:0; margin-bottom:2.5rem;" data-reveal>
         <div class="media">
-          <img src="/kids-bedroom.jpg" alt="Intérieur — finitions modernes" width="1200" height="800" />
+          <img src={`${base}kids-bedroom.jpg`} alt="Intérieur — finitions modernes" width="1200" height="800" />
           <ArchFrame />
         </div>
         <div class="gold-card" style="display:flex; flex-direction:column; justify-content:center;">
@@ -92,7 +94,7 @@ const frDescs = {
       </div>
 
       <div style="margin-top:2.5rem; display:flex; gap:0.85rem; flex-wrap:wrap;" data-reveal>
-        <a class="btn btn-solid" href="/contact" data-i18n="cta_contact">Nous contacter</a>
+        <a class="btn btn-solid" href={`${base}contact`} data-i18n="cta_contact">Nous contacter</a>
         <a class="btn" href="https://wa.me/212600000000" target="_blank" rel="noopener noreferrer" data-i18n="cta_whatsapp">WhatsApp</a>
       </div>
     </div>

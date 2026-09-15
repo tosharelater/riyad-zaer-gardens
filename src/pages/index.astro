@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ArchFrame from '../components/ArchFrame.astro';
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
 ---
 
 <BaseLayout title="Riyad Zaer Gardens — Accueil">
@@ -11,7 +12,7 @@ import ArchFrame from '../components/ArchFrame.astro';
   <section class="hero">
     <div class="hero-media">
       <img
-        src="/courtyard.jpg"
+        src={`${base}courtyard.jpg`}
         alt="Cour végétalisée de Riyad Zaer Gardens"
         data-parallax
         width="1600"
@@ -31,9 +32,9 @@ import ArchFrame from '../components/ArchFrame.astro';
         F3 & F4 de 65 à 86 m² · 120 appartements + fonds de commerce. Une adresse familiale, moderne et sécurisée entre Rabat et Aïn Aouda.
       </p>
       <div class="hero-actions">
-        <a class="btn btn-solid" href="/contact" data-i18n="cta_contact">Nous contacter</a>
+        <a class="btn btn-solid" href={`${base}contact`} data-i18n="cta_contact">Nous contacter</a>
         <a class="btn" href="https://wa.me/212600000000" target="_blank" rel="noopener noreferrer" data-i18n="cta_whatsapp">WhatsApp</a>
-        <a class="btn btn-ghost" href="/services" data-i18n="cta_discover">Découvrir les prestations</a>
+        <a class="btn btn-ghost" href={`${base}services`} data-i18n="cta_discover">Découvrir les prestations</a>
       </div>
       <div class="callout" data-reveal>
         <span class="label" data-i18n="aides_title">Éligible aux aides au logement</span>
@@ -71,7 +72,7 @@ import ArchFrame from '../components/ArchFrame.astro';
 
       <div class="feature-band" data-reveal>
         <div class="media">
-          <img src="/kids-bedroom.jpg" alt="Chambre enfant — finitions modernes" width="1200" height="800" loading="lazy" />
+          <img src={`${base}kids-bedroom.jpg`} alt="Chambre enfant — finitions modernes" width="1200" height="800" loading="lazy" />
           <ArchFrame />
         </div>
         <div class="gold-card" style="display:flex; flex-direction:column; justify-content:center; gap:1rem;">
@@ -80,7 +81,7 @@ import ArchFrame from '../components/ArchFrame.astro';
           <p style="margin:0; color:var(--muted)" data-i18n="svc_finitions_d">
             Matériaux soignés, lumière naturelle et espaces pensés pour la vie réelle.
           </p>
-          <a class="btn" href="/services" style="align-self:flex-start; margin-top:0.5rem;" data-i18n="cta_discover">Découvrir les prestations</a>
+          <a class="btn" href={`${base}services`} style="align-self:flex-start; margin-top:0.5rem;" data-i18n="cta_discover">Découvrir les prestations</a>
         </div>
       </div>
     </div>
