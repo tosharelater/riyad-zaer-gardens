@@ -117,6 +117,37 @@ export function initHeaderScroll() {
   window.addEventListener('scroll', onScroll, { passive: true });
 }
 
+/** Mobile nav burger — toggles the full-links panel below the header. */
+export function initMobileNav() {
+  const burger = document.querySelector<HTMLButtonElement>('[data-nav-burger]');
+  const panel = document.querySelector<HTMLElement>('[data-mobile-nav]');
+  if (!burger || !panel) return;
+
+  const close = () => {
+    burger.setAttribute('aria-expanded', 'false');
+    panel.classList.remove('is-open');
+    panel.setAttribute('aria-hidden', 'true');
+    document.documentElement.classList.remove('rzg-nav-open');
+  };
+
+  const open = () => {
+    burger.setAttribute('aria-expanded', 'true');
+    panel.classList.add('is-open');
+    panel.setAttribute('aria-hidden', 'false');
+    document.documentElement.classList.add('rzg-nav-open');
+  };
+
+  burger.addEventListener('click', () => {
+    const isOpen = burger.getAttribute('aria-expanded') === 'true';
+    isOpen ? close() : open();
+  });
+
+  panel.querySelectorAll('a').forEach((a) => a.addEventListener('click', close));
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 780) close();
+  });
+}
+
 /**
  * Chapter videos: poster-first, preload=none until in view.
  * prefers-reduced-motion → poster only.

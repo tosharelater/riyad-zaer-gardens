@@ -43,19 +43,45 @@ const solid = current !== 'home';
       <button type="button" data-lang="fr" aria-pressed="true">FR</button>
       <button type="button" data-lang="ar" aria-pressed="false">AR</button>
     </div>
+    <button
+      type="button"
+      class="nav-burger"
+      data-nav-burger
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      aria-label="Menu"
+    >
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <div id="mobile-nav" class="mobile-nav" data-mobile-nav aria-hidden="true">
+    <nav class="mobile-nav__links" aria-label="Navigation mobile">
+      <a href={base} aria-current={current === 'home' ? 'page' : undefined} data-i18n="nav_home"
+        >Accueil</a
+      >
+      <a
+        href={`${base}services/`}
+        aria-current={current === 'services' ? 'page' : undefined}
+        data-i18n="nav_services">Prestations</a
+      >
+      <a
+        href={`${base}about/`}
+        aria-current={current === 'about' ? 'page' : undefined}
+        data-i18n="nav_about">À propos</a
+      >
+      <a
+        href={`${base}blog/`}
+        aria-current={current === 'blog' ? 'page' : undefined}
+        data-i18n="nav_blog">Blog</a
+      >
+      <a
+        href={`${base}contact/`}
+        aria-current={current === 'contact' ? 'page' : undefined}
+        data-i18n="nav_contact">Contact</a
+      >
+    </nav>
   </div>
 </header>
-
-<style>
-  @media (max-width: 920px) {
-    .site-header .nav-links {
-      gap: 0.55rem;
-      font-size: 0.65rem;
-    }
-  }
-  @media (max-width: 720px) {
-    .site-header .nav-links a:nth-child(n + 4) {
-      display: none;
-    }
-  }
-</style>
