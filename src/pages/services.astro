@@ -11,52 +11,46 @@ const base = import.meta.env.BASE_URL.endsWith('/')
 
 const equipments = [
   {
-    key: 'ascenseur',
     title: 'Ascenseur',
     desc: 'Accès fluide à tous les étages, confort familial et accessibilité.',
     titleKey: 'svc_ascenseur',
     descKey: 'svc_ascenseur_d',
-    icon: 'M12 3v18M8 7h8M8 17h8M9 12h6',
+    num: '01',
   },
   {
-    key: 'espaces',
     title: 'Espaces verts & jeux',
     desc: 'Cour végétalisée, aires de jeux et moments en famille en toute sérénité.',
     titleKey: 'svc_espaces',
     descKey: 'svc_espaces_d',
-    icon: 'M12 21c-4-4-7-7-7-11a7 7 0 0 1 14 0c0 4-3 7-7 11z',
+    num: '02',
   },
   {
-    key: 'securite',
     title: 'Sécurité',
     desc: 'Résidence fermée, contrôle d’accès et tranquillité d’esprit.',
     titleKey: 'svc_securite',
     descKey: 'svc_securite_d',
-    icon: 'M12 3l8 4v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V7l8-4z',
+    num: '03',
   },
   {
-    key: 'parking',
     title: 'Parking titré',
     desc: 'Places de stationnement titrées pour un usage serein et durable.',
     titleKey: 'svc_parking',
     descKey: 'svc_parking_d',
-    icon: 'M5 19V5h8a5 5 0 0 1 0 10H9v4M9 10h3.5',
+    num: '04',
   },
   {
-    key: 'finitions',
     title: 'Finitions modernes',
     desc: 'Matériaux soignés, lumière naturelle et espaces pensés pour la vie réelle.',
     titleKey: 'svc_finitions',
     descKey: 'svc_finitions_d',
-    icon: 'M4 20h16M6 16l4-10 3 6 2-4 3 8',
+    num: '05',
   },
   {
-    key: 'aides',
     title: 'Éligibilité aides logement',
     desc: 'Accompagnement pour les dispositifs d’aide à l’accession au logement.',
     titleKey: 'svc_aides',
     descKey: 'svc_aides_d',
-    icon: 'M12 3v18M7 8h7a3 3 0 0 1 0 6H7',
+    num: '06',
   },
 ] as const;
 ---
@@ -64,153 +58,129 @@ const equipments = [
 <BaseLayout title="Prestations — Riyad Zaer Gardens">
   <Header current="services" />
 
-  <section class="page-hero">
+  <section class="page-hero theme-cream">
     <div class="container">
-      <span class="label" data-i18n="nav_services">Prestations</span>
+      <span class="marker" data-num="01" data-i18n="nav_services">Prestations</span>
       <h1 data-i18n="services_title">Prestations & confort</h1>
-      <p class="lead" data-i18n="services_sub"
+      <p class="lead muted" data-i18n="services_sub"
         >Typologies, commerces et cadre de vie — clairement distincts</p
       >
     </div>
   </section>
 
-  <section class="section" style="padding-top:2.25rem;">
+  <!-- F3 story -->
+  <section class="typo-story theme-cream">
     <div class="container">
-      <!-- Block 1: F3 / F4 -->
-      <div class="service-block" data-reveal>
-        <div class="service-block__head">
-          <div>
-            <span class="service-block__tag" data-i18n="block_typo_tag">Habitation</span>
-            <h2 data-i18n="block_typo_title">Appartements F3 & F4</h2>
+      <article class="story" data-reveal>
+        <div class="story-media">
+          <img
+            src={`${base}kids-bedroom.jpg`}
+            alt="Intérieur — typologie F3"
+            width="1200"
+            height="800"
+            loading="lazy"
+          />
+          <ArchFrame />
+        </div>
+        <div class="story-body">
+          <span class="marker" data-num="02" data-i18n="block_typo_tag">Habitation</span>
+          <p class="label" style="margin:0;" data-i18n="f3_surface">65–75 m²</p>
+          <h3 class="serif" data-i18n="f3_title">F3</h3>
+          <p class="muted" data-i18n="f3_body">
+            65 à 75 m² environ — séjour lumineux, deux chambres, cuisine équipable, rangements
+            pensés.
+          </p>
+          <div class="story-meta">
+            <span class="chip" data-i18n="chip_family">Familial</span>
+            <span class="chip" data-i18n="chip_light">Lumière naturelle</span>
           </div>
         </div>
-        <p style="color:var(--muted); max-width:42rem; margin:0 0 1.75rem;" data-i18n="block_typo_lead">
-          Des surfaces maîtrisées pour la vie de famille, avec des volumes clairs et une vraie qualité
-          d’usage.
-        </p>
+      </article>
+    </div>
+  </section>
 
-        <div class="typology-grid">
-          <div class="media ken-burns" style="min-height:360px; border:1px solid var(--hairline); position:relative;">
-            <img
-              src={`${base}kids-bedroom.jpg`}
-              alt="Intérieur — typologies F3 et F4"
-              width="1200"
-              height="800"
-              loading="lazy"
-            />
-            <ArchFrame />
+  <!-- F4 story (flipped, dark) -->
+  <section class="typo-story theme-dark">
+    <div class="container">
+      <article class="story story--flip" data-reveal>
+        <div class="story-media">
+          <img
+            src={`${base}courtyard.jpg`}
+            alt="Cour — typologie F4"
+            width="1600"
+            height="1000"
+            loading="lazy"
+          />
+          <ArchFrame />
+        </div>
+        <div class="story-body">
+          <span class="marker" data-num="03" data-i18n="block_typo_tag">Habitation</span>
+          <p class="label" style="margin:0;" data-i18n="f4_surface">jusqu’à 86 m²</p>
+          <h3 class="serif" data-i18n="f4_title">F4</h3>
+          <p class="muted" data-i18n="f4_body">
+            Jusqu’à 86 m² — troisième chambre, plus d’espace familial, idéale pour s’ancrer
+            durablement.
+          </p>
+          <div class="story-meta">
+            <span class="chip" data-i18n="chip_surface">65–86 m²</span>
+            <span class="chip" data-i18n="chip_family">Familial</span>
           </div>
-          <div style="display:grid; gap:1.35rem;">
-            <article class="gold-card typology-card">
-              <span class="label">65–75 m²</span>
-              <h3 data-i18n="f3_title">F3</h3>
-              <p style="margin:0; color:var(--muted);" data-i18n="f3_body">
-                65 à 75 m² environ — séjour lumineux, deux chambres, cuisine équipable, rangements
-                pensés.
-              </p>
-              <div class="meta">
-                <span class="chip" data-i18n="chip_family">Familial</span>
-                <span class="chip" data-i18n="chip_light">Lumière naturelle</span>
-              </div>
-            </article>
-            <article class="gold-card typology-card">
-              <span class="label">jusqu’à 86 m²</span>
-              <h3 data-i18n="f4_title">F4</h3>
-              <p style="margin:0; color:var(--muted);" data-i18n="f4_body">
-                Jusqu’à 86 m² — troisième chambre, plus d’espace familial, idéale pour s’ancrer
-                durablement.
-              </p>
-              <div class="meta">
-                <span class="chip" data-i18n="chip_surface">65–86 m²</span>
-                <span class="chip" data-i18n="chip_family">Familial</span>
-              </div>
-            </article>
-          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Commerce editorial block -->
+  <section class="section theme-cream" style="padding-block: clamp(3.5rem, 8vw, 5.5rem);">
+    <div class="container">
+      <div class="commerce-story" data-reveal>
+        <div class="num" aria-hidden="true">04</div>
+        <div>
+          <span class="marker" data-num="" data-i18n="block_commerce_tag">Investissement</span>
+          <h2 class="serif" data-i18n="block_commerce_title">Fonds de commerce</h2>
+          <p class="muted" data-i18n="block_commerce_body">
+            Locaux en rez-de-chaussée pour commerces de proximité — une adresse vivante au pied de la
+            résidence.
+          </p>
         </div>
       </div>
-
       <ArchDivider />
+    </div>
+  </section>
 
-      <!-- Block 2: Fonds de commerce -->
-      <div class="service-block" data-reveal>
-        <div class="service-block__head">
-          <div>
-            <span class="service-block__tag" data-i18n="block_commerce_tag">Investissement</span>
-            <h2 data-i18n="block_commerce_title">Fonds de commerce</h2>
-          </div>
-        </div>
-        <article class="gold-card commerce-banner">
-          <div class="icon-wrap" aria-hidden="true">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
-              <path d="M3 9l1.5-5h15L21 9M4 9h16v11H4V9zM9 13h6" stroke-linecap="round" stroke-linejoin="round"
-              ></path>
-            </svg>
-          </div>
-          <div>
-            <span class="label" data-i18n="stats_commerce">fonds de commerce</span>
-            <h3 data-i18n="block_commerce_title">Fonds de commerce</h3>
-            <p data-i18n="block_commerce_body">
-              Locaux en rez-de-chaussée pour commerces de proximité — une adresse vivante au pied de la
-              résidence.
-            </p>
-          </div>
-        </article>
-      </div>
-
-      <!-- Block 3: Cadre & équipements -->
-      <div class="service-block" data-reveal>
-        <div class="service-block__head">
-          <div>
-            <span class="service-block__tag" data-i18n="block_cadre_tag">Cadre & équipements</span>
-            <h2 data-i18n="block_cadre_title">Le confort au quotidien</h2>
-          </div>
-        </div>
-        <p style="color:var(--muted); max-width:42rem; margin:0 0 1.5rem;" data-i18n="block_cadre_lead">
+  <!-- Amenities quiet list -->
+  <section class="section theme-dark">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="marker" data-num="05" data-i18n="block_cadre_tag">Cadre & équipements</span>
+        <h2 class="serif" data-i18n="block_cadre_title">Le confort au quotidien</h2>
+        <p class="muted" data-i18n="block_cadre_lead">
           Tout ce qui sécurise, facilite et embellit la vie en résidence.
         </p>
+      </div>
 
-        <div class="feature-band" style="margin-top:0; margin-bottom:2.25rem;">
-          <div class="media ken-burns">
-            <img
-              src={`${base}courtyard.jpg`}
-              alt="Cour et espaces verts"
-              width="1600"
-              height="1000"
-              loading="lazy"
-            />
-            <ArchFrame />
-          </div>
-          <div class="gold-card" style="display:flex; flex-direction:column; justify-content:center; gap:0.85rem;">
-            <span class="label" data-i18n="svc_espaces">Espaces verts & jeux</span>
-            <h3 class="serif" style="margin:0; font-size:2.05rem;" data-i18n="feature_title"
-              >Espaces pensés pour la famille</h3
-            >
-            <p style="margin:0; color:var(--muted)" data-i18n="svc_espaces_d">
-              Cour végétalisée, aires de jeux et moments en famille en toute sérénité.
-            </p>
-          </div>
-        </div>
-
-        <div class="equip-grid">
-          {
-            equipments.map((s, i) => (
-              <article class="gold-card" data-reveal data-reveal-delay={String((i % 3) + 1)}>
-                <svg
-                  class="service-icon"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.4"
-                  aria-hidden="true"
-                >
-                  <path d={s.icon} stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
+      <div class="amenity-list" data-reveal>
+        {
+          equipments.map((s) => (
+            <div class="amenity">
+              <span class="idx" aria-hidden="true">
+                {s.num}
+              </span>
+              <div>
                 <h3 data-i18n={s.titleKey}>{s.title}</h3>
                 <p data-i18n={s.descKey}>{s.desc}</p>
-              </article>
-            ))
-          }
-        </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="aides-note" style="margin-top:2.75rem; max-width:36rem;" data-reveal>
+        <span class="label" data-i18n="aides_title">Éligible aux aides au logement</span>
+        <p data-i18n="aides_body">
+          Projet conçu pour maximiser votre éligibilité aux dispositifs d’aide à l’accession —
+          renseignez-vous dès maintenant.
+        </p>
       </div>
 
       <div class="cta-row" data-reveal>
@@ -221,7 +191,7 @@ const equipments = [
           rel="noopener noreferrer"
           data-i18n="cta_whatsapp">WhatsApp</a
         >
-        <a class="btn" href={`${base}contact`} data-i18n="cta_contact">Nous contacter</a>
+        <a class="btn-ghost-link" href={`${base}contact`} data-i18n="cta_contact">Nous contacter</a>
       </div>
     </div>
   </section>
