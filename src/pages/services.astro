@@ -8,12 +8,66 @@ const base = import.meta.env.BASE_URL.endsWith('/')
   : import.meta.env.BASE_URL + '/';
 
 const amenities = [
-  { idx: '01', t: 'amenity_garden_t', d: 'amenity_garden_d', tf: 'Cours & jardins', df: 'Espaces verts partagés, promenades plantées — le cœur végétal de la résidence.' },
-  { idx: '02', t: 'amenity_sec_t', d: 'amenity_sec_d', tf: 'Sécurité', df: 'Accès contrôlé, résidence fermée — sérénité du quotidien.' },
-  { idx: '03', t: 'amenity_park_t', d: 'amenity_park_d', tf: 'Stationnement', df: 'Places dédiées pour résidents, précisées à la réservation.' },
-  { idx: '04', t: 'amenity_shop_t', d: 'amenity_shop_d', tf: 'Commerces', df: 'Fonds en rez-de-chaussée, proximité immédiate au seuil.' },
-  { idx: '05', t: 'amenity_light_t', d: 'amenity_light_d', tf: 'Lumière', df: 'Orientations étudiées, volumes ouverts, silence optique.' },
-  { idx: '06', t: 'amenity_family_t', d: 'amenity_family_d', tf: 'Familial', df: 'Espaces pensés pour la vie à plusieurs — sans forcer le geste.' },
+  {
+    idx: '01',
+    t: 'amenity_garden_t',
+    d: 'amenity_garden_d',
+    tf: 'Cours & jardins',
+    df: 'Espaces verts partagés, promenades plantées — le cœur végétal de la résidence.',
+    img: 'courtyard.jpg',
+    fk: 'amenity_garden_fiche',
+    fiche: ['≈ 40 % de l’emprise en espaces verts', 'Cheminements piétons séparés des voitures', 'Bancs et aires de repos ombragées'],
+  },
+  {
+    idx: '02',
+    t: 'amenity_sec_t',
+    d: 'amenity_sec_d',
+    tf: 'Sécurité',
+    df: 'Accès contrôlé, résidence fermée — sérénité du quotidien.',
+    img: 'parcours/viz-12.jpg',
+    fk: 'amenity_sec_fiche',
+    fiche: ['Accès résidence contrôlé', 'Éclairage extérieur sur voies et parkings', 'Vidéosurveillance des parties communes'],
+  },
+  {
+    idx: '03',
+    t: 'amenity_park_t',
+    d: 'amenity_park_d',
+    tf: 'Stationnement',
+    df: 'Places dédiées pour résidents, précisées à la réservation.',
+    img: 'parcours/viz-06.jpg',
+    fk: 'amenity_park_fiche',
+    fiche: ['Places résidents et places visiteurs', 'Attribution précisée à la réservation', 'Accès direct depuis les voies internes'],
+  },
+  {
+    idx: '04',
+    t: 'amenity_shop_t',
+    d: 'amenity_shop_d',
+    tf: 'Commerces',
+    df: 'Fonds en rez-de-chaussée, proximité immédiate au seuil.',
+    img: 'parcours/viz-05.jpg',
+    fk: 'amenity_shop_fiche',
+    fiche: ['Locaux commerciaux en pied d’immeuble', 'Commerces de proximité dès la livraison', 'Vitrines sur rue, accès piéton direct'],
+  },
+  {
+    idx: '05',
+    t: 'amenity_light_t',
+    d: 'amenity_light_d',
+    tf: 'Lumière',
+    df: 'Orientations étudiées, volumes ouverts, silence optique.',
+    img: 'parcours/viz-03.jpg',
+    fk: 'amenity_light_fiche',
+    fiche: ['Orientation étudiée logement par logement', 'Baies vitrées et séjours traversants', 'Volumes clairs, peu de recoins sombres'],
+  },
+  {
+    idx: '06',
+    t: 'amenity_family_t',
+    d: 'amenity_family_d',
+    tf: 'Familial',
+    df: 'Espaces pensés pour la vie à plusieurs — sans forcer le geste.',
+    img: 'kids-bedroom.jpg',
+    fk: 'amenity_family_fiche',
+    fiche: ['Chambres dimensionnées pour toute la famille', 'Rangements intégrés dès la livraison', 'Écoles et services à quelques minutes'],
+  },
 ] as const;
 
 const typologies = [
@@ -83,7 +137,7 @@ const typologies = [
     </div>
   </section>
 
-  <section class="bg-cream text-foret py-20 md:py-28" aria-labelledby="typo-story-title">
+  <section class="bg-cream text-foret py-20 md:py-28 min-h-[100svh] flex flex-col justify-center" aria-labelledby="typo-story-title">
     <div class="container-rzg">
       <header class="max-w-2xl mb-16 md:mb-24" data-reveal>
         <p class="kicker kicker--ink" data-i18n="services_typo_kicker">Typologies</p>
@@ -148,7 +202,7 @@ const typologies = [
     </div>
   </section>
 
-  <section class="bg-foret text-cream py-24 md:py-32 section-seam" aria-labelledby="amenities-title">
+  <section class="bg-foret text-cream py-24 md:py-32 section-seam min-h-[100svh] flex flex-col justify-center" aria-labelledby="amenities-title">
     <div class="container-rzg">
       <header class="max-w-2xl mb-16 md:mb-20" data-reveal>
         <p class="kicker" data-i18n="services_amenities_t">Équipements</p>
@@ -159,13 +213,24 @@ const typologies = [
           Jardins, sécurité, lumière, commerces — l’infrastructure du confort, sans surenchère.
         </p>
       </header>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-12 md:gap-y-16" data-stagger>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-8 md:gap-y-10" data-stagger>
         {
           amenities.map((a) => (
-            <article class="services-amenity border-cream/10">
-              <span class="services-amenity__idx text-gold">{a.idx}</span>
-              <h3 class="text-lg font-medium tracking-wide m-0 mb-3 text-cream" data-i18n={a.t}>{a.tf}</h3>
-              <p class="m-0 text-cream/65 leading-relaxed" data-i18n={a.d}>{a.df}</p>
+            <article class="services-fiche">
+              <div class="services-fiche__media">
+                <img src={`${base}${a.img}`} alt="" width="640" height="480" loading="lazy" />
+                <span class="services-fiche__idx">{a.idx}</span>
+              </div>
+              <div class="services-fiche__body">
+                <p class="services-fiche__label" data-i18n="services_fiche_label">Fiche</p>
+                <h3 data-i18n={a.t}>{a.tf}</h3>
+                <p class="services-fiche__lead" data-i18n={a.d}>{a.df}</p>
+                <ul class="services-fiche__specs">
+                  {a.fiche.map((line, i) => (
+                    <li data-i18n={`${a.fk}_${i + 1}`}>{line}</li>
+                  ))}
+                </ul>
+              </div>
             </article>
           ))
         }
@@ -173,7 +238,7 @@ const typologies = [
     </div>
   </section>
 
-  <section class="bg-cream text-foret py-24 md:py-32">
+  <section class="bg-cream text-foret py-24 md:py-32 min-h-[100svh] flex items-center">
     <div class="container-rzg max-w-3xl text-center" data-reveal>
       <p class="kicker kicker--ink" data-i18n="services_next_kicker">Suite</p>
       <h2 class="serif text-[clamp(2rem,4vw,3rem)] m-0 mb-5" data-i18n="services_next_title">

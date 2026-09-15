@@ -8,8 +8,7 @@ Live: https://tosharelater.github.io/riyad-zaer-gardens/
 
 - Astro 7 + Tailwind CSS v4 (`@tailwindcss/vite`)
 - FR / AR i18n · base `/riyad-zaer-gardens/`
-- Display Latin: Audrey when present, else Cormorant Garamond · UI Latin: Poppins
-- Arabic: IBM Plex Sans Arabic (UI) + Noto Naskh Arabic (display) on `html[lang=ar]` / `[dir=rtl]`
+- Two fonts, site-wide: Cormorant Garamond (display/serif) · Poppins (UI/body) — used for FR and AR alike
 
 ## Structure
 

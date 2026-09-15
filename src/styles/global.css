@@ -8,42 +8,15 @@
   --color-gold-soft: #d9c987;
   --color-cream: #f7f2e8;
 
-  --font-display: "Audrey", "Cormorant Garamond", "Cormorant", serif;
+  /* Only two brand fonts site-wide: Poppins (UI/body) and Cormorant Garamond (display/serif). */
+  --font-display: "Cormorant Garamond", serif;
   --font-sans: "Poppins", system-ui, -apple-system, sans-serif;
-  --font-arabic: "IBM Plex Sans Arabic", "Noto Sans Arabic", system-ui, sans-serif;
-  --font-arabic-display: "Noto Naskh Arabic", "IBM Plex Sans Arabic", serif;
+  --font-arabic: "Poppins", system-ui, -apple-system, sans-serif;
+  --font-arabic-display: "Cormorant Garamond", "Poppins", serif;
 
   --container-max: 72rem;
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-fluid: cubic-bezier(0.33, 1, 0.68, 1);
-}
-
-@font-face {
-  font-family: "Audrey";
-  font-style: normal;
-  font-weight: 400 500;
-  font-display: swap;
-  src:
-    url("/riyad-zaer-gardens/fonts/Audrey-Regular.woff2") format("woff2"),
-    url("/riyad-zaer-gardens/fonts/Audrey-Regular.otf") format("opentype");
-}
-@font-face {
-  font-family: "Audrey";
-  font-style: normal;
-  font-weight: 500 600;
-  font-display: swap;
-  src:
-    url("/riyad-zaer-gardens/fonts/Audrey-Medium.woff2") format("woff2"),
-    url("/riyad-zaer-gardens/fonts/Audrey-Medium.otf") format("opentype");
-}
-@font-face {
-  font-family: "Audrey";
-  font-style: italic;
-  font-weight: 400 500;
-  font-display: swap;
-  src:
-    url("/riyad-zaer-gardens/fonts/Audrey-Italic.woff2") format("woff2"),
-    url("/riyad-zaer-gardens/fonts/Audrey-Italic.otf") format("opentype");
 }
 
 @layer base {
@@ -717,7 +690,7 @@
 
   /* —— Explorer compact —— */
   .beat-explore.explore--compact {
-    @apply pt-10 md:pt-14 pb-20 md:pb-28;
+    @apply pt-10 md:pt-14 pb-20 md:pb-28 min-h-[100svh] flex flex-col justify-center;
   }
 
   .explore--compact .choose-legend__btn {
@@ -770,7 +743,7 @@
 
   /* —— FAQ prominent —— */
   .faq-section {
-    @apply bg-cream text-foret py-28 md:py-40;
+    @apply bg-cream text-foret py-28 md:py-40 min-h-[100svh] flex flex-col justify-center;
   }
 
   .faq-section .faq-list {
@@ -795,9 +768,9 @@
     @apply pb-7 text-[1.05rem] leading-relaxed;
   }
 
-  /* —— Showcase / lorem sections —— */
+  /* —— Showcase sections —— */
   .showcase-section {
-    @apply py-28 md:py-36;
+    @apply py-28 md:py-36 min-h-[100svh] flex flex-col justify-center;
   }
 
   .showcase-section--cream {
@@ -957,7 +930,7 @@
 
   /* Services page premium */
   .services-hero {
-    @apply relative overflow-hidden bg-foret text-cream pt-36 pb-24 md:pb-32;
+    @apply relative overflow-hidden bg-foret text-cream pt-36 pb-24 md:pb-32 min-h-[100svh] flex items-center;
   }
 
   .services-hero__bg {
@@ -972,12 +945,59 @@
     @apply mt-6 md:mt-8;
   }
 
-  .services-amenity {
-    @apply relative pl-0 border-t border-cream/12 pt-8;
+  /* Fiche cards — one detailed spec sheet per service/amenity */
+  .services-fiche {
+    @apply relative flex flex-col overflow-hidden rounded-sm border border-cream/12 bg-cream/[0.04];
+    transition:
+      border-color 0.4s var(--ease-fluid),
+      transform 0.5s var(--ease-fluid);
   }
 
-  .services-amenity__idx {
-    @apply block text-[0.7rem] tracking-[0.16em] uppercase text-gold mb-3 font-medium;
+  .services-fiche:hover {
+    border-color: rgb(200 181 104 / 0.45);
+    transform: translateY(-3px);
+  }
+
+  .services-fiche__media {
+    @apply relative aspect-[4/3] overflow-hidden;
+  }
+
+  .services-fiche__media img {
+    @apply w-full h-full object-cover;
+  }
+
+  .services-fiche__idx {
+    @apply absolute top-3 start-3 text-[0.7rem] tracking-[0.16em] uppercase text-cream bg-foret/70 backdrop-blur-sm px-2.5 py-1 rounded-sm;
+  }
+
+  .services-fiche__body {
+    @apply flex flex-col gap-3 p-6 md:p-7;
+  }
+
+  .services-fiche__label {
+    @apply m-0 text-[0.65rem] font-medium tracking-[0.18em] uppercase text-gold;
+  }
+
+  .services-fiche__body h3 {
+    @apply m-0 text-lg font-medium tracking-wide text-cream;
+    font-family: var(--font-display);
+  }
+
+  .services-fiche__lead {
+    @apply m-0 text-cream/65 leading-relaxed text-[0.95rem];
+  }
+
+  .services-fiche__specs {
+    @apply list-none p-0 m-0 mt-1 flex flex-col gap-2 border-t border-cream/10 pt-4;
+  }
+
+  .services-fiche__specs li {
+    @apply relative ps-4 text-[0.85rem] text-cream/60 leading-snug;
+  }
+
+  .services-fiche__specs li::before {
+    content: "";
+    @apply absolute start-0 top-[0.5em] w-1.5 h-1.5 rounded-full bg-gold/80;
   }
 
   /* Blog cards */
