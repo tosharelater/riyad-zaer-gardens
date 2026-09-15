@@ -2106,3 +2106,182 @@ html {
     opacity: 1 !important;
   }
 }
+
+/* ——— Premium splash (editorial reveal) ——— */
+html.rzg-splash-pending,
+html.rzg-splash-pending body,
+body.rzg-splash-open {
+  overflow: hidden;
+}
+
+html.rzg-splash-done .rzg-splash {
+  display: none;
+}
+
+.rzg-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  background: #002d2d;
+  color: var(--cream);
+  pointer-events: auto;
+  opacity: 1;
+  transition: opacity 0.65s var(--ease);
+}
+
+.rzg-splash.is-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.rzg-splash__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem;
+  max-width: min(28rem, 88vw);
+}
+
+.rzg-splash__logo {
+  width: min(11.5rem, 42vw);
+  height: auto;
+  opacity: 0;
+  transform: scale(0.94);
+  filter: drop-shadow(0 12px 40px rgba(0, 0, 0, 0.28));
+  will-change: opacity, transform;
+}
+
+.rzg-splash__line {
+  display: block;
+  width: min(7.5rem, 36vw);
+  height: 1px;
+  margin: 1.35rem 0 1.25rem;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--or-champagne) 18%,
+    var(--or-pale) 50%,
+    var(--or-champagne) 82%,
+    transparent 100%
+  );
+  transform: scaleX(0);
+  transform-origin: center;
+  opacity: 0.92;
+  will-change: transform;
+}
+
+.rzg-splash__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.35rem, 3.6vw, 1.85rem);
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  color: var(--cream);
+  opacity: 0;
+  transform: translateY(0.45rem);
+  will-change: opacity, transform;
+}
+
+.rzg-splash__place {
+  margin: 0.65rem 0 0;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.6875rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--or-champagne);
+  opacity: 0;
+  transform: translateY(0.35rem);
+  will-change: opacity, transform;
+}
+
+/* Sequenced editorial reveal */
+.rzg-splash.is-animate .rzg-splash__logo {
+  animation: rzg-splash-logo 0.85s var(--ease) 0.08s forwards;
+}
+
+.rzg-splash.is-animate .rzg-splash__line {
+  animation: rzg-splash-line 0.7s var(--ease) 0.55s forwards;
+}
+
+.rzg-splash.is-animate .rzg-splash__title {
+  animation: rzg-splash-type 0.75s var(--ease) 1.05s forwards;
+}
+
+.rzg-splash.is-animate .rzg-splash__place {
+  animation: rzg-splash-type 0.75s var(--ease) 1.28s forwards;
+}
+
+@keyframes rzg-splash-logo {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes rzg-splash-line {
+  from {
+    transform: scaleX(0);
+    opacity: 0.4;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0.92;
+  }
+}
+
+@keyframes rzg-splash-type {
+  from {
+    opacity: 0;
+    transform: translateY(0.45rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reduced motion: static composition, brief hold */
+.rzg-splash.is-static .rzg-splash__logo,
+.rzg-splash.is-static .rzg-splash__line,
+.rzg-splash.is-static .rzg-splash__title,
+.rzg-splash.is-static .rzg-splash__place {
+  opacity: 1;
+  transform: none;
+  animation: none;
+}
+
+.rzg-splash.is-static .rzg-splash__line {
+  transform: scaleX(1);
+}
+
+.rzg-splash.is-static .rzg-splash__place {
+  opacity: 0.85;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rzg-splash:not(.is-out) {
+    transition: opacity 0.35s ease;
+  }
+
+  .rzg-splash.is-animate .rzg-splash__logo,
+  .rzg-splash.is-animate .rzg-splash__line,
+  .rzg-splash.is-animate .rzg-splash__title,
+  .rzg-splash.is-animate .rzg-splash__place {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .rzg-splash.is-animate .rzg-splash__line {
+    transform: scaleX(1);
+  }
+}
