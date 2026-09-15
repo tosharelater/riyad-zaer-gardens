@@ -8,7 +8,7 @@ interface Props {
 
 const {
   title,
-  description = 'Le parcours Riyad — Riyad Zaer Gardens, résidence mid-standing à Aïn Aouda / Rabat. F3 & F4, 120 appartements.',
+  description = 'Riyad Zaer Gardens — nouveau pôle urbain à Aïn Aouda / Rabat. F3 & F4, 120 appartements.',
 } = Astro.props;
 const base = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
@@ -25,7 +25,7 @@ const base = import.meta.env.BASE_URL.endsWith('/')
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- TODO: replace Bodoni Moda with Audrey once .woff2/.otf land in public/fonts — wire @font-face immediately -->
+    <!-- TODO: replace Bodoni Moda with Audrey once .woff2/.otf land in public/fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=Poppins:wght@300;400;500;700&display=swap"
       rel="stylesheet"
@@ -38,14 +38,12 @@ const base = import.meta.env.BASE_URL.endsWith('/')
       import { initLangToggle } from '../scripts/i18n.ts';
       import { initReveal, initParallax, initHeaderScroll, initChapterVideos } from '../scripts/polish.ts';
       import { initChoose } from '../scripts/choose.ts';
-      import { initParcoursSpy } from '../scripts/parcours.ts';
       initLangToggle();
       initReveal();
       initParallax();
       initHeaderScroll();
       initChapterVideos();
       initChoose();
-      initParcoursSpy();
     </script>
   </body>
 </html>

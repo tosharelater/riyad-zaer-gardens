@@ -18,9 +18,9 @@ export function initReveal() {
   nodes.forEach((n) => io.observe(n));
 }
 
-/** Soft Ken Burns fallback on arrive poster when video is unavailable / reduced motion */
+/** Soft Ken Burns fallback on arrive poster when video unavailable / reduced motion */
 export function initParallax() {
-  const hero = document.querySelector<HTMLElement>('.chapter-arrive');
+  const hero = document.querySelector<HTMLElement>('.beat-arrive, .chapter-arrive');
   if (!hero) return;
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -29,10 +29,9 @@ export function initParallax() {
     return;
   }
 
-  // Prefer chapter video; only animate still poster if no video element or it fails
   const video = hero.querySelector<HTMLVideoElement>('[data-chapter-video]');
   if (video) {
-    hero.classList.add('hero--static'); // no CSS Ken Burns on still while video handles motion
+    hero.classList.add('hero--static');
     return;
   }
 
@@ -64,8 +63,8 @@ export function initHeaderScroll() {
 }
 
 /**
- * Chapter videos (Arrive + Live): poster-first, preload=none until in view.
- * prefers-reduced-motion → poster only (never load/play).
+ * Hero videos: poster-first, preload=none until in view.
+ * prefers-reduced-motion → poster only.
  */
 export function initChapterVideos() {
   const videos = Array.from(document.querySelectorAll<HTMLVideoElement>('[data-chapter-video]'));
@@ -79,7 +78,7 @@ export function initChapterVideos() {
       v.querySelectorAll('source').forEach((s) => s.remove());
       v.load();
       v.classList.add('is-poster-only');
-      v.closest('.arrive-media, .live-shot')?.classList.add('is-poster-only');
+      v.closest('.arrive-media, .live-shot, .live-hero')?.classList.add('is-poster-only');
     });
     return;
   }
@@ -89,15 +88,13 @@ export function initChapterVideos() {
       v.muted = true;
       await v.play();
       v.classList.add('is-playing');
-      v.closest('.arrive-media, .live-shot')?.classList.add('is-video-playing');
+      v.closest('.arrive-media, .live-shot, .live-hero')?.classList.add('is-video-playing');
     } catch {
-      // Autoplay blocked or codec issue — keep poster visible
       v.classList.remove('is-playing');
     }
   };
 
   const ensureSources = (v: HTMLVideoElement) => {
-    // Sources already in DOM; calling load() after first intersection starts fetch
     if (v.dataset.armed === '1') return;
     v.dataset.armed = '1';
     v.load();
@@ -121,7 +118,7 @@ export function initChapterVideos() {
         } else {
           v.pause();
           v.classList.remove('is-playing');
-          v.closest('.arrive-media, .live-shot')?.classList.remove('is-video-playing');
+          v.closest('.arrive-media, .live-shot, .live-hero')?.classList.remove('is-video-playing');
         }
       });
     },

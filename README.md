@@ -1,22 +1,18 @@
-# Riyad Zaer Gardens — Le parcours Riyad
+# Riyad Zaer Gardens
 
-Single Astro story-showroom for **Riyad Zaer Gardens** (mid-standing, Rabat / Aïn Aouda).
+Cinematic Astro showroom for **Riyad Zaer Gardens** (mid-standing, Rabat / Aïn Aouda).
 
 Live: https://tosharelater.github.io/riyad-zaer-gardens/
 
-## Parcours (Home)
+## Structure
 
-Five scroll chapters on one page:
+- **Home** — one long monumental scroll: Arrive hero → lifestyle → woven plan explore (F3/F4/Fonds) → quiet trust → WhatsApp handoff
+- **Prestations** (`/services`) — deep typologies & amenities
+- **Contact** (`/contact`) — one WhatsApp conversion + quiet form (prefills typology from session)
 
-1. **Arrive** `#arrive` — full-bleed 3D, clamp() type, **Commencer le parcours** only (WhatsApp on Talk)
-2. **Live** `#live` — lifestyle / cadre de vie (folder photography)
-3. **Choose** `#choose` — interactive plan hotspots → F3 / F4 / fonds panels
-4. **Trust** `#trust` — aides + chantier markers (no forms)
-5. **Talk** `#talk` — WhatsApp CTA (prefills chosen typology client-side)
+No chapter labels, no progress-dot tour UI, no 5-step game framing.
 
-Optional sticky progress dots (skippable). `/services` and `/contact` redirect into `#choose` / `#talk`.
-
-Hero motion: Arrive + Live use `public/parcours/video/*` (WebM/MP4), poster-first, `preload=none` until in view; `prefers-reduced-motion` keeps still posters only. Choose/Trust stay photo.
+Hero motion: Arrive uses `public/parcours/video/arrive.*` (poster-first, `preload=none` until in view; `prefers-reduced-motion` keeps still posters).
 
 Base path: `/riyad-zaer-gardens/`
 

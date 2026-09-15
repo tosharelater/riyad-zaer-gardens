@@ -29,7 +29,6 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y proximity;
 }
 
 body {
@@ -1405,7 +1404,6 @@ h3,
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-    scroll-snap-type: none;
   }
 
   *,
@@ -1426,139 +1424,73 @@ h3,
   }
 }
 
-/* ========== LE PARCOURS RIYAD ========== */
+/* ========== CINEMATIC HOME — unnamed beats ========== */
 
 html {
   scroll-padding-top: calc(var(--nav-h) + 0.75rem);
 }
 
-.chapter {
+.beat {
   position: relative;
   scroll-margin-top: calc(var(--nav-h) + 0.75rem);
-  scroll-snap-align: start;
-  scroll-snap-stop: normal;
 }
 
-.chapter-head {
+.beat-head {
   display: grid;
-  gap: 1rem;
-  max-width: 40rem;
-  margin-bottom: clamp(2.5rem, 6vw, 4rem);
+  gap: 1.15rem;
+  max-width: 44rem;
+  margin-bottom: clamp(2.75rem, 7vw, 5rem);
 }
 
-.chapter-title {
-  font-size: clamp(2.35rem, 5.5vw, 4rem);
-  max-width: 16ch;
+.beat-title {
+  font-size: clamp(2.75rem, 7vw, 5.5rem);
+  max-width: 14ch;
+  line-height: 0.98;
 }
 
-.chapter-lead {
+.beat-title--billboard {
+  font-size: clamp(3.25rem, 9vw, 7rem);
+  max-width: 12ch;
+  white-space: pre-line;
+}
+
+.beat-lead {
   margin: 0;
-  font-size: 1.08rem;
+  font-size: clamp(1.05rem, 1.7vw, 1.2rem);
   max-width: 36rem;
 }
 
-.chapter-head--dark .chapter-lead {
+.beat-head--dark .beat-lead {
   color: rgba(247, 242, 232, 0.68);
 }
 
-/* Progress dots — skippable, sticky */
-.progress-dots {
-  position: fixed;
-  z-index: 50;
-  top: 50%;
-  inset-inline-end: clamp(0.65rem, 2vw, 1.35rem);
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-  align-items: flex-end;
+/* Long cream silence between beats */
+.cream-void {
+  height: clamp(4rem, 12vw, 9rem);
+  background: var(--cream);
 }
 
-.progress-dot {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  color: rgba(0, 45, 45, 0.35);
-  transition: color 0.25s ease;
+.cream-void--tall {
+  height: clamp(6rem, 18vw, 14rem);
 }
 
-.progress-dot__pip {
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 50%;
-  border: 1px solid currentColor;
-  background: transparent;
-  transition: background 0.4s var(--ease), transform 0.4s var(--ease), border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
+.cream-silence {
+  padding: clamp(6rem, 18vw, 14rem) 0;
+  background: var(--cream);
 }
 
-.progress-dot__label {
-  font-size: 0.62rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  opacity: 0;
-  transform: translateX(6px);
-  transition: opacity 0.25s ease, transform 0.25s ease;
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-[dir="rtl"] .progress-dot__label {
-  transform: translateX(-6px);
-}
-
-.progress-dot:hover .progress-dot__label,
-.progress-dot.is-current .progress-dot__label {
-  opacity: 0.85;
-  transform: none;
-}
-
-.progress-dot.is-current {
-  color: var(--gold);
-}
-
-.progress-dot.is-current .progress-dot__pip {
-  background: var(--gold);
-  border-color: var(--gold);
-  transform: scale(1.2);
-  box-shadow: 0 0 0 3px rgba(200, 181, 104, 0.28);
-}
-
-.chapter-talk ~ .site-footer + .progress-dots,
-body:has(.chapter-talk:hover) .progress-dots {
-  /* no-op placeholder */
-}
-
-.chapter-arrive ~ * .progress-dot,
-.progress-dots .progress-dot {
-  color: rgba(247, 242, 232, 0.45);
-}
-
-/* Dots adapt: cream chapters need dark pips — handled via body class from spy if needed.
-   Use dual-tone readable pips: */
-.progress-dot {
-  color: var(--gold);
-  mix-blend-mode: normal;
-  filter: drop-shadow(0 0 0.5px rgba(0, 45, 45, 0.35));
-}
-
-.nav-links a.is-current,
-.nav-links a[aria-current="location"] {
-  color: var(--gold-soft);
-}
-
-.nav-links a.is-current::after,
-.nav-links a[aria-current="location"]::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -0.2rem;
-  height: 1px;
-  background: var(--gold);
+.silence-quote {
+  font-size: clamp(2rem, 5.5vw, 4rem);
+  max-width: 18ch;
+  line-height: 1.15;
+  margin: 0;
+  color: var(--ink);
+  font-style: italic;
+  font-weight: 500;
 }
 
 /* ——— Arrive ——— */
-.chapter-arrive {
+.beat-arrive {
   position: relative;
   min-height: calc(100svh - var(--nav-h));
   display: grid;
@@ -1575,6 +1507,7 @@ body:has(.chapter-talk:hover) .progress-dots {
 }
 
 .arrive-media .media-poster,
+.arrive-media .beat-video,
 .arrive-media .chapter-video {
   position: absolute;
   inset: 0;
@@ -1589,30 +1522,34 @@ body:has(.chapter-talk:hover) .progress-dots {
   transform: scale(1.02);
 }
 
+.arrive-media .beat-video,
 .arrive-media .chapter-video {
   z-index: 1;
   opacity: 0;
   transition: opacity 0.6s var(--ease);
-  /* No CTA chrome sits on the video layer — copy/CTA live above the veil */
   pointer-events: none;
 }
 
+.arrive-media.is-video-playing .beat-video,
 .arrive-media.is-video-playing .chapter-video,
+.arrive-media .beat-video.is-playing,
 .arrive-media .chapter-video.is-playing {
   opacity: 1;
 }
 
+.arrive-media.is-poster-only .beat-video,
 .arrive-media.is-poster-only .chapter-video,
+.beat-video.is-poster-only,
 .chapter-video.is-poster-only {
   display: none;
 }
 
-.chapter-arrive.hero--cinematic .arrive-media .media-poster {
+.beat-arrive.hero--cinematic .arrive-media .media-poster {
   animation: kenBurnsSoft 32s var(--ease) infinite alternate;
   transform: scale(1.04);
 }
 
-.chapter-arrive.hero--static .arrive-media .media-poster {
+.beat-arrive.hero--static .arrive-media .media-poster {
   transform: scale(1.02) !important;
   animation: none !important;
 }
@@ -1621,38 +1558,38 @@ body:has(.chapter-talk:hover) .progress-dots {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(0, 45, 45, 0.35) 0%, rgba(0, 45, 45, 0.15) 35%, rgba(0, 45, 45, 0.78) 100%),
+    linear-gradient(180deg, rgba(0, 45, 45, 0.35) 0%, rgba(0, 45, 45, 0.15) 35%, rgba(0, 45, 45, 0.82) 100%),
     linear-gradient(90deg, rgba(0, 45, 45, 0.72) 0%, rgba(0, 45, 45, 0.25) 45%, transparent 70%);
   pointer-events: none;
 }
 
 [dir="rtl"] .arrive-veil {
   background:
-    linear-gradient(180deg, rgba(0, 45, 45, 0.35) 0%, rgba(0, 45, 45, 0.15) 35%, rgba(0, 45, 45, 0.78) 100%),
+    linear-gradient(180deg, rgba(0, 45, 45, 0.35) 0%, rgba(0, 45, 45, 0.15) 35%, rgba(0, 45, 45, 0.82) 100%),
     linear-gradient(270deg, rgba(0, 45, 45, 0.72) 0%, rgba(0, 45, 45, 0.25) 45%, transparent 70%);
 }
 
 .arrive-copy {
   position: relative;
   z-index: 2;
-  padding: clamp(3rem, 8vw, 6rem) var(--gutter) clamp(3.5rem, 9vw, 6.5rem);
+  padding: clamp(3.5rem, 10vw, 7rem) var(--gutter) clamp(4rem, 11vw, 8rem);
   width: min(var(--container), calc(100% - 2 * var(--gutter)));
   margin-inline: auto;
-  max-width: 52rem;
+  max-width: 56rem;
 }
 
 .arrive-title {
-  font-size: clamp(2.75rem, 8.5vw, 6.25rem);
-  line-height: 0.95;
-  max-width: 10ch;
-  margin: 0 0 1.25rem;
+  font-size: clamp(3.25rem, 11vw, 7.5rem);
+  line-height: 0.92;
+  max-width: 11ch;
+  margin: 0 0 1.5rem;
   color: var(--cream);
 }
 
 .arrive-lead {
-  margin: 0 0 2rem;
-  max-width: 28rem;
-  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  margin: 0 0 2.25rem;
+  max-width: 30rem;
+  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
   color: rgba(247, 242, 232, 0.72);
   font-weight: 300;
 }
@@ -1664,103 +1601,36 @@ body:has(.chapter-talk:hover) .progress-dots {
   align-items: center;
 }
 
-/* Arrive primary CTA stays solid gold — WhatsApp only dominant on Talk */
-.arrive-skip.btn-solid {
-  color: var(--ink) !important;
+/* ——— Live monumental ——— */
+.beat-live {
+  padding: clamp(2rem, 5vw, 3.5rem) 0 clamp(4rem, 10vw, 7rem);
 }
 
-.arrive-skip.btn-solid:hover {
-  color: var(--ink) !important;
+.live-monument {
+  margin-bottom: clamp(1.25rem, 3vw, 2rem);
 }
 
-/* ——— Live folder ——— */
-.chapter-live {
-  padding: clamp(2.75rem, 6vw, 4.5rem) 0;
-}
-
-.chapter-live .chapter-head {
-  margin-bottom: clamp(1.5rem, 3.5vw, 2.5rem);
-}
-
-.live-folder {
-  display: grid;
-  grid-template-columns: 1.35fr 0.85fr 0.85fr;
-  grid-template-rows: auto auto;
-  gap: clamp(0.55rem, 1.2vw, 0.9rem);
-  margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
-}
-
-.live-shot {
+.live-hero {
   margin: 0;
   position: relative;
   overflow: hidden;
   background: var(--ink);
+  min-height: clamp(28rem, 72vw, 52rem);
 }
 
-.live-shot img,
-.live-shot .chapter-video {
+.live-hero img {
   width: 100%;
   height: 100%;
+  min-height: clamp(28rem, 72vw, 52rem);
   object-fit: cover;
   display: block;
-  min-height: 12rem;
 }
 
-.live-shot img {
-  transition: transform 0.7s var(--ease);
-}
-
-.live-shot:hover img {
-  transform: scale(1.03);
-}
-
-.live-shot--video {
-  position: relative;
-}
-
-.live-shot--video .media-poster,
-.live-shot--video .chapter-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  min-height: 100%;
-}
-
-.live-shot--video .media-poster {
-  position: relative; /* reserve height in grid before absolute video */
-  z-index: 0;
-}
-
-.live-shot--video .chapter-video {
-  z-index: 1;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.6s var(--ease);
-}
-
-.live-shot--video.is-video-playing .chapter-video,
-.live-shot--video .chapter-video.is-playing {
-  opacity: 1;
-}
-
-.live-shot--video.is-poster-only .chapter-video {
-  display: none;
-}
-
-.live-shot--video:hover .media-poster {
-  transform: none; /* motion comes from video, not hover zoom */
-}
-
-.live-shot--video figcaption {
-  z-index: 2;
-}
-
+.live-hero figcaption,
 .live-shot figcaption {
   position: absolute;
-  inset-inline-start: 0.9rem;
-  bottom: 0.75rem;
+  inset-inline-start: 1rem;
+  bottom: 0.9rem;
   font-size: 0.65rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -1770,20 +1640,32 @@ body:has(.chapter-talk:hover) .progress-dots {
   backdrop-filter: blur(4px);
 }
 
-.live-shot--hero {
-  grid-row: 1 / 3;
-  min-height: clamp(22rem, 48vw, 34rem);
+.live-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(0.55rem, 1.2vw, 0.9rem);
+  margin-bottom: clamp(2.5rem, 6vw, 4rem);
 }
 
-.live-shot--hero img,
-.live-shot--hero .chapter-video {
-  min-height: 100%;
+.live-shot {
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+  min-height: clamp(14rem, 28vw, 22rem);
 }
 
-.live-shot--hero.live-shot--video .media-poster {
-  min-height: clamp(22rem, 48vw, 34rem);
+.live-shot img {
+  width: 100%;
   height: 100%;
+  min-height: clamp(14rem, 28vw, 22rem);
   object-fit: cover;
+  display: block;
+  transition: transform 0.7s var(--ease);
+}
+
+.live-shot:hover img {
+  transform: scale(1.03);
 }
 
 .live-stats {
@@ -1794,9 +1676,9 @@ body:has(.chapter-talk:hover) .progress-dots {
   padding-top: 0.5rem;
 }
 
-/* ——— Choose island ——— */
-.chapter-choose {
-  padding: clamp(3.25rem, 7vw, 5.5rem) 0;
+/* ——— Explore / choose island ——— */
+.beat-explore {
+  padding: clamp(3rem, 8vw, 6rem) 0;
 }
 
 .choose-island {
@@ -1804,7 +1686,6 @@ body:has(.chapter-talk:hover) .progress-dots {
   gap: clamp(1.5rem, 3vw, 2.5rem);
 }
 
-/* Persistent F3 / F4 / Fonds legend — always visible */
 .choose-legend {
   display: flex;
   flex-wrap: wrap;
@@ -1852,26 +1733,18 @@ body:has(.chapter-talk:hover) .progress-dots {
   flex-shrink: 0;
 }
 
-.choose-legend__btn.is-active .choose-legend__swatch,
-.choose-legend__btn[aria-pressed="true"] .choose-legend__swatch {
-  background: var(--gold);
-  box-shadow: 0 0 0 2px rgba(200, 181, 104, 0.4);
-}
-
-
-
 .choose-plan {
   position: relative;
   overflow: hidden;
   background: var(--ink);
-  min-height: clamp(18rem, 48vw, 32rem);
+  min-height: clamp(20rem, 52vw, 36rem);
 }
 
 .choose-plan > img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  min-height: clamp(18rem, 48vw, 32rem);
+  min-height: clamp(20rem, 52vw, 36rem);
   display: block;
 }
 
@@ -1897,7 +1770,6 @@ body:has(.chapter-talk:hover) .progress-dots {
   border: 0;
   background: transparent;
   cursor: pointer;
-  /* Large hit target (~44px+) for tactile touch + mouse */
   min-width: 2.75rem;
   min-height: 2.75rem;
   padding: 0.55rem;
@@ -1960,15 +1832,9 @@ body:has(.chapter-talk:hover) .progress-dots {
 }
 
 @keyframes hotspotPulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(200, 181, 104, 0.45);
-  }
-  70% {
-    box-shadow: 0 0 0 12px rgba(200, 181, 104, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(200, 181, 104, 0);
-  }
+  0% { box-shadow: 0 0 0 0 rgba(200, 181, 104, 0.45); }
+  70% { box-shadow: 0 0 0 12px rgba(200, 181, 104, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(200, 181, 104, 0); }
 }
 
 .choose-panels {
@@ -2067,8 +1933,8 @@ body:has(.chapter-talk:hover) .progress-dots {
 }
 
 /* ——— Trust ——— */
-.chapter-trust {
-  padding: clamp(3.25rem, 7vw, 5.5rem) 0;
+.beat-trust {
+  padding: clamp(3rem, 8vw, 6rem) 0;
 }
 
 .trust-markers {
@@ -2108,43 +1974,34 @@ body:has(.chapter-talk:hover) .progress-dots {
 .trust-marker p {
   margin: 0;
   max-width: 36rem;
-  color: rgba(0, 45, 45, 0.82);
-}
-
-.chapter-trust .chapter-lead.muted {
-  color: rgba(0, 45, 45, 0.8);
 }
 
 .trust-visual {
   overflow: hidden;
-  max-height: clamp(12rem, 30vw, 18rem);
+  max-height: clamp(14rem, 36vw, 22rem);
 }
 
 .trust-visual img {
   width: 100%;
   height: 100%;
-  min-height: clamp(12rem, 30vw, 18rem);
+  min-height: clamp(14rem, 36vw, 22rem);
   object-fit: cover;
   object-position: center 28%;
   transform: scale(1.08);
   transform-origin: center 30%;
 }
 
-/* ——— Talk ——— */
-.chapter-talk {
-  padding: clamp(2.5rem, 5vw, 4rem) 0 clamp(4rem, 9vw, 6.5rem);
+/* ——— Handoff ——— */
+.beat-handoff {
+  padding: clamp(4rem, 10vw, 8rem) 0;
 }
 
-.chapter-talk .chapter-head {
-  margin-bottom: clamp(1.25rem, 3vw, 2rem);
-}
-
-.talk-inner {
-  max-width: 40rem;
+.handoff-inner {
+  max-width: 42rem;
 }
 
 .talk-choice {
-  margin: 0.5rem 0 0;
+  margin: 0.75rem 0 0;
   font-size: 0.78rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -2157,12 +2014,16 @@ body:has(.chapter-talk:hover) .progress-dots {
   letter-spacing: 0.02em;
 }
 
-.talk-cta {
+.talk-choice--ink {
+  color: var(--vert-canopee);
+}
+
+.handoff-cta {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 1.25rem;
-  margin-top: 0.5rem;
+  margin-top: 1.5rem;
 }
 
 .btn-wa-lg {
@@ -2171,74 +2032,29 @@ body:has(.chapter-talk:hover) .progress-dots {
 }
 
 .talk-form {
-  margin-top: 2.5rem;
+  margin-top: 1.5rem;
   max-width: 32rem;
 }
 
 .talk-form .lead-form {
-  border-color: rgba(217, 201, 135, 0.22);
+  border-color: rgba(0, 45, 45, 0.12);
 }
 
-/* Companion pages */
-.companion {
-  min-height: calc(70svh - var(--nav-h));
-  display: flex;
-  align-items: center;
-  padding: clamp(3rem, 8vw, 5rem) 0;
-}
-
-.companion-inner {
-  display: grid;
-  gap: 1rem;
-  max-width: 36rem;
-}
-
-.companion-inner h1 {
-  font-size: clamp(2rem, 4vw, 3rem);
-  margin: 0;
-}
-
-.companion-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: center;
-  margin-top: 1rem;
+.contact-form-wrap .btn-ghost-link {
+  margin-bottom: 1rem;
 }
 
 @media (max-width: 960px) {
-  .progress-dots {
-    top: auto;
-    bottom: 1.1rem;
-    inset-inline: 0;
-    transform: none;
-    flex-direction: row;
-    justify-content: center;
-    gap: 0.75rem;
-    pointer-events: none;
+  .live-strip {
+    grid-template-columns: 1fr;
   }
 
-  .progress-dot {
-    pointer-events: auto;
+  .live-hero {
+    min-height: 18rem;
   }
 
-  .progress-dot__label {
-    display: none;
-  }
-
-  .live-folder {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto;
-  }
-
-  .live-shot--hero {
-    grid-column: 1 / -1;
-    grid-row: auto;
-    min-height: 16rem;
-  }
-
-  .live-shot--d {
-    display: none;
+  .live-hero img {
+    min-height: 18rem;
   }
 
   .choose-panels {
@@ -2259,28 +2075,20 @@ body:has(.chapter-talk:hover) .progress-dots {
   .nav-links {
     display: none;
   }
+
+  .beat-title--billboard {
+    font-size: clamp(2.6rem, 11vw, 3.8rem);
+  }
 }
 
 @media (max-width: 560px) {
   .arrive-title {
-    font-size: clamp(2.4rem, 11vw, 3.2rem);
-  }
-
-  .choose-legend {
-    gap: 0.45rem;
+    font-size: clamp(2.6rem, 12vw, 3.4rem);
   }
 
   .choose-legend__btn {
     padding: 0.5rem 0.7rem;
     font-size: 0.65rem;
-  }
-
-  .live-folder {
-    grid-template-columns: 1fr;
-  }
-
-  .hotspot__label {
-    font-size: 0.58rem;
   }
 }
 
@@ -2289,12 +2097,12 @@ body:has(.chapter-talk:hover) .progress-dots {
     animation: none;
   }
 
+  .beat-video,
   .chapter-video {
     display: none !important;
   }
 
-  .arrive-media .media-poster,
-  .live-shot--video .media-poster {
+  .arrive-media .media-poster {
     opacity: 1 !important;
   }
 }

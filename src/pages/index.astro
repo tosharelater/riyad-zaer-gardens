@@ -2,8 +2,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import ProgressDots from '../components/ProgressDots.astro';
-import ContactForm from '../components/ContactForm.astro';
 
 const base = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
@@ -58,12 +56,11 @@ const typologies = [
 ] as const;
 ---
 
-<BaseLayout title="Le parcours Riyad — Riyad Zaer Gardens">
+<BaseLayout title="Riyad Zaer Gardens — Nouveau pôle urbain">
   <Header current="home" />
-  <ProgressDots />
 
-  <!-- 1. ARRIVE -->
-  <section id="arrive" class="chapter chapter-arrive" data-chapter-section="arrive">
+  <!-- ARRIVE — full-bleed cinematic -->
+  <section id="arrive" class="beat beat-arrive">
     <div class="arrive-media" aria-hidden="true">
       <img
         class="arrive-poster media-poster"
@@ -75,7 +72,7 @@ const typologies = [
         decoding="async"
       />
       <video
-        class="chapter-video"
+        class="beat-video"
         data-chapter-video
         poster={`${base}parcours/viz-08.jpg`}
         muted
@@ -87,99 +84,65 @@ const typologies = [
         <source src={`${base}parcours/video/arrive.webm`} type="video/webm" />
         <source src={`${base}parcours/video/arrive.mp4`} type="video/mp4" />
       </video>
-      <div class="arrive-veil" aria-hidden="true"></div>
+      <div class="arrive-veil"></div>
     </div>
     <div class="arrive-copy">
       <p class="kicker" data-i18n="arrive_kicker">Riyad Zaer Gardens</p>
-      <p class="hero-locale" data-i18n="teasing">Résidence exclusive · Aïn Aouda · Rabat</p>
-      <h1 class="arrive-title" data-i18n="arrive_title">Le parcours Riyad</h1>
+      <p class="hero-locale" data-i18n="teasing">Aïn Aouda · Rabat</p>
+      <h1 class="arrive-title" data-i18n="arrive_title">Un nouveau pôle urbain</h1>
       <p class="arrive-lead" data-i18n="arrive_lead">
-        Une adresse familiale, moderne et sécurisée entre Rabat et Aïn Aouda.
+        Une adresse familiale, moderne et sécurisée — lumière, jardins, horizon ouvert entre Rabat et
+        Aïn Aouda.
       </p>
       <div class="arrive-actions">
-        <a class="btn btn-solid arrive-skip" href="#live" data-i18n="cta_scroll"
-          >Commencer le parcours</a
-        >
+        <a class="btn btn-solid" href="#live" data-i18n="cta_scroll">Découvrir</a>
       </div>
     </div>
   </section>
 
-  <!-- 2. LIVE -->
-  <section id="live" class="chapter chapter-live theme-cream" data-chapter-section="live">
+  <!-- cream void -->
+  <div class="cream-void" aria-hidden="true"></div>
+
+  <!-- LIFESTYLE — monumental -->
+  <section id="live" class="beat beat-live theme-cream">
     <div class="container">
-      <header class="chapter-head" data-reveal>
+      <header class="beat-head" data-reveal>
         <p class="kicker kicker--ink" data-i18n="live_kicker">Cadre de vie</p>
-        <h2 class="serif chapter-title" data-i18n="live_title">Vivre autrement. C’est possible.</h2>
-        <p class="muted chapter-lead" data-i18n="live_body">
-          Cour végétalisée, lumière naturelle, commerces de proximité — un quotidien élégant, sans
-          le bruit du luxe générique.
+        <h2 class="serif beat-title beat-title--billboard" data-i18n="live_title">
+          Vivre autrement. C’est possible.
+        </h2>
+        <p class="muted beat-lead" data-i18n="live_body">
+          Cour végétalisée, volumes clairs, commerces de proximité — un quotidien élégant, sans le
+          bruit du luxe générique.
         </p>
       </header>
 
-      <div class="live-folder" data-reveal>
-        <figure class="live-shot live-shot--hero live-shot--video">
+      <div class="live-monument" data-reveal>
+        <figure class="live-hero">
           <img
             class="media-poster"
             src={`${base}parcours/viz-01.jpg`}
-            alt="Cour végétalisée — cadre de vie"
+            alt="Cour végétalisée"
             width="1600"
             height="1000"
             loading="lazy"
           />
-          <video
-            class="chapter-video"
-            data-chapter-video
-            poster={`${base}parcours/viz-01.jpg`}
-            muted
-            loop
-            playsinline
-            preload="none"
-            aria-hidden="true"
-          >
-            <source src={`${base}parcours/video/live.webm`} type="video/webm" />
-            <source src={`${base}parcours/video/live.mp4`} type="video/mp4" />
-          </video>
           <figcaption data-i18n="live_cap_courtyard">Cour &amp; jardins</figcaption>
         </figure>
-        <figure class="live-shot live-shot--a">
-          <img
-            src={`${base}parcours/viz-11.jpg`}
-            alt="Façade et palmiers"
-            width="1200"
-            height="800"
-            loading="lazy"
-          />
+      </div>
+
+      <div class="live-strip" data-reveal>
+        <figure class="live-shot">
+          <img src={`${base}parcours/viz-11.jpg`} alt="Façade et palmiers" width="1200" height="800" loading="lazy" />
           <figcaption data-i18n="live_cap_street">Adresse vivante</figcaption>
         </figure>
-        <figure class="live-shot live-shot--b">
-          <img
-            src={`${base}parcours/viz-06.jpg`}
-            alt="Façade — volumes et lumière"
-            width="1200"
-            height="800"
-            loading="lazy"
-          />
+        <figure class="live-shot">
+          <img src={`${base}parcours/viz-06.jpg`} alt="Façade — volumes" width="1200" height="800" loading="lazy" />
           <figcaption data-i18n="live_cap_facade">Façade & volumes</figcaption>
         </figure>
-        <figure class="live-shot live-shot--c">
-          <img
-            src={`${base}parcours/viz-02.jpg`}
-            alt="Intérieur — chambre lumineuse"
-            width="1200"
-            height="800"
-            loading="lazy"
-          />
+        <figure class="live-shot">
+          <img src={`${base}parcours/viz-02.jpg`} alt="Intérieur lumineux" width="1200" height="800" loading="lazy" />
           <figcaption data-i18n="live_cap_interior">Intérieurs lumineux</figcaption>
-        </figure>
-        <figure class="live-shot live-shot--d">
-          <img
-            src={`${base}parcours/viz-12.jpg`}
-            alt="Perspective rue — Riyad Zaer Gardens"
-            width="1200"
-            height="800"
-            loading="lazy"
-          />
-          <figcaption data-i18n="live_cap_street">Adresse vivante</figcaption>
         </figure>
       </div>
 
@@ -200,14 +163,25 @@ const typologies = [
     </div>
   </section>
 
-  <!-- 3. CHOOSE — only interactive island -->
-  <section id="choose" class="chapter chapter-choose theme-cream" data-chapter-section="choose">
+  <!-- cream void + pull quote -->
+  <section class="cream-silence theme-cream" aria-hidden="false">
+    <div class="container" data-reveal>
+      <p class="silence-quote serif" data-i18n="silence_quote">
+        Long horizon. Adresse claire. Quotidien maîtrisé.
+      </p>
+    </div>
+  </section>
+
+  <!-- EXPLORE — woven choose, no chapter label -->
+  <section id="explore" class="beat beat-explore theme-cream">
     <div class="container">
-      <header class="chapter-head" data-reveal>
-        <p class="kicker kicker--ink" data-i18n="choose_kicker">Typologies</p>
-        <h2 class="serif chapter-title" data-i18n="choose_title">Choisissez votre adresse</h2>
-        <p class="muted chapter-lead" data-i18n="choose_body">
-          Explorez le plan, ouvrez une typologie, gardez votre choix pour la conversation WhatsApp.
+      <header class="beat-head" data-reveal>
+        <p class="kicker kicker--ink" data-i18n="explore_kicker">Explorer</p>
+        <h2 class="serif beat-title beat-title--billboard" data-i18n="explore_title">
+          Trouvez votre adresse
+        </h2>
+        <p class="muted beat-lead" data-i18n="explore_body">
+          Survolez le plan, ouvrez une typologie. Votre choix vous suit jusqu’à la conversation.
         </p>
       </header>
 
@@ -224,7 +198,11 @@ const typologies = [
                   aria-pressed="false"
                 >
                   <span class="choose-legend__swatch" aria-hidden="true" />
-                  <span data-i18n={t.id === 'Fonds' ? 'choose_legend_fonds' : `choose_legend_${t.id.toLowerCase()}`}>
+                  <span
+                    data-i18n={
+                      t.id === 'Fonds' ? 'choose_legend_fonds' : `choose_legend_${t.id.toLowerCase()}`
+                    }
+                  >
                     {t.title === 'Fonds de commerce' ? 'Fonds' : t.title}
                   </span>
                 </button>
@@ -232,6 +210,7 @@ const typologies = [
             ))
           }
         </ul>
+
         <div class="choose-plan" role="group" aria-label="Plan interactif">
           <img
             src={`${base}parcours/viz-04.jpg`}
@@ -240,7 +219,7 @@ const typologies = [
             height="1000"
             loading="lazy"
           />
-          <p id="choose-hint-text" class="choose-hint" data-i18n="choose_hint">Touchez un hotspot ou utilisez la légende</p>
+          <p id="explore-hint" class="choose-hint" data-i18n="explore_hint">Touchez un point sur le plan</p>
           {
             typologies.map((t) => (
               <button
@@ -250,7 +229,7 @@ const typologies = [
                 data-hotspot={t.id}
                 aria-label={t.title}
                 aria-pressed="false"
-                aria-describedby="choose-hint-text"
+                aria-describedby="explore-hint"
               >
                 <span class="hotspot__ring" aria-hidden="true" />
                 <span class="hotspot__label">{t.title === 'Fonds de commerce' ? 'Fonds' : t.title}</span>
@@ -304,13 +283,8 @@ const typologies = [
                       </span>
                     )}
                   </div>
-                  <button
-                    type="button"
-                    class="btn btn-solid"
-                    data-select-typo={t.id}
-                    data-i18n="choose_select"
-                  >
-                    Sélectionner
+                  <button type="button" class="btn btn-solid" data-select-typo={t.id} data-i18n="choose_select">
+                    Garder ce choix
                   </button>
                 </div>
               </article>
@@ -327,28 +301,23 @@ const typologies = [
             >
               Aucune typologie sélectionnée
             </p>
-            <a
-              class="btn btn-solid"
-              href="https://wa.me/212600000000"
-              target="_blank"
-              rel="noopener noreferrer"
-              data-wa
-              data-i18n="cta_whatsapp">WhatsApp</a
-            >
+            <a class="btn-ghost-link" href={`${base}services/`} data-i18n="nav_services">Prestations</a>
           </aside>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 4. TRUST -->
-  <section id="trust" class="chapter chapter-trust theme-cream" data-chapter-section="trust">
+  <div class="cream-void cream-void--tall" aria-hidden="true"></div>
+
+  <!-- TRUST — quiet -->
+  <section id="trust" class="beat beat-trust theme-cream">
     <div class="container">
-      <header class="chapter-head" data-reveal>
-        <p class="kicker kicker--ink" data-i18n="trust_kicker">Transparence</p>
-        <h2 class="serif chapter-title" data-i18n="trust_title">Confiance, sans formalités</h2>
-        <p class="muted chapter-lead" data-i18n="trust_body">
-          Des repères clairs — aides, chantier, livraison — pour avancer sereinement.
+      <header class="beat-head" data-reveal>
+        <p class="kicker kicker--ink" data-i18n="trust_kicker">Repères</p>
+        <h2 class="serif beat-title" data-i18n="trust_title">Avancer sereinement</h2>
+        <p class="muted beat-lead" data-i18n="trust_body">
+          Aides, chantier, livraison — des balises claires, sans formalités inutiles.
         </p>
       </header>
 
@@ -358,8 +327,7 @@ const typologies = [
           <div>
             <h3 data-i18n="trust_aides_t">Aides au logement</h3>
             <p class="muted" data-i18n="trust_aides_d">
-              Projet conçu pour maximiser l’éligibilité aux dispositifs d’accession. On vous
-              oriente, sans dossier en ligne.
+              Projet conçu pour maximiser l’éligibilité aux dispositifs d’accession. On vous oriente.
             </p>
           </div>
         </li>
@@ -368,8 +336,7 @@ const typologies = [
           <div>
             <h3 data-i18n="trust_chantier_t">Chantier suivi</h3>
             <p class="muted" data-i18n="trust_chantier_d">
-              Jalons visibles, communication régulière, visite sur rendez-vous — le chantier reste
-              lisible.
+              Jalons visibles, communication régulière, visite sur rendez-vous.
             </p>
           </div>
         </li>
@@ -396,13 +363,13 @@ const typologies = [
     </div>
   </section>
 
-  <!-- 5. TALK -->
-  <section id="talk" class="chapter chapter-talk theme-dark" data-chapter-section="talk">
-    <div class="container talk-inner">
-      <header class="chapter-head chapter-head--dark" data-reveal>
-        <p class="kicker" data-i18n="talk_kicker">Échange</p>
-        <h2 class="serif chapter-title" data-i18n="talk_title">Parlons de votre futur chez-vous</h2>
-        <p class="chapter-lead talk-lead" data-i18n="talk_body">
+  <!-- HANDOFF — one WhatsApp -->
+  <section id="handoff" class="beat beat-handoff theme-dark">
+    <div class="container handoff-inner">
+      <header class="beat-head beat-head--dark" data-reveal>
+        <p class="kicker" data-i18n="handoff_kicker">Suite</p>
+        <h2 class="serif beat-title" data-i18n="handoff_title">Parlons de votre futur chez-vous</h2>
+        <p class="beat-lead handoff-lead" data-i18n="handoff_body">
           Une question, une visite, une réservation — réponse prioritaire sur WhatsApp.
         </p>
         <p
@@ -415,26 +382,18 @@ const typologies = [
         </p>
       </header>
 
-      <div class="talk-cta" data-reveal>
+      <div class="handoff-cta" data-reveal>
         <a
           class="btn btn-solid btn-wa-lg"
           href="https://wa.me/212600000000"
           target="_blank"
           rel="noopener noreferrer"
           data-wa
-          data-i18n="talk_wa">Discuter sur WhatsApp</a
+          data-i18n="handoff_wa">Discuter sur WhatsApp</a
         >
-        <button
-          type="button"
-          class="btn-ghost-link"
-          data-form-toggle
-          aria-expanded="false"
-          data-i18n="talk_form_toggle">Préférer un message écrit ?</button
+        <a class="btn-ghost-link" href={`${base}contact/`} data-i18n="handoff_contact"
+          >Voir la page Contact</a
         >
-      </div>
-
-      <div class="talk-form" data-quiet-form hidden data-reveal>
-        <ContactForm />
       </div>
     </div>
   </section>
