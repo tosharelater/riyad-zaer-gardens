@@ -1,6 +1,6 @@
 ---
 interface Props {
-  current?: 'home' | 'services' | 'contact';
+  current?: 'home' | 'services' | 'about' | 'blog' | 'contact';
 }
 const { current = 'home' } = Astro.props;
 const base = import.meta.env.BASE_URL.endsWith('/')
@@ -24,6 +24,16 @@ const solid = current !== 'home';
         data-i18n="nav_services">Prestations</a
       >
       <a
+        href={`${base}about/`}
+        aria-current={current === 'about' ? 'page' : undefined}
+        data-i18n="nav_about">À propos</a
+      >
+      <a
+        href={`${base}blog/`}
+        aria-current={current === 'blog' ? 'page' : undefined}
+        data-i18n="nav_blog">Blog</a
+      >
+      <a
         href={`${base}contact/`}
         aria-current={current === 'contact' ? 'page' : undefined}
         data-i18n="nav_contact">Contact</a
@@ -35,3 +45,17 @@ const solid = current !== 'home';
     </div>
   </div>
 </header>
+
+<style>
+  @media (max-width: 920px) {
+    .site-header .nav-links {
+      gap: 0.55rem;
+      font-size: 0.65rem;
+    }
+  }
+  @media (max-width: 720px) {
+    .site-header .nav-links a:nth-child(n + 4) {
+      display: none;
+    }
+  }
+</style>

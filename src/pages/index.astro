@@ -259,7 +259,7 @@ C’est possible.
   </section>
 
   <!-- Showcase · Promesse -->
-  <section id="promesse" class="showcase-section showcase-section--foret" aria-labelledby="promesse-title">
+  <section id="promesse" class="showcase-section showcase-section--foret section-seam" aria-labelledby="promesse-title">
     <div class="container-rzg max-w-3xl text-center" data-reveal>
       <p class="kicker" data-i18n="promesse_kicker">Promesse</p>
       <h2 id="promesse-title" class="serif text-[clamp(2rem,4.5vw,3.5rem)] m-0 mb-6" data-i18n="promesse_title">
@@ -274,7 +274,7 @@ C’est possible.
   </section>
 
   <!-- 3 · EXPLORE — compact -->
-  <section id="explore" class="beat beat-explore explore--compact bg-cream text-foret">
+  <section id="explore" class="beat beat-explore explore--compact bg-cream text-foret section-seam">
     <header class="container-rzg max-w-xl mb-8 md:mb-10" data-reveal>
       <p class="kicker kicker--ink" data-i18n="explore_kicker">Explorer</p>
       <h2 class="serif text-[clamp(1.85rem,4vw,2.75rem)] m-0 mb-3" data-i18n="explore_title">
@@ -419,19 +419,65 @@ C’est possible.
   </section>
 
   <!-- Showcase · Emplacement -->
-  <section id="emplacement" class="showcase-section showcase-section--cream" aria-labelledby="emplacement-title">
+  <section id="emplacement" class="showcase-section showcase-section--cream section-seam" aria-labelledby="emplacement-title">
     <div class="container-rzg">
-      <header class="max-w-2xl mb-4" data-reveal>
-        <p class="kicker kicker--ink" data-i18n="emplacement_kicker">Emplacement</p>
-        <h2 id="emplacement-title" class="serif text-[clamp(2rem,4.5vw,3.25rem)] m-0 mb-5" data-i18n="emplacement_title">
-          Entre Rabat et l’horizon
-        </h2>
-        <p class="text-foret/70 text-lg leading-relaxed m-0" data-i18n="emplacement_body">
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident — axes fluides, silence relatif,
-          proximité des communs.
-        </p>
-      </header>
+      <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-14 md:mb-20">
+        <header class="max-w-xl" data-reveal>
+          <p class="kicker kicker--ink" data-i18n="emplacement_kicker">Emplacement</p>
+          <h2 id="emplacement-title" class="serif text-[clamp(2rem,4.5vw,3.25rem)] m-0 mb-5" data-i18n="emplacement_title">
+            Entre Rabat et l’horizon
+          </h2>
+          <p class="text-foret/70 text-lg leading-relaxed m-0 mb-8" data-i18n="emplacement_body">
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident — axes fluides, silence relatif,
+            proximité des communs.
+          </p>
+          <div class="emplacement-stats" data-stagger>
+            <div class="emplacement-stat">
+              <strong>12</strong>
+              <span data-i18n="emplacement_stat1">min vers Rabat</span>
+            </div>
+            <div class="emplacement-stat">
+              <strong>Aïn</strong>
+              <span data-i18n="emplacement_stat2">Aouda · Sud</span>
+            </div>
+            <div class="emplacement-stat">
+              <strong>120</strong>
+              <span data-i18n="emplacement_stat3">appartements</span>
+            </div>
+            <div class="emplacement-stat">
+              <strong>+</strong>
+              <span data-i18n="emplacement_stat4">commerces RDC</span>
+            </div>
+          </div>
+        </header>
+
+        <div class="emplacement-map aspect-[5/4] md:aspect-[4/3] is-in" data-reveal="clip" aria-label="Carte symbolique">
+          <img
+            class="emplacement-map__img"
+            src={`${base}parcours/viz-11.jpg`}
+            alt=""
+            width="1400"
+            height="1000"
+            loading="lazy"
+          />
+          <div class="emplacement-map__veil" aria-hidden="true"></div>
+          <div class="emplacement-map__grid" aria-hidden="true"></div>
+          <div class="emplacement-pin" style="top:42%;left:38%;--pin-delay:0.15s">
+            <span class="emplacement-pin__dot" aria-hidden="true"></span>
+            <span class="emplacement-pin__label" data-i18n="emplacement_pin_rzg">Riyad Zaer</span>
+          </div>
+          <div class="emplacement-pin" style="top:28%;left:62%;--pin-delay:0.35s">
+            <span class="emplacement-pin__dot" aria-hidden="true"></span>
+            <span class="emplacement-pin__label" data-i18n="emplacement_pin_rabat">Rabat</span>
+          </div>
+          <div class="emplacement-pin" style="top:68%;left:55%;--pin-delay:0.5s">
+            <span class="emplacement-pin__dot" aria-hidden="true"></span>
+            <span class="emplacement-pin__label" data-i18n="emplacement_pin_axis">Axes sud</span>
+          </div>
+        </div>
+      </div>
+
       <div class="showcase-grid" data-stagger>
         <article class="showcase-card">
           <h3 data-i18n="emplacement_c1_t">Axes & accès</h3>
@@ -459,9 +505,10 @@ C’est possible.
   </section>
 
   <!-- Showcase · Finitions -->
-  <section id="finitions" class="showcase-section showcase-section--cream border-t border-foret/8" aria-labelledby="finitions-title">
+  <section id="finitions" class="showcase-section showcase-section--cream section-seam border-t border-foret/8" aria-labelledby="finitions-title">
     <div class="container-rzg grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-      <div data-reveal>
+      <div class="relative ps-6 md:ps-8" data-reveal>
+        <span class="finitions-rail" aria-hidden="true"></span>
         <p class="kicker kicker--ink" data-i18n="finitions_kicker">Finitions</p>
         <h2 id="finitions-title" class="serif text-[clamp(2rem,4.5vw,3.25rem)] m-0 mb-5" data-i18n="finitions_title">
           Matières & détail
@@ -470,7 +517,7 @@ C’est possible.
           Curabitur blandit tempus porttitor. Nullam quis risus eget urna mollis ornare vel eu leo.
           Cum sociis natoque penatibus et magnis dis parturient montes — texture, lumière, silence.
         </p>
-        <ul class="list-none p-0 m-0 space-y-4 text-foret/80" data-stagger>
+        <ul class="list-none p-0 m-0 space-y-5 text-foret/80" data-stagger>
           <li class="flex gap-3 items-start">
             <span class="mt-2 w-1.5 h-1.5 rounded-full bg-gold shrink-0" aria-hidden="true"></span>
             <span data-i18n="finitions_li1">Vestibulum id ligula porta felis euismod semper — finishes thoughtfully paced.</span>
@@ -494,12 +541,17 @@ C’est possible.
           class="absolute inset-0 w-full h-full object-cover"
           loading="lazy"
         />
+        <div class="absolute inset-x-0 bottom-0 p-6 md:p-8 bg-gradient-to-t from-foret/80 to-transparent" data-reveal="fade">
+          <p class="m-0 text-cream/90 text-sm tracking-wide" data-i18n="finitions_caption">
+            Texture, lumière, silence — le détail sans bruit.
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- FAQ — prominent -->
-  <section id="faq" class="faq-section" aria-labelledby="faq-title">
+  <section id="faq" class="faq-section section-seam" aria-labelledby="faq-title">
     <div class="container-rzg">
       <header class="max-w-2xl mx-auto text-center mb-14 md:mb-20" data-reveal>
         <p class="kicker kicker--ink" data-i18n="faq_kicker">Questions</p>

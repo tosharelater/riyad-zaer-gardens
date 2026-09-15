@@ -1,4 +1,12 @@
-/** Cadre de vie — sticky fullscreen scroll storytelling */
+/** Cadre de vie — lighter sticky fullscreen scroll storytelling */
+function easeOutCubic(t: number) {
+  return 1 - Math.pow(1 - t, 3);
+}
+
+function easeOutQuad(t: number) {
+  return 1 - (1 - t) * (1 - t);
+}
+
 export function initStoryScroll() {
   const root = document.querySelector<HTMLElement>('[data-story]');
   if (!root) return;
@@ -32,21 +40,21 @@ export function initStoryScroll() {
     beats.forEach((beat) => {
       const rect = beat.getBoundingClientRect();
       const scrollable = Math.max(1, rect.height - view);
-      // Progress 0 when sticky engages (beat top at viewport top), 1 when leaving
       const raw = -rect.top / scrollable;
       const p = Math.min(1, Math.max(0, raw));
 
       const media = beat.querySelector<HTMLElement>('[data-story-media]');
       const copy = beat.querySelector<HTMLElement>('[data-story-copy]');
 
-      // 0–0.45: image grows to full; 0.35–0.7: copy fades in; hold after
-      const scaleT = Math.min(1, p / 0.42);
-      const scale = 0.78 + scaleT * 0.22; // 0.78 → 1
-      const mediaOpacity = 0.55 + scaleT * 0.45;
+      // Lighter scrub: softer scale range, smoother easing, earlier copy
+      const scaleT = easeOutCubic(Math.min(1, p / 0.48));
+      const scale = 0.9 + scaleT * 0.1; // 0.9 → 1 (was 0.78→1)
+      const mediaOpacity = 0.72 + scaleT * 0.28;
 
-      const copyT = Math.min(1, Math.max(0, (p - 0.38) / 0.32));
+      const copyRaw = Math.min(1, Math.max(0, (p - 0.28) / 0.38));
+      const copyT = easeOutQuad(copyRaw);
       const copyOpacity = copyT;
-      const copyY = (1 - copyT) * 28;
+      const copyY = (1 - copyT) * 18;
 
       if (media) {
         media.style.setProperty('--story-scale', scale.toFixed(4));
@@ -58,7 +66,7 @@ export function initStoryScroll() {
       }
 
       beat.classList.toggle('is-active', p > 0.02 && p < 0.98);
-      beat.classList.toggle('is-complete', p >= 0.7);
+      beat.classList.toggle('is-complete', p >= 0.62);
     });
     ticking = false;
   };

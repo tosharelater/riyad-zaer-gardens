@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { posts } from '../../data/blog';
+
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : import.meta.env.BASE_URL + '/';
+---
+
+<BaseLayout title="Blog — Riyad Zaer Gardens" description="Actualités, guides et repères autour de Riyad Zaer Gardens.">
+  <Header current="blog" />
+
+  <section class="bg-cream text-foret pt-32 pb-12 md:pb-16">
+    <div class="container-rzg max-w-2xl" data-reveal>
+      <p class="kicker kicker--ink" data-i18n="blog_kicker">Blog</p>
+      <h1 class="serif text-[clamp(2.5rem,5vw,4rem)] m-0 mb-5" data-i18n="blog_title">Repères & inspirations</h1>
+      <p class="text-foret/70 text-lg leading-relaxed m-0" data-i18n="blog_lead">
+        Cadre de vie, typologies, aides et finitions — des articles pour avancer sereinement.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-cream pb-28 md:pb-36">
+    <div class="container-rzg">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-8 lg:gap-10" data-stagger>
+        {
+          posts.map((post) => (
+            <a class="blog-card group" href={`${base}blog/${post.slug}/`}>
+              <div class="blog-card__media">
+                <img src={`${base}${post.img}`} alt="" width="900" height="560" loading="lazy" />
+              </div>
+              <div class="flex flex-col flex-1 p-6 md:p-8">
+                <div class="flex flex-wrap items-center gap-3 mb-4 text-[0.7rem] tracking-[0.1em] uppercase text-canopee/70">
+                  <time datetime={post.date}>{post.dateLabel}</time>
+                  <span class="w-1 h-1 rounded-full bg-gold" aria-hidden="true" />
+                  <span>{post.readMin} min</span>
+                </div>
+                <h2 class="serif text-2xl md:text-3xl m-0 mb-3 text-foret group-hover:text-canopee transition-colors">
+                  {post.title}
+                </h2>
+                <p class="m-0 text-foret/70 leading-relaxed flex-1">{post.excerpt}</p>
+                <div class="flex flex-wrap gap-2 mt-6">
+                  {post.tags.map((tag) => (
+                    <span class="chip">{tag}</span>
+                  ))}
+                </div>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>

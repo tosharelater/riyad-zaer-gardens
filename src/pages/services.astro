@@ -8,104 +8,183 @@ const base = import.meta.env.BASE_URL.endsWith('/')
   : import.meta.env.BASE_URL + '/';
 
 const amenities = [
-  { t: 'amenity_garden_t', d: 'amenity_garden_d', tf: 'Cours & jardins', df: 'Espaces verts partagés, promenades plantées.' },
-  { t: 'amenity_sec_t', d: 'amenity_sec_d', tf: 'Sécurité', df: 'Accès contrôlé, résidence fermée.' },
-  { t: 'amenity_park_t', d: 'amenity_park_d', tf: 'Stationnement', df: 'Places dédiées pour résidents.' },
-  { t: 'amenity_shop_t', d: 'amenity_shop_d', tf: 'Commerces', df: 'Fonds en rez-de-chaussée, proximité immédiate.' },
-  { t: 'amenity_light_t', d: 'amenity_light_d', tf: 'Lumière', df: 'Orientations étudiées, volumes ouverts.' },
-  { t: 'amenity_family_t', d: 'amenity_family_d', tf: 'Familial', df: 'Espaces pensés pour la vie à plusieurs.' },
+  { idx: '01', t: 'amenity_garden_t', d: 'amenity_garden_d', tf: 'Cours & jardins', df: 'Espaces verts partagés, promenades plantées — le cœur végétal de la résidence.' },
+  { idx: '02', t: 'amenity_sec_t', d: 'amenity_sec_d', tf: 'Sécurité', df: 'Accès contrôlé, résidence fermée — sérénité du quotidien.' },
+  { idx: '03', t: 'amenity_park_t', d: 'amenity_park_d', tf: 'Stationnement', df: 'Places dédiées pour résidents, précisées à la réservation.' },
+  { idx: '04', t: 'amenity_shop_t', d: 'amenity_shop_d', tf: 'Commerces', df: 'Fonds en rez-de-chaussée, proximité immédiate au seuil.' },
+  { idx: '05', t: 'amenity_light_t', d: 'amenity_light_d', tf: 'Lumière', df: 'Orientations étudiées, volumes ouverts, silence optique.' },
+  { idx: '06', t: 'amenity_family_t', d: 'amenity_family_d', tf: 'Familial', df: 'Espaces pensés pour la vie à plusieurs — sans forcer le geste.' },
+] as const;
+
+const typologies = [
+  {
+    id: 'F3',
+    titleKey: 'choose_f3_title',
+    title: 'F3',
+    surfaceKey: 'choose_f3_surface',
+    surface: '65–75 m²',
+    roomsKey: 'choose_rooms_f3',
+    rooms: '2 chambres · séjour · cuisine ouverte',
+    bodyKey: 'choose_f3_body',
+    body: 'Séjour lumineux, deux chambres, cuisine ouverte, rangements pensés. Idéal pour démarrer ou se réancrer.',
+    priceKey: 'choose_f3_price',
+    price: 'À partir de ~420 000 DHS',
+    img: 'parcours/viz-09.jpg',
+    imgAlt: 'Intérieur F3',
+    reverse: false,
+  },
+  {
+    id: 'F4',
+    titleKey: 'choose_f4_title',
+    title: 'F4',
+    surfaceKey: 'choose_f4_surface',
+    surface: 'jusqu’à 86 m²',
+    roomsKey: 'choose_rooms_f4',
+    rooms: '3 chambres · séjour · cuisine ouverte',
+    bodyKey: 'choose_f4_body',
+    body: 'Troisième chambre, plus d’espace familial, volumes clairs — pour s’ancrer durablement.',
+    priceKey: 'choose_f4_price',
+    price: 'À partir de ~480 000 DHS',
+    img: 'parcours/viz-06.jpg',
+    imgAlt: 'Façade F4',
+    reverse: true,
+  },
 ] as const;
 ---
 
-<BaseLayout title="Prestations — Riyad Zaer Gardens">
+<BaseLayout title="Prestations — Riyad Zaer Gardens" description="Typologies F3 & F4, fonds de commerce et équipements — Riyad Zaer Gardens.">
   <Header current="services" />
 
-  <section class="bg-cream text-foret pt-32 pb-16 md:pb-24">
-    <div class="container-rzg max-w-2xl" data-reveal>
-      <p class="kicker kicker--ink" data-i18n="services_kicker">Prestations</p>
-      <h1 class="serif text-[clamp(2.5rem,5vw,4rem)] m-0 mb-6" data-i18n="services_title">Typologies & cadre</h1>
-      <p class="text-foret/75 text-lg leading-relaxed m-0" data-i18n="services_lead">
+  <section class="services-hero">
+    <div class="services-hero__bg" aria-hidden="true">
+      <img src={`${base}parcours/viz-01.jpg`} alt="" width="1920" height="1080" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-gradient-to-r from-foret via-foret/85 to-foret/55"></div>
+    </div>
+    <div class="container-rzg relative z-10 max-w-3xl" data-reveal>
+      <p class="kicker" data-i18n="services_kicker">Prestations</p>
+      <h1 class="serif text-[clamp(2.75rem,6vw,4.5rem)] m-0 mb-6 text-cream" data-i18n="services_title">Typologies & cadre</h1>
+      <p class="text-cream/75 text-lg md:text-xl leading-relaxed m-0 max-w-2xl" data-i18n="services_lead">
         F3, F4 et fonds de commerce — volumes, surfaces, équipements. Tout le détail, sans précipitation.
       </p>
+      <div class="flex flex-wrap gap-x-10 gap-y-4 mt-12 text-cream/80" data-stagger>
+        <div>
+          <strong class="block serif text-3xl text-gold font-medium">120</strong>
+          <span class="text-sm text-cream/55" data-i18n="services_stat_apt">appartements</span>
+        </div>
+        <div>
+          <strong class="block serif text-3xl text-gold font-medium">65–86</strong>
+          <span class="text-sm text-cream/55">m²</span>
+        </div>
+        <div>
+          <strong class="block serif text-3xl text-gold-soft font-medium">F3 · F4</strong>
+          <span class="text-sm text-cream/55" data-i18n="services_stat_typo">+ fonds</span>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="bg-cream pb-16 md:pb-24">
+  <section class="bg-cream text-foret py-20 md:py-28" aria-labelledby="typo-story-title">
     <div class="container-rzg">
-      <div class="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center" data-reveal>
-        <div class="overflow-hidden rounded-sm aspect-[5/4]">
-          <img src={`${base}parcours/viz-09.jpg`} alt="Intérieur F3" width="1200" height="800" class="w-full h-full object-cover" loading="lazy" />
-        </div>
-        <div class="py-4">
-          <p class="surface-tag mb-3" data-i18n="choose_f3_surface">65–75 m²</p>
-          <h2 class="serif text-4xl md:text-5xl m-0 mb-4" data-i18n="choose_f3_title">F3</h2>
-          <p class="text-foret/75 leading-relaxed m-0 mb-5" data-i18n="choose_f3_body">
-            Séjour lumineux, deux chambres, cuisine ouverte, rangements pensés. Idéal pour démarrer ou se
-            réancrer.
-          </p>
-          <p class="typo-price mb-5" data-i18n="choose_f3_price">À partir de ~420 000 DHS</p>
-          <div class="flex flex-wrap gap-2">
-            <span class="chip" data-i18n="chip_family">Familial</span>
-            <span class="chip" data-i18n="chip_aides">Aides</span>
+      <header class="max-w-2xl mb-16 md:mb-24" data-reveal>
+        <p class="kicker kicker--ink" data-i18n="services_typo_kicker">Typologies</p>
+        <h2 id="typo-story-title" class="serif text-[clamp(2rem,4vw,3.25rem)] m-0 mb-5" data-i18n="services_typo_title">
+          Des mètres carrés qui travaillent pour vous
+        </h2>
+        <p class="text-foret/70 text-lg leading-relaxed m-0" data-i18n="services_typo_lead">
+          Chaque typologie raconte un rythme de vie — lumière, rangements, proportions. Choisissez le vôtre.
+        </p>
+      </header>
+
+      {
+        typologies.map((t, i) => (
+          <article class:list={['services-typo mb-20 md:mb-28 last:mb-0', t.reverse && 'services-typo--reverse']}>
+            <div class:list={[
+              'grid lg:grid-cols-12 gap-8 lg:gap-14 items-center',
+              t.reverse && 'lg:[&>*:first-child]:order-2',
+            ]}>
+              <div class="lg:col-span-7" data-reveal="clip">
+                <div class="overflow-hidden rounded-sm aspect-[5/4] md:aspect-[16/11] bg-canopee relative">
+                  <img src={`${base}${t.img}`} alt={t.imgAlt} width="1400" height="900" class="w-full h-full object-cover" loading="lazy" />
+                  <span class="absolute top-4 start-4 text-[0.7rem] tracking-[0.16em] uppercase text-cream bg-foret/70 backdrop-blur-sm px-3 py-1.5 rounded-sm">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                </div>
+              </div>
+              <div class="lg:col-span-5 py-2 md:py-6" data-reveal>
+                <p class="surface-tag mb-3" data-i18n={t.surfaceKey}>{t.surface}</p>
+                <h3 class="serif text-[clamp(2.5rem,4vw,3.75rem)] m-0 mb-3" data-i18n={t.titleKey}>{t.title}</h3>
+                <p class="m-0 mb-5 text-sm tracking-wide text-canopee/85" data-i18n={t.roomsKey}>{t.rooms}</p>
+                <p class="text-foret/75 text-base md:text-lg leading-relaxed m-0 mb-6" data-i18n={t.bodyKey}>{t.body}</p>
+                <p class="typo-price text-lg mb-6" data-i18n={t.priceKey}>{t.price}</p>
+                <div class="flex flex-wrap gap-2 mb-8">
+                  <span class="chip" data-i18n="chip_family">Familial</span>
+                  <span class="chip" data-i18n="chip_light">Lumière naturelle</span>
+                  <span class="chip" data-i18n="chip_aides">Aides</span>
+                </div>
+                <a class="btn btn-solid" href={`${base}contact/`} data-i18n="services_cta_typo">Demander ce plan</a>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+
+      {/* Fonds */}
+      <article class="relative overflow-hidden rounded-sm border border-foret/10 bg-gradient-to-br from-cream via-cream to-gold/10 p-8 md:p-14" data-reveal>
+        <div class="grid md:grid-cols-[auto_1fr_auto] gap-8 md:gap-12 items-center">
+          <span class="serif text-7xl md:text-8xl text-gold/80 leading-none" aria-hidden="true">+</span>
+          <div>
+            <p class="surface-tag mb-3" data-i18n="choose_fonds_surface">Rez-de-chaussée</p>
+            <h3 class="serif text-3xl md:text-4xl m-0 mb-4" data-i18n="choose_fonds_title">Fonds de commerce</h3>
+            <p class="text-foret/75 leading-relaxed m-0 mb-4 max-w-xl" data-i18n="choose_fonds_body">
+              Locaux en pied d’immeuble pour commerces de proximité — une adresse vivante au seuil de la résidence.
+            </p>
+            <p class="typo-price m-0" data-i18n="choose_fonds_price">Sur consultation</p>
+          </div>
+          <div class="hidden md:block w-40 h-40 overflow-hidden rounded-sm">
+            <img src={`${base}parcours/viz-05.jpg`} alt="" width="400" height="400" class="w-full h-full object-cover" loading="lazy" />
           </div>
         </div>
-      </div>
+      </article>
     </div>
   </section>
 
-  <section class="bg-cream pb-16 md:pb-24">
+  <section class="bg-foret text-cream py-24 md:py-32 section-seam" aria-labelledby="amenities-title">
     <div class="container-rzg">
-      <div class="relative overflow-hidden rounded-sm min-h-[28rem] md:min-h-[34rem]" data-reveal>
-        <img src={`${base}parcours/viz-06.jpg`} alt="Façade F4" width="1400" height="900" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
-        <div class="absolute inset-0 bg-gradient-to-t from-foret/85 via-foret/40 to-transparent"></div>
-        <div class="relative z-10 flex flex-col justify-end h-full min-h-[28rem] md:min-h-[34rem] p-8 md:p-12 max-w-xl text-cream">
-          <p class="text-[0.75rem] font-medium tracking-[0.12em] uppercase text-gold-soft mb-3" data-i18n="choose_f4_surface">jusqu’à 86 m²</p>
-          <h2 class="serif text-4xl md:text-5xl m-0 mb-4 text-cream" data-i18n="choose_f4_title">F4</h2>
-          <p class="text-cream/80 leading-relaxed m-0 mb-5" data-i18n="choose_f4_body">
-            Troisième chambre, plus d’espace familial, volumes clairs — pour s’ancrer durablement.
-          </p>
-          <p class="m-0 text-gold-soft font-medium" data-i18n="choose_f4_price">À partir de ~480 000 DHS</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-cream pb-16 md:pb-24">
-    <div class="container-rzg">
-      <div class="grid md:grid-cols-[auto_1fr] gap-8 md:gap-14 items-start border border-foret/10 rounded-sm p-8 md:p-12" data-reveal>
-        <span class="serif text-6xl text-gold leading-none" aria-hidden="true">+</span>
-        <div>
-          <p class="surface-tag mb-3" data-i18n="choose_fonds_surface">Rez-de-chaussée</p>
-          <h2 class="serif text-3xl md:text-4xl m-0 mb-4" data-i18n="choose_fonds_title">Fonds de commerce</h2>
-          <p class="text-foret/75 leading-relaxed m-0 mb-4" data-i18n="choose_fonds_body">
-            Locaux en pied d’immeuble pour commerces de proximité — une adresse vivante au seuil de la
-            résidence.
-          </p>
-          <p class="typo-price" data-i18n="choose_fonds_price">Sur consultation</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-cream pb-28 md:pb-36">
-    <div class="container-rzg">
-      <header class="max-w-xl mb-12 md:mb-16" data-reveal>
-        <p class="kicker kicker--ink" data-i18n="services_amenities_t">Équipements</p>
-        <h2 class="serif text-3xl md:text-4xl m-0">Le cadre, au quotidien</h2>
+      <header class="max-w-2xl mb-16 md:mb-20" data-reveal>
+        <p class="kicker" data-i18n="services_amenities_t">Équipements</p>
+        <h2 id="amenities-title" class="serif text-[clamp(2rem,4vw,3.25rem)] m-0 mb-5 text-cream" data-i18n="services_amenities_title">
+          Le cadre, au quotidien
+        </h2>
+        <p class="text-cream/65 text-lg leading-relaxed m-0" data-i18n="services_amenities_lead">
+          Jardins, sécurité, lumière, commerces — l’infrastructure du confort, sans surenchère.
+        </p>
       </header>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12 mb-14" data-reveal>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-12 md:gap-y-16" data-stagger>
         {
           amenities.map((a) => (
-            <article>
-              <h3 class="text-base font-medium tracking-wide m-0 mb-2 text-foret" data-i18n={a.t}>{a.tf}</h3>
-              <p class="m-0 text-foret/70 leading-relaxed" data-i18n={a.d}>{a.df}</p>
+            <article class="services-amenity border-cream/10">
+              <span class="services-amenity__idx text-gold">{a.idx}</span>
+              <h3 class="text-lg font-medium tracking-wide m-0 mb-3 text-cream" data-i18n={a.t}>{a.tf}</h3>
+              <p class="m-0 text-cream/65 leading-relaxed" data-i18n={a.d}>{a.df}</p>
             </article>
           ))
         }
       </div>
-      <div class="flex flex-wrap gap-4 items-center" data-reveal>
-        <a class="btn btn-solid" href={`${base}contact/`} data-i18n="nav_contact">Contact</a>
-        <a class="text-sm font-medium tracking-wide text-canopee underline-offset-4 hover:underline" href={`${base}#explore`} data-i18n="explore_kicker">Explorer</a>
+    </div>
+  </section>
+
+  <section class="bg-cream text-foret py-24 md:py-32">
+    <div class="container-rzg max-w-3xl text-center" data-reveal>
+      <p class="kicker kicker--ink" data-i18n="services_next_kicker">Suite</p>
+      <h2 class="serif text-[clamp(2rem,4vw,3rem)] m-0 mb-5" data-i18n="services_next_title">
+        Prêts à voir votre typologie de près ?
+      </h2>
+      <p class="text-foret/70 text-lg leading-relaxed m-0 mb-10" data-i18n="services_next_body">
+        Explorez le plan interactif ou écrivez-nous — WhatsApp en priorité.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a class="btn btn-solid" href={`${base}#explore`} data-i18n="explore_kicker">Explorer</a>
+        <a class="btn btn-ghost !text-foret !border-foret/25 hover:!border-gold hover:!text-canopee" href={`${base}contact/`} data-i18n="nav_contact">Contact</a>
       </div>
     </div>
   </section>

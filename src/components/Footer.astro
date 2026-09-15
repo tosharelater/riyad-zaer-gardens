@@ -4,14 +4,23 @@ const base = import.meta.env.BASE_URL.endsWith('/')
   : import.meta.env.BASE_URL + '/';
 ---
 
-<footer class="bg-foret text-cream/80 py-16 mt-0">
-  <div class="container-rzg flex flex-col md:flex-row md:items-center md:justify-between gap-8">
-    <div class="flex items-center gap-5">
-      <img src={`${base}logo.png`} alt="" width="120" height="48" loading="lazy" class="h-12 w-auto opacity-90" />
-      <div>
-        <p class="text-[0.7rem] font-medium tracking-[0.2em] uppercase text-gold mb-1">Riyad Zaer Gardens</p>
-        <p class="m-0 text-sm text-cream/65" data-i18n="footer_tag">Nouveau pôle urbain · Rabat / Aïn Aouda</p>
+<footer class="bg-foret text-cream/80 py-16 mt-0 border-t border-gold/15">
+  <div class="container-rzg flex flex-col gap-10">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+      <div class="flex items-center gap-5">
+        <img src={`${base}logo.png`} alt="" width="120" height="48" loading="lazy" class="h-12 w-auto opacity-90" />
+        <div>
+          <p class="text-[0.7rem] font-medium tracking-[0.2em] uppercase text-gold mb-1">Riyad Zaer Gardens</p>
+          <p class="m-0 text-sm text-cream/65" data-i18n="footer_tag">Nouveau pôle urbain · Rabat / Aïn Aouda</p>
+        </div>
       </div>
+      <nav class="flex flex-wrap gap-x-5 gap-y-2 text-sm text-cream/70" aria-label="Footer">
+        <a class="hover:text-gold transition-colors" href={base} data-i18n="nav_home">Accueil</a>
+        <a class="hover:text-gold transition-colors" href={`${base}services/`} data-i18n="nav_services">Prestations</a>
+        <a class="hover:text-gold transition-colors" href={`${base}about/`} data-i18n="nav_about">À propos</a>
+        <a class="hover:text-gold transition-colors" href={`${base}blog/`} data-i18n="nav_blog">Blog</a>
+        <a class="hover:text-gold transition-colors" href={`${base}contact/`} data-i18n="nav_contact">Contact</a>
+      </nav>
     </div>
     <p class="m-0 text-sm text-cream/50" data-i18n="footer_rights">© 2026 Riyad Zaer Gardens. Tous droits réservés.</p>
   </div>
