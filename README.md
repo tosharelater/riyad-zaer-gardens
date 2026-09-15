@@ -6,25 +6,27 @@ Live: https://tosharelater.github.io/riyad-zaer-gardens/
 
 ## Routes
 
-- `/` — cinematic home hero, project pitch, housing-aid callout
-- `/services` — distinct blocks for F3/F4, fonds de commerce, cadre & équipements
-- `/contact` — WhatsApp-first CTA + polished lead form
+- `/` — editorial asymmetric hero, project stats, pull-quote, family story
+- `/services` — photography-led F3 / F4 / fonds stories + quiet amenities
+- `/contact` — WhatsApp-first CTA + quiet lead form
 
 Base path: `/riyad-zaer-gardens/`
 
 ## Brand
 
+Editorial Moroccan real-estate magazine — photography-led, cream/dark section rhythm.
+
 | Token | Hex | Use |
 | --- | --- | --- |
-| Vert Forêt Profond | `#002D2D` | logo/text/main background |
-| Vert Canopée | `#0A3D35` | gradients/panels |
-| Or Champagne | `#C8B568` | accents, titles ornaments |
-| Or Pâle | `#D9C987` | subtitles, hairlines/borders |
-| Crème Ivoire | `#F7F2E8` | light surfaces / cream text on dark |
+| Vert Forêt Profond | `#002D2D` | main dark surfaces |
+| Vert Canopée | `#0A3D35` | panels |
+| Or Champagne | `#C8B568` | accents |
+| Or Pâle | `#D9C987` | soft accents |
+| Crème Ivoire | `#F7F2E8` | light sections / cream text on dark |
 
 ### Typography
 
-- **Display / titles:** Audrey is not available on Google Fonts. This site uses **Bodoni Moda** (high-contrast Didone twin) for titles.
+- **Display (sparingly):** Bodoni Moda
 - **Body / UI:** Poppins (300 / 400 / 500 / 700)
 
 FR / AR language toggle with real RTL for Arabic.
