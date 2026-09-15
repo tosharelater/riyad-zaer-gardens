@@ -19,22 +19,62 @@ export function initReveal() {
 }
 
 export function initParallax() {
-  const img = document.querySelector<HTMLElement>('[data-parallax]');
-  if (!img) return;
+  const hero = document.querySelector<HTMLElement>('.hero');
+  if (!hero) return;
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduced) return;
+  if (reduced) {
+    hero.classList.add('hero--static');
+    return;
+  }
+
+  const poster = hero.querySelector<HTMLImageElement>('.hero-poster, .hero-kb img, [data-parallax]');
+  const enableMotion = () => {
+    hero.classList.add('hero--cinematic');
+  };
+
+  // Poster first: start slow Ken Burns / sweeps only after LCP image is ready
+  if (poster) {
+    if (poster.complete && poster.naturalWidth > 0) {
+      requestAnimationFrame(enableMotion);
+    } else {
+      poster.addEventListener('load', () => requestAnimationFrame(enableMotion), { once: true });
+      poster.addEventListener('error', enableMotion, { once: true });
+    }
+  } else {
+    enableMotion();
+  }
+
+  const layers = Array.from(
+    document.querySelectorAll<HTMLElement>('[data-parallax-layer]')
+  );
+  if (!layers.length) {
+    const legacy = document.querySelector<HTMLElement>('[data-parallax]');
+    if (legacy) layers.push(legacy);
+  }
 
   let ticking = false;
   const onScroll = () => {
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(() => {
-      const y = Math.min(window.scrollY * 0.22, 110);
-      img.style.transform = `scale(1.1) translate3d(0, ${y}px, 0)`;
+      const y = window.scrollY;
+      const heroH = hero.offsetHeight || 1;
+      const progress = Math.min(Math.max(y / heroH, 0), 1);
+
+      layers.forEach((el) => {
+        const speed = Number(el.dataset.speed || '0.22');
+        const drift = Math.min(y * speed, 140);
+        const scale = Number(el.dataset.scale || '1.12');
+        el.style.setProperty('--px', `${drift}px`);
+        el.style.setProperty('--ps', String(scale + progress * 0.04));
+      });
+
+      hero.style.setProperty('--scroll-p', String(progress));
       ticking = false;
     });
   };
+
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 }
