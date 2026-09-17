@@ -1,0 +1,221 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import ConversionBlock from '../components/ConversionBlock.astro';
+import { site } from '../data/site';
+import { routes } from '../lib/routes';
+import { withBase } from '../lib/base';
+
+const why = [
+  {
+    titleFr: 'Une clientèle sur place',
+    titleAr: 'زبناء في المكان',
+    bodyFr: '120 appartements sont livrés dans la même tranche. Les premiers clients habitent au-dessus du local.',
+    bodyAr: '120 شقة تُسلَّم في نفس المرحلة. أول الزبناء يسكنون فوق المحل.',
+  },
+  {
+    titleFr: 'Une implantation en angle',
+    titleAr: 'تموضع على زاوية',
+    bodyFr: 'Le terrain donne sur trois voies, dont un axe principal large au sud. Les locaux sont visibles depuis plusieurs directions et faciles d’accès.',
+    bodyAr: 'تطل القطعة على ثلاثة طرق، منها محور رئيسي واسع جنوباً. المحلات مرئية من عدة اتجاهات وسهلة الولوج.',
+  },
+  {
+    titleFr: 'Un quartier en développement',
+    titleAr: 'حي في تطور',
+    bodyFr: 'Aïn Aouda se développe rapidement. S’installer maintenant, c’est prendre position avant que la zone ne soit entièrement construite.',
+    bodyAr: 'تتطور عين عودة بسرعة. الاستقرار الآن هو أخذ موقع قبل اكتمال البناء.',
+  },
+  {
+    titleFr: 'Un stationnement enterré',
+    titleAr: 'موقف تحت الأرض',
+    bodyFr: 'Le parking est en sous-sol. Les trottoirs et les abords restent dégagés devant les vitrines.',
+    bodyAr: 'الموقف تحت الأرض. تبقى الأرصفة والمحيط مفتوحة أمام الواجهات.',
+  },
+];
+---
+
+<PageLayout
+  title="Fonds de commerce à Aïn Aouda — Riyad Zaer Gardens"
+  description="49 fonds de commerce de 13 à 30 m² en pied d'immeuble à Aïn Aouda, sur l'Avenue Mohammed VI. À partir de 15 000 DH le m². Livraison prévue en 2028."
+  current="commerce"
+>
+  <div class="fusion-page" data-fusion-page>
+    <section class="fusion-split bg-foret text-creme">
+      <div class="fusion-pane" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">
+          <span data-bilingual-fr>Fonds de commerce</span>
+          <span data-bilingual-ar hidden>محلات تجارية</span>
+        </p>
+        <h1 class="fusion-h1 reveal-fusion">
+          <span data-bilingual-fr>Fonds de commerce à Aïn Aouda</span>
+          <span data-bilingual-ar hidden>محلات تجارية في عين عودة</span>
+        </h1>
+        <p class="fusion-lead text-creme/78 reveal-fusion">
+          <span data-bilingual-fr>
+            La première tranche de Riyad Zaer Gardens compte 49 fonds de commerce, de 13 à 30 m², installés en rez-de-chaussée sur l’Avenue Mohammed VI.
+          </span>
+          <span data-bilingual-ar hidden>
+            المرحلة الأولى تضم 49 محلاً تجارياً، من 13 إلى 30 م²، في الطابق الأرضي على شارع محمد السادس.
+          </span>
+        </p>
+        <p class="mt-4 text-sm text-creme/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Ces locaux s’adressent aussi bien aux commerçants qui veulent ouvrir dans un quartier neuf qu’aux investisseurs qui cherchent un bien à louer.
+          </span>
+          <span data-bilingual-ar hidden>
+            هذه المحلات موجهة للتجار الراغبين في الفتح في حي جديد وللمستثمرين الباحثين عن عقار للكراء.
+          </span>
+        </p>
+      </div>
+      <div class="fusion-media" data-media-reveal>
+        <img src={withBase('/gallery/render-8.jpg')} alt="Fonds de commerce en rez-de-chaussée à Riyad Zaer Gardens" />
+      </div>
+    </section>
+
+    <section class="bg-white section">
+      <div class="container-rzg" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>49 locaux de 13 à 30 m²</span>
+          <span data-bilingual-ar hidden>49 محلاً من 13 إلى 30 م²</span>
+        </h2>
+        <table class="rzg-table mt-8 max-w-2xl reveal-fusion">
+          <tbody>
+            <tr>
+              <th>
+                <span data-bilingual-fr>Nombre de lots</span>
+                <span data-bilingual-ar hidden>عدد الوحدات</span>
+              </th>
+              <td>49</td>
+            </tr>
+            <tr>
+              <th>
+                <span data-bilingual-fr>Surfaces</span>
+                <span data-bilingual-ar hidden>المساحات</span>
+              </th>
+              <td>{site.commerceSurface}</td>
+            </tr>
+            <tr>
+              <th>
+                <span data-bilingual-fr>Prix</span>
+                <span data-bilingual-ar hidden>الثمن</span>
+              </th>
+              <td>
+                <span data-bilingual-fr>à partir de <span class="num-ltr">{site.commercePrice}</span></span>
+                <span data-bilingual-ar hidden>ابتداءً من <span class="num-ltr">{site.commercePrice}</span></span>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span data-bilingual-fr>Emplacement</span>
+                <span data-bilingual-ar hidden>الموقع</span>
+              </th>
+              <td>
+                <span data-bilingual-fr>Rez-de-chaussée, Avenue Mohammed VI</span>
+                <span data-bilingual-ar hidden>الطابق الأرضي، شارع محمد السادس</span>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span data-bilingual-fr>Livraison</span>
+                <span data-bilingual-ar hidden>التسليم</span>
+              </th>
+              <td>
+                <span data-bilingual-fr>Prévue en septembre 2028</span>
+                <span data-bilingual-ar hidden>متوقع في سبتمبر 2028</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="mt-8 max-w-2xl text-sm leading-relaxed text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Les surfaces proposées conviennent aux commerces de proximité : alimentation, services, restauration rapide, santé, beauté ou petits bureaux.
+          </span>
+          <span data-bilingual-ar hidden>
+            المساحات المعروضة تناسب تجارة القرب: تغذية، خدمات، أكل سريع، صحة، تجميل أو مكاتب صغيرة.
+          </span>
+        </p>
+      </div>
+    </section>
+
+    <section class="bg-creme section">
+      <div class="container-rzg" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Quatre raisons de choisir cet emplacement</span>
+          <span data-bilingual-ar hidden>أربع أسباب لاختيار هذا الموقع</span>
+        </h2>
+        <div class="mt-10 grid gap-6 md:grid-cols-2">
+          {why.map((item) => (
+            <article class="card reveal-fusion">
+              <h3 class="font-display text-2xl text-canopee">
+                <span data-bilingual-fr>{item.titleFr}</span>
+                <span data-bilingual-ar hidden>{item.titleAr}</span>
+              </h3>
+              <p class="mt-3 text-sm text-foret/70">
+                <span data-bilingual-fr>{item.bodyFr}</span>
+                <span data-bilingual-ar hidden>{item.bodyAr}</span>
+              </p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white section">
+      <div class="container-rzg max-w-3xl" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Un bien commercial à louer</span>
+          <span data-bilingual-ar hidden>عقار تجاري للكراء</span>
+        </h2>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Un local commercial dans un quartier neuf constitue un actif simple à mettre en location, avec une demande qui se construit en même temps que le quartier.
+          </span>
+          <span data-bilingual-ar hidden>
+            محل تجاري في حي جديد أصل سهل للكراء، مع طلب يبنى مع الحي نفسه.
+          </span>
+        </p>
+        <p class="mt-4 text-sm text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>Les surfaces restent maîtrisées, ce qui permet d’entrer avec un budget mesuré.</span>
+          <span data-bilingual-ar hidden>تبقى المساحات محسوبة، ما يسمح بالدخول بميزانية معتدلة.</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="bg-creme section">
+      <div class="container-rzg" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Aller plus loin</span>
+          <span data-bilingual-ar hidden>للمضي أبعد</span>
+        </h2>
+        <div class="mt-8 grid gap-6 md:grid-cols-2">
+          <a href={routes.projet()} class="card card-hover reveal-fusion">
+            <h3 class="font-display text-2xl text-canopee">
+              <span data-bilingual-fr>Le projet</span>
+              <span data-bilingual-ar hidden>المشروع</span>
+            </h3>
+            <p class="mt-2 text-sm text-foret/70">
+              <span data-bilingual-fr>9 immeubles, 120 appartements, 49 commerces</span>
+              <span data-bilingual-ar hidden>9 عمارات، 120 شقة، 49 محلاً</span>
+            </p>
+          </a>
+          <a href={routes.localisation()} class="card card-hover reveal-fusion">
+            <h3 class="font-display text-2xl text-canopee">
+              <span data-bilingual-fr>La localisation</span>
+              <span data-bilingual-ar hidden>الموقع</span>
+            </h3>
+            <p class="mt-2 text-sm text-foret/70">
+              <span data-bilingual-fr>Aïn Aouda, à 20 minutes de Rabat</span>
+              <span data-bilingual-ar hidden>عين عودة، على بعد 20 دقيقة من الرباط</span>
+            </p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <ConversionBlock
+      titleFr="Réserver un local commercial"
+      titleAr="احجزوا محلاً تجارياً"
+      bodyFr="Laissez-nous vos coordonnées. Un conseiller vous rappelle avec les surfaces encore disponibles et les conditions de réservation."
+      bodyAr="اتركوا بياناتكم. يتصل بكم مستشار بالمساحات المتاحة وشروط الحجز."
+    />
+  </div>
+</PageLayout>

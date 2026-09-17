@@ -1,0 +1,71 @@
+---
+import { site } from '../data/site';
+import { footerInfo, footerProject } from '../data/nav';
+import { routes } from '../lib/routes';
+import { withBase } from '../lib/base';
+---
+
+<footer class="section--dark section !pb-24 !pt-16 md:!pb-8">
+  <div class="container-rzg">
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+      <div>
+        <img src={withBase('/logo.png')} alt={site.name} width="280" height="112" class="mb-5 h-20 w-auto" />
+        <p class="text-xs uppercase tracking-[0.2em] text-gold/80" data-i18n="by_manoussa">by La Manoussa</p>
+        <p class="mt-4 max-w-xs text-sm leading-relaxed text-creme/70">
+          <span data-bilingual-fr>Nouveau pôle urbain à Rabat.</span>
+          <span data-bilingual-ar hidden>قطب حضري جديد بالرباط.</span>
+        </p>
+        <p class="mt-3 max-w-xs text-sm leading-relaxed text-creme/60">
+          <span data-bilingual-fr>Appartements F3 et F4 et fonds de commerce à Aïn Aouda, à 20 minutes de Rabat.</span>
+          <span data-bilingual-ar hidden>شقق F3 و F4 ومحلات تجارية في عين عودة، على بعد 20 دقيقة من الرباط.</span>
+        </p>
+      </div>
+
+      <div>
+        <p class="kicker kicker--light mb-4" data-i18n="footer_project">Le projet</p>
+        <ul class="space-y-2 text-sm text-creme/80">
+          {footerProject.map((l) => (
+            <li><a href={l.href} class="transition hover:text-gold" data-i18n={l.key}>{l.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <p class="kicker kicker--light mb-4" data-i18n="footer_info">Informations</p>
+        <ul class="space-y-2 text-sm text-creme/80">
+          {footerInfo.map((l) => (
+            <li><a href={l.href} class="transition hover:text-gold" data-i18n={l.key}>{l.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <p class="kicker kicker--light mb-4" data-i18n="footer_join">Nous joindre</p>
+        <div class="space-y-2 text-sm text-creme/80">
+          <p>
+            <span data-bilingual-fr>Téléphone</span>
+            <span data-bilingual-ar hidden>الهاتف</span>
+            : <a href={`tel:${site.phoneTel}`} class="font-medium text-gold hover:underline">{site.phone}</a>
+          </p>
+          <p>
+            <a href={site.whatsapp} class="text-gold hover:underline" target="_blank" rel="noopener">
+              <span data-bilingual-fr>Écrire sur WhatsApp</span>
+              <span data-bilingual-ar hidden>الكتابة على واتساب</span>
+            </a>
+          </p>
+          <p data-i18n="footer_address">{site.address} — {site.locationReal}</p>
+          <p>{site.domain}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-col items-start justify-between gap-3 border-t border-creme/10 pt-6 text-xs text-creme/45 sm:flex-row sm:items-center">
+      <p data-i18n="footer_rights">© 2026 Riyad Zaer Gardens — by La Manoussa. Tous droits réservés.</p>
+      <p data-i18n="footer_aid">Projet éligible à l’aide au logement.</p>
+      <p class="flex flex-wrap gap-3">
+        <a href={routes.legal()} class="hover:text-gold" data-i18n="footer_legal">Mentions légales</a>
+        <a href={`${routes.legal()}#confidentialite`} class="hover:text-gold" data-i18n="footer_privacy">Politique de confidentialité</a>
+      </p>
+    </div>
+  </div>
+</footer>

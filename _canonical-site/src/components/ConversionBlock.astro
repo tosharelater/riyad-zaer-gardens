@@ -1,0 +1,46 @@
+---
+import { site } from '../data/site';
+import { routes } from '../lib/routes';
+
+interface Props {
+  titleFr?: string;
+  titleAr?: string;
+  bodyFr?: string;
+  bodyAr?: string;
+  primaryFr?: string;
+  primaryAr?: string;
+  primaryHref?: string;
+}
+const {
+  titleFr = 'Parlons de votre projet',
+  titleAr = 'لنتحدث عن مشروعكم',
+  bodyFr = 'Laissez-nous vos coordonnées. Un conseiller vous rappelle pour répondre à vos questions et vous transmettre la brochure du projet.',
+  bodyAr = 'اتركوا بياناتكم. يتصل بكم مستشار للإجابة على أسئلتكم وإرسال كتيب المشروع.',
+  primaryFr = 'Être rappelé',
+  primaryAr = 'اطلبوا اتصالاً',
+  primaryHref = routes.contact(),
+} = Astro.props;
+---
+
+<section class="section--dark section">
+  <div class="container-rzg max-w-3xl" data-reveal-group>
+    <h2 class="fusion-h2 reveal-fusion">
+      <span data-bilingual-fr>{titleFr}</span>
+      <span data-bilingual-ar hidden>{titleAr}</span>
+    </h2>
+    <p class="fusion-lead text-creme/75 reveal-fusion">
+      <span data-bilingual-fr>{bodyFr}</span>
+      <span data-bilingual-ar hidden>{bodyAr}</span>
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3 reveal-fusion">
+      <a href={primaryHref} class="btn btn-solid">
+        <span data-bilingual-fr>{primaryFr}</span>
+        <span data-bilingual-ar hidden>{primaryAr}</span>
+      </a>
+      <a href={site.whatsapp} class="btn btn-ghost" target="_blank" rel="noopener">
+        <span data-bilingual-fr>Écrire sur WhatsApp</span>
+        <span data-bilingual-ar hidden>الكتابة على واتساب</span>
+      </a>
+    </div>
+  </div>
+</section>

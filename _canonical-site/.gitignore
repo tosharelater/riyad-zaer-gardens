@@ -15,17 +15,19 @@ pnpm-debug.log*
 
 # environment variables
 .env
+.env.*
+!.env.example
 .env.production
+
+# local dumps / office files
+*.docx
+*.pdf
+*.doc
+*.xlsx
+*.pptx
 
 # macOS-specific files
 .DS_Store
 
 # jetbrains setting folder
 .idea/
-
-# local dumps / extras
-Riyad Zaer Gardens-20260916T083002Z-1-001/
-.claude/
-screenshots/
-neurolink/
-_canonical-site/.git/

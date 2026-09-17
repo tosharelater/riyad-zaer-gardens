@@ -1,0 +1,27 @@
+---
+import { site } from '../data/site';
+import { routes } from '../lib/routes';
+---
+
+<section class="bg-canopee text-creme">
+  <div class="container-rzg section--tight grid gap-8 md:grid-cols-[1.4fr_0.8fr] md:items-center" data-reveal-group>
+    <div>
+      <h2 class="fusion-h2 text-creme reveal-fusion">
+        <span data-bilingual-fr>Un projet éligible à l’aide au logement</span>
+        <span data-bilingual-ar hidden>مشروع مؤهل لدعم السكن</span>
+      </h2>
+      <p class="fusion-lead text-creme/80 reveal-fusion">
+        <span data-bilingual-fr>
+          Riyad Zaer Gardens est éligible au programme d’aide au logement de l’État. Selon votre situation, le prix d’un appartement peut démarrer à <span class="num-ltr">{site.priceWithAid}</span> au lieu de <span class="num-ltr">{site.priceFrom}</span>.
+        </span>
+        <span data-bilingual-ar hidden>
+          رياض زائر غاردنز مؤهل لبرنامج دعم السكن. حسب وضعيتكم، يمكن أن يبدأ ثمن الشقة من <span class="num-ltr">{site.priceWithAid}</span> بدل <span class="num-ltr">{site.priceFrom}</span>.
+        </span>
+      </p>
+    </div>
+    <a href={routes.contact()} class="btn btn-solid justify-self-start reveal-fusion">
+      <span data-bilingual-fr>Vérifier mon éligibilité</span>
+      <span data-bilingual-ar hidden>تحققوا من أهليتي</span>
+    </a>
+  </div>
+</section>

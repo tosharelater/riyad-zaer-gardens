@@ -1,0 +1,44 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { site } from '../data/site';
+import { routes } from '../lib/routes';
+---
+
+<PageLayout
+  title="Merci pour votre demande — Riyad Zaer Gardens"
+  description="Votre demande a bien été envoyée. Un conseiller Riyad Zaer Gardens vous rappelle prochainement."
+  noindex
+>
+  <div class="fusion-page" data-fusion-page>
+    <section class="flex min-h-[80svh] items-center bg-foret text-creme">
+      <div class="container-rzg max-w-2xl py-28" data-reveal-group>
+        <h1 class="fusion-h1 reveal-fusion">
+          <span data-bilingual-fr>Merci, votre demande est bien enregistrée</span>
+          <span data-bilingual-ar hidden>شكراً، سُجّل طلبكم</span>
+        </h1>
+        <p class="fusion-lead text-creme/78 reveal-fusion">
+          <span data-bilingual-fr>
+            Un conseiller vous rappelle au plus vite pour répondre à vos questions et vous transmettre la brochure du projet.
+          </span>
+          <span data-bilingual-ar hidden>
+            يتصل بكم مستشار في أقرب وقت للإجابة عن أسئلتكم وإرسال كتيب المشروع.
+          </span>
+        </p>
+        <p class="mt-4 text-sm text-creme/70 reveal-fusion">
+          <span data-bilingual-fr>Vous préférez ne pas attendre ? Appelez-nous directement au {site.phone}.</span>
+          <span data-bilingual-ar hidden>تفضلون عدم الانتظار؟ اتصلوا مباشرة على {site.phone}.</span>
+        </p>
+        <div class="mt-10 flex flex-wrap gap-3 reveal-fusion">
+          <a href={`tel:${site.phoneTel}`} class="btn btn-solid">
+            <span data-bilingual-fr>Appeler maintenant</span>
+            <span data-bilingual-ar hidden>اتصلوا الآن</span>
+          </a>
+          <a href={routes.projet()} class="btn btn-ghost">
+            <span data-bilingual-fr>Découvrir le projet</span>
+            <span data-bilingual-ar hidden>اكتشفوا المشروع</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</PageLayout>

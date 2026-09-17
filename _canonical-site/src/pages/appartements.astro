@@ -1,0 +1,253 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import ConversionBlock from '../components/ConversionBlock.astro';
+import HousingAidBanner from '../components/HousingAidBanner.astro';
+import { site, typologies, amenities, finishTable, waysToBe, reasons } from '../data/site';
+import { routes } from '../lib/routes';
+import { withBase } from '../lib/base';
+---
+
+<PageLayout
+  title="Appartements F3 et F4 à Aïn Aouda — Riyad Zaer Gardens"
+  description="Appartements neufs F3 et F4 de 65 à 86 m² à Aïn Aouda, livrés finis. À partir de 420 000 DH, ou 350 000 DH avec l'aide au logement. Livraison 2028."
+  current="appartements"
+>
+  <div class="fusion-page" data-fusion-page>
+    <section class="fusion-split bg-foret text-creme">
+      <div class="fusion-pane" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">
+          <span data-bilingual-fr>Appartements</span>
+          <span data-bilingual-ar hidden>الشقق</span>
+        </p>
+        <h1 class="fusion-h1 reveal-fusion">
+          <span data-bilingual-fr>Appartements F3 et F4 à Aïn Aouda</span>
+          <span data-bilingual-ar hidden>شقق F3 و F4 في عين عودة</span>
+        </h1>
+        <p class="fusion-lead text-creme/78 reveal-fusion">
+          <span data-bilingual-fr>
+            La première tranche de Riyad Zaer Gardens compte 120 appartements, répartis en deux typologies : F3 et F4, de 65 à 86 m².
+          </span>
+          <span data-bilingual-ar hidden>
+            المرحلة الأولى من رياض زائر غاردنز تضم 120 شقة، على نمطين: F3 و F4، من 65 إلى 86 م².
+          </span>
+        </p>
+        <p class="mt-4 text-sm text-creme/70 reveal-fusion">
+          <span data-bilingual-fr>Tous les logements sont livrés finis. Vous emménagez sans travaux à prévoir.</span>
+          <span data-bilingual-ar hidden>كل المساكن تُسلَّم منتهية. تنتقلون دون أعمال مسبقة.</span>
+        </p>
+      </div>
+      <div class="fusion-media" data-media-reveal>
+        <img src={withBase('/gallery/render-1.jpg')} alt="Appartements F3 et F4 de Riyad Zaer Gardens" />
+      </div>
+    </section>
+
+    <section class="bg-white section">
+      <div class="container-rzg" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Deux typologies, de 65 à 86 m²</span>
+          <span data-bilingual-ar hidden>نمطان، من 65 إلى 86 م²</span>
+        </h2>
+        <div class="mt-10 grid gap-6 md:grid-cols-2">
+          {typologies.filter((t) => t.id !== 'fonds').map((t) => (
+            <article class="card card-hover reveal-fusion">
+              <p class="text-[0.65rem] uppercase tracking-[0.2em] text-gold">{t.surfaceFr}</p>
+              <h3 class="font-display mt-3 text-3xl text-canopee">
+                <span data-bilingual-fr>{t.titleFr}</span>
+                <span data-bilingual-ar hidden>{t.titleAr}</span>
+              </h3>
+              <p class="mt-4 text-sm leading-relaxed text-foret/70">
+                <span data-bilingual-fr>{t.bodyFr}</span>
+                <span data-bilingual-ar hidden>{t.bodyAr}</span>
+              </p>
+            </article>
+          ))}
+        </div>
+        <p class="mt-8 rounded-2xl border border-gold/30 bg-creme px-5 py-4 text-sm text-foret/75 reveal-fusion">
+          <span data-bilingual-fr>
+            Les surfaces varient selon l’étage et la position dans la résidence. Un conseiller vous indique les lots encore disponibles.
+          </span>
+          <span data-bilingual-ar hidden>
+            تتغير المساحات حسب الطابق والموقع في الإقامة. يبيّن لكم مستشار الوحدات المتاحة.
+          </span>
+        </p>
+      </div>
+    </section>
+
+    <section class="bg-creme section">
+      <div class="container-rzg" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Des logements livrés finis</span>
+          <span data-bilingual-ar hidden>مساكن تُسلَّم منتهية</span>
+        </h2>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Les appartements sont livrés avec leurs finitions, dans un standing moderne et sobre. L’objectif est que le logement soit prêt à vivre dès la remise des clés.
+          </span>
+          <span data-bilingual-ar hidden>
+            تُسلَّم الشقق بتشطيباتها، بوقوف عصري رصين. الهدف أن يكون المسكن جاهزاً للعيش منذ تسليم المفاتيح.
+          </span>
+        </p>
+        <ul class="fusion-list fusion-list--soft mt-8">
+          {amenities.map((a) => (
+            <li class="reveal-fusion">
+              <span data-bilingual-fr>{a.fr}</span>
+              <span data-bilingual-ar hidden>{a.ar}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section id="finitions" class="bg-white section">
+      <div class="container-rzg" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Le détail des finitions</span>
+          <span data-bilingual-ar hidden>تفاصيل التشطيبات</span>
+        </h2>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Les matériaux ont été choisis pour durer et rester faciles à entretenir. La pose est soignée : alignements, joints réguliers, raccords nets, et une cohérence de teintes d’une pièce à l’autre.
+          </span>
+          <span data-bilingual-ar hidden>
+            اختيرت المواد لتدوم ويسهل صيانتها. التركيب متقن: محاذاة، فواصل منتظمة، وصلات نظيفة، وتناسق ألوان من غرفة إلى أخرى.
+          </span>
+        </p>
+        <table class="rzg-table mt-8 reveal-fusion">
+          <tbody>
+            {finishTable.map((row) => (
+              <tr>
+                <th>
+                  <span data-bilingual-fr>{row.fr}</span>
+                  <span data-bilingual-ar hidden>{row.ar}</span>
+                </th>
+                <td>
+                  <span data-bilingual-fr>{row.frVal}</span>
+                  <span data-bilingual-ar hidden>{row.arVal}</span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p class="mt-8 text-sm text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>Le détail complet des prestations figure dans la brochure du projet. Demandez-la, nous vous l’envoyons.</span>
+          <span data-bilingual-ar hidden>التفاصيل الكاملة في كتيب المشروع. اطلبوه، نرسله إليكم.</span>
+        </p>
+        <a href={routes.contact()} class="btn btn-solid mt-6 reveal-fusion" data-i18n="cta_brochure">Recevoir la brochure</a>
+      </div>
+    </section>
+
+    <section class="bg-creme section">
+      <div class="container-rzg" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Des prix à partir de 420 000 DH</span>
+          <span data-bilingual-ar hidden>أثمان ابتداءً من 420 000 درهم</span>
+        </h2>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Le prix dépend de la typologie, de la surface et de l’étage. Le prix d’entrée de la première tranche est de 420 000 DH.
+          </span>
+          <span data-bilingual-ar hidden>
+            الثمن حسب النمط والمساحة والطابق. ثمن الدخول للمرحلة الأولى هو 420 000 درهم.
+          </span>
+        </p>
+        <p class="mt-4 text-sm text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>Si vous êtes éligible à l’aide au logement, ce prix peut descendre à <span class="num-ltr">{site.priceWithAid}</span>.</span>
+          <span data-bilingual-ar hidden>إذا كنتم مؤهلين لدعم السكن، يمكن أن ينخفض الثمن إلى <span class="num-ltr">{site.priceWithAid}</span>.</span>
+        </p>
+        <div class="mt-8 grid max-w-xl gap-4 sm:grid-cols-2">
+          <div class="card text-pair reveal-fusion">
+            <p class="pair-label">
+              <span data-bilingual-fr>Sans aide</span>
+              <span data-bilingual-ar hidden>بدون دعم</span>
+            </p>
+            <p class="pair-value">
+              <span data-bilingual-fr>à partir de <span class="num-ltr">{site.priceFrom}</span></span>
+              <span data-bilingual-ar hidden>ابتداءً من <span class="num-ltr">{site.priceFrom}</span></span>
+            </p>
+          </div>
+          <div class="card text-pair reveal-fusion">
+            <p class="pair-label">
+              <span data-bilingual-fr>Avec l’aide</span>
+              <span data-bilingual-ar hidden>مع الدعم</span>
+            </p>
+            <p class="pair-value">
+              <span data-bilingual-fr>à partir de <span class="num-ltr">{site.priceWithAid}</span></span>
+              <span data-bilingual-ar hidden>ابتداءً من <span class="num-ltr">{site.priceWithAid}</span></span>
+            </p>
+          </div>
+        </div>
+        <a href={routes.contact()} class="btn btn-solid mt-8 reveal-fusion">
+          <span data-bilingual-fr>Recevoir la brochure et les prix</span>
+          <span data-bilingual-ar hidden>اطلبوا الكتيب والأثمان</span>
+        </a>
+      </div>
+    </section>
+
+    <HousingAidBanner />
+
+    <section class="bg-white section">
+      <div class="container-rzg" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Un appartement, et un quartier autour</span>
+          <span data-bilingual-ar hidden>شقة، وحي حولها</span>
+        </h2>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Acheter à Riyad Zaer Gardens, ce n’est pas seulement acheter un logement. C’est s’installer dans une résidence organisée autour d’une cour centrale plantée, à 20 minutes de Rabat.
+          </span>
+          <span data-bilingual-ar hidden>
+            الشراء في رياض زائر غاردنز ليس شراء مسكن فقط. إنه الاستقرار في إقامة حول فناء مغروس، على بعد 20 دقيقة من الرباط.
+          </span>
+        </p>
+        <div class="mt-10 grid gap-6 md:grid-cols-2">
+          {reasons.map((item) => (
+            <article class="reveal-fusion">
+              <h3 class="font-display text-2xl text-canopee">
+                <span data-bilingual-fr>{item.titleFr}</span>
+                <span data-bilingual-ar hidden>{item.titleAr}</span>
+              </h3>
+              <p class="mt-3 text-sm text-foret/70">
+                <span data-bilingual-fr>{item.bodyFr}</span>
+                <span data-bilingual-ar hidden>{item.bodyAr}</span>
+              </p>
+            </article>
+          ))}
+        </div>
+        <a href={routes.projet()} class="mt-8 inline-flex text-sm font-medium text-gold hover:underline reveal-fusion">
+          <span data-bilingual-fr>Découvrir le projet en détail</span>
+          <span data-bilingual-ar hidden>اكتشفوا المشروع بالتفصيل</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="bg-creme section">
+      <div class="container-rzg" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Trois façons d’être à Riyad Zaer Gardens</span>
+          <span data-bilingual-ar hidden>ثلاث طرق للوجود في رياض زائر غاردنز</span>
+        </h2>
+        <div class="mt-10 grid gap-6 md:grid-cols-3">
+          {waysToBe.map((item) => (
+            <article class="border-t border-gold/50 pt-6 reveal-fusion">
+              <h3 class="font-display text-3xl text-canopee">
+                <span data-bilingual-fr>{item.titleFr}</span>
+                <span data-bilingual-ar hidden>{item.titleAr}</span>
+              </h3>
+              <p class="mt-4 text-sm text-foret/70">
+                <span data-bilingual-fr>{item.bodyFr}</span>
+                <span data-bilingual-ar hidden>{item.bodyAr}</span>
+              </p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <ConversionBlock
+      titleFr="Recevez la brochure du projet"
+      titleAr="احصلوا على كتيب المشروع"
+      bodyFr="Laissez-nous vos coordonnées. Un conseiller vous rappelle avec la brochure, les typologies disponibles et les prix à jour."
+      bodyAr="اتركوا بياناتكم. يتصل بكم مستشار بالكتيب والأنماط المتاحة والأثمان الحالية."
+    />
+  </div>
+</PageLayout>

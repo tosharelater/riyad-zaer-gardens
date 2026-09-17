@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+import { routes } from '../lib/routes';
+import { withBase } from '../lib/base';
+---
+
+<BaseLayout title="Cette page n'existe pas" description="Page non trouvée — Riyad Zaer Gardens" noindex>
+  <div class="notfound relative flex min-h-screen flex-col overflow-hidden bg-foret text-creme">
+    <img src={withBase('/gallery/render-7.jpg')} alt="" class="notfound__bg absolute inset-0 h-full w-full object-cover opacity-[0.22]" aria-hidden="true" />
+    <div class="notfound__veil absolute inset-0 bg-gradient-to-br from-foret via-foret/95 to-canopee/90" aria-hidden="true"></div>
+
+    <header class="relative z-10 flex items-center justify-between px-4 pt-8 sm:px-6">
+      <a href={routes.home()} class="inline-block" aria-label={site.name}>
+        <img src={withBase('/logo.png')} alt="" width="140" height="56" class="h-9 w-auto opacity-90" />
+      </a>
+      <div class="lang-toggle flex rounded-full border border-creme/20 p-0.5 text-[0.65rem] font-semibold" role="group">
+        <button type="button" data-lang="fr" aria-pressed="true" class="rounded-full px-2.5 py-1">FR</button>
+        <button type="button" data-lang="ar" aria-pressed="false" class="rounded-full px-2.5 py-1">العربية</button>
+      </div>
+    </header>
+
+    <main class="relative z-10 flex flex-1 flex-col items-center justify-center px-4 pb-20 pt-8 text-center sm:px-6">
+      <h1 class="font-display mt-6 max-w-lg text-3xl leading-tight md:text-4xl" data-i18n="notfound_title">
+        Cette page n'existe pas
+      </h1>
+      <p class="mt-5 max-w-md text-base leading-relaxed text-creme/78" data-i18n="notfound_lead">
+        Le lien que vous avez suivi ne mène nulle part. Revenez à l'accueil ou découvrez directement les appartements disponibles.
+      </p>
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-3">
+        <a href={routes.home()} class="btn btn-solid" data-i18n="notfound_home">Retour à l'accueil</a>
+        <a href={routes.appartements()} class="btn btn-ghost" data-i18n="notfound_apt">Voir les appartements</a>
+      </div>
+    </main>
+  </div>
+</BaseLayout>

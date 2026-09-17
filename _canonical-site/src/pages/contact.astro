@@ -1,0 +1,107 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { site } from '../data/site';
+import { routes } from '../lib/routes';
+---
+
+<PageLayout
+  title="Contact — Riyad Zaer Gardens, Aïn Aouda"
+  description="Contactez Riyad Zaer Gardens à Aïn Aouda : demande de brochure, prix, visite du site. Un conseiller vous rappelle. Tél. 07 08 08 08 39."
+  current="contact"
+>
+  <div class="fusion-page" data-fusion-page>
+    <section class="fusion-split fusion-split--short">
+      <div class="fusion-pane bg-foret text-creme" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">
+          <span data-bilingual-fr>Contact</span>
+          <span data-bilingual-ar hidden>اتصل بنا</span>
+        </p>
+        <h1 class="fusion-h1 reveal-fusion">
+          <span data-bilingual-fr>Contacter Riyad Zaer Gardens</span>
+          <span data-bilingual-ar hidden>الاتصال برياض زائر غاردنز</span>
+        </h1>
+        <p class="fusion-lead text-creme/75 reveal-fusion">
+          <span data-bilingual-fr>
+            Une question sur les typologies, les prix ou l’aide au logement ? Laissez-nous vos coordonnées : un conseiller vous rappelle et vous transmet la brochure du projet.
+          </span>
+          <span data-bilingual-ar hidden>
+            سؤال عن الأنماط أو الأثمان أو دعم السكن؟ اتركوا بياناتكم: يتصل بكم مستشار ويرسل كتيب المشروع.
+          </span>
+        </p>
+      </div>
+      <div class="fusion-pane bg-creme" data-reveal-group>
+        <div class="reveal-fusion">
+          <ContactForm />
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white section">
+      <div class="container-rzg grid gap-8 md:grid-cols-3" data-reveal-group>
+        <article class="card reveal-fusion">
+          <h2 class="font-display text-2xl text-canopee">
+            <span data-bilingual-fr>Par téléphone</span>
+            <span data-bilingual-ar hidden>بالهاتف</span>
+          </h2>
+          <a href={`tel:${site.phoneTel}`} class="mt-3 inline-block font-medium text-gold hover:underline">{site.phone}</a>
+        </article>
+        <article class="card reveal-fusion">
+          <h2 class="font-display text-2xl text-canopee">
+            <span data-bilingual-fr>Sur WhatsApp</span>
+            <span data-bilingual-ar hidden>عبر واتساب</span>
+          </h2>
+          <a href={site.whatsapp} class="mt-3 inline-block font-medium text-gold hover:underline" target="_blank" rel="noopener">
+            <span data-bilingual-fr>Écrivez-nous, nous répondons rapidement.</span>
+            <span data-bilingual-ar hidden>اكتبوا لنا، نجيب بسرعة.</span>
+          </a>
+        </article>
+        <article class="card reveal-fusion">
+          <h2 class="font-display text-2xl text-canopee">
+            <span data-bilingual-fr>Sur place</span>
+            <span data-bilingual-ar hidden>في المكان</span>
+          </h2>
+          <p class="mt-3 text-sm text-foret/70">{site.address} — {site.locationReal}</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="bg-creme section">
+      <div class="container-rzg max-w-3xl" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Visiter le site du projet</span>
+          <span data-bilingual-ar hidden>زيارة موقع المشروع</span>
+        </h2>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Nous organisons des visites sur le terrain pour situer les immeubles, les espaces verts et les commerces. Indiquez vos disponibilités dans le formulaire, nous convenons d’un créneau avec vous.
+          </span>
+          <span data-bilingual-ar hidden>
+            ننظم زيارات ميدانية لتحديد العمارات والمساحات الخضراء والمحلات. بيّنوا تفرغكم في الاستمارة، نتفق على موعد.
+          </span>
+        </p>
+      </div>
+    </section>
+
+    <section class="bg-white section">
+      <div class="container-rzg max-w-3xl" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Vous vous posez encore des questions ?</span>
+          <span data-bilingual-ar hidden>ما زالت لديكم أسئلة؟</span>
+        </h2>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Les réponses aux questions les plus courantes sur les prix, l’aide au logement et la livraison sont regroupées sur une page dédiée.
+          </span>
+          <span data-bilingual-ar hidden>
+            الإجابات عن الأسئلة الأكثر تكراراً حول الأثمان ودعم السكن والتسليم مجمعة في صفحة مخصصة.
+          </span>
+        </p>
+        <a href={routes.faq()} class="btn btn-solid mt-8 reveal-fusion">
+          <span data-bilingual-fr>Consulter la FAQ</span>
+          <span data-bilingual-ar hidden>اطلعوا على الأسئلة الشائعة</span>
+        </a>
+      </div>
+    </section>
+  </div>
+</PageLayout>

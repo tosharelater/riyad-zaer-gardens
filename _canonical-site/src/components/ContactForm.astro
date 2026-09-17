@@ -1,0 +1,95 @@
+---
+import { site, contactInterests } from '../data/site';
+import { routes } from '../lib/routes';
+
+const apiUrl = import.meta.env.PUBLIC_API_URL ?? 'http://127.0.0.1:8000';
+---
+
+<form class="grid gap-5" data-contact-form data-api={apiUrl} data-whatsapp={site.whatsapp} data-merci={routes.merci()}>
+  <div>
+    <h2 class="font-display text-2xl" data-i18n="form_title">Être rappelé</h2>
+  </div>
+
+  <input type="text" name="website" tabindex="-1" autocomplete="off" class="absolute -left-[9999px] h-0 w-0 opacity-0" aria-hidden="true" />
+
+  <label class="grid gap-1.5 text-sm font-medium">
+    <span data-i18n="form_name">Nom complet</span>
+    <input class="input" type="text" name="name" required autocomplete="name" />
+  </label>
+  <label class="grid gap-1.5 text-sm font-medium">
+    <span data-i18n="form_phone">Téléphone</span>
+    <input class="input" type="tel" name="phone" required autocomplete="tel" />
+  </label>
+  <label class="grid gap-1.5 text-sm font-medium">
+    <span data-i18n="form_email">E-mail</span>
+    <input class="input" type="email" name="email" autocomplete="email" />
+  </label>
+  <label class="grid gap-1.5 text-sm font-medium">
+    <span data-i18n="form_interest">Votre projet</span>
+    <select class="input" name="interest" data-interest required>
+      <option value="">—</option>
+      {contactInterests.map((t) => (
+        <option value={t.id} data-label-fr={t.fr} data-label-ar={t.ar}>{t.fr}</option>
+      ))}
+    </select>
+  </label>
+  <label class="grid gap-1.5 text-sm font-medium">
+    <span data-i18n="form_message">Votre message (facultatif)</span>
+    <textarea class="input min-h-28 resize-y" name="message"></textarea>
+  </label>
+
+  <div class="flex flex-wrap gap-3 pt-1">
+    <button type="submit" class="btn btn-solid" data-i18n="form_send">Envoyer ma demande</button>
+  </div>
+  <p class="text-xs leading-relaxed text-foret/55" data-i18n="form_legal">
+    Vos informations servent uniquement à vous recontacter au sujet du projet. Elles ne sont ni revendues, ni utilisées à d’autres fins.
+  </p>
+  <p class="hidden rounded-xl bg-red-50 px-4 py-3 text-sm text-red-800" data-form-error data-i18n="form_error"></p>
+</form>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  const preset = params.get('interest');
+  if (preset) {
+    const select = document.querySelector<HTMLSelectElement>('[data-interest]');
+    if (select) select.value = preset;
+  }
+
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (String(new FormData(form).get('website') || '')) return;
+
+      const api = form.dataset.api ?? '';
+      const wa = form.dataset.whatsapp ?? '';
+      const merci = form.dataset.merci ?? '/merci/';
+      const error = form.querySelector('[data-form-error]');
+      error?.classList.add('hidden');
+
+      const data = Object.fromEntries(new FormData(form));
+      const payload = {
+        name: String(data.name || ''),
+        phone: String(data.phone || ''),
+        email: String(data.email || '') || null,
+        message: String(data.message || ''),
+        interest: String(data.interest || '') || null,
+      };
+
+      try {
+        const res = await fetch(`${api}/api/leads`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error('fail');
+        window.location.href = merci;
+      } catch {
+        const text = encodeURIComponent(
+          `Bonjour, je suis ${payload.name}. Tél: ${payload.phone}. Projet: ${payload.interest || 'renseignement'}. ${payload.message}`,
+        );
+        if (wa) window.open(`${wa}?text=${text}`, '_blank', 'noopener');
+        window.location.href = merci;
+      }
+    });
+  });
+</script>

@@ -1,0 +1,173 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { guides, type GuideSlug } from '../../data/guides';
+import { routes } from '../../lib/routes';
+import { site } from '../../data/site';
+
+export function getStaticPaths() {
+  return guides.map((g) => ({ params: { slug: g.slug } }));
+}
+
+const { slug } = Astro.params as { slug: GuideSlug };
+const guide = guides.find((g) => g.slug === slug)!;
+
+const bodies: Record<GuideSlug, { h2Fr: string; h2Ar: string; htmlFr: string; htmlAr: string }[]> = {
+  'aide-au-logement-maroc': [
+    {
+      h2Fr: 'Ce qu’est le programme, en une phrase',
+      h2Ar: 'ما هو البرنامج، في جملة',
+      htmlFr: `<p>L’aide au logement est un dispositif de l’État qui réduit le prix d’achat d’un logement neuf, sous conditions. Elle ne s’applique pas aux fonds de commerce.</p>`,
+      htmlAr: `<p>دعم السكن إجراء للدولة يخفض ثمن شراء مسكن جديد، وفق شروط. لا يشمل المحلات التجارية.</p>`,
+    },
+    {
+      h2Fr: 'Ce que cela change sur le prix',
+      h2Ar: 'ماذا يغيّر في الثمن',
+      htmlFr: `<p>À Riyad Zaer Gardens, le prix d’entrée d’un appartement est de <span class="num-ltr">${site.priceFrom}</span>. Selon votre situation, il peut démarrer à <span class="num-ltr">${site.priceWithAid}</span> avec l’aide au logement.</p><p>Le montant exact dépend de la typologie, de la surface et de l’étage. La grille détaillée est transmise avec la brochure, après un premier échange.</p>`,
+      htmlAr: `<p>في رياض زائر غاردنز، ثمن الدخول لشقة هو <span class="num-ltr">${site.priceFrom}</span>. حسب وضعيتكم، يمكن أن يبدأ من <span class="num-ltr">${site.priceWithAid}</span> مع دعم السكن.</p><p>المبلغ الدقيق حسب النمط والمساحة والطابق. الشبكة التفصيلية تُرسل مع الكتيب بعد أول تبادل.</p>`,
+    },
+    {
+      h2Fr: 'Les démarches, étape par étape',
+      h2Ar: 'الخطوات',
+      htmlFr: `<p>Un conseiller vérifie d’abord votre éligibilité, gratuitement et sans engagement. Si le projet vous convient, il vous accompagne ensuite dans la constitution du dossier.</p><p>Les critères officiels du programme évoluent. Nous les vérifions avec vous au moment de l’échange, plutôt que de les figer ici.</p>`,
+      htmlAr: `<p>يتحقق مستشار أولاً من أهليتكم، مجاناً ودون التزام. إن ناسبكم المشروع، يرافقكم بعدها في إعداد الملف.</p><p>معايير البرنامج الرسمية تتغير. نتحقق منها معكم عند التبادل، بدل تثبيتها هنا.</p>`,
+    },
+    {
+      h2Fr: 'Le cas de Riyad Zaer Gardens',
+      h2Ar: 'حالة رياض زائر غاردنز',
+      htmlFr: `<p>Les surfaces (65 à 86 m²) et les prix ont été conçus dès l’origine pour répondre aux conditions du programme. Le projet est éligible ; votre éligibilité personnelle se vérifie ensuite, au cas par cas.</p>`,
+      htmlAr: `<p>صُممت المساحات (65 إلى 86 م²) والأثمان منذ الأصل لتلبية شروط البرنامج. المشروع مؤهل؛ أهليتكم الشخصية تُتحقق بعدها حالة بحالة.</p>`,
+    },
+  ],
+  'f3-ou-f4-comment-choisir': [
+    {
+      h2Fr: 'Ce que veulent dire F3 et F4',
+      h2Ar: 'ماذا يعني F3 و F4',
+      htmlFr: `<p>Un F3 comprend un séjour et deux chambres. Un F4 ajoute une troisième chambre, avec un WC séparé. Les deux typologies sont livrées finies, avec balcon ou terrasse selon le lot.</p>`,
+      htmlAr: `<p>الـ F3 يشمل صالوناً وغرفتين. الـ F4 يضيف غرفة ثالثة ومرحاضاً منفصلاً. النمطان يُسلَّمان منتهيين، مع شرفة أو تراس حسب الوحدة.</p>`,
+    },
+    {
+      h2Fr: 'Les surfaces typiques',
+      h2Ar: 'المساحات المعتادة',
+      htmlFr: `<p>La fourchette publique du projet va de 65 à 86 m². Les F3 se situent autour de 68 à 72 m², les F4 autour de 77 à 86 m². Les surfaces varient selon l’étage et la position dans la résidence.</p>`,
+      htmlAr: `<p>النطاق العمومي للمشروع من 65 إلى 86 م². الـ F3 حوالي 68 إلى 72 م²، والـ F4 حوالي 77 إلى 86 م². تتغير المساحات حسب الطابق والموقع.</p>`,
+    },
+    {
+      h2Fr: 'Pour qui le F3, pour qui le F4',
+      h2Ar: 'لمن الـ F3 ولمن الـ F4',
+      htmlFr: `<p>Le F3 convient souvent à un premier achat, à un couple ou à un investissement locatif avec un ticket d’entrée maîtrisé. Le F4 s’adresse plutôt à une famille qui a besoin d’une chambre de plus, ou à un usage mixte (vivre et recevoir, ou bureau).</p>`,
+      htmlAr: `<p>يناسب الـ F3 غالباً الشراء الأول أو زوجين أو استثماراً للكراء بتكلفة دخول محسوبة. الـ F4 موجّه أكثر لأسرة تحتاج غرفة إضافية أو لاستعمال مختلط.</p>`,
+    },
+    {
+      h2Fr: 'Le critère souvent oublié : la revente et la location',
+      h2Ar: 'المعيار المنسي: إعادة البيع والكراء',
+      htmlFr: `<p>Un F3 se reloue et se revend plus facilement dans une zone en développement. Un F4 attire des locataires familiaux, avec une durée d’occupation souvent plus longue. Les deux existent à Riyad Zaer Gardens, de 65 à 86 m².</p>`,
+      htmlAr: `<p>الـ F3 أسهل للكراء وإعادة البيع في منطقة نامية. الـ F4 يجذب مكتري أسر، بمدة شغل أطول غالباً. كلاهما موجود في رياض زائر غاردنز، من 65 إلى 86 م².</p>`,
+    },
+  ],
+  'acheter-a-ain-aouda': [
+    {
+      h2Fr: 'Où se situe Aïn Aouda',
+      h2Ar: 'أين تقع عين عودة',
+      htmlFr: `<p>Aïn Aouda se trouve au sud de Rabat, sur l’Avenue Mohammed VI. Riyad Zaer Gardens est au Km 25, à 20 minutes de Rabat par l’autoroute.</p>`,
+      htmlAr: `<p>تقع عين عودة جنوب الرباط، على شارع محمد السادس. رياض زائر غاردنز في الكلم 25، على بعد 20 دقيقة من الرباط عبر الطريق السيار.</p>`,
+    },
+    {
+      h2Fr: 'Pourquoi la zone se développe',
+      h2Ar: 'لماذا تتوسع المنطقة',
+      htmlFr: `<p>La zone offre encore de l’espace, de la verdure et un rythme plus calme que le centre de Rabat, tout en restant reliée aux axes vers Rabat, Témara et Salé. Des services de proximité — pharmacie, cabinet vétérinaire, commerces — sont déjà installés à quelques minutes du projet.</p>`,
+      htmlAr: `<p>ما زالت المنطقة تقدم مجالاً وخضرة وإيقاعاً أهدأ من مركز الرباط، مع ارتباط بالمحاور نحو الرباط وتمارة وسلا. خدمات قرب — صيدلية، عيادة بيطرية، محلات — موجودة سلفاً على دقائق من المشروع.</p>`,
+    },
+    {
+      h2Fr: 'À quoi faire attention',
+      h2Ar: 'ما يجب الانتباه إليه',
+      htmlFr: `<p>Dans une zone en développement, il faut regarder l’accès, la gestion de la résidence, la date de livraison prévisionnelle et le sérieux du promoteur. Venir sur place reste le meilleur moyen de se faire une idée.</p>`,
+      htmlAr: `<p>في منطقة نامية، يُنظر إلى الولوج وتدبير الإقامة وتاريخ التسليم المتوقع وجدية المطور. المجيء إلى المكان يبقى أفضل طريقة لأخذ فكرة.</p>`,
+    },
+  ],
+  'investir-neuf-pres-de-rabat': [
+    {
+      h2Fr: 'Pourquoi les zones périphériques attirent les investisseurs',
+      h2Ar: 'لماذا تجذب المناطق الطرفية المستثمرين',
+      htmlFr: `<p>Le ticket d’entrée y est plus accessible qu’en centre-ville, et le quartier se construit en même temps que la demande. À Aïn Aouda, Riyad Zaer Gardens propose des appartements à partir de <span class="num-ltr">${site.priceFrom}</span> et 49 fonds de commerce à partir de <span class="num-ltr">${site.commercePrice}</span>.</p>`,
+      htmlAr: `<p>تكلفة الدخول أيسر من وسط المدينة، والحي يُبنى مع الطلب. في عين عودة، يعرض رياض زائر غاردنز شققاً ابتداءً من <span class="num-ltr">${site.priceFrom}</span> و49 محلاً ابتداءً من <span class="num-ltr">${site.commercePrice}</span>.</p>`,
+    },
+    {
+      h2Fr: 'Logement ou local commercial',
+      h2Ar: 'سكن أو محل تجاري',
+      htmlFr: `<p>Un appartement s’adresse à l’habitation ou à la location résidentielle, et peut bénéficier de l’aide au logement. Un fonds de commerce n’est pas concerné par cette aide : c’est un actif commercial, visible depuis l’Avenue Mohammed VI, avec 120 logements livrés dans la même tranche au-dessus.</p>`,
+      htmlAr: `<p>الشقة للسكن أو للكراء السكني، ويمكن أن تستفيد من دعم السكن. المحل غير معني بهذا الدعم: أصل تجاري ظاهر من شارع محمد السادس، مع 120 مسكناً في نفس المرحلة فوقه.</p>`,
+    },
+    {
+      h2Fr: 'Les points de vigilance',
+      h2Ar: 'نقاط الانتباه',
+      htmlFr: `<p>Avant d’investir, il faut clarifier la typologie, la surface, l’étage, le parking (titrés en supplément) et les conditions de réservation. Ces éléments se précisent avec un conseiller, brochure à l’appui.</p>`,
+      htmlAr: `<p>قبل الاستثمار، يجب توضيح النمط والمساحة والطابق والموقف (محفظ إضافة) وشروط الحجز. تتضح هذه العناصر مع مستشار، والكتيب بين أيديكم.</p>`,
+    },
+  ],
+};
+
+const sections = bodies[guide.slug];
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: guide.titleFr,
+  datePublished: guide.date,
+  dateModified: guide.date,
+  author: { '@type': 'Organization', name: site.name },
+};
+---
+
+<PageLayout title={guide.seoTitle} description={guide.description}>
+  <div class="fusion-page" data-fusion-page>
+    <article>
+      <header class="bg-foret px-4 pb-12 pt-28 text-creme sm:px-6 md:pt-32">
+        <div class="mx-auto max-w-3xl" data-reveal-group>
+          <p class="fusion-kicker reveal-fusion">
+            <span data-bilingual-fr>{guide.kickerFr}</span>
+            <span data-bilingual-ar hidden>{guide.kickerAr}</span>
+          </p>
+          <h1 class="fusion-h1 mt-6 reveal-fusion">
+            <span data-bilingual-fr>{guide.titleFr}</span>
+            <span data-bilingual-ar hidden>{guide.titleAr}</span>
+          </h1>
+          <p class="mt-6 text-xs uppercase tracking-[0.16em] text-creme/45">
+            Publication {guide.date} · Mise à jour {guide.date}
+          </p>
+        </div>
+      </header>
+      <div class="bg-white section">
+        <div class="container-rzg max-w-3xl space-y-10">
+          <p class="text-lg leading-relaxed text-foret/75">
+            <span data-bilingual-fr>{guide.excerptFr}</span>
+            <span data-bilingual-ar hidden>{guide.excerptAr}</span>
+          </p>
+          {sections.map((s) => (
+            <section>
+              <h2 class="font-display text-3xl text-canopee">
+                <span data-bilingual-fr>{s.h2Fr}</span>
+                <span data-bilingual-ar hidden>{s.h2Ar}</span>
+              </h2>
+              <div class="prose-rzg mt-4 space-y-4">
+                <div data-bilingual-fr set:html={s.htmlFr}></div>
+                <div data-bilingual-ar hidden set:html={s.htmlAr}></div>
+              </div>
+            </section>
+          ))}
+          <p>
+            <a href={routes.contact()} class="btn btn-solid">
+              <span data-bilingual-fr>Être rappelé</span>
+              <span data-bilingual-ar hidden>اطلبوا اتصالاً</span>
+            </a>
+          </p>
+          <p class="text-sm">
+            <a href={routes.guides()} class="text-gold hover:underline">
+              <span data-bilingual-fr>← Guides & actualités</span>
+              <span data-bilingual-ar hidden>← أدلة وأخبار</span>
+            </a>
+          </p>
+        </div>
+      </div>
+    </article>
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+</PageLayout>

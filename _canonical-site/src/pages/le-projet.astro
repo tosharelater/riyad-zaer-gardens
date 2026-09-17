@@ -1,0 +1,280 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import ConversionBlock from '../components/ConversionBlock.astro';
+import HousingAidBanner from '../components/HousingAidBanner.astro';
+import { site, amenities } from '../data/site';
+import { routes } from '../lib/routes';
+import { withBase } from '../lib/base';
+
+const conception = [
+  {
+    titleFr: 'Une implantation en angle',
+    titleAr: 'تموضع على زاوية',
+    bodyFr: 'Le terrain donne sur trois voies : un axe principal au sud, une voie secondaire à l’ouest et une troisième au nord. Cela facilite les accès et donne au projet une vraie visibilité.',
+    bodyAr: 'تطل القطعة على ثلاثة طرق: محور رئيسي جنوباً، وطريق ثانوي غرباً وثالث شمالاً. يسهل ذلك الولوج ويمنح المشروع رؤية حقيقية.',
+  },
+  {
+    titleFr: 'Un cœur d’îlot végétalisé',
+    titleAr: 'فناء أخضر',
+    bodyFr: 'Les immeubles s’organisent autour d’une cour centrale plantée. C’est un espace semi-privé, calme et sécurisé, réservé aux résidents.',
+    bodyAr: 'تنتظم العمارات حول فناء مركزي مغروس. فضاء شبه خاص، هادئ ومؤمَّن، مخصص للسكان.',
+  },
+  {
+    titleFr: 'De la lumière et de l’air',
+    titleAr: 'ضوء وهواء',
+    bodyFr: 'La cour centrale fait circuler l’air et éclaire naturellement les logements et les circulations. Elle améliore le confort thermique, en particulier l’été.',
+    bodyAr: 'يُمرر الفناء الهواء ويضيء المساكن والممرات طبيعياً. يحسن الراحة الحرارية، خاصة في الصيف.',
+  },
+  {
+    titleFr: 'Un stationnement enterré',
+    titleAr: 'موقف تحت الأرض',
+    bodyFr: 'Deux niveaux de sous-sol accueillent le parking couvert et les locaux techniques. L’espace extérieur reste dégagé et rendu aux résidents.',
+    bodyAr: 'مستويان تحت الأرض يستقبلان الموقف المغطى والمحلات التقنية. يبقى الفضاء الخارجي مفتوحاً للسكان.',
+  },
+];
+
+const syndic = [
+  { fr: 'La gestion des parties communes et des équipements collectifs', ar: 'تدبير الأجزاء المشتركة والتجهيزات الجماعية' },
+  { fr: 'La maintenance des installations : éclairage, ascenseurs, portail, caméras', ar: 'صيانة التجهيزات: الإنارة والمصاعد والبوابة والكاميرات' },
+  { fr: 'La supervision du service de gardiennage', ar: 'الإشراف على الحراسة' },
+  { fr: 'Le contrôle et la gestion des accès à la résidence', ar: 'مراقبة وتدبير ولوج الإقامة' },
+  { fr: 'Le suivi des contrats d’entretien et des interventions techniques', ar: 'تتبع عقود الصيانة والتدخلات التقنية' },
+];
+
+const fiche = [
+  { fr: 'Promoteur', frVal: 'La Manoussa', ar: 'المطور', arVal: 'La Manoussa' },
+  { fr: 'Architecte', frVal: 'Mabani Architects', ar: 'المعماري', arVal: 'Mabani Architects' },
+  { fr: 'Localisation', frVal: 'Aïn Aouda', ar: 'الموقع', arVal: 'عين عودة' },
+  { fr: 'Adresse', frVal: site.address, ar: 'العنوان', arVal: site.address },
+  { fr: 'Standing', frVal: 'Moyen standing, finitions modernes', ar: 'الوقوف', arVal: 'متوسط الوقوف، تشطيبات عصرية' },
+  { fr: 'Appartements', frVal: '120 logements, F3 et F4', ar: 'الشقق', arVal: '120 مسكناً، F3 و F4' },
+  { fr: 'Surfaces des appartements', frVal: site.surfaceRange, ar: 'مساحات الشقق', arVal: site.surfaceRange },
+  { fr: 'Fonds de commerce', frVal: `49 locaux, ${site.commerceSurface}`, ar: 'المحلات', arVal: `49 محلاً، ${site.commerceSurface}` },
+  { fr: 'Stationnement', frVal: 'Parking couvert sur deux niveaux de sous-sol, places titrées en supplément', ar: 'الموقف', arVal: 'موقف مغطى على مستويين تحت الأرض، أماكن محفظة إضافة' },
+  { fr: 'Gestion', frVal: 'Société de syndic professionnelle', ar: 'التدبير', arVal: 'شركة سونديك مهنية' },
+  { fr: 'Aide au logement', frVal: 'Projet éligible', ar: 'دعم السكن', arVal: 'مشروع مؤهل' },
+  { fr: 'Livraison', frVal: 'Prévue en septembre 2028', ar: 'التسليم', arVal: 'متوقع في سبتمبر 2028' },
+];
+---
+
+<PageLayout
+  title="Le projet Riyad Zaer Gardens — Aïn Aouda, Rabat"
+  description="Découvrez Riyad Zaer Gardens : 120 appartements et 49 commerces à Aïn Aouda, autour d'un cœur d'îlot végétalisé, avec parking en sous-sol. Livraison 2028."
+  current="projet"
+>
+  <div class="fusion-page" data-fusion-page>
+    <section class="fusion-split bg-foret text-creme">
+      <div class="fusion-pane" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">
+          <span data-bilingual-fr>Le projet</span>
+          <span data-bilingual-ar hidden>المشروع</span>
+        </p>
+        <h1 class="fusion-h1 reveal-fusion">
+          <span data-bilingual-fr>Riyad Zaer Gardens, un quartier neuf à Aïn Aouda</span>
+          <span data-bilingual-ar hidden>رياض زائر غاردنز، حي جديد في عين عودة</span>
+        </h1>
+        <p class="fusion-lead text-creme/78 reveal-fusion">
+          <span data-bilingual-fr>
+            Riyad Zaer Gardens est un projet immobilier de moyen standing développé par La Manoussa, sur l’Avenue Mohammed VI à Aïn Aouda. Il est conçu en plusieurs tranches, pour devenir un véritable quartier au fil des années.
+          </span>
+          <span data-bilingual-ar hidden>
+            رياض زائر غاردنز مشروع عقاري متوسط الوقوف تطوره La Manoussa على شارع محمد السادس في عين عودة. صُمم على عدة مراحل ليصير حياً حقيقياً مع السنوات.
+          </span>
+        </p>
+        <p class="mt-4 max-w-xl text-sm text-creme/70 reveal-fusion">
+          <span data-bilingual-fr>
+            La première tranche, aujourd’hui commercialisée, regroupe un îlot complet avec ses logements, sa cour plantée et ses commerces de proximité.
+          </span>
+          <span data-bilingual-ar hidden>
+            المرحلة الأولى، المعروضة اليوم، تجمع جزيرة كاملة بمساكنها وفنائها المغروس ومحلات القرب.
+          </span>
+        </p>
+      </div>
+      <div class="fusion-media" data-media-reveal>
+        <img src={withBase('/gallery/render-4.jpg')} alt="Cœur d’îlot végétalisé de la résidence Riyad Zaer Gardens" />
+      </div>
+    </section>
+
+    <section class="bg-white section">
+      <div class="container-rzg" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Un projet pensé avant d’être construit</span>
+          <span data-bilingual-ar hidden>مشروع فُكِّر فيه قبل أن يُبنى</span>
+        </h2>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>L’implantation, l’orientation et l’organisation des immeubles ont été étudiées pour le confort quotidien des résidents.</span>
+          <span data-bilingual-ar hidden>دُرست التموضع والتوجيه وتنظيم العمارات لراحة السكان اليومية.</span>
+        </p>
+        <div class="mt-10 grid gap-6 md:grid-cols-2">
+          {conception.map((item) => (
+            <article class="card reveal-fusion">
+              <h3 class="font-display text-2xl text-canopee">
+                <span data-bilingual-fr>{item.titleFr}</span>
+                <span data-bilingual-ar hidden>{item.titleAr}</span>
+              </h3>
+              <p class="mt-3 text-sm leading-relaxed text-foret/70">
+                <span data-bilingual-fr>{item.bodyFr}</span>
+                <span data-bilingual-ar hidden>{item.bodyAr}</span>
+              </p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="fusion-split fusion-split--short bg-creme">
+      <div class="fusion-pane" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Une cour plantée au cœur de la résidence</span>
+          <span data-bilingual-ar hidden>فناء مغروس في قلب الإقامة</span>
+        </h2>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Aïn Aouda offre ce que le centre de Rabat ne peut plus offrir : de l’espace, du calme et de la verdure. Riyad Zaer Gardens en fait son point de départ.
+          </span>
+          <span data-bilingual-ar hidden>
+            تقدم عين عودة ما لم يعد مركز الرباط يقدمه: المساحة والهدوء والخضرة. ومن هنا ينطلق رياض زائر غاردنز.
+          </span>
+        </p>
+        <p class="mt-4 max-w-xl text-sm leading-relaxed text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Les espaces verts ont été conçus comme un lieu de respiration au milieu des immeubles, avec des aires de jeux pour les enfants. L’objectif est simple : que l’on puisse sortir de chez soi et être immédiatement dehors, au calme.
+          </span>
+          <span data-bilingual-ar hidden>
+            صُممت المساحات الخضراء كمكان للتنفس وسط العمارات، مع مناطق لعب للأطفال. الهدف بسيط: الخروج من البيت والوجود فوراً في الخارج، بهدوء.
+          </span>
+        </p>
+      </div>
+      <div class="fusion-media" data-media-reveal>
+        <img src={withBase('/gallery/render-2.jpg')} alt="Cœur d’îlot végétalisé de la résidence Riyad Zaer Gardens" />
+      </div>
+    </section>
+
+    <section class="bg-white section">
+      <div class="container-rzg" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Ce que comprend la résidence</span>
+          <span data-bilingual-ar hidden>ما تشمله الإقامة</span>
+        </h2>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>Les prestations ont été choisies pour le confort du quotidien, sans surcoût inutile.</span>
+          <span data-bilingual-ar hidden>اختيرت الخدمات لراحة اليومي، دون تكلفة زائدة.</span>
+        </p>
+        <ul class="fusion-list fusion-list--soft mt-8" data-line-group="amenities">
+          {amenities.map((a) => (
+            <li class="reveal-fusion">
+              <span data-bilingual-fr>{a.fr}</span>
+              <span data-bilingual-ar hidden>{a.ar}</span>
+            </li>
+          ))}
+        </ul>
+        <a href={`${routes.appartements()}#finitions`} class="mt-8 inline-flex text-sm font-medium text-gold hover:underline reveal-fusion">
+          <span data-bilingual-fr>Voir le détail des finitions</span>
+          <span data-bilingual-ar hidden>تفاصيل التشطيبات</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="bg-creme section">
+      <div class="container-rzg" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Une résidence gérée par un syndic professionnel</span>
+          <span data-bilingual-ar hidden>إقامة يديرها سونديك مهني</span>
+        </h2>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            La résidence sera confiée à une société de syndic professionnelle. Elle assure la gestion administrative, technique et sécuritaire de l’ensemble.
+          </span>
+          <span data-bilingual-ar hidden>
+            ستُعهد الإقامة إلى شركة سونديك مهنية. تتولى التدبير الإداري والتقني والأمني للمجموع.
+          </span>
+        </p>
+        <ul class="fusion-list fusion-list--soft mt-8">
+          {syndic.map((item) => (
+            <li class="reveal-fusion">
+              <span data-bilingual-fr>{item.fr}</span>
+              <span data-bilingual-ar hidden>{item.ar}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-8 text-sm text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>C’est ce qui permet à une résidence de rester agréable dans la durée, et pas seulement le jour de la livraison.</span>
+          <span data-bilingual-ar hidden>هذا ما يجعل الإقامة مريحة على المدى، وليس يوم التسليم فقط.</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="bg-white section">
+      <div class="container-rzg" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>La première tranche en détail</span>
+          <span data-bilingual-ar hidden>المرحلة الأولى بالتفصيل</span>
+        </h2>
+        <table class="rzg-table mt-8 reveal-fusion">
+          <tbody>
+            {fiche.map((row) => (
+              <tr>
+                <th>
+                  <span data-bilingual-fr>{row.fr}</span>
+                  <span data-bilingual-ar hidden>{row.ar}</span>
+                </th>
+                <td>
+                  <span data-bilingual-fr>{row.frVal}</span>
+                  <span data-bilingual-ar hidden>{row.arVal}</span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="bg-creme section">
+      <div class="container-rzg max-w-3xl" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Une première tranche, puis les suivantes</span>
+          <span data-bilingual-ar hidden>مرحلة أولى، ثم ما يليها</span>
+        </h2>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Riyad Zaer Gardens est pensé pour se développer par étapes. La première tranche est lancée aujourd’hui ; les suivantes viendront compléter le quartier au fil du temps.
+          </span>
+          <span data-bilingual-ar hidden>
+            صُمم رياض زائر غاردنز ليتوسع على مراحل. المرحلة الأولى منطلقة اليوم؛ واللاحقة ستكمل الحي مع الوقت.
+          </span>
+        </p>
+        <p class="mt-4 text-sm text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>Acheter dans la première tranche, c’est arriver au début d’un quartier qui va se construire et s’animer autour de vous.</span>
+          <span data-bilingual-ar hidden>الشراء في المرحلة الأولى هو الوصول في بداية حي سيُبنى ويحيا حولكم.</span>
+        </p>
+      </div>
+    </section>
+
+    <HousingAidBanner />
+
+    <section class="bg-white section">
+      <div class="container-rzg" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Aller plus loin</span>
+          <span data-bilingual-ar hidden>للمضي أبعد</span>
+        </h2>
+        <div class="mt-8 grid gap-6 md:grid-cols-3">
+          <a href={routes.appartements()} class="card card-hover reveal-fusion">
+            <h3 class="font-display text-2xl text-canopee">Les appartements</h3>
+            <p class="mt-2 text-sm text-foret/70">F3 et F4, de 65 à 86 m²</p>
+          </a>
+          <a href={routes.commerce()} class="card card-hover reveal-fusion">
+            <h3 class="font-display text-2xl text-canopee">Les fonds de commerce</h3>
+            <p class="mt-2 text-sm text-foret/70">49 locaux de 13 à 30 m²</p>
+          </a>
+          <a href={routes.localisation()} class="card card-hover reveal-fusion">
+            <h3 class="font-display text-2xl text-canopee">La localisation</h3>
+            <p class="mt-2 text-sm text-foret/70">Aïn Aouda, à 20 minutes de Rabat</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <ConversionBlock />
+  </div>
+</PageLayout>

@@ -1,0 +1,434 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import ConversionBlock from '../components/ConversionBlock.astro';
+import { site, amenities, reasons, waysToBe, galleryImages, finishes } from '../data/site';
+import { routes } from '../lib/routes';
+import { withBase } from '../lib/base';
+
+const heroSlides = [withBase('/gallery/render-11.jpg'), withBase('/gallery/render-6.jpg'), withBase('/gallery/render-5.jpg')];
+const proof = [
+  { fr: 'Appartements F3 et F4', ar: 'شقق F3 و F4' },
+  { fr: 'De 65 à 86 m²', ar: 'من 65 إلى 86 م²' },
+  { fr: 'À partir de 420 000 DH', ar: 'ابتداءً من 420 000 درهم' },
+  { fr: 'Éligible à l’aide au logement', ar: 'مؤهل لدعم السكن' },
+  { fr: 'Parking en sous-sol', ar: 'موقف تحت الأرض' },
+  { fr: 'Livraison prévue en septembre 2028', ar: 'التسليم المتوقع سبتمبر 2028' },
+];
+---
+
+<PageLayout
+  title="Riyad Zaer Gardens — Appartements neufs à Aïn Aouda"
+  description="Appartements F3 et F4 de 65 à 86 m² et fonds de commerce à Aïn Aouda, à 20 min de Rabat. À partir de 420 000 DH, éligibles à l'aide au logement."
+  current="home"
+>
+  <div class="fusion-page" data-fusion-page>
+    <div class="fusion-progress" data-scroll-progress aria-hidden="true"></div>
+
+    <section class="fusion-hero fusion-hero--ken text-creme">
+      <div class="fusion-hero__media fusion-media fusion-media--crossfade" data-hero-crossfade>
+        {heroSlides.map((src, i) => (
+          <img src={src} alt="Vue du projet immobilier Riyad Zaer Gardens à Aïn Aouda" class:list={[i === 0 && 'is-active']} />
+        ))}
+      </div>
+      <div class="fusion-hero__veil" aria-hidden="true"></div>
+      <div class="fusion-hero__copy" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">
+          <span data-bilingual-fr>Aïn Aouda · à 20 minutes de Rabat</span>
+          <span data-bilingual-ar hidden>عين عودة · على بعد 20 دقيقة من الرباط</span>
+        </p>
+        <h1 class="fusion-h1 reveal-fusion reveal-fusion--left">
+          <span data-bilingual-fr>Nouveau pôle urbain à Rabat</span>
+          <span data-bilingual-ar hidden>قطب حضري جديد بالرباط</span>
+        </h1>
+        <p class="fusion-lead text-creme/82 reveal-fusion">
+          <span data-bilingual-fr>
+            Riyad Zaer Gardens réunit des appartements F3 et F4 et des fonds de commerce dans un quartier neuf et verdoyant, sur l’Avenue Mohammed VI.
+          </span>
+          <span data-bilingual-ar hidden>
+            يجمع رياض زائر غاردنز شقق F3 و F4 ومحلات تجارية في حي جديد وأخضر، على شارع محمد السادس.
+          </span>
+        </p>
+        <p class="mt-6 inline-flex rounded-full border border-gold/40 bg-foret/35 px-4 py-2 text-sm text-gold-soft reveal-fusion">
+          <span data-bilingual-fr>Appartements à partir de <span class="num-ltr">{site.priceFrom}</span></span>
+          <span data-bilingual-ar hidden>شقق ابتداءً من <span class="num-ltr">{site.priceFrom}</span></span>
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3 reveal-fusion">
+          <a href={routes.projet()} class="btn btn-solid" data-i18n="cta_discover">Découvrir le projet</a>
+          <a href={routes.contact()} class="btn btn-ghost" data-i18n="cta_callback">Être rappelé</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-y border-foret/10 bg-white">
+      <div class="mx-auto grid max-w-7xl grid-cols-2 md:grid-cols-3 lg:grid-cols-6" data-reveal-group>
+        {proof.map((item) => (
+          <div class="fusion-proof-cell border-e border-foret/10 px-4 py-6 last:border-e-0 reveal-fusion">
+            <p class="text-sm font-medium leading-snug text-canopee">
+              <span data-bilingual-fr>{item.fr}</span>
+              <span data-bilingual-ar hidden>{item.ar}</span>
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="fusion-split fusion-split--short bg-creme">
+      <div class="fusion-pane" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">
+          <span data-bilingual-fr>Tranche 1</span>
+          <span data-bilingual-ar hidden>المرحلة 1</span>
+        </p>
+        <h2 class="fusion-h2 mt-6 reveal-fusion">
+          <span data-bilingual-fr>La première tranche en chiffres</span>
+          <span data-bilingual-ar hidden>المرحلة الأولى بالأرقام</span>
+        </h2>
+        <p class="fusion-lead text-foret/72 reveal-fusion">
+          <span data-bilingual-fr>
+            La première tranche de Riyad Zaer Gardens est composée d’un îlot complet, pensé comme un petit quartier avec ses logements, ses espaces verts et ses commerces.
+          </span>
+          <span data-bilingual-ar hidden>
+            تتكون المرحلة الأولى من جزيرة كاملة، كحي صغير بمساكنه ومساحاته الخضراء ومحلاته.
+          </span>
+        </p>
+        <dl class="fusion-nums !border-foret/10">
+          <div class="reveal-fusion">
+            <dt><span data-count-to={site.buildings}>0</span></dt>
+            <dd>
+              <span data-bilingual-fr>immeubles</span>
+              <span data-bilingual-ar hidden>عمارات</span>
+            </dd>
+          </div>
+          <div class="reveal-fusion">
+            <dt><span data-count-to={site.apartments}>0</span></dt>
+            <dd>
+              <span data-bilingual-fr>appartements</span>
+              <span data-bilingual-ar hidden>شقق</span>
+            </dd>
+          </div>
+          <div class="reveal-fusion">
+            <dt><span data-count-to={site.commercial}>0</span></dt>
+            <dd>
+              <span data-bilingual-fr>fonds de commerce</span>
+              <span data-bilingual-ar hidden>محلات تجارية</span>
+            </dd>
+          </div>
+        </dl>
+      </div>
+      <div class="fusion-media" data-media-reveal>
+        <img src={withBase('/gallery/render-4.jpg')} alt="Cœur d’îlot végétalisé de la résidence Riyad Zaer Gardens" />
+      </div>
+    </section>
+
+    <section class="bg-white section">
+      <div class="container-rzg" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Quatre raisons de choisir Riyad Zaer Gardens</span>
+          <span data-bilingual-ar hidden>أربع أسباب لاختيار رياض زائر غاردنز</span>
+        </h2>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>Le projet s’installe dans une zone qui se développe vite, à la jonction entre la ville et la nature.</span>
+          <span data-bilingual-ar hidden>يقع المشروع في منطقة تتوسع بسرعة، عند التقاء المدينة والطبيعة.</span>
+        </p>
+        <div class="mt-12 grid gap-8 md:grid-cols-2">
+          {reasons.map((item) => (
+            <article class="card card-hover reveal-fusion">
+              <h3 class="font-display text-2xl text-canopee">
+                <span data-bilingual-fr>{item.titleFr}</span>
+                <span data-bilingual-ar hidden>{item.titleAr}</span>
+              </h3>
+              <p class="mt-3 text-sm leading-relaxed text-foret/70">
+                <span data-bilingual-fr>{item.bodyFr}</span>
+                <span data-bilingual-ar hidden>{item.bodyAr}</span>
+              </p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="fusion-split fusion-split--short bg-creme">
+      <div class="fusion-pane" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Un quartier complet, pas seulement des immeubles</span>
+          <span data-bilingual-ar hidden>حي كامل، وليس عمارات فقط</span>
+        </h2>
+        <p class="fusion-lead text-foret/72 reveal-fusion">
+          <span data-bilingual-fr>
+            Riyad Zaer Gardens est un projet immobilier de moyen standing développé par La Manoussa à Aïn Aouda. Les immeubles s’organisent autour d’une cour centrale plantée, avec des commerces en rez-de-chaussée.
+          </span>
+          <span data-bilingual-ar hidden>
+            رياض زائر غاردنز مشروع عقاري متوسط الوقوف تطوره La Manoussa في عين عودة. تنتظم العمارات حول فناء مركزي مغروس، مع محلات في الطابق الأرضي.
+          </span>
+        </p>
+        <p class="mt-4 max-w-xl text-sm leading-relaxed text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Le stationnement est enterré : deux niveaux de sous-sol accueillent les voitures et les locaux techniques. L’espace extérieur reste ainsi dégagé et rendu aux résidents.
+          </span>
+          <span data-bilingual-ar hidden>
+            المواقف تحت الأرض: مستويان يستقبلان السيارات والمحلات التقنية. فيبقى الفضاء الخارجي مفتوحاً للسكان.
+          </span>
+        </p>
+        <ul class="fusion-list fusion-list--soft mt-8 text-foret" data-line-group="amenities">
+          {amenities.map((a) => (
+            <li class="reveal-fusion">
+              <span data-bilingual-fr>{a.fr}</span>
+              <span data-bilingual-ar hidden>{a.ar}</span>
+            </li>
+          ))}
+        </ul>
+        <a href={routes.projet()} class="btn btn-solid mt-10 reveal-fusion">
+          <span data-bilingual-fr>Découvrir le projet en détail</span>
+          <span data-bilingual-ar hidden>اكتشفوا المشروع بالتفصيل</span>
+        </a>
+      </div>
+      <div class="fusion-media" data-media-reveal>
+        <img src={withBase('/gallery/render-2.jpg')} alt="Vue du projet immobilier Riyad Zaer Gardens à Aïn Aouda" />
+      </div>
+    </section>
+
+    <section class="bg-white section">
+      <div class="container-rzg grid gap-10 lg:grid-cols-2 lg:items-center" data-reveal-group>
+        <div>
+          <h2 class="fusion-h2 reveal-fusion">
+            <span data-bilingual-fr>Des appartements F3 et F4 de 65 à 86 m²</span>
+            <span data-bilingual-ar hidden>شقق F3 و F4 من 65 إلى 86 م²</span>
+          </h2>
+          <p class="fusion-lead text-foret/70 reveal-fusion">
+            <span data-bilingual-fr>
+              Deux typologies sont proposées : des F3 et des F4, de 65 à 86 m². Des surfaces pensées pour être faciles à vivre, que ce soit pour un premier achat ou pour louer.
+            </span>
+            <span data-bilingual-ar hidden>
+              نمطان معروضان: F3 و F4، من 65 إلى 86 م². مساحات سهلة العيش، للشراء الأول أو للكراء.
+            </span>
+          </p>
+          <p class="mt-4 text-sm text-foret/70 reveal-fusion">
+            <span data-bilingual-fr>Les appartements sont livrés finis, avec balcon ou terrasse selon le lot.</span>
+            <span data-bilingual-ar hidden>تُسلَّم الشقق منتهية، مع شرفة أو تراس حسب الوحدة.</span>
+          </p>
+          <dl class="mt-8 grid gap-4 sm:grid-cols-2">
+            <div class="card text-pair reveal-fusion">
+              <dt class="pair-label">
+                <span data-bilingual-fr>Typologies</span>
+                <span data-bilingual-ar hidden>الأنماط</span>
+              </dt>
+              <dd class="pair-value">F3 et F4</dd>
+            </div>
+            <div class="card text-pair reveal-fusion">
+              <dt class="pair-label">
+                <span data-bilingual-fr>Surfaces</span>
+                <span data-bilingual-ar hidden>المساحات</span>
+              </dt>
+              <dd class="pair-value">{site.surfaceRange}</dd>
+            </div>
+            <div class="card text-pair reveal-fusion">
+              <dt class="pair-label">
+                <span data-bilingual-fr>Prix</span>
+                <span data-bilingual-ar hidden>الثمن</span>
+              </dt>
+              <dd class="pair-value">
+                <span data-bilingual-fr>à partir de <span class="num-ltr">{site.priceFrom}</span></span>
+                <span data-bilingual-ar hidden>ابتداءً من <span class="num-ltr">{site.priceFrom}</span></span>
+              </dd>
+            </div>
+            <div class="card text-pair reveal-fusion">
+              <dt class="pair-label">
+                <span data-bilingual-fr>Avec l’aide</span>
+                <span data-bilingual-ar hidden>مع الدعم</span>
+              </dt>
+              <dd class="pair-value">
+                <span data-bilingual-fr>à partir de <span class="num-ltr">{site.priceWithAid}</span></span>
+                <span data-bilingual-ar hidden>ابتداءً من <span class="num-ltr">{site.priceWithAid}</span></span>
+              </dd>
+            </div>
+          </dl>
+          <a href={routes.appartements()} class="btn btn-solid mt-8 reveal-fusion">
+            <span data-bilingual-fr>Voir les appartements</span>
+            <span data-bilingual-ar hidden>عرض الشقق</span>
+          </a>
+        </div>
+        <div class="overflow-hidden rounded-2xl">
+          <img src={withBase('/gallery/render-1.jpg')} alt="Appartement du projet Riyad Zaer Gardens" class="h-full w-full object-cover" />
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-creme section">
+      <div class="container-rzg" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Des finitions soignées, livrées prêtes à vivre</span>
+          <span data-bilingual-ar hidden>تشطيبات متقنة، جاهزة للسكن</span>
+        </h2>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Les appartements sont livrés avec des matériaux choisis pour durer et rester faciles à entretenir : sols en céramique ou parquet stratifié, menuiseries aluminium, volets roulants motorisés et sanitaires de marque.
+          </span>
+          <span data-bilingual-ar hidden>
+            تُسلَّم الشقق بمواد مختارة لتدوم ويسهل صيانتها: سيراميك أو باركيه، نجارة ألومنيوم، ستائر كهربائية وتجهيزات صحية ذات علامة.
+          </span>
+        </p>
+        <div class="mt-10 grid gap-6 md:grid-cols-3">
+          {finishes.map((item) => (
+            <article class="card reveal-fusion">
+              <p class="text-base font-medium leading-snug text-canopee">
+                <span data-bilingual-fr>{item.fr}</span>
+                <span data-bilingual-ar hidden>{item.ar}</span>
+              </p>
+            </article>
+          ))}
+        </div>
+        <a href={`${routes.appartements()}#finitions`} class="mt-8 inline-flex text-sm font-medium text-gold hover:underline reveal-fusion">
+          <span data-bilingual-fr>Voir le détail des finitions</span>
+          <span data-bilingual-ar hidden>تفاصيل التشطيبات</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="bg-white section">
+      <div class="container-rzg grid gap-10 lg:grid-cols-2 lg:items-center" data-reveal-group>
+        <div class="overflow-hidden rounded-2xl lg:order-2">
+          <img src={withBase('/gallery/render-8.jpg')} alt="Fonds de commerce en rez-de-chaussée à Riyad Zaer Gardens" class="h-full w-full object-cover" />
+        </div>
+        <div>
+          <h2 class="fusion-h2 reveal-fusion">
+            <span data-bilingual-fr>49 fonds de commerce en rez-de-chaussée</span>
+            <span data-bilingual-ar hidden>49 محلاً تجارياً في الطابق الأرضي</span>
+          </h2>
+          <p class="fusion-lead text-foret/70 reveal-fusion">
+            <span data-bilingual-fr>
+              La première tranche compte 49 locaux commerciaux, de 13 à 30 m², en rez-de-chaussée sur l’Avenue Mohammed VI.
+            </span>
+            <span data-bilingual-ar hidden>
+              المرحلة الأولى تضم 49 محلاً تجارياً، من 13 إلى 30 م²، في الطابق الأرضي على شارع محمد السادس.
+            </span>
+          </p>
+          <p class="mt-4 text-sm text-foret/70 reveal-fusion">
+            <span data-bilingual-fr>
+              Le terrain donne sur trois voies, dont un axe principal au sud : les locaux bénéficient d’une vraie visibilité.
+            </span>
+            <span data-bilingual-ar hidden>
+              تطل القطعة على ثلاثة طرق، منها محور رئيسي جنوباً: للمحلات رؤية حقيقية.
+            </span>
+          </p>
+          <a href={routes.commerce()} class="btn btn-solid mt-8 reveal-fusion">
+            <span data-bilingual-fr>Voir les fonds de commerce</span>
+            <span data-bilingual-ar hidden>عرض المحلات</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-foret text-creme">
+      <div class="container-rzg section" data-reveal-group>
+        <h2 class="fusion-h2 text-creme reveal-fusion">
+          <span data-bilingual-fr>Un projet éligible à l’aide au logement</span>
+          <span data-bilingual-ar hidden>مشروع مؤهل لدعم السكن</span>
+        </h2>
+        <p class="fusion-lead text-creme/78 reveal-fusion">
+          <span data-bilingual-fr>
+            Riyad Zaer Gardens est éligible au programme d’aide au logement de l’État. Les surfaces et les prix des appartements ont été conçus dès le départ pour répondre aux conditions du programme.
+          </span>
+          <span data-bilingual-ar hidden>
+            رياض زائر غاردنز مؤهل لبرنامج دعم السكن. صُممت مساحات وأثمان الشقق منذ البداية لتلبية شروط البرنامج.
+          </span>
+        </p>
+        <p class="mt-4 max-w-2xl text-sm leading-relaxed text-creme/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Concrètement, cela change le prix d’entrée : selon votre situation, un appartement peut démarrer à <span class="num-ltr">{site.priceWithAid}</span> au lieu de <span class="num-ltr">{site.priceFrom}</span>. L’éligibilité dépend de votre situation personnelle. Nos conseillers la vérifient avec vous, gratuitement et sans engagement.
+          </span>
+          <span data-bilingual-ar hidden>
+            عملياً، يتغير ثمن الدخول: حسب وضعيتكم، يمكن أن تبدأ الشقة من <span class="num-ltr">{site.priceWithAid}</span> بدل <span class="num-ltr">{site.priceFrom}</span>. الأهلية شخصية. يتحقق منها مستشارونا مجاناً ودون التزام.
+          </span>
+        </p>
+        <div class="mt-10 grid max-w-xl gap-4 sm:grid-cols-2">
+          <div class="card-dark text-pair reveal-fusion">
+            <p class="pair-label">
+              <span data-bilingual-fr>Sans aide</span>
+              <span data-bilingual-ar hidden>بدون دعم</span>
+            </p>
+            <p class="pair-value">
+              <span data-bilingual-fr>à partir de <span class="num-ltr">{site.priceFrom}</span></span>
+              <span data-bilingual-ar hidden>ابتداءً من <span class="num-ltr">{site.priceFrom}</span></span>
+            </p>
+          </div>
+          <div class="card-dark text-pair reveal-fusion">
+            <p class="pair-label">
+              <span data-bilingual-fr>Avec l’aide au logement</span>
+              <span data-bilingual-ar hidden>مع دعم السكن</span>
+            </p>
+            <p class="pair-value">
+              <span data-bilingual-fr>à partir de <span class="num-ltr">{site.priceWithAid}</span></span>
+              <span data-bilingual-ar hidden>ابتداءً من <span class="num-ltr">{site.priceWithAid}</span></span>
+            </p>
+          </div>
+        </div>
+        <a href={routes.contact()} class="btn btn-solid mt-8 reveal-fusion">
+          <span data-bilingual-fr>Vérifier mon éligibilité</span>
+          <span data-bilingual-ar hidden>تحققوا من أهليتي</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="bg-white section">
+      <div class="container-rzg" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Trois façons d’être à Riyad Zaer Gardens</span>
+          <span data-bilingual-ar hidden>ثلاث طرق للوجود في رياض زائر غاردنز</span>
+        </h2>
+        <div class="mt-10 grid gap-6 md:grid-cols-3">
+          {waysToBe.map((item) => (
+            <article class="border-t border-gold/50 pt-6 reveal-fusion">
+              <h3 class="font-display text-3xl text-canopee">
+                <span data-bilingual-fr>{item.titleFr}</span>
+                <span data-bilingual-ar hidden>{item.titleAr}</span>
+              </h3>
+              <p class="mt-4 text-sm leading-relaxed text-foret/70">
+                <span data-bilingual-fr>{item.bodyFr}</span>
+                <span data-bilingual-ar hidden>{item.bodyAr}</span>
+              </p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="fusion-split fusion-split--short bg-creme">
+      <div class="fusion-pane" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Km 25, Avenue Mohammed VI</span>
+          <span data-bilingual-ar hidden>الكلم 25، شارع محمد السادس</span>
+        </h2>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Le projet se situe à Aïn Aouda, sur l’Avenue Mohammed VI, à 20 minutes de Rabat par l’autoroute. Une pharmacie, un cabinet vétérinaire et des commerces de proximité sont déjà installés dans le quartier.
+          </span>
+          <span data-bilingual-ar hidden>
+            يقع المشروع في عين عودة، على شارع محمد السادس، على بعد 20 دقيقة من الرباط عبر الطريق السيار. صيدلية وعيادة بيطرية ومحلات قرب موجودة سلفاً في الحي.
+          </span>
+        </p>
+        <a href={routes.localisation()} class="btn btn-solid mt-8 reveal-fusion">
+          <span data-bilingual-fr>Voir la localisation</span>
+          <span data-bilingual-ar hidden>عرض الموقع</span>
+        </a>
+      </div>
+      <div class="fusion-media" data-media-reveal>
+        <img src={withBase('/gallery/render-11.jpg')} alt="Carte de situation de Riyad Zaer Gardens à Aïn Aouda" />
+      </div>
+    </section>
+
+    <section class="bg-foret" data-film-gallery>
+      <div class="film-popup" data-film-preview aria-hidden="true">
+        <img data-film-a alt="" />
+        <img data-film-b alt="" />
+      </div>
+      <div class="film-strip">
+        <div class="film-strip__track">
+          {[...galleryImages, ...galleryImages].map((img, i) => (
+            <img src={img.src} alt={img.altFr} data-film-i={i % galleryImages.length} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <ConversionBlock />
+  </div>
+</PageLayout>

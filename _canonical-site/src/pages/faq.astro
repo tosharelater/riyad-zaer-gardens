@@ -1,0 +1,80 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import ConversionBlock from '../components/ConversionBlock.astro';
+import { faqGroups, faqFlat } from '../data/faq';
+import { site } from '../data/site';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqFlat.map((item) => ({
+    '@type': 'Question',
+    name: item.qFr,
+    acceptedAnswer: { '@type': 'Answer', text: item.aFr },
+  })),
+};
+---
+
+<PageLayout
+  title="Questions fréquentes — Riyad Zaer Gardens, Aïn Aouda"
+  description="Prix, surfaces, aide au logement, livraison, parking : toutes les réponses sur les appartements et commerces de Riyad Zaer Gardens à Aïn Aouda."
+>
+  <div class="fusion-page" data-fusion-page>
+    <section class="bg-foret px-4 pb-12 pt-28 text-creme sm:px-6 md:pt-32">
+      <div class="mx-auto max-w-4xl" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">
+          <span data-bilingual-fr>FAQ</span>
+          <span data-bilingual-ar hidden>أسئلة</span>
+        </p>
+        <h1 class="fusion-h1 mt-6 reveal-fusion">
+          <span data-bilingual-fr>Questions fréquentes</span>
+          <span data-bilingual-ar hidden>أسئلة شائعة</span>
+        </h1>
+        <p class="fusion-lead text-creme/75 reveal-fusion">
+          <span data-bilingual-fr>
+            Les réponses aux questions que l’on nous pose le plus souvent sur Riyad Zaer Gardens. Si vous ne trouvez pas la vôtre, appelez-nous au {site.phone}.
+          </span>
+          <span data-bilingual-ar hidden>
+            إجابات عن الأسئلة الأكثر طرحاً حول رياض زائر غاردنز. إن لم تجدوا سؤالكم، اتصلوا على {site.phone}.
+          </span>
+        </p>
+      </div>
+    </section>
+
+    {faqGroups.map((group) => (
+      <section class="bg-white">
+        <div class="container-rzg max-w-4xl py-12 md:py-16" data-reveal-group>
+          <h2 class="fusion-h2 reveal-fusion">
+            <span data-bilingual-fr>{group.titleFr}</span>
+            <span data-bilingual-ar hidden>{group.titleAr}</span>
+          </h2>
+          <div class="fusion-faq mt-8 divide-y divide-foret/10 border-y border-foret/10">
+            {group.items.map((item) => (
+              <details class="py-5 reveal-fusion">
+                <summary class="flex cursor-pointer list-none justify-between gap-4 font-medium">
+                  <h3 class="text-base font-medium">
+                    <span data-bilingual-fr>{item.qFr}</span>
+                    <span data-bilingual-ar hidden>{item.qAr}</span>
+                  </h3>
+                  <span class="fusion-faq-plus text-gold">+</span>
+                </summary>
+                <p class="mt-4 text-sm leading-relaxed text-foret/70">
+                  <span data-bilingual-fr>{item.aFr}</span>
+                  <span data-bilingual-ar hidden>{item.aAr}</span>
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))}
+
+    <ConversionBlock
+      titleFr="Une question qui n’est pas dans la liste ?"
+      titleAr="سؤال ليس في القائمة؟"
+      bodyFr="Appelez-nous ou laissez-nous vos coordonnées : un conseiller vous répond directement."
+      bodyAr="اتصلوا بنا أو اتركوا بياناتكم: يجيبكم مستشار مباشرة."
+    />
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+</PageLayout>

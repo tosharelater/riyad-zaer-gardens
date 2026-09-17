@@ -1,0 +1,59 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { guides } from '../../data/guides';
+import { routes } from '../../lib/routes';
+---
+
+<PageLayout
+  title="Guides & actualités — Riyad Zaer Gardens"
+  description="Nos guides pour acheter à Aïn Aouda : aide au logement, choix entre F3 et F4, investissement locatif près de Rabat. Conseils clairs et à jour."
+>
+  <div class="fusion-page" data-fusion-page>
+    <section class="bg-foret px-4 pb-12 pt-28 text-creme sm:px-6 md:pt-32">
+      <div class="mx-auto max-w-4xl" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">
+          <span data-bilingual-fr>Guides</span>
+          <span data-bilingual-ar hidden>أدلة</span>
+        </p>
+        <h1 class="fusion-h1 mt-6 reveal-fusion">
+          <span data-bilingual-fr>Guides & actualités</span>
+          <span data-bilingual-ar hidden>أدلة وأخبار</span>
+        </h1>
+        <p class="fusion-lead text-creme/75 reveal-fusion">
+          <span data-bilingual-fr>
+            Des repères simples pour préparer votre achat à Aïn Aouda : comprendre l’aide au logement, choisir entre un F3 et un F4, ou évaluer un investissement locatif près de Rabat.
+          </span>
+          <span data-bilingual-ar hidden>
+            معالم بسيطة لتحضير شرائكم في عين عودة: فهم دعم السكن، الاختيار بين F3 و F4، أو تقييم استثمار للكراء قرب الرباط.
+          </span>
+        </p>
+      </div>
+    </section>
+
+    <section class="bg-creme section">
+      <div class="container-rzg grid gap-6 md:grid-cols-2" data-reveal-group>
+        {guides.map((g) => (
+          <article class="card card-hover reveal-fusion">
+            <p class="text-[0.65rem] uppercase tracking-[0.2em] text-gold">
+              <span data-bilingual-fr>{g.kickerFr}</span>
+              <span data-bilingual-ar hidden>{g.kickerAr}</span>
+            </p>
+            <h2 class="font-display mt-3 text-2xl text-canopee">
+              <span data-bilingual-fr>{g.titleFr}</span>
+              <span data-bilingual-ar hidden>{g.titleAr}</span>
+            </h2>
+            <p class="mt-3 text-sm leading-relaxed text-foret/70">
+              <span data-bilingual-fr>{g.excerptFr}</span>
+              <span data-bilingual-ar hidden>{g.excerptAr}</span>
+            </p>
+            <p class="mt-4 text-xs text-foret/45">{g.date}</p>
+            <a href={routes.guide(g.slug)} class="mt-5 inline-flex text-sm font-medium text-gold hover:underline">
+              <span data-bilingual-fr>Lire</span>
+              <span data-bilingual-ar hidden>اقرأ</span>
+            </a>
+          </article>
+        ))}
+      </div>
+    </section>
+  </div>
+</PageLayout>

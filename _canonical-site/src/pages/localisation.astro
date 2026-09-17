@@ -1,0 +1,161 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import ConversionBlock from '../components/ConversionBlock.astro';
+import { routes } from '../lib/routes';
+import { withBase } from '../lib/base';
+
+const access = [
+  { titleFr: 'Depuis Rabat', titleAr: 'من الرباط', bodyFr: 'Environ 20 minutes par l’autoroute et l’Avenue Mohammed VI.', bodyAr: 'حوالي 20 دقيقة عبر الطريق السيار وشارع محمد السادس.' },
+  { titleFr: 'Depuis Témara et Salé', titleAr: 'من تمارة وسلا', bodyFr: 'La zone est reliée aux principaux axes qui desservent Rabat, Témara et Salé.', bodyAr: 'المنطقة مربوطة بالمحاور الرئيسية نحو الرباط وتمارة وسلا.' },
+  { titleFr: 'En voiture', titleAr: 'بالسيارة', bodyFr: 'L’accès se fait directement depuis l’Avenue Mohammed VI, sans traversée de centre-ville.', bodyAr: 'الولوج مباشرة من شارع محمد السادس، دون عبور وسط المدينة.' },
+  { titleFr: 'Trois accès possibles', titleAr: 'ثلاثة مداخل', bodyFr: 'Le terrain est bordé par trois voies : un axe principal large au sud, une voie secondaire à l’ouest et une troisième au nord, intégrée au lotissement. Entrer et sortir de la résidence reste simple, même aux heures de pointe.', bodyAr: 'تحيط بالقطعة ثلاثة طرق: محور رئيسي واسع جنوباً، وطريق ثانوي غرباً وثالث شمالاً ضمن التجزئة. الدخول والخروج يبقيان بسيطين حتى في ساعات الذروة.' },
+];
+---
+
+<PageLayout
+  title="Où se situe Riyad Zaer Gardens — Aïn Aouda, Rabat"
+  description="Riyad Zaer Gardens se situe Km 25, Avenue Mohammed VI à Aïn Aouda, à 20 minutes de Rabat par l'autoroute. Découvrez l'accès et le quartier."
+  current="location"
+>
+  <div class="fusion-page" data-fusion-page>
+    <section class="fusion-split bg-creme">
+      <div class="fusion-pane" data-reveal-group>
+        <p class="fusion-kicker reveal-fusion">
+          <span data-bilingual-fr>Localisation</span>
+          <span data-bilingual-ar hidden>الموقع</span>
+        </p>
+        <h1 class="fusion-h1 reveal-fusion">
+          <span data-bilingual-fr>Km 25, Avenue Mohammed VI, Aïn Aouda</span>
+          <span data-bilingual-ar hidden>الكلم 25، شارع محمد السادس، عين عودة</span>
+        </h1>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Riyad Zaer Gardens se situe à Aïn Aouda, sur l’Avenue Mohammed VI, à 20 minutes de Rabat.
+          </span>
+          <span data-bilingual-ar hidden>
+            يقع رياض زائر غاردنز في عين عودة، على شارع محمد السادس، على بعد 20 دقيقة من الرباط.
+          </span>
+        </p>
+        <p class="mt-4 max-w-xl text-sm text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            C’est l’équilibre que cherchent beaucoup d’habitants de la région : le calme et la verdure, sans s’éloigner de la ville et de son activité.
+          </span>
+          <span data-bilingual-ar hidden>
+            هذا التوازن الذي يبحث عنه كثير من سكان الجهة: الهدوء والخضرة، دون الابتعاد عن المدينة ونشاطها.
+          </span>
+        </p>
+      </div>
+      <div class="fusion-media" data-media-reveal>
+        <img src={withBase('/gallery/render-11.jpg')} alt="Carte de situation de Riyad Zaer Gardens à Aïn Aouda" />
+      </div>
+    </section>
+
+    <section class="bg-foret">
+      <div class="fusion-map" data-reveal-group>
+        <iframe title="Riyad Zaer Gardens — Aïn Aouda" src={routes.mapsEmbed} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <div class="container-rzg pb-12">
+        <a href={routes.maps} class="btn btn-solid" target="_blank" rel="noopener">
+          <span data-bilingual-fr>Ouvrir dans Google Maps</span>
+          <span data-bilingual-ar hidden>فتح في خرائط غوغل</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="bg-white section">
+      <div class="container-rzg" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Comment y accéder</span>
+          <span data-bilingual-ar hidden>كيف الوصول</span>
+        </h2>
+        <div class="mt-10 grid gap-6 md:grid-cols-2">
+          {access.map((item) => (
+            <article class="card reveal-fusion">
+              <h3 class="font-display text-2xl text-canopee">
+                <span data-bilingual-fr>{item.titleFr}</span>
+                <span data-bilingual-ar hidden>{item.titleAr}</span>
+              </h3>
+              <p class="mt-3 text-sm text-foret/70">
+                <span data-bilingual-fr>{item.bodyFr}</span>
+                <span data-bilingual-ar hidden>{item.bodyAr}</span>
+              </p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-creme section">
+      <div class="container-rzg max-w-3xl" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Vivre à Aïn Aouda</span>
+          <span data-bilingual-ar hidden>العيش في عين عودة</span>
+        </h2>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Aïn Aouda est l’une des zones qui se développent le plus rapidement autour de Rabat. On y trouve encore de l’espace, de la verdure et un rythme plus calme qu’en ville.
+          </span>
+          <span data-bilingual-ar hidden>
+            عين عودة من أسرع المناطق توسعاً حول الرباط. ما زال فيها مجال وخضرة وإيقاع أهدأ من المدينة.
+          </span>
+        </p>
+        <p class="mt-4 text-sm text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Le quartier n’est pas à construire entièrement : des services de proximité sont déjà installés à quelques minutes du projet.
+          </span>
+          <span data-bilingual-ar hidden>
+            الحي ليس كله قيد البناء: خدمات قرب موجودة سلفاً على دقائق من المشروع.
+          </span>
+        </p>
+        <ul class="fusion-list fusion-list--soft mt-8" data-line-group="access">
+          <li class="reveal-fusion">Une pharmacie</li>
+          <li class="reveal-fusion">Un cabinet vétérinaire</li>
+          <li class="reveal-fusion">Des commerces et services de proximité intégrés au quartier</li>
+        </ul>
+        <p class="mt-8 text-sm text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>Et 49 commerces viendront s’ajouter en rez-de-chaussée de la résidence, à la livraison.</span>
+          <span data-bilingual-ar hidden>و49 محلاً ستضاف في الطابق الأرضي عند التسليم.</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="bg-white section">
+      <div class="container-rzg max-w-3xl" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Venir voir le site</span>
+          <span data-bilingual-ar hidden>زيارة الموقع</span>
+        </h2>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Le meilleur moyen de se faire une idée reste de venir sur place. Nous organisons des visites du site et vous accompagnons pour situer les immeubles et les espaces extérieurs.
+          </span>
+          <span data-bilingual-ar hidden>
+            أفضل طريقة لأخذ فكرة هي المجيء إلى المكان. ننظم زيارات للموقع ونرافقكم لتحديد العمارات والفضاءات الخارجية.
+          </span>
+        </p>
+        <a href={routes.contact()} class="btn btn-solid mt-8 reveal-fusion">
+          <span data-bilingual-fr>Planifier une visite</span>
+          <span data-bilingual-ar hidden>حددوا زيارة</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="bg-creme section">
+      <div class="container-rzg" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">Aller plus loin</h2>
+        <div class="mt-8 grid gap-6 md:grid-cols-2">
+          <a href={routes.projet()} class="card card-hover reveal-fusion">
+            <h3 class="font-display text-2xl text-canopee">Le projet</h3>
+            <p class="mt-2 text-sm text-foret/70">9 immeubles autour d’espaces verts</p>
+          </a>
+          <a href={routes.appartements()} class="card card-hover reveal-fusion">
+            <h3 class="font-display text-2xl text-canopee">Les appartements</h3>
+            <p class="mt-2 text-sm text-foret/70">F3 et F4, de 65 à 86 m²</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <ConversionBlock />
+  </div>
+</PageLayout>
