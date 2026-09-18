@@ -57,18 +57,18 @@ const proof = [
           <a href={routes.contact()} class="btn btn-ghost" data-i18n="cta_callback">Être rappelé</a>
         </div>
       </div>
-    </section>
 
-    <section class="fusion-proof border-y border-foret/8 bg-white">
-      <div class="mx-auto grid max-w-7xl grid-cols-2 md:grid-cols-3 lg:grid-cols-6" data-reveal-group>
-        {proof.map((item) => (
-          <div class="fusion-proof-cell reveal-fusion border-e border-foret/10 px-4 py-7 last:border-e-0">
-            <p class="fusion-proof-val">
-              <span data-bilingual-fr>{item.fr}</span>
-              <span data-bilingual-ar hidden>{item.ar}</span>
-            </p>
-          </div>
-        ))}
+      <div class="fusion-proof" aria-label="Points clés">
+        <div class="fusion-proof__row">
+          {proof.map((item) => (
+            <div class="fusion-proof-cell">
+              <p class="fusion-proof-val">
+                <span data-bilingual-fr>{item.fr}</span>
+                <span data-bilingual-ar hidden>{item.ar}</span>
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
 
