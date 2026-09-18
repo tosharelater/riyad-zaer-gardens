@@ -14,7 +14,7 @@ interface Props {
 const { title, description = 'Appartements F3 et F4 de 65 à 86 m² et fonds de commerce à Aïn Aouda, à 20 min de Rabat. À partir de 420 000 DH, éligibles à l\'aide au logement.', noindex = false } = Astro.props;
 const fullTitle = title.includes('Riyad Zaer') ? title : `${title} — Riyad Zaer Gardens`;
 const assetBase = import.meta.env.BASE_URL || '/';
-const audreyNormal = `${assetBase}fonts/audrey/Audrey-Normal.otf?v=accents5`;
+const audreyNormal = `${withBase('/fonts/audrey/Audrey-Normal.otf')}?v=accents6`;
 const apiUrl = import.meta.env.PUBLIC_API_URL ?? 'http://127.0.0.1:8000';
 ---
 
@@ -31,7 +31,8 @@ const apiUrl = import.meta.env.PUBLIC_API_URL ?? 'http://127.0.0.1:8000';
     <meta property="og:type" content="website" />
     <link rel="icon" href={withBase('/favicon.ico')} sizes="any" />
     <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
-    <Fragment set:html={`<style>@font-face{font-family:"Audrey";src:url("${audreyNormal}") format("opentype");font-weight:400;font-style:normal;font-display:swap;unicode-range:U+0021-003B,U+003D,U+003F,U+0041-005E,U+0061-007A,U+00C0-00C2,U+00C7-00CF,U+00D2-00D4,U+00D9-00DC,U+00E0-00E2,U+00E7-00EF,U+00F2-00F4,U+00F9-00FC,U+2018-2019,U+201C-201D,U+2044,U+2212;}</style>`} />
+    <link rel="preload" href={audreyNormal} as="font" type="font/otf" crossorigin />
+    <Fragment set:html={`<style>@font-face{font-family:"Audrey";src:url("${audreyNormal}") format("opentype");font-weight:400;font-style:normal;font-display:swap;}</style>`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
