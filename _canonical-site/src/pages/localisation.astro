@@ -36,7 +36,7 @@ const access = [
             يقع رياض زائر غاردنز في عين عودة، على شارع محمد السادس، على بعد 20 دقيقة من الرباط.
           </span>
         </p>
-        <p class="mt-4 max-w-xl text-sm text-foret/70 reveal-fusion">
+        <p class="fusion-lead text-foret/70 reveal-fusion">
           <span data-bilingual-fr>
             C’est l’équilibre que cherchent beaucoup d’habitants de la région : le calme et la verdure, sans s’éloigner de la ville et de son activité.
           </span>
@@ -71,7 +71,7 @@ const access = [
         <div class="mt-10 grid gap-6 md:grid-cols-2">
           {access.map((item) => (
             <article class="card reveal-fusion">
-              <h3 class="font-display text-2xl text-canopee">
+              <h3 class="fusion-sub text-canopee">
                 <span data-bilingual-fr>{item.titleFr}</span>
                 <span data-bilingual-ar hidden>{item.titleAr}</span>
               </h3>
@@ -99,7 +99,7 @@ const access = [
             عين عودة من أسرع المناطق توسعاً حول الرباط. ما زال فيها مجال وخضرة وإيقاع أهدأ من المدينة.
           </span>
         </p>
-        <p class="mt-4 text-sm text-foret/70 reveal-fusion">
+        <p class="fusion-lead text-foret/70 reveal-fusion">
           <span data-bilingual-fr>
             Le quartier n’est pas à construire entièrement : des services de proximité sont déjà installés à quelques minutes du projet.
           </span>
@@ -142,15 +142,30 @@ const access = [
 
     <section class="bg-creme section">
       <div class="container-rzg" data-reveal-group>
-        <h2 class="fusion-h2 reveal-fusion">Aller plus loin</h2>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Aller plus loin</span>
+          <span data-bilingual-ar hidden>للمضي أبعد</span>
+        </h2>
         <div class="mt-8 grid gap-6 md:grid-cols-2">
           <a href={routes.projet()} class="card card-hover reveal-fusion">
-            <h3 class="font-display text-2xl text-canopee">Le projet</h3>
-            <p class="mt-2 text-sm text-foret/70">9 immeubles autour d’espaces verts</p>
+            <h3 class="fusion-sub text-canopee">
+              <span data-bilingual-fr>Le projet</span>
+              <span data-bilingual-ar hidden>المشروع</span>
+            </h3>
+            <p class="mt-2 text-sm text-foret/70">
+              <span data-bilingual-fr>9 immeubles autour d’espaces verts</span>
+              <span data-bilingual-ar hidden>9 عمارات حول مساحات خضراء</span>
+            </p>
           </a>
           <a href={routes.appartements()} class="card card-hover reveal-fusion">
-            <h3 class="font-display text-2xl text-canopee">Les appartements</h3>
-            <p class="mt-2 text-sm text-foret/70">F3 et F4, de 65 à 86 m²</p>
+            <h3 class="fusion-sub text-canopee">
+              <span data-bilingual-fr>Les appartements</span>
+              <span data-bilingual-ar hidden>الشقق</span>
+            </h3>
+            <p class="mt-2 text-sm text-foret/70">
+              <span data-bilingual-fr>F3 et F4, de 65 à 86 m²</span>
+              <span data-bilingual-ar hidden>F3 و F4، من 65 إلى 86 م²</span>
+            </p>
           </a>
         </div>
       </div>

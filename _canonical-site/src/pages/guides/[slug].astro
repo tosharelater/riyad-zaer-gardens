@@ -120,7 +120,7 @@ const articleSchema = {
 <PageLayout title={guide.seoTitle} description={guide.description}>
   <div class="fusion-page" data-fusion-page>
     <article>
-      <header class="bg-foret px-4 pb-12 pt-28 text-creme sm:px-6 md:pt-32">
+      <header class="bg-foret px-4 pb-14 pt-28 text-creme sm:px-6 md:pt-32">
         <div class="mx-auto max-w-3xl" data-reveal-group>
           <p class="fusion-kicker reveal-fusion">
             <span data-bilingual-fr>{guide.kickerFr}</span>
@@ -143,7 +143,7 @@ const articleSchema = {
           </p>
           {sections.map((s) => (
             <section>
-              <h2 class="font-display text-3xl text-canopee">
+              <h2 class="fusion-h2 text-canopee">
                 <span data-bilingual-fr>{s.h2Fr}</span>
                 <span data-bilingual-ar hidden>{s.h2Ar}</span>
               </h2>
@@ -160,7 +160,7 @@ const articleSchema = {
             </a>
           </p>
           <p class="text-sm">
-            <a href={routes.guides()} class="text-gold hover:underline">
+            <a href={routes.guides()} class="link-line text-gold">
               <span data-bilingual-fr>← Guides & actualités</span>
               <span data-bilingual-ar hidden>← أدلة وأخبار</span>
             </a>

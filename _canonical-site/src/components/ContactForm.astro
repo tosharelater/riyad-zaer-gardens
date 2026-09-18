@@ -7,7 +7,7 @@ const apiUrl = import.meta.env.PUBLIC_API_URL ?? 'http://127.0.0.1:8000';
 
 <form class="grid gap-5" data-contact-form data-api={apiUrl} data-whatsapp={site.whatsapp} data-merci={routes.merci()}>
   <div>
-    <h2 class="font-display text-2xl" data-i18n="form_title">Être rappelé</h2>
+    <h2 class="text-2xl font-medium" data-i18n="form_title">Être rappelé</h2>
   </div>
 
   <input type="text" name="website" tabindex="-1" autocomplete="off" class="absolute -left-[9999px] h-0 w-0 opacity-0" aria-hidden="true" />

@@ -2,9 +2,45 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import ConversionBlock from '../components/ConversionBlock.astro';
 import HousingAidBanner from '../components/HousingAidBanner.astro';
-import { site, typologies, amenities, finishTable, waysToBe, reasons } from '../data/site';
+import { site, typologies, finishTable, waysToBe } from '../data/site';
 import { routes } from '../lib/routes';
 import { withBase } from '../lib/base';
+
+const included = [
+  { fr: 'Finitions modernes, faux plafonds et éclairage intégrés', ar: 'تشطيبات عصرية، أسقف معلقة وإضاءة مدمجة' },
+  { fr: 'Balcon ou terrasse selon le lot', ar: 'شرفة أو تراس حسب الوحدة' },
+  { fr: 'Ascenseur dans chaque immeuble', ar: 'مصعد في كل عمارة' },
+  { fr: 'Résidence sécurisée et gardiennée', ar: 'إقامة مؤمنة بحراسة' },
+  { fr: 'Cœur d’îlot végétalisé et aires de jeux', ar: 'فناء أخضر ومناطق لعب' },
+  { fr: 'Place de parking couverte en sous-sol, disponible en supplément', ar: 'مكان موقف مغطى تحت الأرض، متاح كإضافة' },
+];
+
+const atouts = [
+  {
+    titleFr: 'Un cœur d’îlot végétalisé',
+    titleAr: 'فناء أخضر في قلب الإقامة',
+    bodyFr: 'Une cour centrale plantée, calme et réservée aux résidents, qui apporte lumière et fraîcheur.',
+    bodyAr: 'فناء مركزي مغروس، هادئ ومخصص للسكان، يمنح الضوء والبرودة.',
+  },
+  {
+    titleFr: 'À 20 minutes de Rabat',
+    titleAr: 'على بعد 20 دقيقة من الرباط',
+    bodyFr: 'Sur l’Avenue Mohammed VI, avec un accès direct à l’autoroute.',
+    bodyAr: 'على شارع محمد السادس، مع ولوج مباشر إلى الطريق السيار.',
+  },
+  {
+    titleFr: 'Des appartements livrés finis',
+    titleAr: 'شقق تُسلَّم منتهية',
+    bodyFr: 'Aucun travaux à prévoir avant d’emménager.',
+    bodyAr: 'لا أعمال تنتظركم قبل الانتقال.',
+  },
+  {
+    titleFr: 'Un prix juste',
+    titleAr: 'سعر منصف',
+    bodyFr: 'Un logement de moyen standing à un prix accessible.',
+    bodyAr: 'سكن متوسط الوقوف بسعر في المتناول.',
+  },
+];
 ---
 
 <PageLayout
@@ -31,7 +67,7 @@ import { withBase } from '../lib/base';
             المرحلة الأولى من رياض زائر غاردنز تضم 120 شقة، على نمطين: F3 و F4، من 65 إلى 86 م².
           </span>
         </p>
-        <p class="mt-4 text-sm text-creme/70 reveal-fusion">
+        <p class="fusion-lead text-creme/78 reveal-fusion">
           <span data-bilingual-fr>Tous les logements sont livrés finis. Vous emménagez sans travaux à prévoir.</span>
           <span data-bilingual-ar hidden>كل المساكن تُسلَّم منتهية. تنتقلون دون أعمال مسبقة.</span>
         </p>
@@ -41,24 +77,36 @@ import { withBase } from '../lib/base';
       </div>
     </section>
 
-    <section class="bg-white section">
+    <section class="bg-creme section">
       <div class="container-rzg" data-reveal-group>
         <h2 class="fusion-h2 reveal-fusion">
           <span data-bilingual-fr>Deux typologies, de 65 à 86 m²</span>
           <span data-bilingual-ar hidden>نمطان، من 65 إلى 86 م²</span>
         </h2>
-        <div class="mt-10 grid gap-6 md:grid-cols-2">
+        <div class="mt-10 grid gap-10 md:grid-cols-2">
           {typologies.filter((t) => t.id !== 'fonds').map((t) => (
-            <article class="card card-hover reveal-fusion">
-              <p class="text-[0.65rem] uppercase tracking-[0.2em] text-gold">{t.surfaceFr}</p>
-              <h3 class="font-display mt-3 text-3xl text-canopee">
-                <span data-bilingual-fr>{t.titleFr}</span>
-                <span data-bilingual-ar hidden>{t.titleAr}</span>
-              </h3>
-              <p class="mt-4 text-sm leading-relaxed text-foret/70">
-                <span data-bilingual-fr>{t.bodyFr}</span>
-                <span data-bilingual-ar hidden>{t.bodyAr}</span>
-              </p>
+            <article class="fusion-type reveal-fusion">
+              <div class="fusion-type__img">
+                <img src={t.image} alt={t.titleFr} />
+              </div>
+              <div class="fusion-type__copy">
+                <p class="fusion-kicker">
+                  <span data-bilingual-fr>{t.surfaceFr}</span>
+                  <span data-bilingual-ar hidden>{t.surfaceAr}</span>
+                </p>
+                <h3 class="fusion-sub mt-1 text-canopee">
+                  <span data-bilingual-fr>{t.titleFr}</span>
+                  <span data-bilingual-ar hidden>{t.titleAr}</span>
+                </h3>
+                <p class="mt-4 text-sm leading-relaxed text-foret/70">
+                  <span data-bilingual-fr>{t.bodyFr}</span>
+                  <span data-bilingual-ar hidden>{t.bodyAr}</span>
+                </p>
+                <p class="fusion-type__price">
+                  <span data-bilingual-fr>{t.priceFr}</span>
+                  <span data-bilingual-ar hidden>{t.priceAr}</span>
+                </p>
+              </div>
             </article>
           ))}
         </div>
@@ -88,7 +136,7 @@ import { withBase } from '../lib/base';
           </span>
         </p>
         <ul class="fusion-list fusion-list--soft mt-8">
-          {amenities.map((a) => (
+          {included.map((a) => (
             <li class="reveal-fusion">
               <span data-bilingual-fr>{a.fr}</span>
               <span data-bilingual-ar hidden>{a.ar}</span>
@@ -150,7 +198,7 @@ import { withBase } from '../lib/base';
             الثمن حسب النمط والمساحة والطابق. ثمن الدخول للمرحلة الأولى هو 420 000 درهم.
           </span>
         </p>
-        <p class="mt-4 text-sm text-foret/70 reveal-fusion">
+        <p class="fusion-lead text-foret/70 reveal-fusion">
           <span data-bilingual-fr>Si vous êtes éligible à l’aide au logement, ce prix peut descendre à <span class="num-ltr">{site.priceWithAid}</span>.</span>
           <span data-bilingual-ar hidden>إذا كنتم مؤهلين لدعم السكن، يمكن أن ينخفض الثمن إلى <span class="num-ltr">{site.priceWithAid}</span>.</span>
         </p>
@@ -167,7 +215,7 @@ import { withBase } from '../lib/base';
           </div>
           <div class="card text-pair reveal-fusion">
             <p class="pair-label">
-              <span data-bilingual-fr>Avec l’aide</span>
+              <span data-bilingual-fr>Avec l’aide au logement</span>
               <span data-bilingual-ar hidden>مع الدعم</span>
             </p>
             <p class="pair-value">
@@ -183,7 +231,7 @@ import { withBase } from '../lib/base';
       </div>
     </section>
 
-    <HousingAidBanner />
+    <HousingAidBanner variant="appartements" />
 
     <section class="bg-white section">
       <div class="container-rzg" data-reveal-group>
@@ -200,9 +248,9 @@ import { withBase } from '../lib/base';
           </span>
         </p>
         <div class="mt-10 grid gap-6 md:grid-cols-2">
-          {reasons.map((item) => (
+          {atouts.map((item) => (
             <article class="reveal-fusion">
-              <h3 class="font-display text-2xl text-canopee">
+              <h3 class="fusion-sub text-canopee">
                 <span data-bilingual-fr>{item.titleFr}</span>
                 <span data-bilingual-ar hidden>{item.titleAr}</span>
               </h3>
@@ -213,7 +261,7 @@ import { withBase } from '../lib/base';
             </article>
           ))}
         </div>
-        <a href={routes.projet()} class="mt-8 inline-flex text-sm font-medium text-gold hover:underline reveal-fusion">
+        <a href={routes.projet()} class="link-line mt-8 inline-flex text-sm font-medium text-gold reveal-fusion">
           <span data-bilingual-fr>Découvrir le projet en détail</span>
           <span data-bilingual-ar hidden>اكتشفوا المشروع بالتفصيل</span>
         </a>
@@ -229,7 +277,7 @@ import { withBase } from '../lib/base';
         <div class="mt-10 grid gap-6 md:grid-cols-3">
           {waysToBe.map((item) => (
             <article class="border-t border-gold/50 pt-6 reveal-fusion">
-              <h3 class="font-display text-3xl text-canopee">
+              <h3 class="fusion-sub text-canopee">
                 <span data-bilingual-fr>{item.titleFr}</span>
                 <span data-bilingual-ar hidden>{item.titleAr}</span>
               </h3>

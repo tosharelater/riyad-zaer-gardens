@@ -9,7 +9,7 @@ import { routes } from '../../lib/routes';
   description="Nos guides pour acheter à Aïn Aouda : aide au logement, choix entre F3 et F4, investissement locatif près de Rabat. Conseils clairs et à jour."
 >
   <div class="fusion-page" data-fusion-page>
-    <section class="bg-foret px-4 pb-12 pt-28 text-creme sm:px-6 md:pt-32">
+    <section class="bg-foret px-4 pb-14 pt-28 text-creme sm:px-6 md:pt-32">
       <div class="mx-auto max-w-4xl" data-reveal-group>
         <p class="fusion-kicker reveal-fusion">
           <span data-bilingual-fr>Guides</span>
@@ -38,7 +38,7 @@ import { routes } from '../../lib/routes';
               <span data-bilingual-fr>{g.kickerFr}</span>
               <span data-bilingual-ar hidden>{g.kickerAr}</span>
             </p>
-            <h2 class="font-display mt-3 text-2xl text-canopee">
+            <h2 class="fusion-sub mt-3 text-canopee">
               <span data-bilingual-fr>{g.titleFr}</span>
               <span data-bilingual-ar hidden>{g.titleAr}</span>
             </h2>
@@ -47,7 +47,7 @@ import { routes } from '../../lib/routes';
               <span data-bilingual-ar hidden>{g.excerptAr}</span>
             </p>
             <p class="mt-4 text-xs text-foret/45">{g.date}</p>
-            <a href={routes.guide(g.slug)} class="mt-5 inline-flex text-sm font-medium text-gold hover:underline">
+            <a href={routes.guide(g.slug)} class="link-line mt-5 inline-flex text-sm font-medium text-gold">
               <span data-bilingual-fr>Lire</span>
               <span data-bilingual-ar hidden>اقرأ</span>
             </a>

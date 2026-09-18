@@ -2,7 +2,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import ConversionBlock from '../components/ConversionBlock.astro';
 import HousingAidBanner from '../components/HousingAidBanner.astro';
-import { site, amenities } from '../data/site';
+import { site } from '../data/site';
 import { routes } from '../lib/routes';
 import { withBase } from '../lib/base';
 
@@ -81,7 +81,7 @@ const fiche = [
             رياض زائر غاردنز مشروع عقاري متوسط الوقوف تطوره La Manoussa على شارع محمد السادس في عين عودة. صُمم على عدة مراحل ليصير حياً حقيقياً مع السنوات.
           </span>
         </p>
-        <p class="mt-4 max-w-xl text-sm text-creme/70 reveal-fusion">
+        <p class="fusion-lead text-creme/78 reveal-fusion">
           <span data-bilingual-fr>
             La première tranche, aujourd’hui commercialisée, regroupe un îlot complet avec ses logements, sa cour plantée et ses commerces de proximité.
           </span>
@@ -95,7 +95,7 @@ const fiche = [
       </div>
     </section>
 
-    <section class="bg-white section">
+    <section class="bg-creme section">
       <div class="container-rzg" data-reveal-group>
         <h2 class="fusion-h2 reveal-fusion">
           <span data-bilingual-fr>Un projet pensé avant d’être construit</span>
@@ -108,7 +108,7 @@ const fiche = [
         <div class="mt-10 grid gap-6 md:grid-cols-2">
           {conception.map((item) => (
             <article class="card reveal-fusion">
-              <h3 class="font-display text-2xl text-canopee">
+              <h3 class="fusion-sub text-canopee">
                 <span data-bilingual-fr>{item.titleFr}</span>
                 <span data-bilingual-ar hidden>{item.titleAr}</span>
               </h3>
@@ -136,7 +136,7 @@ const fiche = [
             تقدم عين عودة ما لم يعد مركز الرباط يقدمه: المساحة والهدوء والخضرة. ومن هنا ينطلق رياض زائر غاردنز.
           </span>
         </p>
-        <p class="mt-4 max-w-xl text-sm leading-relaxed text-foret/70 reveal-fusion">
+        <p class="fusion-lead text-foret/70 reveal-fusion">
           <span data-bilingual-fr>
             Les espaces verts ont été conçus comme un lieu de respiration au milieu des immeubles, avec des aires de jeux pour les enfants. L’objectif est simple : que l’on puisse sortir de chez soi et être immédiatement dehors, au calme.
           </span>
@@ -160,15 +160,28 @@ const fiche = [
           <span data-bilingual-fr>Les prestations ont été choisies pour le confort du quotidien, sans surcoût inutile.</span>
           <span data-bilingual-ar hidden>اختيرت الخدمات لراحة اليومي، دون تكلفة زائدة.</span>
         </p>
-        <ul class="fusion-list fusion-list--soft mt-8" data-line-group="amenities">
-          {amenities.map((a) => (
-            <li class="reveal-fusion">
-              <span data-bilingual-fr>{a.fr}</span>
-              <span data-bilingual-ar hidden>{a.ar}</span>
-            </li>
+        <div class="mt-10 grid gap-8 md:grid-cols-2">
+          {[
+            { titleFr: 'Ascenseur', titleAr: 'المصعد', bodyFr: 'Chaque immeuble est équipé d’un ascenseur.', bodyAr: 'كل عمارة مجهّزة بمصعد.' },
+            { titleFr: 'Cœur d’îlot végétalisé et aires de jeux', titleAr: 'فناء أخضر ومناطق لعب', bodyFr: 'Une cour centrale plantée et des espaces dédiés aux enfants, au milieu de la résidence.', bodyAr: 'فناء مركزي مغروس ومساحات مخصصة للأطفال، وسط الإقامة.' },
+            { titleFr: 'Parking couvert en sous-sol', titleAr: 'موقف مغطى تحت الأرض', bodyFr: 'Deux niveaux de sous-sol accueillent le stationnement. Les places sont titrées et proposées en supplément du prix du logement.', bodyAr: 'مستويان تحت الأرض للمواقف. الأماكن مسجّلة ومقترحة كإضافة لثمن السكن.' },
+            { titleFr: 'Résidence sécurisée', titleAr: 'إقامة مؤمنة', bodyFr: 'Contrôle des accès, vidéosurveillance et service de gardiennage.', bodyAr: 'مراقبة الولوج، كاميرات وخدمة حراسة.' },
+            { titleFr: 'Finitions modernes', titleAr: 'تشطيبات عصرية', bodyFr: 'Les appartements sont livrés finis, avec des finitions actuelles et sobres.', bodyAr: 'تُسلَّم الشقق منتهية، بتشطيبات راهنة ورصينة.' },
+            { titleFr: 'Commerces en rez-de-chaussée', titleAr: 'محلات في الطابق الأرضي', bodyFr: 'Des fonds de commerce sont intégrés à la résidence, pour avoir l’essentiel à portée de main.', bodyAr: 'محلات تجارية مدمجة في الإقامة، ليكون الضروري في المتناول.' },
+          ].map((item) => (
+            <article class="reveal-fusion">
+              <h3 class="fusion-sub text-canopee">
+                <span data-bilingual-fr>{item.titleFr}</span>
+                <span data-bilingual-ar hidden>{item.titleAr}</span>
+              </h3>
+              <p class="mt-3 text-sm leading-relaxed text-foret/70">
+                <span data-bilingual-fr>{item.bodyFr}</span>
+                <span data-bilingual-ar hidden>{item.bodyAr}</span>
+              </p>
+            </article>
           ))}
-        </ul>
-        <a href={`${routes.appartements()}#finitions`} class="mt-8 inline-flex text-sm font-medium text-gold hover:underline reveal-fusion">
+        </div>
+        <a href={`${routes.appartements()}#finitions`} class="link-line mt-8 inline-flex text-sm font-medium text-gold reveal-fusion">
           <span data-bilingual-fr>Voir le détail des finitions</span>
           <span data-bilingual-ar hidden>تفاصيل التشطيبات</span>
         </a>
@@ -243,14 +256,14 @@ const fiche = [
             صُمم رياض زائر غاردنز ليتوسع على مراحل. المرحلة الأولى منطلقة اليوم؛ واللاحقة ستكمل الحي مع الوقت.
           </span>
         </p>
-        <p class="mt-4 text-sm text-foret/70 reveal-fusion">
+        <p class="fusion-lead text-foret/70 reveal-fusion">
           <span data-bilingual-fr>Acheter dans la première tranche, c’est arriver au début d’un quartier qui va se construire et s’animer autour de vous.</span>
           <span data-bilingual-ar hidden>الشراء في المرحلة الأولى هو الوصول في بداية حي سيُبنى ويحيا حولكم.</span>
         </p>
       </div>
     </section>
 
-    <HousingAidBanner />
+    <HousingAidBanner variant="projet" />
 
     <section class="bg-white section">
       <div class="container-rzg" data-reveal-group>
@@ -260,16 +273,34 @@ const fiche = [
         </h2>
         <div class="mt-8 grid gap-6 md:grid-cols-3">
           <a href={routes.appartements()} class="card card-hover reveal-fusion">
-            <h3 class="font-display text-2xl text-canopee">Les appartements</h3>
-            <p class="mt-2 text-sm text-foret/70">F3 et F4, de 65 à 86 m²</p>
+            <h3 class="fusion-sub text-canopee">
+              <span data-bilingual-fr>Les appartements</span>
+              <span data-bilingual-ar hidden>الشقق</span>
+            </h3>
+            <p class="mt-2 text-sm text-foret/70">
+              <span data-bilingual-fr>F3 et F4, de 65 à 86 m²</span>
+              <span data-bilingual-ar hidden>F3 و F4، من 65 إلى 86 م²</span>
+            </p>
           </a>
           <a href={routes.commerce()} class="card card-hover reveal-fusion">
-            <h3 class="font-display text-2xl text-canopee">Les fonds de commerce</h3>
-            <p class="mt-2 text-sm text-foret/70">49 locaux de 13 à 30 m²</p>
+            <h3 class="fusion-sub text-canopee">
+              <span data-bilingual-fr>Les fonds de commerce</span>
+              <span data-bilingual-ar hidden>المحلات التجارية</span>
+            </h3>
+            <p class="mt-2 text-sm text-foret/70">
+              <span data-bilingual-fr>49 locaux de 13 à 30 m²</span>
+              <span data-bilingual-ar hidden>49 محلاً من 13 إلى 30 م²</span>
+            </p>
           </a>
           <a href={routes.localisation()} class="card card-hover reveal-fusion">
-            <h3 class="font-display text-2xl text-canopee">La localisation</h3>
-            <p class="mt-2 text-sm text-foret/70">Aïn Aouda, à 20 minutes de Rabat</p>
+            <h3 class="fusion-sub text-canopee">
+              <span data-bilingual-fr>La localisation</span>
+              <span data-bilingual-ar hidden>الموقع</span>
+            </h3>
+            <p class="mt-2 text-sm text-foret/70">
+              <span data-bilingual-fr>Aïn Aouda, à 20 minutes de Rabat</span>
+              <span data-bilingual-ar hidden>عين عودة، على بعد 20 دقيقة من الرباط</span>
+            </p>
           </a>
         </div>
       </div>

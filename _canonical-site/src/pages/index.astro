@@ -1,7 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import ConversionBlock from '../components/ConversionBlock.astro';
-import { site, amenities, reasons, waysToBe, galleryImages, finishes } from '../data/site';
+import { site, amenities, reasons, waysToBe, galleryImages, finishes, typologies } from '../data/site';
 import { routes } from '../lib/routes';
 import { withBase } from '../lib/base';
 
@@ -12,7 +12,7 @@ const proof = [
   { fr: 'À partir de 420 000 DH', ar: 'ابتداءً من 420 000 درهم' },
   { fr: 'Éligible à l’aide au logement', ar: 'مؤهل لدعم السكن' },
   { fr: 'Parking en sous-sol', ar: 'موقف تحت الأرض' },
-  { fr: 'Livraison prévue en septembre 2028', ar: 'التسليم المتوقع سبتمبر 2028' },
+  { fr: 'Livraison prévue en septembre 2028', ar: 'التسليم المتوقع في سبتمبر 2028' },
 ];
 ---
 
@@ -36,7 +36,7 @@ const proof = [
           <span data-bilingual-fr>Aïn Aouda · à 20 minutes de Rabat</span>
           <span data-bilingual-ar hidden>عين عودة · على بعد 20 دقيقة من الرباط</span>
         </p>
-        <h1 class="fusion-h1 reveal-fusion reveal-fusion--left">
+        <h1 class="fusion-h1 fusion-h1--caps reveal-fusion reveal-fusion--left">
           <span data-bilingual-fr>Nouveau pôle urbain à Rabat</span>
           <span data-bilingual-ar hidden>قطب حضري جديد بالرباط</span>
         </h1>
@@ -59,11 +59,11 @@ const proof = [
       </div>
     </section>
 
-    <section class="border-y border-foret/10 bg-white">
+    <section class="fusion-proof border-y border-foret/8 bg-white">
       <div class="mx-auto grid max-w-7xl grid-cols-2 md:grid-cols-3 lg:grid-cols-6" data-reveal-group>
         {proof.map((item) => (
-          <div class="fusion-proof-cell border-e border-foret/10 px-4 py-6 last:border-e-0 reveal-fusion">
-            <p class="text-sm font-medium leading-snug text-canopee">
+          <div class="fusion-proof-cell reveal-fusion border-e border-foret/10 px-4 py-7 last:border-e-0">
+            <p class="fusion-proof-val">
               <span data-bilingual-fr>{item.fr}</span>
               <span data-bilingual-ar hidden>{item.ar}</span>
             </p>
@@ -74,11 +74,7 @@ const proof = [
 
     <section class="fusion-split fusion-split--short bg-creme">
       <div class="fusion-pane" data-reveal-group>
-        <p class="fusion-kicker reveal-fusion">
-          <span data-bilingual-fr>Tranche 1</span>
-          <span data-bilingual-ar hidden>المرحلة 1</span>
-        </p>
-        <h2 class="fusion-h2 mt-6 reveal-fusion">
+        <h2 class="fusion-h2 reveal-fusion">
           <span data-bilingual-fr>La première tranche en chiffres</span>
           <span data-bilingual-ar hidden>المرحلة الأولى بالأرقام</span>
         </h2>
@@ -129,17 +125,20 @@ const proof = [
           <span data-bilingual-fr>Le projet s’installe dans une zone qui se développe vite, à la jonction entre la ville et la nature.</span>
           <span data-bilingual-ar hidden>يقع المشروع في منطقة تتوسع بسرعة، عند التقاء المدينة والطبيعة.</span>
         </p>
-        <div class="mt-12 grid gap-8 md:grid-cols-2">
-          {reasons.map((item) => (
-            <article class="card card-hover reveal-fusion">
-              <h3 class="font-display text-2xl text-canopee">
-                <span data-bilingual-fr>{item.titleFr}</span>
-                <span data-bilingual-ar hidden>{item.titleAr}</span>
-              </h3>
-              <p class="mt-3 text-sm leading-relaxed text-foret/70">
-                <span data-bilingual-fr>{item.bodyFr}</span>
-                <span data-bilingual-ar hidden>{item.bodyAr}</span>
-              </p>
+        <div class="mt-12">
+          {reasons.map((item, i) => (
+            <article class="fusion-reason reveal-fusion">
+              <p class="fusion-reason__n num-ltr">{String(i + 1).padStart(2, '0')}</p>
+              <div>
+                <h3>
+                  <span data-bilingual-fr>{item.titleFr}</span>
+                  <span data-bilingual-ar hidden>{item.titleAr}</span>
+                </h3>
+                <p>
+                  <span data-bilingual-fr>{item.bodyFr}</span>
+                  <span data-bilingual-ar hidden>{item.bodyAr}</span>
+                </p>
+              </div>
             </article>
           ))}
         </div>
@@ -160,7 +159,7 @@ const proof = [
             رياض زائر غاردنز مشروع عقاري متوسط الوقوف تطوره La Manoussa في عين عودة. تنتظم العمارات حول فناء مركزي مغروس، مع محلات في الطابق الأرضي.
           </span>
         </p>
-        <p class="mt-4 max-w-xl text-sm leading-relaxed text-foret/70 reveal-fusion">
+        <p class="fusion-lead text-foret/72 reveal-fusion">
           <span data-bilingual-fr>
             Le stationnement est enterré : deux niveaux de sous-sol accueillent les voitures et les locaux techniques. L’espace extérieur reste ainsi dégagé et rendu aux résidents.
           </span>
@@ -186,73 +185,79 @@ const proof = [
       </div>
     </section>
 
-    <section class="bg-white section">
-      <div class="container-rzg grid gap-10 lg:grid-cols-2 lg:items-center" data-reveal-group>
-        <div>
-          <h2 class="fusion-h2 reveal-fusion">
-            <span data-bilingual-fr>Des appartements F3 et F4 de 65 à 86 m²</span>
-            <span data-bilingual-ar hidden>شقق F3 و F4 من 65 إلى 86 م²</span>
-          </h2>
-          <p class="fusion-lead text-foret/70 reveal-fusion">
-            <span data-bilingual-fr>
-              Deux typologies sont proposées : des F3 et des F4, de 65 à 86 m². Des surfaces pensées pour être faciles à vivre, que ce soit pour un premier achat ou pour louer.
-            </span>
-            <span data-bilingual-ar hidden>
-              نمطان معروضان: F3 و F4، من 65 إلى 86 م². مساحات سهلة العيش، للشراء الأول أو للكراء.
-            </span>
-          </p>
-          <p class="mt-4 text-sm text-foret/70 reveal-fusion">
-            <span data-bilingual-fr>Les appartements sont livrés finis, avec balcon ou terrasse selon le lot.</span>
-            <span data-bilingual-ar hidden>تُسلَّم الشقق منتهية، مع شرفة أو تراس حسب الوحدة.</span>
-          </p>
-          <dl class="mt-8 grid gap-4 sm:grid-cols-2">
-            <div class="card text-pair reveal-fusion">
-              <dt class="pair-label">
-                <span data-bilingual-fr>Typologies</span>
-                <span data-bilingual-ar hidden>الأنماط</span>
-              </dt>
-              <dd class="pair-value">F3 et F4</dd>
-            </div>
-            <div class="card text-pair reveal-fusion">
-              <dt class="pair-label">
-                <span data-bilingual-fr>Surfaces</span>
-                <span data-bilingual-ar hidden>المساحات</span>
-              </dt>
-              <dd class="pair-value">{site.surfaceRange}</dd>
-            </div>
-            <div class="card text-pair reveal-fusion">
-              <dt class="pair-label">
-                <span data-bilingual-fr>Prix</span>
-                <span data-bilingual-ar hidden>الثمن</span>
-              </dt>
-              <dd class="pair-value">
-                <span data-bilingual-fr>à partir de <span class="num-ltr">{site.priceFrom}</span></span>
-                <span data-bilingual-ar hidden>ابتداءً من <span class="num-ltr">{site.priceFrom}</span></span>
-              </dd>
-            </div>
-            <div class="card text-pair reveal-fusion">
-              <dt class="pair-label">
-                <span data-bilingual-fr>Avec l’aide</span>
-                <span data-bilingual-ar hidden>مع الدعم</span>
-              </dt>
-              <dd class="pair-value">
-                <span data-bilingual-fr>à partir de <span class="num-ltr">{site.priceWithAid}</span></span>
-                <span data-bilingual-ar hidden>ابتداءً من <span class="num-ltr">{site.priceWithAid}</span></span>
-              </dd>
-            </div>
-          </dl>
-          <a href={routes.appartements()} class="btn btn-solid mt-8 reveal-fusion">
-            <span data-bilingual-fr>Voir les appartements</span>
-            <span data-bilingual-ar hidden>عرض الشقق</span>
-          </a>
+    <section class="bg-creme section">
+      <div class="container-rzg" data-reveal-group>
+        <h2 class="fusion-h2 reveal-fusion">
+          <span data-bilingual-fr>Des appartements F3 et F4 de 65 à 86 m²</span>
+          <span data-bilingual-ar hidden>شقق F3 و F4 من 65 إلى 86 م²</span>
+        </h2>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Deux typologies sont proposées : des F3 et des F4, de 65 à 86 m². Des surfaces pensées pour être faciles à vivre, que ce soit pour un premier achat ou pour louer.
+          </span>
+          <span data-bilingual-ar hidden>
+            نمطان معروضان: F3 و F4، من 65 إلى 86 م². مساحات سهلة العيش، للشراء الأول أو للكراء.
+          </span>
+        </p>
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>Les appartements sont livrés finis, avec balcon ou terrasse selon le lot.</span>
+          <span data-bilingual-ar hidden>تُسلَّم الشقق منتهية، مع شرفة أو تراس حسب الوحدة.</span>
+        </p>
+        <table class="rzg-table mt-8 max-w-xl reveal-fusion">
+          <tbody>
+            <tr>
+              <th><span data-bilingual-fr>Typologies</span><span data-bilingual-ar hidden>الأنماط</span></th>
+              <td><span data-bilingual-fr>F3 et F4</span><span data-bilingual-ar hidden>F3 و F4</span></td>
+            </tr>
+            <tr>
+              <th><span data-bilingual-fr>Surfaces</span><span data-bilingual-ar hidden>المساحات</span></th>
+              <td><span data-bilingual-fr>de 65 à 86 m²</span><span data-bilingual-ar hidden>من 65 إلى 86 م²</span></td>
+            </tr>
+            <tr>
+              <th><span data-bilingual-fr>Prix</span><span data-bilingual-ar hidden>الثمن</span></th>
+              <td><span data-bilingual-fr>à partir de 420 000 DH</span><span data-bilingual-ar hidden>ابتداءً من 420 000 درهم</span></td>
+            </tr>
+            <tr>
+              <th><span data-bilingual-fr>Avec l’aide au logement</span><span data-bilingual-ar hidden>مع دعم السكن</span></th>
+              <td><span data-bilingual-fr>à partir de 350 000 DH</span><span data-bilingual-ar hidden>ابتداءً من 350 000 درهم</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="mt-12 grid gap-10 md:grid-cols-2">
+          {typologies.filter((t) => t.id !== 'fonds').map((t) => (
+            <article class="fusion-type reveal-fusion">
+              <div class="fusion-type__img">
+                <img src={t.image} alt={t.titleFr} />
+              </div>
+              <div class="fusion-type__copy">
+                <p class="fusion-kicker">
+                  <span data-bilingual-fr>{t.surfaceFr}</span>
+                  <span data-bilingual-ar hidden>{t.surfaceAr}</span>
+                </p>
+                <h3 class="fusion-sub mt-1 text-canopee">
+                  <span data-bilingual-fr>{t.titleFr}</span>
+                  <span data-bilingual-ar hidden>{t.titleAr}</span>
+                </h3>
+                <p class="mt-3 text-sm leading-relaxed text-foret/70">
+                  <span data-bilingual-fr>{t.bodyFr}</span>
+                  <span data-bilingual-ar hidden>{t.bodyAr}</span>
+                </p>
+                <p class="fusion-type__price">
+                  <span data-bilingual-fr>{t.priceFr}</span>
+                  <span data-bilingual-ar hidden>{t.priceAr}</span>
+                </p>
+              </div>
+            </article>
+          ))}
         </div>
-        <div class="overflow-hidden rounded-2xl">
-          <img src={withBase('/gallery/render-1.jpg')} alt="Appartement du projet Riyad Zaer Gardens" class="h-full w-full object-cover" />
-        </div>
+        <a href={routes.appartements()} class="btn btn-solid mt-10 reveal-fusion">
+          <span data-bilingual-fr>Voir les appartements</span>
+          <span data-bilingual-ar hidden>عرض الشقق</span>
+        </a>
       </div>
     </section>
 
-    <section class="bg-creme section">
+    <section class="bg-white section">
       <div class="container-rzg" data-reveal-group>
         <h2 class="fusion-h2 reveal-fusion">
           <span data-bilingual-fr>Des finitions soignées, livrées prêtes à vivre</span>
@@ -266,27 +271,33 @@ const proof = [
             تُسلَّم الشقق بمواد مختارة لتدوم ويسهل صيانتها: سيراميك أو باركيه، نجارة ألومنيوم، ستائر كهربائية وتجهيزات صحية ذات علامة.
           </span>
         </p>
-        <div class="mt-10 grid gap-6 md:grid-cols-3">
+        <p class="fusion-lead text-foret/70 reveal-fusion">
+          <span data-bilingual-fr>
+            Chaque salle de bain est équipée d’une douche à l’italienne. Les faux plafonds et l’éclairage sont intégrés dès la livraison.
+          </span>
+          <span data-bilingual-ar hidden>
+            كل حمام مجهّز بدش إيطالي. الأسقف المعلقة والإضاءة مدمجة منذ التسليم.
+          </span>
+        </p>
+        <ul class="fusion-spec">
           {finishes.map((item) => (
-            <article class="card reveal-fusion">
-              <p class="text-base font-medium leading-snug text-canopee">
-                <span data-bilingual-fr>{item.fr}</span>
-                <span data-bilingual-ar hidden>{item.ar}</span>
-              </p>
-            </article>
+            <li class="reveal-fusion">
+              <span data-bilingual-fr>{item.fr}</span>
+              <span data-bilingual-ar hidden>{item.ar}</span>
+            </li>
           ))}
-        </div>
-        <a href={`${routes.appartements()}#finitions`} class="mt-8 inline-flex text-sm font-medium text-gold hover:underline reveal-fusion">
+        </ul>
+        <a href={`${routes.appartements()}#finitions`} class="link-line mt-8 inline-flex text-sm font-medium text-gold reveal-fusion">
           <span data-bilingual-fr>Voir le détail des finitions</span>
           <span data-bilingual-ar hidden>تفاصيل التشطيبات</span>
         </a>
       </div>
     </section>
 
-    <section class="bg-white section">
+    <section class="bg-creme section">
       <div class="container-rzg grid gap-10 lg:grid-cols-2 lg:items-center" data-reveal-group>
-        <div class="overflow-hidden rounded-2xl lg:order-2">
-          <img src={withBase('/gallery/render-8.jpg')} alt="Fonds de commerce en rez-de-chaussée à Riyad Zaer Gardens" class="h-full w-full object-cover" />
+        <div class="fusion-frame lg:order-2" data-media-reveal>
+          <img src={withBase('/gallery/render-8.jpg')} alt="Fonds de commerce en rez-de-chaussée à Riyad Zaer Gardens" />
         </div>
         <div>
           <h2 class="fusion-h2 reveal-fusion">
@@ -301,7 +312,7 @@ const proof = [
               المرحلة الأولى تضم 49 محلاً تجارياً، من 13 إلى 30 م²، في الطابق الأرضي على شارع محمد السادس.
             </span>
           </p>
-          <p class="mt-4 text-sm text-foret/70 reveal-fusion">
+          <p class="fusion-lead text-foret/70 reveal-fusion">
             <span data-bilingual-fr>
               Le terrain donne sur trois voies, dont un axe principal au sud : les locaux bénéficient d’une vraie visibilité.
             </span>
@@ -309,6 +320,22 @@ const proof = [
               تطل القطعة على ثلاثة طرق، منها محور رئيسي جنوباً: للمحلات رؤية حقيقية.
             </span>
           </p>
+          <table class="rzg-table mt-8 reveal-fusion">
+            <tbody>
+              <tr>
+                <th><span data-bilingual-fr>Nombre de lots</span><span data-bilingual-ar hidden>عدد المحلات</span></th>
+                <td class="num-ltr">49</td>
+              </tr>
+              <tr>
+                <th><span data-bilingual-fr>Surfaces</span><span data-bilingual-ar hidden>المساحات</span></th>
+                <td><span data-bilingual-fr>de 13 à 30 m²</span><span data-bilingual-ar hidden>من 13 إلى 30 م²</span></td>
+              </tr>
+              <tr>
+                <th><span data-bilingual-fr>Prix</span><span data-bilingual-ar hidden>الثمن</span></th>
+                <td><span data-bilingual-fr>à partir de 15 000 DH le m²</span><span data-bilingual-ar hidden>ابتداءً من 15 000 درهم للمتر المربع</span></td>
+              </tr>
+            </tbody>
+          </table>
           <a href={routes.commerce()} class="btn btn-solid mt-8 reveal-fusion">
             <span data-bilingual-fr>Voir les fonds de commerce</span>
             <span data-bilingual-ar hidden>عرض المحلات</span>
@@ -374,10 +401,11 @@ const proof = [
           <span data-bilingual-fr>Trois façons d’être à Riyad Zaer Gardens</span>
           <span data-bilingual-ar hidden>ثلاث طرق للوجود في رياض زائر غاردنز</span>
         </h2>
-        <div class="mt-10 grid gap-6 md:grid-cols-3">
-          {waysToBe.map((item) => (
-            <article class="border-t border-gold/50 pt-6 reveal-fusion">
-              <h3 class="font-display text-3xl text-canopee">
+        <div class="mt-10 grid gap-8 md:grid-cols-3">
+          {waysToBe.map((item, i) => (
+            <article class="fusion-way reveal-fusion">
+              <p class="fusion-reason__n num-ltr">{String(i + 1).padStart(2, '0')}</p>
+              <h3 class="fusion-sub mt-4 text-canopee">
                 <span data-bilingual-fr>{item.titleFr}</span>
                 <span data-bilingual-ar hidden>{item.titleAr}</span>
               </h3>

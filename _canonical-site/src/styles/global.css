@@ -1,27 +1,5 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: "Audrey";
-  src: var(--fontRegular, url("/fonts/audrey/Audrey-Regular.otf")) format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Audrey";
-  src: var(--fontMedium, url("/fonts/audrey/Audrey-Medium.otf")) format("opentype");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Audrey";
-  src: var(--fontBold, url("/fonts/audrey/Audrey-Bold.otf")) format("opentype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
 @theme {
   --color-foret: #002d2d;
   --color-canopee: #0a3d35;
@@ -46,17 +24,41 @@
   }
   html {
     scroll-behavior: auto;
+    font-synthesis: none;
   }
   body {
     @apply bg-creme text-foret font-sans antialiased;
+    font-weight: 400;
   }
   h1,
-  h2,
-  h3,
-  .font-display {
+  .fusion-h1 {
     font-family: var(--font-display);
     font-weight: 400;
     letter-spacing: 0.01em;
+    font-variation-settings: normal;
+  }
+  .font-display,
+  .fusion-h2,
+  .fusion-giant,
+  .fusion-nums dt {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    font-variation-settings: normal;
+  }
+  h3,
+  .fusion-kicker,
+  .kicker,
+  .fusion-sub {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    letter-spacing: 0;
+    font-variation-settings: normal;
+  }
+  .fusion-kicker,
+  .kicker {
+    letter-spacing: 0.16em;
+    font-weight: 500;
   }
   html[lang="ar"],
   html[dir="rtl"] {
@@ -72,11 +74,16 @@
   html[lang="ar"] .font-display,
   html[lang="ar"] .fusion-h1,
   html[lang="ar"] .fusion-h2,
+  html[lang="ar"] .fusion-giant,
   html[lang="ar"] .fusion-lead,
+  html[lang="ar"] .fusion-kicker,
+  html[lang="ar"] .kicker,
+  html[lang="ar"] .fusion-sub,
   html[lang="ar"] .btn,
   html[lang="ar"] .fusion-nav-link {
     font-family: var(--font-arabic);
     letter-spacing: 0;
+    font-variation-settings: normal;
   }
   html[lang="ar"] h1,
   html[lang="ar"] h2,
@@ -110,7 +117,8 @@
   }
 
   .kicker {
-    @apply text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-gold;
+    @apply text-[0.68rem] font-medium uppercase tracking-[0.16em] text-gold;
+    font-family: var(--font-sans);
   }
   .kicker--ink {
     @apply text-canopee;
@@ -124,7 +132,7 @@
   }
 
   .section {
-    @apply py-16 md:py-24;
+    @apply py-20 md:py-28;
   }
   .section--tight {
     @apply py-12 md:py-16;
@@ -140,7 +148,7 @@
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition duration-300;
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 py-2.5 text-sm font-medium transition duration-300;
   }
   .btn-solid {
     @apply bg-gold text-foret shadow-sm hover:-translate-y-0.5 hover:bg-gold-soft hover:shadow-md;
@@ -156,13 +164,13 @@
   }
 
   .card {
-    @apply rounded-2xl border border-foret/8 bg-white p-6 shadow-sm transition duration-300;
+    @apply rounded-none border border-foret/8 border-t-2 border-t-gold bg-white px-6 py-7 shadow-none transition duration-300;
   }
   .card-hover {
-    @apply hover:-translate-y-1 hover:border-gold/25 hover:shadow-[var(--shadow-rzg)];
+    @apply hover:border-gold/60 hover:border-t-gold;
   }
   .card-dark {
-    @apply rounded-2xl border border-creme/10 bg-foret/40 p-6 backdrop-blur-sm;
+    @apply rounded-none border border-creme/12 bg-creme/5 p-6 backdrop-blur-sm;
   }
 
   .input {
@@ -176,12 +184,13 @@
   .text-pair .pair-value {
     font-size: inherit;
     line-height: inherit;
+    font-weight: 400;
   }
   .text-pair .pair-label {
-    @apply font-medium text-foret/55;
+    @apply text-foret/55;
   }
   .text-pair .pair-value {
-    @apply font-medium text-canopee;
+    @apply text-canopee;
   }
   .card-dark.text-pair .pair-label {
     @apply text-creme/60;

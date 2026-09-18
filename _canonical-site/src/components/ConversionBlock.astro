@@ -10,6 +10,10 @@ interface Props {
   primaryFr?: string;
   primaryAr?: string;
   primaryHref?: string;
+  secondaryFr?: string;
+  secondaryAr?: string;
+  secondaryHref?: string;
+  secondaryExternal?: boolean;
 }
 const {
   titleFr = 'Parlons de votre projet',
@@ -19,6 +23,10 @@ const {
   primaryFr = 'Être rappelé',
   primaryAr = 'اطلبوا اتصالاً',
   primaryHref = routes.contact(),
+  secondaryFr = 'Écrire sur WhatsApp',
+  secondaryAr = 'الكتابة على واتساب',
+  secondaryHref = site.whatsapp,
+  secondaryExternal = true,
 } = Astro.props;
 ---
 
@@ -32,14 +40,14 @@ const {
       <span data-bilingual-fr>{bodyFr}</span>
       <span data-bilingual-ar hidden>{bodyAr}</span>
     </p>
-    <div class="mt-8 flex flex-wrap gap-3 reveal-fusion">
+    <div class="mt-8 flex flex-wrap items-center gap-3 reveal-fusion">
       <a href={primaryHref} class="btn btn-solid">
         <span data-bilingual-fr>{primaryFr}</span>
         <span data-bilingual-ar hidden>{primaryAr}</span>
       </a>
-      <a href={site.whatsapp} class="btn btn-ghost" target="_blank" rel="noopener">
-        <span data-bilingual-fr>Écrire sur WhatsApp</span>
-        <span data-bilingual-ar hidden>الكتابة على واتساب</span>
+      <a href={secondaryHref} class="btn btn-ghost" target={secondaryExternal ? '_blank' : undefined} rel={secondaryExternal ? 'noopener' : undefined}>
+        <span data-bilingual-fr>{secondaryFr}</span>
+        <span data-bilingual-ar hidden>{secondaryAr}</span>
       </a>
     </div>
   </div>

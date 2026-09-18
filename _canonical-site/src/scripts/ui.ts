@@ -2,6 +2,7 @@ export function initUi(): void {
   initScrollReveal();
   initHeaderScroll();
   initMobileNav();
+  initAnchorScroll();
 }
 
 function initScrollReveal(): void {
@@ -44,19 +45,14 @@ function initMobileNav(): void {
   const nav = document.querySelector<HTMLElement>('[data-mobile-nav]');
   if (!toggle || !nav) return;
 
-  const iconOpen = toggle.querySelector('.nav-icon-open');
-  const iconClose = toggle.querySelector('.nav-icon-close');
-
   const setOpen = (open: boolean) => {
-    nav.classList.toggle('hidden', !open);
+    nav.classList.toggle('is-open', open);
     nav.dataset.open = String(open);
     toggle.setAttribute('aria-expanded', String(open));
-    iconOpen?.classList.toggle('hidden', open);
-    iconClose?.classList.toggle('hidden', !open);
   };
 
   toggle.addEventListener('click', () => {
-    setOpen(nav.classList.contains('hidden'));
+    setOpen(!nav.classList.contains('is-open'));
   });
 
   nav.querySelectorAll('a').forEach((link) => {
@@ -65,5 +61,38 @@ function initMobileNav(): void {
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') setOpen(false);
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.matchMedia('(min-width: 1024px)').matches) setOpen(false);
+  });
+}
+
+function initAnchorScroll(): void {
+  document.addEventListener('click', (event) => {
+    const link = (event.target as Element | null)?.closest?.('a');
+    if (!link || !(link instanceof HTMLAnchorElement)) return;
+    if (link.target === '_blank' || event.defaultPrevented) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+    let url: URL;
+    try {
+      url = new URL(link.href, location.href);
+    } catch {
+      return;
+    }
+    if (url.origin !== location.origin) return;
+    if (url.pathname !== location.pathname || url.search !== location.search) return;
+    if (!url.hash) return;
+
+    const target = document.querySelector(url.hash);
+    if (!(target instanceof HTMLElement)) return;
+
+    event.preventDefault();
+    target.scrollIntoView({
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      block: 'start',
+    });
+    history.pushState(null, '', url.hash);
   });
 }
