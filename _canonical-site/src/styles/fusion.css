@@ -4534,3 +4534,140 @@ html[lang="ar"] [data-fusion-header] .header-cta {
   overflow-wrap: break-word;
 }
 
+/* ==========================================================================
+   No decorative rules: spacing and type carry the structure.
+   (Kept: link underlines and separators inside data lists.)
+   ========================================================================== */
+.fusion-kicker::before,
+.fusion-kicker::after,
+.fusion-page:not(.hm) .fusion-kicker::before,
+.fusion-page:not(.hm) .fusion-kicker::after,
+.hm-eyebrow::before,
+.hm-figure::before,
+.hm-way::before,
+.hm-why__item::before,
+.hm-why__item::after,
+.fusion-underline::after {
+  content: none;
+  display: none;
+}
+.hm-eyebrow,
+.fusion-page:not(.hm) .fusion-kicker {
+  gap: 0;
+}
+.hm-hero__cue {
+  display: none !important;
+}
+.hm-hero__price {
+  padding-inline-start: 0;
+  border-inline-start: 0;
+}
+.hm-figure,
+.hm-way,
+.hm-why__item {
+  padding-top: 0;
+}
+.fusion-page:not(.hm) .card {
+  padding: 0;
+  border: 0;
+}
+.fusion-page:not(.hm) .card:hover {
+  border: 0;
+}
+[data-fusion-header] .header-bar,
+[data-fusion-header].is-scrolled .header-bar {
+  border-bottom: 0;
+}
+.hm-proof {
+  border-block: 0;
+}
+.hm-aid__card {
+  border: 0;
+  background: rgb(247 242 232 / 0.06);
+}
+.hm-home__foot {
+  border-top: 0;
+}
+.hm-proof__list {
+  gap: 0;
+  background: transparent;
+}
+
+/* Blueprint motif (grid paper, corner brackets, outlines) flattened to plain panels */
+.fusion-type,
+.fusion-plan,
+.fusion-type__copy,
+.fusion-plan [class*="__cell"] {
+  border: 0;
+  background: #fffdf8;
+}
+.fusion-type::before,
+.fusion-type::after,
+.fusion-plan::before,
+.fusion-plan::after,
+.fusion-plan [class*="__cell"]::before,
+.fusion-plan [class*="__cell"]::after {
+  content: none;
+  display: none;
+}
+.fusion-type--flip .fusion-type__copy,
+.fusion-type__copy {
+  border: 0;
+}
+
+/* Separators removed too: spacing and a soft tint carry the rows */
+.fusion-related,
+.fusion-related__link,
+.fusion-way,
+.fusion-ways,
+.hm-aid__row,
+.hm-facts,
+.hm-facts > div,
+.hm-finish__list,
+.hm-finish__item,
+.fusion-type__price,
+.fusion-list,
+.fusion-list li,
+.fusion-list--soft,
+.fusion-list--soft li,
+.fusion-faq,
+.fusion-faq > *,
+.fusion-page table th,
+.fusion-page table td {
+  border: 0 !important;
+}
+.fusion-list li::before,
+.fusion-list li:hover::before {
+  content: none;
+  display: none;
+}
+.fusion-page tbody tr:nth-child(odd) {
+  background: rgb(0 45 45 / 0.045);
+}
+.fusion-page table th,
+.fusion-page table td {
+  padding-inline: 0.9rem;
+}
+.hm-home__specs li {
+  border: 0;
+  background: rgb(0 45 45 / 0.06);
+}
+
+/* Touch targets: invisible hit areas so small text links are easy to tap */
+.hm-link,
+.link-line {
+  position: relative;
+}
+.hm-link::before,
+.link-line::before {
+  content: "";
+  position: absolute;
+  inset: -0.75rem -0.35rem;
+}
+footer li {
+  margin-block: 0.3rem;
+}
+[data-fusion-header] .lang-toggle button {
+  min-height: 2.6rem;
+}
+

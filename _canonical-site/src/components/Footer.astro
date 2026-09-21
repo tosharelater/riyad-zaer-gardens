@@ -5,13 +5,12 @@ import { routes } from '../lib/routes';
 import { withBase } from '../lib/base';
 ---
 
-<footer class="section--dark section border-t border-gold/30 !pb-24 !pt-20 md:!pb-10">
+<footer class="section--dark section !pb-24 !pt-20 md:!pb-10">
   <div class="container-rzg">
     <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-4" data-reveal-group>
       <div class="reveal-fusion">
         <img src={withBase('/logo.png')} alt={site.name} width="280" height="112" class="mb-5 h-16 w-auto" />
         <p class="text-xs uppercase tracking-[0.2em] text-gold/80" data-i18n="by_manoussa">by La Manoussa</p>
-        <p class="gold-rule mt-5"></p>
         <p class="mt-5 max-w-xs text-sm leading-relaxed text-creme/70">
           <span data-bilingual-fr>Nouveau pôle urbain à Rabat.</span>
           <span data-bilingual-ar hidden>قطب حضري جديد بالرباط.</span>
@@ -60,7 +59,7 @@ import { withBase } from '../lib/base';
       </div>
     </div>
 
-    <div class="mt-12 flex flex-col items-start justify-between gap-3 border-t border-creme/10 pt-6 text-xs text-creme/45 sm:flex-row sm:items-center reveal-fusion">
+    <div class="mt-14 flex flex-col items-start justify-between gap-3 pt-2 text-xs text-creme/45 sm:flex-row sm:items-center reveal-fusion">
       <p data-i18n="footer_rights">© 2026 Riyad Zaer Gardens — by La Manoussa. Tous droits réservés.</p>
       <p data-i18n="footer_aid">Projet éligible à l’aide au logement.</p>
       <p class="flex flex-wrap gap-3">
