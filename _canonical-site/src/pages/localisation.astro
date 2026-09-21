@@ -28,7 +28,7 @@ const access = [
           <span data-bilingual-fr>Km 25, Avenue Mohammed VI, Aïn Aouda</span>
           <span data-bilingual-ar hidden>الكلم 25، شارع محمد السادس، عين عودة</span>
         </h1>
-        <p class="fusion-lead text-foret/70 reveal-fusion">
+        <p class="fusion-lead fusion-lead--wide text-foret/70 reveal-fusion">
           <span data-bilingual-fr>
             Riyad Zaer Gardens se situe à Aïn Aouda, sur l’Avenue Mohammed VI, à 20 minutes de Rabat.
           </span>
@@ -36,7 +36,7 @@ const access = [
             يقع رياض زائر غاردنز في عين عودة، على شارع محمد السادس، على بعد 20 دقيقة من الرباط.
           </span>
         </p>
-        <p class="fusion-lead text-foret/70 reveal-fusion">
+        <p class="fusion-lead fusion-lead--wide text-foret/70 reveal-fusion">
           <span data-bilingual-fr>
             C’est l’équilibre que cherchent beaucoup d’habitants de la région : le calme et la verdure, sans s’éloigner de la ville et de son activité.
           </span>
@@ -86,12 +86,12 @@ const access = [
     </section>
 
     <section class="bg-creme section">
-      <div class="container-rzg max-w-3xl" data-reveal-group>
+      <div class="container-rzg" data-reveal-group>
         <h2 class="fusion-h2 reveal-fusion">
           <span data-bilingual-fr>Vivre à Aïn Aouda</span>
           <span data-bilingual-ar hidden>العيش في عين عودة</span>
         </h2>
-        <p class="fusion-lead text-foret/70 reveal-fusion">
+        <p class="fusion-lead fusion-lead--wide text-foret/70 reveal-fusion">
           <span data-bilingual-fr>
             Aïn Aouda est l’une des zones qui se développent le plus rapidement autour de Rabat. On y trouve encore de l’espace, de la verdure et un rythme plus calme qu’en ville.
           </span>
@@ -99,7 +99,7 @@ const access = [
             عين عودة من أسرع المناطق توسعاً حول الرباط. ما زال فيها مجال وخضرة وإيقاع أهدأ من المدينة.
           </span>
         </p>
-        <p class="fusion-lead text-foret/70 reveal-fusion">
+        <p class="fusion-lead fusion-lead--wide text-foret/70 reveal-fusion">
           <span data-bilingual-fr>
             Le quartier n’est pas à construire entièrement : des services de proximité sont déjà installés à quelques minutes du projet.
           </span>
@@ -108,9 +108,18 @@ const access = [
           </span>
         </p>
         <ul class="fusion-list fusion-list--soft mt-8" data-line-group="access">
-          <li class="reveal-fusion">Une pharmacie</li>
-          <li class="reveal-fusion">Un cabinet vétérinaire</li>
-          <li class="reveal-fusion">Des commerces et services de proximité intégrés au quartier</li>
+          <li class="reveal-fusion">
+            <span data-bilingual-fr>Une pharmacie</span>
+            <span data-bilingual-ar hidden>صيدلية</span>
+          </li>
+          <li class="reveal-fusion">
+            <span data-bilingual-fr>Un cabinet vétérinaire</span>
+            <span data-bilingual-ar hidden>عيادة بيطرية</span>
+          </li>
+          <li class="reveal-fusion">
+            <span data-bilingual-fr>Des commerces et services de proximité intégrés au quartier</span>
+            <span data-bilingual-ar hidden>محلات وخدمات قرب مدمجة في الحي</span>
+          </li>
         </ul>
         <p class="mt-8 text-sm text-foret/70 reveal-fusion">
           <span data-bilingual-fr>Et 49 commerces viendront s’ajouter en rez-de-chaussée de la résidence, à la livraison.</span>
@@ -120,12 +129,12 @@ const access = [
     </section>
 
     <section class="bg-white section">
-      <div class="container-rzg max-w-3xl" data-reveal-group>
+      <div class="container-rzg" data-reveal-group>
         <h2 class="fusion-h2 reveal-fusion">
           <span data-bilingual-fr>Venir voir le site</span>
           <span data-bilingual-ar hidden>زيارة الموقع</span>
         </h2>
-        <p class="fusion-lead text-foret/70 reveal-fusion">
+        <p class="fusion-lead fusion-lead--wide text-foret/70 reveal-fusion">
           <span data-bilingual-fr>
             Le meilleur moyen de se faire une idée reste de venir sur place. Nous organisons des visites du site et vous accompagnons pour situer les immeubles et les espaces extérieurs.
           </span>
@@ -146,23 +155,23 @@ const access = [
           <span data-bilingual-fr>Aller plus loin</span>
           <span data-bilingual-ar hidden>للمضي أبعد</span>
         </h2>
-        <div class="mt-8 grid gap-6 md:grid-cols-2">
-          <a href={routes.projet()} class="card card-hover reveal-fusion">
-            <h3 class="fusion-sub text-canopee">
+        <div class="fusion-related">
+          <a href={routes.projet()} class="fusion-related__link reveal-fusion">
+            <h3 class="fusion-related__title">
               <span data-bilingual-fr>Le projet</span>
               <span data-bilingual-ar hidden>المشروع</span>
             </h3>
-            <p class="mt-2 text-sm text-foret/70">
+            <p class="fusion-related__hint">
               <span data-bilingual-fr>9 immeubles autour d’espaces verts</span>
               <span data-bilingual-ar hidden>9 عمارات حول مساحات خضراء</span>
             </p>
           </a>
-          <a href={routes.appartements()} class="card card-hover reveal-fusion">
-            <h3 class="fusion-sub text-canopee">
+          <a href={routes.appartements()} class="fusion-related__link reveal-fusion">
+            <h3 class="fusion-related__title">
               <span data-bilingual-fr>Les appartements</span>
               <span data-bilingual-ar hidden>الشقق</span>
             </h3>
-            <p class="mt-2 text-sm text-foret/70">
+            <p class="fusion-related__hint">
               <span data-bilingual-fr>F3 et F4, de 65 à 86 m²</span>
               <span data-bilingual-ar hidden>F3 و F4، من 65 إلى 86 م²</span>
             </p>

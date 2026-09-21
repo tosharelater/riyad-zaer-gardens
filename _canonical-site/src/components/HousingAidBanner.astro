@@ -17,7 +17,7 @@ const { variant = 'global' } = Astro.props;
           <span data-bilingual-ar hidden>مشروع مؤهل لدعم السكن</span>
         </h2>
         {variant === 'projet' && (
-          <p class="fusion-lead text-creme/80 reveal-fusion">
+          <p class="fusion-lead fusion-lead--wide text-creme/80 reveal-fusion">
             <span data-bilingual-fr>
               Les surfaces et les prix des appartements ont été conçus dès l’origine pour répondre aux conditions du programme d’aide au logement. Selon votre situation, le prix d’un appartement peut démarrer à <span class="num-ltr">{site.priceWithAid}</span> au lieu de <span class="num-ltr">{site.priceFrom}</span>.
             </span>
@@ -27,7 +27,7 @@ const { variant = 'global' } = Astro.props;
           </p>
         )}
         {variant === 'appartements' && (
-          <p class="fusion-lead text-creme/80 reveal-fusion">
+          <p class="fusion-lead fusion-lead--wide text-creme/80 reveal-fusion">
             <span data-bilingual-fr>
               Les surfaces et les prix des appartements ont été conçus dès l’origine pour répondre aux conditions du programme d’aide au logement. L’éligibilité dépend ensuite de votre situation personnelle : nos conseillers la vérifient avec vous, sans engagement.
             </span>
@@ -37,7 +37,7 @@ const { variant = 'global' } = Astro.props;
           </p>
         )}
         {variant === 'global' && (
-          <p class="fusion-lead text-creme/80 reveal-fusion">
+          <p class="fusion-lead fusion-lead--wide text-creme/80 reveal-fusion">
             <span data-bilingual-fr>
               Riyad Zaer Gardens est éligible au programme d’aide au logement de l’État. Selon votre situation, le prix d’un appartement peut démarrer à <span class="num-ltr">{site.priceWithAid}</span> au lieu de <span class="num-ltr">{site.priceFrom}</span>.
             </span>

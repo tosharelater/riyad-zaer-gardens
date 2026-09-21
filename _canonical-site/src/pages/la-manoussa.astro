@@ -20,7 +20,7 @@ import { routes } from '../lib/routes';
           <span data-bilingual-fr>La Manoussa, promoteur de Riyad Zaer Gardens</span>
           <span data-bilingual-ar hidden>La Manoussa، مطور رياض زائر غاردنز</span>
         </h1>
-        <p class="fusion-lead text-creme/75 reveal-fusion">
+        <p class="fusion-lead fusion-lead--wide text-creme/75 reveal-fusion">
           <span data-bilingual-fr>
             Riyad Zaer Gardens est développé par La Manoussa, promoteur immobilier actif dans la région de Rabat. La conception architecturale du projet est signée Mabani Architects.
           </span>
@@ -32,13 +32,16 @@ import { routes } from '../lib/routes';
     </section>
 
     <section class="bg-white section">
-      <div class="container-rzg max-w-3xl" data-reveal-group>
+      <div class="container-rzg" data-reveal-group>
         <h2 class="fusion-h2 reveal-fusion">
           <span data-bilingual-fr>Nos projets</span>
           <span data-bilingual-ar hidden>مشاريعنا</span>
         </h2>
-        <article class="card mt-8 reveal-fusion">
-          <h3 class="fusion-sub text-canopee">Riyad Zaer Gardens</h3>
+        <article class="mt-8 border-t border-gold/40 pt-6 reveal-fusion">
+          <h3 class="fusion-sub text-canopee">
+            <span data-bilingual-fr>Riyad Zaer Gardens</span>
+            <span data-bilingual-ar hidden>رياض زائر غاردنز</span>
+          </h3>
           <p class="mt-3 text-sm leading-relaxed text-foret/70">
             <span data-bilingual-fr>
               9 immeubles, 120 appartements et 49 fonds de commerce à Aïn Aouda, sur l’Avenue Mohammed VI. Livraison prévue en septembre 2028.
@@ -47,7 +50,10 @@ import { routes } from '../lib/routes';
               9 عمارات و120 شقة و49 محلاً تجارياً في عين عودة، على شارع محمد السادس. التسليم المتوقع سبتمبر 2028.
             </span>
           </p>
-          <a href={routes.projet()} class="link-line mt-4 inline-flex text-sm font-medium text-gold">Le projet →</a>
+          <a href={routes.projet()} class="link-line mt-4 inline-flex text-sm font-medium text-gold">
+            <span data-bilingual-fr>Le projet →</span>
+            <span data-bilingual-ar hidden>المشروع ←</span>
+          </a>
         </article>
       </div>
     </section>

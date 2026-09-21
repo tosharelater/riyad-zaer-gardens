@@ -11,9 +11,45 @@ export function initScrollFusion(): void {
   initTypoTicks();
   initTypoTitleLift();
   initFilmGallery();
+  initGalleryParallax();
+  initWaysParallax();
   initInView('[data-fill-track]', 'is-in');
   initInView('[data-phase-track]', 'is-in');
   initSplitParallax();
+  initReasonsCycles();
+  bindScrollLoop();
+}
+
+type ScrollTask = () => void;
+const scrollTasks: ScrollTask[] = [];
+let scrollTicking = false;
+let scrollLoopBound = false;
+
+function onScrollFrame(task: ScrollTask): void {
+  scrollTasks.push(task);
+}
+
+function bindScrollLoop(): void {
+  if (scrollLoopBound) return;
+  scrollLoopBound = true;
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (scrollTicking) return;
+      scrollTicking = true;
+      requestAnimationFrame(() => {
+        for (let i = 0; i < scrollTasks.length; i++) scrollTasks[i]();
+        scrollTicking = false;
+      });
+    },
+    { passive: true },
+  );
+}
+
+function isNearViewport(el: HTMLElement, margin = 120): boolean {
+  const rect = el.getBoundingClientRect();
+  const view = window.innerHeight || 1;
+  return rect.bottom > -margin && rect.top < view + margin;
 }
 
 function prefersReducedMotion(): boolean {
@@ -27,7 +63,7 @@ function initHeaderScroll(): void {
   const update = () => {
     header.classList.toggle('is-scrolled', window.scrollY > 24);
   };
-  window.addEventListener('scroll', update, { passive: true });
+  onScrollFrame(update);
   update();
 }
 
@@ -35,23 +71,11 @@ function initScrollProgress(): void {
   const bar = document.querySelector<HTMLElement>('[data-scroll-progress]');
   if (!bar) return;
 
-  let ticking = false;
   const update = () => {
     const h = document.documentElement.scrollHeight - window.innerHeight;
     bar.style.setProperty('--progress', String(h > 0 ? window.scrollY / h : 0));
-    ticking = false;
   };
-
-  window.addEventListener(
-    'scroll',
-    () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    },
-    { passive: true },
-  );
+  onScrollFrame(update);
   update();
 }
 
@@ -238,11 +262,9 @@ function initTypoTitleLift(): void {
   const next = title?.nextElementSibling as HTMLElement | null;
   if (!title || !inner || !heading || !next) return;
 
-  let ticking = false;
   const update = () => {
-    if (prefersReducedMotion()) {
-      inner.style.transform = '';
-      ticking = false;
+    if (prefersReducedMotion() || !isNearViewport(title, 200)) {
+      if (prefersReducedMotion()) inner.style.transform = '';
       return;
     }
     const currentY = new DOMMatrix(getComputedStyle(inner).transform).m42;
@@ -250,19 +272,9 @@ function initTypoTitleLift(): void {
     const clearance = Math.max(88, Math.round(window.innerHeight * 0.14));
     const overlap = naturalBottom + clearance - next.getBoundingClientRect().top;
     inner.style.transform = overlap > 0 ? `translate3d(0, ${-overlap}px, 0)` : '';
-    ticking = false;
   };
 
-  window.addEventListener(
-    'scroll',
-    () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    },
-    { passive: true },
-  );
+  onScrollFrame(update);
   update();
 }
 
@@ -270,12 +282,12 @@ function initFilmGallery(): void {
   const root = document.querySelector<HTMLElement>('[data-film-gallery]');
   if (!root) return;
 
-  const strip = root.querySelector<HTMLElement>('.film-strip');
+  const strip = root.querySelector<HTMLElement>('.film-strip, .gallery-arc-block') ?? root;
   const preview = root.querySelector<HTMLElement>('[data-film-preview]');
   const layerA = preview?.querySelector<HTMLImageElement>('[data-film-a]');
   const layerB = preview?.querySelector<HTMLImageElement>('[data-film-b]');
   const thumbs = [...root.querySelectorAll<HTMLImageElement>('[data-film-i]')];
-  if (!strip || !preview || !layerA || !layerB || !thumbs.length) return;
+  if (!preview || !layerA || !layerB || !thumbs.length) return;
 
   const sources = [...new Set(thumbs.map((img) => img.getAttribute('src') || ''))].filter(Boolean);
   if (!sources.length) return;
@@ -284,6 +296,8 @@ function initFilmGallery(): void {
   let usingA = true;
   let cycleTimer = 0;
   let startTimer = 0;
+  let inView = false;
+  const arc = root.querySelector<HTMLElement>('.gallery-arc');
 
   const markHot = (i: number) => {
     thumbs.forEach((thumb) => {
@@ -309,18 +323,24 @@ function initFilmGallery(): void {
     cycleTimer = 0;
   };
 
+  const setPaused = (paused: boolean) => {
+    root.classList.toggle('is-paused', paused);
+    strip.classList.toggle('is-paused', paused);
+    arc?.classList.toggle('is-live', !paused && inView);
+  };
+
   const close = () => {
     stopCycle();
     preview.classList.remove('is-on');
-    strip.classList.remove('is-paused');
     thumbs.forEach((thumb) => thumb.classList.remove('is-hot'));
     layerA.classList.remove('is-show');
     layerB.classList.remove('is-show');
+    setPaused(!inView);
   };
 
   const open = (i: number) => {
     stopCycle();
-    strip.classList.add('is-paused');
+    setPaused(true);
     preview.classList.add('is-on');
     show(i);
     if (prefersReducedMotion()) return;
@@ -336,6 +356,18 @@ function initFilmGallery(): void {
   });
 
   root.addEventListener('mouseleave', close);
+
+  /* Pause infinite wheel when off-screen — biggest gallery win */
+  const io = new IntersectionObserver(
+    (entries) => {
+      inView = entries.some((e) => e.isIntersecting);
+      if (!preview.classList.contains('is-on')) setPaused(!inView);
+      else arc?.classList.toggle('is-live', false);
+    },
+    { rootMargin: '80px 0px', threshold: 0.01 },
+  );
+  io.observe(root);
+  setPaused(true);
 }
 
 function initSplitParallax(): void {
@@ -343,10 +375,10 @@ function initSplitParallax(): void {
   const frames = [...document.querySelectorAll<HTMLElement>('.fusion-split > .fusion-media')];
   if (!frames.length) return;
 
-  let ticking = false;
   const update = () => {
     const view = window.innerHeight || 1;
     frames.forEach((frame) => {
+      if (!isNearViewport(frame)) return;
       const img = frame.querySelector<HTMLElement>('img');
       if (!img) return;
       const rect = frame.getBoundingClientRect();
@@ -354,18 +386,121 @@ function initSplitParallax(): void {
       const shift = Math.max(-28, Math.min(28, progress * 42));
       img.style.translate = `0 ${shift}px`;
     });
-    ticking = false;
   };
 
-  window.addEventListener(
-    'scroll',
-    () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(update);
-    },
-    { passive: true },
-  );
+  onScrollFrame(update);
+  update();
+}
+
+function initReasonsCycles(): void {
+  const plan = document.querySelector<HTMLElement>('.fusion-plan--reasons');
+  if (!plan) return;
+
+  const rows = [...plan.querySelectorAll<HTMLElement>('.fusion-plan__row')];
+  if (!rows.length) return;
+
+  const size = () => {
+    const mobile = window.matchMedia('(max-width: 640px)').matches;
+    const base = mobile ? 72 : 92;
+    // Measure content height with a temporary unset so stretch min-height doesn't inflate the reading
+    const prev = plan.style.getPropertyValue('--cycle-d');
+    plan.style.setProperty('--cycle-d', `${base}px`);
+    let maxH = base;
+    rows.forEach((row) => {
+      const copy = row.querySelector<HTMLElement>('.fusion-plan__cell--copy');
+      if (!copy) return;
+      maxH = Math.max(maxH, copy.scrollHeight);
+    });
+    const next = `${maxH}px`;
+    if (prev === next) {
+      plan.style.setProperty('--cycle-d', next);
+      return;
+    }
+    plan.style.setProperty('--cycle-d', next);
+    rows.forEach((row) => row.style.removeProperty('--cycle-d'));
+  };
+
+  size();
+  window.addEventListener('resize', size, { passive: true });
+  if (typeof ResizeObserver !== 'undefined') {
+    const ro = new ResizeObserver(size);
+    rows.forEach((row) => {
+      const copy = row.querySelector('.fusion-plan__cell--copy');
+      if (copy) ro.observe(copy);
+    });
+  }
+}
+
+function initReasonsParallax(): void {
+  if (prefersReducedMotion()) return;
+  const section = document.querySelector<HTMLElement>('[data-reasons-parallax]');
+  if (!section) return;
+  const bg = section.querySelector<HTMLElement>('.fusion-reasons__bg');
+  const depths = [...section.querySelectorAll<HTMLElement>('[data-parallax-depth]')];
+
+  const update = () => {
+    if (!isNearViewport(section)) return;
+    const rect = section.getBoundingClientRect();
+    const view = window.innerHeight || 1;
+    const progress = (view / 2 - (rect.top + rect.height / 2)) / view;
+    if (bg) {
+      bg.style.transform = `translate3d(0, ${Math.max(-36, Math.min(36, progress * 54))}px, 0)`;
+    }
+    depths.forEach((el) => {
+      const depth = Number(el.dataset.parallaxDepth || 0.1);
+      el.style.transform = `translate3d(0, ${Math.max(-18, Math.min(18, progress * depth * 120))}px, 0)`;
+    });
+  };
+
+  onScrollFrame(update);
+  update();
+}
+
+function initWaysParallax(): void {
+  if (prefersReducedMotion()) return;
+  const scene = document.querySelector<HTMLElement>('.fusion-ways-scene');
+  if (!scene) return;
+  const img = scene.querySelector<HTMLElement>('[data-ways-parallax-img]');
+  const depths = [...scene.querySelectorAll<HTMLElement>('[data-parallax-depth]')];
+
+  const update = () => {
+    if (!isNearViewport(scene, 160)) return;
+    const rect = scene.getBoundingClientRect();
+    const view = window.innerHeight || 1;
+    const total = rect.height + view;
+    const progress = Math.max(-1, Math.min(1, (view / 2 - (rect.top + rect.height / 2)) / (total / 2)));
+    if (img) {
+      const y = progress * 48;
+      const scale = 1.08 + Math.abs(progress) * 0.04;
+      img.style.transform = `translate3d(0, ${y}px, 0) scale(${scale})`;
+    }
+    depths.forEach((el) => {
+      const depth = Number(el.dataset.parallaxDepth || 0.1);
+      const y = Math.max(-28, Math.min(28, progress * depth * 160));
+      el.style.transform = `translate3d(0, ${y}px, 0)`;
+    });
+  };
+
+  onScrollFrame(update);
+  update();
+}
+
+function initGalleryParallax(): void {
+  if (prefersReducedMotion()) return;
+  const block = document.querySelector<HTMLElement>('[data-gallery-parallax]');
+  const arc = block?.querySelector<HTMLElement>('.gallery-arc');
+  if (!block || !arc) return;
+
+  const update = () => {
+    if (!isNearViewport(block)) return;
+    const rect = block.getBoundingClientRect();
+    const view = window.innerHeight || 1;
+    const progress = (view / 2 - (rect.top + rect.height / 2)) / view;
+    const y = Math.max(-18, Math.min(18, progress * 32));
+    arc.style.setProperty('--parallax-y', `${y}px`);
+  };
+
+  onScrollFrame(update);
   update();
 }
 

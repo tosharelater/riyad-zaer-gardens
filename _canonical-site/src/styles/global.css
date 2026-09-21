@@ -148,16 +148,28 @@
   }
 
   .btn {
-    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 py-2.5 text-sm font-medium transition duration-300;
+    @apply relative inline-flex min-h-11 items-center justify-center gap-2 overflow-hidden rounded-full px-6 py-2.5 text-sm font-medium transition-[color,background-color,border-color,box-shadow] duration-300;
   }
   .btn-solid {
-    @apply bg-gold text-foret shadow-sm hover:-translate-y-0.5 hover:bg-gold-soft hover:shadow-md;
+    @apply bg-gold text-foret shadow-sm;
+  }
+  .btn-solid:hover,
+  .btn-solid:focus-visible {
+    @apply bg-foret text-gold shadow-md;
   }
   .btn-ghost {
-    @apply border border-creme/35 text-creme backdrop-blur-sm hover:border-creme/60 hover:bg-creme/10;
+    @apply border border-creme/35 text-creme backdrop-blur-sm;
+  }
+  .btn-ghost:hover,
+  .btn-ghost:focus-visible {
+    @apply border-gold bg-gold text-foret;
   }
   .btn-ghost-dark {
-    @apply border border-foret/15 text-foret hover:border-foret/30 hover:bg-foret/5;
+    @apply border border-foret/15 text-foret;
+  }
+  .btn-ghost-dark:hover,
+  .btn-ghost-dark:focus-visible {
+    @apply border-foret bg-foret text-gold;
   }
   .btn-sm {
     @apply px-4 py-2 text-xs;
