@@ -4671,3 +4671,331 @@ footer li {
   min-height: 2.6rem;
 }
 
+/* ==========================================================================
+   Clarity pass — dark throughout, large sentence-case type, high contrast
+   (modelled on the Dubai Living reference: 46–95px light serif headings,
+   16px medium body in near-white on deep green / navy)
+   ========================================================================== */
+
+html body,
+.fusion-page {
+  background: #00201f;
+  color: #f7f2e8;
+}
+
+/* ---- Headings: sentence case, no tracking, big ---- */
+html:not([lang="ar"]) .hm-h2,
+html:not([lang="ar"]) .hm-hero__title,
+html:not([lang="ar"]) .fusion-page:not(.hm) .fusion-h1,
+html:not([lang="ar"]) .fusion-page:not(.hm) .fusion-h2,
+html:not([lang="ar"]) .hm-home__body h3,
+html:not([lang="ar"]) .hm-finish__item h3,
+html:not([lang="ar"]) .hm-way h3 {
+  text-transform: none;
+  letter-spacing: 0;
+}
+.hm-h2 {
+  max-width: 22ch;
+  color: #fff;
+  font-size: clamp(2rem, 1.1rem + 3.2vw, 3.6rem);
+  line-height: 1.12;
+}
+.fusion-page:not(.hm) .fusion-h1 {
+  max-width: 20ch;
+  font-size: clamp(2.2rem, 1.1rem + 3.8vw, 4.2rem);
+  line-height: 1.1;
+}
+.fusion-page:not(.hm) .fusion-h2 {
+  max-width: 28ch;
+  font-size: clamp(1.9rem, 1.1rem + 2.6vw, 3.1rem);
+  line-height: 1.15;
+}
+.hm-hero__title {
+  max-width: 16ch;
+  margin-inline: auto;
+  font-size: clamp(2.7rem, 1rem + 6.4vw, 6rem);
+  line-height: 1.05;
+}
+.hm-home__body h3,
+.hm-finish__item h3 {
+  font-size: 1.55rem;
+}
+.hm-way h3 {
+  font-size: clamp(1.9rem, 1.3rem + 1.8vw, 2.7rem);
+}
+
+/* ---- Body copy: larger, heavier, near-white ---- */
+.hm-lead,
+.hm-body,
+.hm-body--light {
+  max-width: 36rem;
+  color: rgb(247 242 232 / 0.92);
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.75;
+}
+.hm-figure__label,
+.hm-home__text,
+.hm-way p,
+.hm-finish__item p,
+.hm-checks li {
+  color: rgb(247 242 232 / 0.9);
+  font-weight: 500;
+}
+.hm-home__text,
+.hm-way p,
+.hm-finish__item p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+.hm-eyebrow,
+.hm-eyebrow--ink {
+  color: var(--gold);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+}
+
+/* ---- Hero centred, like the reference ---- */
+.hm-hero {
+  align-items: center;
+  justify-content: center;
+}
+.hm-hero__copy {
+  width: min(58rem, 100%);
+  margin-inline: auto;
+  text-align: center;
+}
+.hm-hero .hm-eyebrow,
+.hm-actions {
+  justify-content: center;
+}
+.hm-hero__lead {
+  margin-inline: auto;
+  color: #fff;
+  font-size: clamp(1.1rem, 1rem + 0.5vw, 1.3rem);
+  font-weight: 500;
+}
+.hm-hero__price {
+  align-items: center;
+}
+.hm-hero__veil,
+html[dir="rtl"] .hm-hero__veil {
+  background: linear-gradient(180deg, rgb(0 24 23 / 0.5) 0%, rgb(0 24 23 / 0.36) 45%, rgb(0 20 19 / 0.78) 100%);
+}
+
+/* ---- Section rhythm: two dark tones alternate ---- */
+.hm-section--dark,
+.hm-section--paper,
+.hm-section {
+  background: var(--deep);
+  color: var(--cream);
+}
+.hm-figures,
+.hm-homes,
+.hm-ways,
+.hm-cta {
+  background: var(--ink);
+}
+.hm-why,
+.hm-finish,
+.hm-aid,
+.hm-place {
+  background: var(--deep);
+}
+.hm-shop {
+  background: var(--ink);
+}
+.hm-figure__n {
+  color: #fff;
+}
+.hm-link {
+  border-bottom-color: rgb(247 242 232 / 0.45);
+  color: #fff;
+}
+.hm-link:hover,
+.hm-link:focus-visible {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.hm-btn--ink {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--ink);
+}
+.hm-btn--ink:hover,
+.hm-btn--ink:focus-visible {
+  background: #fff;
+  border-color: #fff;
+}
+.hm-checks li::before {
+  border-color: var(--gold);
+}
+.hm-home {
+  background: #0a3d35;
+  box-shadow: none;
+}
+.hm-home__body h3 {
+  color: #fff;
+}
+.hm-home__specs li {
+  background: rgb(247 242 232 / 0.12);
+  color: #f7f2e8;
+}
+.hm-home__price-label {
+  color: rgb(247 242 232 / 0.7);
+}
+.hm-home__price strong {
+  color: var(--gold);
+}
+.hm-finish__item h3,
+.hm-way h3 {
+  color: #fff;
+}
+
+/* ---- The one light element: the paper card over the aerial render ---- */
+.hm-brief__card {
+  background: rgb(255 253 248 / 0.96);
+}
+.hm-brief__card .hm-h2 {
+  color: var(--ink);
+  font-size: clamp(1.8rem, 1rem + 2vw, 2.6rem);
+}
+.hm-brief__card .hm-body,
+.hm-brief__card .hm-checks li {
+  color: rgb(0 45 45 / 0.92);
+}
+.hm-brief__card .hm-eyebrow {
+  color: var(--gold-deep);
+}
+.hm-brief__card .hm-link {
+  border-bottom-color: rgb(0 45 45 / 0.4);
+  color: var(--ink);
+}
+.hm-brief__card .hm-checks li::before {
+  border-color: var(--gold-deep);
+}
+
+/* ---- Inner pages: same dark system ---- */
+.fusion-page:not(.hm) .bg-creme,
+.fusion-page:not(.hm) .bg-white,
+.fusion-page:not(.hm) .section--soft,
+.fusion-page:not(.hm) .typo-parallax {
+  background: #00201f !important;
+}
+.fusion-page:not(.hm) .bg-foret,
+.fusion-page:not(.hm) .section--dark,
+.fusion-page:not(.hm) .section--canopee {
+  background: #002d2d !important;
+}
+.fusion-page:not(.hm) > section:nth-of-type(even) {
+  background: #002d2d !important;
+}
+.fusion-page:not(.hm) [class*="text-foret"],
+.fusion-page:not(.hm) [class*="text-canopee"],
+.fusion-page:not(.hm) .fusion-h1,
+.fusion-page:not(.hm) .fusion-h2,
+.fusion-page:not(.hm) .fusion-sub {
+  color: rgb(247 242 232 / 0.94) !important;
+}
+.fusion-page:not(.hm) .fusion-h1,
+.fusion-page:not(.hm) .fusion-h2 {
+  color: #fff !important;
+}
+.fusion-page:not(.hm) .fusion-lead,
+.fusion-page:not(.hm) p {
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.75;
+}
+.fusion-page:not(.hm) .fusion-kicker,
+.bg-creme .fusion-kicker,
+.bg-white .fusion-kicker,
+.section:not(.section--dark):not(.bg-foret) .fusion-kicker {
+  color: var(--gold, #c8b568);
+}
+.fusion-page .bg-creme .text-gold,
+.fusion-page .bg-white .text-gold,
+.fusion-page .section:not(.section--dark):not(.bg-foret) .text-gold,
+.fusion-page .text-gold {
+  color: #c8b568;
+}
+.fusion-type,
+.fusion-type__copy {
+  background: #0a3d35;
+  color: #f7f2e8;
+}
+.fusion-page tbody tr:nth-child(odd) {
+  background: rgb(247 242 232 / 0.06);
+}
+.card {
+  color: #f7f2e8;
+}
+.input {
+  background: #fffdf8;
+  color: #002d2d;
+}
+.link-line {
+  color: inherit;
+}
+
+/* Old dark-on-light colours reassigned for the dark theme */
+.rzg-table-wrap {
+  border: 0;
+  background: transparent;
+}
+.rzg-table th {
+  color: #fff;
+}
+.rzg-table td {
+  color: rgb(247 242 232 / 0.92);
+}
+.rzg-table--suite tbody th {
+  background: rgb(247 242 232 / 0.08);
+  color: #fff;
+}
+.rzg-table--suite tbody td {
+  color: rgb(247 242 232 / 0.92);
+}
+.fusion-way__n,
+.fusion-type__price {
+  color: #c8b568;
+}
+.fusion-type__price {
+  border: 0;
+}
+.fusion-nums dd,
+.fusion-nums dt,
+.fusion-plan__cell dd,
+.fusion-plan__cell dt,
+.fusion-proof,
+.fusion-proof-label,
+.fusion-proof-val,
+.fusion-related__hint,
+.fusion-related__title,
+.fusion-spec li,
+.fusion-type h3,
+.fusion-type__body,
+.fusion-way__body,
+.fusion-way__title,
+.rzg-table__summary td,
+.rzg-table__summary th {
+  color: rgb(247 242 232 / 0.94);
+}
+.fusion-type h3,
+.fusion-related__title,
+.fusion-way__title,
+.rzg-table__summary th {
+  color: #fff;
+}
+.fusion-type__surface {
+  color: #d9c987;
+}
+.hm-hero__title.reveal-fusion.is-visible {
+  transform: none;
+}
+.hm-h2 sup {
+  font-size: 0.5em;
+  vertical-align: 0.55em;
+  margin-inline-start: 0.04em;
+}
+
