@@ -6,6 +6,7 @@ export function initScrollFusion(): void {
   initFusionReveal();
   initCounterReveal();
   initHeroCrossfadeOnly();
+  initHomeMotion();
   initMediaReveal();
   initRowReveal();
   initTypoTicks();
@@ -147,6 +148,39 @@ function initCounterReveal(): void {
   );
 
   nums.forEach((n) => observer.observe(n));
+}
+
+function initHomeMotion(): void {
+  if (!document.querySelector('.hm') || prefersReducedMotion()) return;
+
+  const hero = document.querySelector<HTMLElement>('.hm-hero');
+  const copy = hero?.querySelector<HTMLElement>('.hm-hero__copy');
+  const layers = [...document.querySelectorAll<HTMLElement>('[data-parallax]')];
+
+  const update = () => {
+    const vh = window.innerHeight || 1;
+
+    if (copy) {
+      const y = Math.min(window.scrollY, vh);
+      copy.style.transform = `translate3d(0, ${(y * 0.14).toFixed(1)}px, 0)`;
+      copy.style.opacity = String(Math.max(0, 1 - (y / vh) * 1.3).toFixed(3));
+    }
+
+    layers.forEach((img) => {
+      const box = img.parentElement;
+      if (!box) return;
+      const r = box.getBoundingClientRect();
+      if (r.bottom < -120 || r.top > vh + 120) return;
+      const speed = Number(img.dataset.parallax) || 0.05;
+      const limit = r.height * 0.06;
+      const raw = -(r.top + r.height / 2 - vh / 2) * speed;
+      const shift = Math.max(-limit, Math.min(limit, raw));
+      img.style.transform = `translate3d(0, ${shift.toFixed(1)}px, 0) scale(1.14)`;
+    });
+  };
+
+  onScrollFrame(update);
+  update();
 }
 
 function initHeroCrossfadeOnly(): void {

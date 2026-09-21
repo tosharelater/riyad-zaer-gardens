@@ -7,14 +7,14 @@ import { withBase } from '../lib/base';
 interface Props {
   current?: string;
 }
-const { current = 'home' } = Astro.props;
+const { current = '' } = Astro.props;
 ---
 
 <header class="site-header z-50" data-site-header data-fusion-header>
   <div class="header-shell">
     <div class="header-bar">
       <a href={routes.home()} class="header-brand" aria-label={site.name}>
-        <img src={withBase('/logo.png')} alt="" width="280" height="280" />
+        <img src={withBase("/logo-bar.png")} alt={site.name} width="954" height="612" />
       </a>
 
       <nav class="header-nav" aria-label="Navigation">

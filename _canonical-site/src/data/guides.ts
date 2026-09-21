@@ -9,7 +9,7 @@ export const guides = [
     excerptFr:
       'Le programme d’aide au logement change le prix d’entrée d’un appartement neuf. Voici ce que cela signifie concrètement à Riyad Zaer Gardens.',
     excerptAr:
-      'يغيّر برنامج دعم السكن ثمن الدخول لشقة جديدة. هذا معناه عملياً في رياض زائر غاردنز.',
+      'يغيّر برنامج دعم السكن ثمن الدخول لشقة جديدة. هذا معناه عملياً في رياض زعير غاردنز.',
     seoTitle: 'Aide au logement au Maroc : comment ça marche',
     description:
       'Comprendre l’aide au logement au Maroc et ce qu’elle change sur le prix d’un appartement à Aïn Aouda, à partir de 350 000 DH.',

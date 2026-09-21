@@ -6,7 +6,7 @@ export const faqGroups = [
     items: [
       {
         qFr: 'Où se situe exactement Riyad Zaer Gardens ?',
-        qAr: 'أين يقع رياض زائر غاردنز بالضبط؟',
+        qAr: 'أين يقع رياض زعير غاردنز بالضبط؟',
         aFr: 'Le projet se situe à Aïn Aouda, Km 25 sur l’Avenue Mohammed VI, à 20 minutes de Rabat par l’autoroute.',
         aAr: 'يقع المشروع في عين عودة، الكلم 25 على شارع محمد السادس، على بعد 20 دقيقة من الرباط عبر الطريق السيار.',
       },
@@ -38,7 +38,7 @@ export const faqGroups = [
         qFr: 'Y aura-t-il d’autres tranches ?',
         qAr: 'هل ستكون هناك مراحل لاحقة؟',
         aFr: 'Oui. Riyad Zaer Gardens est conçu pour se développer en plusieurs tranches. La première est celle commercialisée aujourd’hui.',
-        aAr: 'نعم. صُمم رياض زائر غاردنز ليتوسع على عدة مراحل. الأولى هي المعروضة اليوم.',
+        aAr: 'نعم. صُمم رياض زعير غاردنز ليتوسع على عدة مراحل. الأولى هي المعروضة اليوم.',
       },
     ],
   },
@@ -106,7 +106,7 @@ export const faqGroups = [
         qFr: 'Qu’est-ce que change l’aide au logement ?',
         qAr: 'ماذا يغيّر دعم السكن؟',
         aFr: 'Riyad Zaer Gardens est éligible au programme d’aide au logement de l’État. Selon votre situation, le prix d’entrée peut passer de 420 000 DH à 350 000 DH.',
-        aAr: 'رياض زائر غاردنز مؤهل لبرنامج دعم السكن. حسب وضعيتكم، يمكن أن ينتقل ثمن الدخول من 420 000 درهم إلى 350 000 درهم.',
+        aAr: 'رياض زعير غاردنز مؤهل لبرنامج دعم السكن. حسب وضعيتكم، يمكن أن ينتقل ثمن الدخول من 420 000 درهم إلى 350 000 درهم.',
       },
       {
         qFr: 'Suis-je éligible à l’aide au logement ?',

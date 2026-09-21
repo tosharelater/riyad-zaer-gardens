@@ -1,19 +1,26 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import ConversionBlock from '../components/ConversionBlock.astro';
-import { site, amenities, reasons, waysToBe, galleryImages, finishes, typologies } from '../data/site';
+import ContactForm from '../components/ContactForm.astro';
+import Bi from '../components/Bi.astro';
+import { site, galleryImages, typologies, amenities, finishes, reasons, waysToBe } from '../data/site';
+import { proofPoints, keyFigures, accessPoints, aidSteps } from '../data/home-content';
 import { routes } from '../lib/routes';
 import { withBase } from '../lib/base';
 
-const heroSlides = [withBase('/gallery/render-11.jpg'), withBase('/gallery/render-6.jpg'), withBase('/gallery/render-5.jpg')];
-const proof = [
-  { fr: 'Appartements F3 et F4', ar: 'شقق F3 و F4' },
-  { fr: 'De 65 à 86 m²', ar: 'من 65 إلى 86 م²' },
-  { fr: 'À partir de 420 000 DH', ar: 'ابتداءً من 420 000 درهم' },
-  { fr: 'Éligible à l’aide au logement', ar: 'مؤهل لدعم السكن' },
-  { fr: 'Parking en sous-sol', ar: 'موقف تحت الأرض' },
-  { fr: 'Livraison prévue en septembre 2028', ar: 'التسليم المتوقع في سبتمبر 2028' },
+const heroSlides = [
+  withBase('/gallery/render-11.jpg'),
+  withBase('/gallery/render-5.jpg'),
+  withBase('/gallery/render-12.jpg'),
 ];
+const homes = typologies.filter((t) => t.id !== 'fonds');
+const shop = typologies.find((t) => t.id === 'fonds')!;
+const gallery = [11, 1, 8, 2, 5, 0].map((i) => galleryImages[i]);
+const finishBlocks = finishes.map((f) => {
+  const [frTitle, frText] = f.fr.split(' — ');
+  const [arTitle, arText] = f.ar.split(' — ');
+  return { frTitle, frText, arTitle, arText };
+});
+const contactWith = (interest: string) => `${routes.contact()}?interest=${interest}`;
 ---
 
 <PageLayout
@@ -21,494 +28,366 @@ const proof = [
   description="Appartements F3 et F4 de 65 à 86 m² et fonds de commerce à Aïn Aouda, à 20 min de Rabat. À partir de 420 000 DH, éligibles à l'aide au logement."
   current="home"
 >
-  <div class="fusion-page" data-fusion-page>
-    <div class="fusion-progress" data-scroll-progress aria-hidden="true"></div>
-
-    <section class="fusion-hero fusion-hero--ken text-creme">
+  <div class="fusion-page hm" data-fusion-page>
+    <!-- 1 · Hero -->
+    <section class="hm-hero fusion-hero fusion-hero--ken">
       <div class="fusion-hero__media fusion-media fusion-media--crossfade" data-hero-crossfade>
         {heroSlides.map((src, i) => (
           <img src={src} alt="Vue du projet immobilier Riyad Zaer Gardens à Aïn Aouda" class:list={[i === 0 && 'is-active']} />
         ))}
       </div>
-      <div class="fusion-hero__veil" aria-hidden="true"></div>
-      <div class="fusion-hero__copy" data-reveal-group>
-        <p class="fusion-kicker reveal-fusion">
-          <span data-bilingual-fr>Aïn Aouda · à 20 minutes de Rabat</span>
-          <span data-bilingual-ar hidden>عين عودة · على بعد 20 دقيقة من الرباط</span>
+      <div class="hm-hero__veil" aria-hidden="true"></div>
+      <div class="hm-hero__copy" data-reveal-group>
+        <p class="hm-eyebrow reveal-fusion">
+          <Bi fr="Riyad Zaer Gardens · Aïn Aouda, à 20 min de Rabat" ar="رياض زعير غاردنز · عين عودة، على بعد 20 دقيقة من الرباط" />
         </p>
-        <h1 class="fusion-h1 fusion-h1--caps reveal-fusion reveal-fusion--left">
-          <span data-bilingual-fr>Nouveau pôle urbain à Rabat</span>
-          <span data-bilingual-ar hidden>قطب حضري جديد بالرباط</span>
+        <h1 class="hm-hero__title reveal-fusion">
+          <Bi fr="Nouveau pôle urbain à Rabat" ar="قطب حضري جديد بالرباط" />
         </h1>
-        <p class="fusion-lead text-creme/82 reveal-fusion">
-          <span data-bilingual-fr>
-            Riyad Zaer Gardens réunit des appartements F3 et F4 et des fonds de commerce dans un quartier neuf et verdoyant, sur l’Avenue Mohammed VI.
-          </span>
-          <span data-bilingual-ar hidden>
-            يجمع رياض زائر غاردنز شقق F3 و F4 ومحلات تجارية في حي جديد وأخضر، على شارع محمد السادس.
-          </span>
+        <p class="hm-hero__lead reveal-fusion">
+          <Bi
+            fr="Des appartements F3 et F4 et des fonds de commerce, livrés finis, dans un quartier neuf et verdoyant sur l’Avenue Mohammed VI."
+            ar="شقق F3 و F4 ومحلات تجارية تُسلَّم منتهية، في حي جديد وأخضر على شارع محمد السادس."
+          />
         </p>
-        <p class="mt-6 inline-flex rounded-full border border-gold/40 bg-foret/35 px-4 py-2 text-sm text-gold-soft reveal-fusion">
-          <span data-bilingual-fr>Appartements à partir de <span class="num-ltr">{site.priceFrom}</span></span>
-          <span data-bilingual-ar hidden>شقق ابتداءً من <span class="num-ltr">{site.priceFrom}</span></span>
+        <p class="hm-hero__price reveal-fusion">
+          <span class="hm-hero__price-label"><Bi fr="Appartements à partir de" ar="شقق ابتداءً من" /></span>
+          <strong class="num-ltr">{site.priceFrom}</strong>
         </p>
-        <div class="mt-8 flex flex-wrap gap-3 reveal-fusion">
-          <a href={routes.projet()} class="btn btn-solid" data-i18n="cta_discover">Découvrir le projet</a>
-          <a href={routes.contact()} class="btn btn-ghost" data-i18n="cta_callback">Être rappelé</a>
+        <div class="hm-actions reveal-fusion">
+          <a href={routes.projet()} class="hm-btn hm-btn--gold">
+            <Bi fr="Découvrir le projet" ar="اكتشفوا المشروع" />
+            <span class="hm-btn__arrow" aria-hidden="true"></span>
+          </a>
+          <a href="#contact" class="hm-btn hm-btn--ghost">
+            <Bi fr="Être rappelé" ar="اطلبوا اتصالاً" />
+          </a>
         </div>
       </div>
+      <a href="#chiffres" class="hm-hero__cue" aria-label="Défiler vers le contenu"><span></span></a>
+    </section>
 
-      <div class="fusion-proof" aria-label="Points clés">
-        <div class="fusion-proof__row">
-          {proof.map((item) => (
-            <div class="fusion-proof-cell">
-              <p class="fusion-proof-val">
-                <span data-bilingual-fr>{item.fr}</span>
-                <span data-bilingual-ar hidden>{item.ar}</span>
-              </p>
+    <!-- 2 · Bandeau de réassurance -->
+    <section class="hm-proof" aria-label="Le projet en un coup d’œil">
+      <ul class="hm-proof__list" data-reveal-group>
+        {proofPoints.map((p) => (
+          <li class="reveal-fusion"><Bi fr={p.fr} ar={p.ar} /></li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- 3 · Chiffres clés -->
+    <section class="hm-figures hm-section" id="chiffres">
+      <div class="hm-wrap hm-figures__grid">
+        <div class="hm-figures__intro" data-reveal-group>
+          <p class="hm-eyebrow hm-eyebrow--ink reveal-fusion"><Bi fr="Tranche 1" ar="المرحلة الأولى" /></p>
+          <h2 class="hm-h2 reveal-fusion"><Bi fr="La première tranche en chiffres" ar="المرحلة الأولى بالأرقام" /></h2>
+          <p class="hm-lead reveal-fusion">
+            <Bi
+              fr="Un îlot complet, pensé comme un petit quartier avec ses logements, ses espaces verts et ses commerces."
+              ar="مجمّع متكامل، صُمّم كحيّ صغير بمساكنه ومساحاته الخضراء ومحلاته."
+            />
+          </p>
+        </div>
+        <dl class="hm-figures__nums" data-reveal-group>
+          {keyFigures.map((f) => (
+            <div class="hm-figure reveal-fusion">
+              <dt class="hm-figure__n num-ltr" data-count-to={f.value}>{f.value}</dt>
+              <dd class="hm-figure__label"><Bi fr={f.fr} ar={f.ar} /></dd>
             </div>
           ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="fusion-split fusion-split--short bg-creme">
-      <div class="fusion-pane" data-reveal-group>
-        <h2 class="fusion-h2 reveal-fusion">
-          <span data-bilingual-fr>La première tranche en chiffres</span>
-          <span data-bilingual-ar hidden>المرحلة الأولى بالأرقام</span>
-        </h2>
-        <p class="fusion-lead text-foret/72 reveal-fusion">
-          <span data-bilingual-fr>
-            La première tranche de Riyad Zaer Gardens est composée d’un îlot complet, pensé comme un petit quartier avec ses logements, ses espaces verts et ses commerces.
-          </span>
-          <span data-bilingual-ar hidden>
-            تتكون المرحلة الأولى من جزيرة كاملة، كحي صغير بمساكنه ومساحاته الخضراء ومحلاته.
-          </span>
-        </p>
-        <dl class="fusion-plan reveal-fusion">
-          <div class="fusion-plan__cell">
-            <dt><span data-count-to={site.buildings}>0</span></dt>
-            <dd>
-              <span data-bilingual-fr>immeubles</span>
-              <span data-bilingual-ar hidden>عمارات</span>
-            </dd>
-          </div>
-          <div class="fusion-plan__cell">
-            <dt><span data-count-to={site.apartments}>0</span></dt>
-            <dd>
-              <span data-bilingual-fr>appartements</span>
-              <span data-bilingual-ar hidden>شقق</span>
-            </dd>
-          </div>
-          <div class="fusion-plan__cell">
-            <dt><span data-count-to={site.commercial}>0</span></dt>
-            <dd>
-              <span data-bilingual-fr>fonds de commerce</span>
-              <span data-bilingual-ar hidden>محلات تجارية</span>
-            </dd>
-          </div>
         </dl>
       </div>
-      <div class="fusion-media" data-media-reveal>
-        <img src={withBase('/gallery/render-4.jpg')} alt="Cœur d’îlot végétalisé de la résidence Riyad Zaer Gardens" />
-      </div>
     </section>
 
-    <section class="fusion-reasons bg-white">
-      <div class="container-rzg" data-reveal-group>
-        <h2 class="fusion-h2 reveal-fusion">
-          <span data-bilingual-fr>Quatre raisons de choisir Riyad Zaer Gardens</span>
-          <span data-bilingual-ar hidden>أربع أسباب لاختيار رياض زائر غاردنز</span>
-        </h2>
-        <p class="fusion-lead fusion-lead--wide text-foret/70 reveal-fusion">
-          <span data-bilingual-fr>Le projet s’installe dans une zone qui se développe vite, à la jonction entre la ville et la nature.</span>
-          <span data-bilingual-ar hidden>يقع المشروع في منطقة تتوسع بسرعة، عند التقاء المدينة والطبيعة.</span>
-        </p>
-        <div class="fusion-plan fusion-plan--reasons">
-          {reasons.map((item, i) => (
-            <article class:list={['fusion-plan__row', 'reveal-fusion', i % 2 === 0 ? 'is-odd' : 'is-even']} style={`--reason-i: ${i}`}>
-              <div class:list={['fusion-plan__cell', 'fusion-plan__cell--num', i % 2 === 0 ? 'is-slide-rtl' : 'is-slide-ltr']}>
-                <span class="num-ltr">{String(i + 1).padStart(2, '0')}</span>
-              </div>
-              <div class="fusion-plan__cell fusion-plan__cell--copy">
-                <h3>
-                  <span data-bilingual-fr>{item.titleFr}</span>
-                  <span data-bilingual-ar hidden>{item.titleAr}</span>
-                </h3>
-                <p>
-                  <span data-bilingual-fr>{item.bodyFr}</span>
-                  <span data-bilingual-ar hidden>{item.bodyAr}</span>
-                </p>
-              </div>
-            </article>
-          ))}
-        </div>
+    <!-- 4 · Le projet en bref -->
+    <section class="hm-brief" id="projet">
+      <div class="hm-media hm-brief__media" data-media-reveal>
+        <img data-parallax="0.05" src={withBase('/gallery/render-4.jpg')} alt="Vue aérienne de l’îlot Riyad Zaer Gardens et de son cœur planté" loading="lazy" />
       </div>
-    </section>
-
-    <section class="fusion-sticky-scene">
-      <div class="fusion-sticky-scene__pin" aria-hidden="true">
-        <img src={withBase('/gallery/render-2.jpg')} alt="" />
-        <div class="fusion-sticky-scene__veil"></div>
-      </div>
-      <div class="fusion-sticky-scene__body text-creme" data-reveal-group>
-        <p class="fusion-eyebrow reveal-fusion">
-          <span data-bilingual-fr>Le quartier</span>
-          <span data-bilingual-ar hidden>الحي</span>
-        </p>
-        <h2 class="fusion-h2 text-creme reveal-fusion">
-          <span data-bilingual-fr>Un quartier complet, pas seulement des immeubles</span>
-          <span data-bilingual-ar hidden>حي كامل، وليس عمارات فقط</span>
+      <div class="hm-brief__card" data-reveal-group>
+        <p class="hm-eyebrow reveal-fusion"><Bi fr="Le projet" ar="المشروع" /></p>
+        <h2 class="hm-h2 reveal-fusion">
+          <Bi fr="Un quartier complet, pas seulement des immeubles" ar="حيّ متكامل، وليس مجرد عمارات" />
         </h2>
-        <p class="fusion-lead fusion-lead--wide text-creme/85 reveal-fusion">
-          <span data-bilingual-fr>
-            Riyad Zaer Gardens est un projet immobilier de moyen standing développé par La Manoussa à Aïn Aouda. Les immeubles s’organisent autour d’une cour centrale plantée, avec des commerces en rez-de-chaussée.
-          </span>
-          <span data-bilingual-ar hidden>
-            رياض زائر غاردنز مشروع عقاري متوسط الوقوف تطوره La Manoussa في عين عودة. تنتظم العمارات حول فناء مركزي مغروس، مع محلات في الطابق الأرضي.
-          </span>
+        <p class="hm-body reveal-fusion">
+          <Bi
+            fr="Les immeubles s’organisent autour d’une cour centrale plantée, avec des commerces en rez-de-chaussée. Le stationnement est enterré : l’espace extérieur reste dégagé et rendu aux résidents."
+            ar="تنتظم العمارات حول فناء مركزي مغروس، مع محلات في الطابق الأرضي. الموقف تحت الأرض، فتبقى المساحة الخارجية مفتوحة ومخصصة للسكان."
+          />
         </p>
-        <p class="fusion-lead fusion-lead--wide text-creme/85 reveal-fusion">
-          <span data-bilingual-fr>
-            Le stationnement est enterré : deux niveaux de sous-sol accueillent les voitures et les locaux techniques. L’espace extérieur reste ainsi dégagé et rendu aux résidents.
-          </span>
-          <span data-bilingual-ar hidden>
-            المواقف تحت الأرض: مستويان يستقبلان السيارات والمحلات التقنية. فيبقى الفضاء الخارجي مفتوحاً للسكان.
-          </span>
-        </p>
-
-        <ul class="fusion-amenity-list">
-          {amenities.map((a, i) => (
-            <li class="reveal-fusion">
-              <span class="fusion-amenity-list__n num-ltr">{String(i + 1).padStart(2, '0')}</span>
-              <span data-bilingual-fr>{a.fr}</span>
-              <span data-bilingual-ar hidden>{a.ar}</span>
-            </li>
+        <ul class="hm-checks reveal-fusion">
+          {amenities.map((a) => (
+            <li><Bi fr={a.fr} ar={a.ar} /></li>
           ))}
         </ul>
-
-        <div class="fusion-sticky-scene__cta reveal-fusion">
-          <a href={routes.projet()} class="btn btn-solid">
-            <span data-bilingual-fr>Découvrir le projet en détail</span>
-            <span data-bilingual-ar hidden>اكتشفوا المشروع بالتفصيل</span>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="bg-creme section">
-      <div class="container-rzg" data-reveal-group>
-        <h2 class="fusion-h2 reveal-fusion">
-          <span data-bilingual-fr>Des appartements F3 et F4 de 65 à 86 m²</span>
-          <span data-bilingual-ar hidden>شقق F3 و F4 من 65 إلى 86 م²</span>
-        </h2>
-        <p class="fusion-lead fusion-lead--wide text-foret/70 reveal-fusion">
-          <span data-bilingual-fr>
-            Deux typologies sont proposées : des F3 et des F4, de 65 à 86 m². Des surfaces pensées pour être faciles à vivre, que ce soit pour un premier achat ou pour louer.
-          </span>
-          <span data-bilingual-ar hidden>
-            نمطان معروضان: F3 و F4، من 65 إلى 86 م². مساحات سهلة العيش، للشراء الأول أو للكراء.
-          </span>
-        </p>
-        <p class="fusion-lead fusion-lead--wide text-foret/70 reveal-fusion">
-          <span data-bilingual-fr>Les appartements sont livrés finis, avec balcon ou terrasse selon le lot.</span>
-          <span data-bilingual-ar hidden>تُسلَّم الشقق منتهية، مع شرفة أو تراس حسب الوحدة.</span>
-        </p>
-        <div class="fusion-type-grid mt-12">
-          {typologies.filter((t) => t.id !== 'fonds').map((t, i) => (
-            <article class:list={['fusion-type', 'reveal-fusion', i === 1 && 'fusion-type--flip']}>
-              <div class="fusion-type__img">
-                <img src={t.image} alt={t.titleFr} />
-              </div>
-              <div class="fusion-type__copy">
-                <p class="fusion-type__surface">
-                  <span data-bilingual-fr>{t.surfaceFr}</span>
-                  <span data-bilingual-ar hidden>{t.surfaceAr}</span>
-                </p>
-                <h3 class="fusion-sub text-canopee">
-                  <span data-bilingual-fr>{t.titleFr}</span>
-                  <span data-bilingual-ar hidden>{t.titleAr}</span>
-                </h3>
-                <p class="fusion-type__body">
-                  <span data-bilingual-fr>{t.bodyFr}</span>
-                  <span data-bilingual-ar hidden>{t.bodyAr}</span>
-                </p>
-                <p class="fusion-type__price">
-                  <span data-bilingual-fr>{t.priceFr}</span>
-                  <span data-bilingual-ar hidden>{t.priceAr}</span>
-                </p>
-              </div>
-            </article>
-          ))}
-        </div>
-        <div class="mt-10 flex justify-center">
-          <a href={routes.appartements()} class="btn btn-solid reveal-fusion">
-            <span data-bilingual-fr>Voir les appartements</span>
-            <span data-bilingual-ar hidden>عرض الشقق</span>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="bg-white section">
-      <div class="container-rzg" data-reveal-group>
-        <h2 class="fusion-h2 reveal-fusion">
-          <span data-bilingual-fr>Des finitions soignées, livrées prêtes à vivre</span>
-          <span data-bilingual-ar hidden>تشطيبات متقنة، جاهزة للسكن</span>
-        </h2>
-        <p class="fusion-lead fusion-lead--wide text-foret/70 reveal-fusion">
-          <span data-bilingual-fr>
-            Les appartements sont livrés avec des matériaux choisis pour durer et rester faciles à entretenir : sols en céramique ou parquet stratifié, menuiseries aluminium, volets roulants motorisés et sanitaires de marque.
-          </span>
-          <span data-bilingual-ar hidden>
-            تُسلَّم الشقق بمواد مختارة لتدوم ويسهل صيانتها: سيراميك أو باركيه، نجارة ألومنيوم، ستائر كهربائية وتجهيزات صحية ذات علامة.
-          </span>
-        </p>
-        <p class="fusion-lead fusion-lead--wide text-foret/70 reveal-fusion">
-          <span data-bilingual-fr>
-            Chaque salle de bain est équipée d’une douche à l’italienne. Les faux plafonds et l’éclairage sont intégrés dès la livraison.
-          </span>
-          <span data-bilingual-ar hidden>
-            كل حمام مجهّز بدش إيطالي. الأسقف المعلقة والإضاءة مدمجة منذ التسليم.
-          </span>
-        </p>
-        <ul class="fusion-spec">
-          {finishes.map((item) => (
-            <li class="reveal-fusion">
-              <span data-bilingual-fr>{item.fr}</span>
-              <span data-bilingual-ar hidden>{item.ar}</span>
-            </li>
-          ))}
-        </ul>
-        <a href={`${routes.appartements()}#finitions`} class="link-line mt-8 inline-flex text-sm font-medium text-gold reveal-fusion">
-          <span data-bilingual-fr>Voir le détail des finitions</span>
-          <span data-bilingual-ar hidden>تفاصيل التشطيبات</span>
+        <a href={routes.projet()} class="hm-link reveal-fusion">
+          <Bi fr="Découvrir le projet en détail" ar="اكتشفوا المشروع بالتفصيل" />
+          <span aria-hidden="true">→</span>
         </a>
       </div>
     </section>
 
-    <section class="fusion-sticky-scene">
-      <div class="fusion-sticky-scene__pin" aria-hidden="true">
-        <img src={withBase('/gallery/render-8.jpg')} alt="" />
-        <div class="fusion-sticky-scene__veil"></div>
-      </div>
-      <div class="fusion-sticky-scene__body text-creme" data-reveal-group>
-        <p class="fusion-eyebrow reveal-fusion">
-          <span data-bilingual-fr>Commerces</span>
-          <span data-bilingual-ar hidden>المحلات</span>
-        </p>
-        <h2 class="fusion-h2 text-creme reveal-fusion">
-          <span data-bilingual-fr>49 fonds de commerce en rez-de-chaussée</span>
-          <span data-bilingual-ar hidden>49 محلاً تجارياً في الطابق الأرضي</span>
-        </h2>
-        <p class="fusion-lead fusion-lead--wide text-creme/85 reveal-fusion">
-          <span data-bilingual-fr>
-            La première tranche compte 49 locaux commerciaux, de 13 à 30 m², en rez-de-chaussée sur l’Avenue Mohammed VI.
-          </span>
-          <span data-bilingual-ar hidden>
-            المرحلة الأولى تضم 49 محلاً تجارياً، من 13 إلى 30 م²، في الطابق الأرضي على شارع محمد السادس.
-          </span>
-        </p>
-        <p class="fusion-lead fusion-lead--wide text-creme/85 reveal-fusion">
-          <span data-bilingual-fr>
-            Le terrain donne sur trois voies, dont un axe principal au sud : les locaux bénéficient d’une vraie visibilité.
-          </span>
-          <span data-bilingual-ar hidden>
-            تطل القطعة على ثلاثة طرق، منها محور رئيسي جنوباً: للمحلات رؤية حقيقية.
-          </span>
-        </p>
-
-        <div class="fusion-commerce-cards">
-          <article class="fusion-commerce-card reveal-fusion">
-            <p class="fusion-commerce-card__n num-ltr">49</p>
-            <p class="fusion-commerce-card__label">
-              <span data-bilingual-fr>lots</span>
-              <span data-bilingual-ar hidden>محلاً</span>
-            </p>
-            <p class="fusion-commerce-card__hint">
-              <span data-bilingual-fr>en rez-de-chaussée</span>
-              <span data-bilingual-ar hidden>في الطابق الأرضي</span>
-            </p>
-          </article>
-          <article class="fusion-commerce-card reveal-fusion">
-            <p class="fusion-commerce-card__n">13–30</p>
-            <p class="fusion-commerce-card__label">
-              <span data-bilingual-fr>m²</span>
-              <span data-bilingual-ar hidden>م²</span>
-            </p>
-            <p class="fusion-commerce-card__hint">
-              <span data-bilingual-fr>surfaces disponibles</span>
-              <span data-bilingual-ar hidden>مساحات متاحة</span>
-            </p>
-          </article>
-          <article class="fusion-commerce-card reveal-fusion">
-            <p class="fusion-commerce-card__n num-ltr">15 000</p>
-            <p class="fusion-commerce-card__label">
-              <span data-bilingual-fr>DH / m²</span>
-              <span data-bilingual-ar hidden>درهم / م²</span>
-            </p>
-            <p class="fusion-commerce-card__hint">
-              <span data-bilingual-fr>à partir de</span>
-              <span data-bilingual-ar hidden>ابتداءً من</span>
-            </p>
-          </article>
+    <!-- 5 · Pourquoi ici -->
+    <section class="hm-why hm-section hm-section--dark">
+      <div class="hm-wrap">
+        <div class="hm-head hm-head--center" data-reveal-group>
+          <p class="hm-eyebrow reveal-fusion"><Bi fr="Pourquoi ici" ar="لماذا هنا" /></p>
+          <h2 class="hm-h2 hm-h2--light reveal-fusion">
+            <Bi fr="Quatre raisons de choisir Riyad Zaer Gardens" ar="أربعة أسباب لاختيار رياض زعير غاردنز" />
+          </h2>
         </div>
-
-        <div class="fusion-sticky-scene__cta reveal-fusion">
-          <a href={routes.commerce()} class="btn btn-solid">
-            <span data-bilingual-fr>Voir les fonds de commerce</span>
-            <span data-bilingual-ar hidden>عرض المحلات</span>
-          </a>
-        </div>
+        <ol class="hm-why__grid" data-reveal-group>
+          {reasons.map((r, i) => (
+            <li class="hm-why__item reveal-fusion">
+              <span class="hm-why__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <h3><Bi fr={r.titleFr} ar={r.titleAr} /></h3>
+              <p><Bi fr={r.bodyFr} ar={r.bodyAr} /></p>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
 
-    <section class="bg-foret text-creme">
-      <div class="container-rzg section fusion-aid" data-reveal-group>
-        <h2 class="fusion-h2 text-creme reveal-fusion">
-          <span data-bilingual-fr>Un projet éligible à l’aide au logement</span>
-          <span data-bilingual-ar hidden>مشروع مؤهل لدعم السكن</span>
-        </h2>
-        <p class="fusion-lead fusion-lead--wide text-creme/78 reveal-fusion">
-          <span data-bilingual-fr>
-            Riyad Zaer Gardens est éligible au programme d’aide au logement de l’État. Les surfaces et les prix des appartements ont été conçus dès le départ pour répondre aux conditions du programme.
-          </span>
-          <span data-bilingual-ar hidden>
-            رياض زائر غاردنز مؤهل لبرنامج دعم السكن. صُممت مساحات وأثمان الشقق منذ البداية لتلبية شروط البرنامج.
-          </span>
-        </p>
-        <p class="mt-4 text-sm leading-relaxed text-creme/70 reveal-fusion">
-          <span data-bilingual-fr>
-            Concrètement, cela change le prix d’entrée : selon votre situation, un appartement peut démarrer à <span class="num-ltr">{site.priceWithAid}</span> au lieu de <span class="num-ltr">{site.priceFrom}</span>. L’éligibilité dépend de votre situation personnelle. Nos conseillers la vérifient avec vous, gratuitement et sans engagement.
-          </span>
-          <span data-bilingual-ar hidden>
-            عملياً، يتغير ثمن الدخول: حسب وضعيتكم، يمكن أن تبدأ الشقة من <span class="num-ltr">{site.priceWithAid}</span> بدل <span class="num-ltr">{site.priceFrom}</span>. الأهلية شخصية. يتحقق منها مستشارونا مجاناً ودون التزام.
-          </span>
-        </p>
-        <div class="fusion-aid__prices">
-          <div class="card-dark text-pair reveal-fusion">
-            <p class="pair-label">
-              <span data-bilingual-fr>Sans aide</span>
-              <span data-bilingual-ar hidden>بدون دعم</span>
-            </p>
-            <p class="pair-value">
-              <span data-bilingual-fr>à partir de <span class="num-ltr">{site.priceFrom}</span></span>
-              <span data-bilingual-ar hidden>ابتداءً من <span class="num-ltr">{site.priceFrom}</span></span>
-            </p>
-          </div>
-          <div class="card-dark text-pair reveal-fusion">
-            <p class="pair-label">
-              <span data-bilingual-fr>Avec l’aide au logement</span>
-              <span data-bilingual-ar hidden>مع دعم السكن</span>
-            </p>
-            <p class="pair-value">
-              <span data-bilingual-fr>à partir de <span class="num-ltr">{site.priceWithAid}</span></span>
-              <span data-bilingual-ar hidden>ابتداءً من <span class="num-ltr">{site.priceWithAid}</span></span>
-            </p>
-          </div>
+    <!-- 6 · Appartements -->
+    <section class="hm-homes hm-section" id="appartements">
+      <div class="hm-wrap">
+        <div class="hm-head" data-reveal-group>
+          <p class="hm-eyebrow hm-eyebrow--ink reveal-fusion"><Bi fr="Appartements" ar="الشقق" /></p>
+          <h2 class="hm-h2 reveal-fusion">
+            <Bi fr="Des appartements F3 et F4 de 65 à 86 m<sup>2</sup>" ar="شقق F3 و F4 من 65 إلى 86 م<sup>2</sup>" />
+          </h2>
+          <p class="hm-lead reveal-fusion">
+            <Bi
+              fr="Des surfaces faciles à vivre, pour un premier achat comme pour louer. Livrés finis, avec balcon ou terrasse selon le lot."
+              ar="مساحات مريحة للعيش، لأول شراء أو للكراء. تُسلَّم منتهية، مع شرفة أو تراس حسب الوحدة."
+            />
+          </p>
         </div>
-        <div class="fusion-center-cta reveal-fusion">
-          <a href={routes.contact()} class="btn btn-solid">
-            <span data-bilingual-fr>Vérifier mon éligibilité</span>
-            <span data-bilingual-ar hidden>تحققوا من أهليتي</span>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="fusion-sticky-scene fusion-ways-scene">
-      <div class="fusion-sticky-scene__pin" aria-hidden="true">
-        <img src={withBase('/gallery/render-1.jpg')} alt="" data-ways-parallax-img />
-        <div class="fusion-sticky-scene__veil fusion-ways-scene__veil"></div>
-      </div>
-      <div class="fusion-sticky-scene__body text-creme" data-reveal-group>
-        <p class="fusion-eyebrow reveal-fusion">
-          <span data-bilingual-fr>Votre intention</span>
-          <span data-bilingual-ar hidden>نيتكم</span>
-        </p>
-        <h2 class="fusion-h2 text-creme reveal-fusion">
-          <span data-bilingual-fr>Trois façons d’être à Riyad Zaer Gardens</span>
-          <span data-bilingual-ar hidden>ثلاث طرق للوجود في رياض زائر غاردنز</span>
-        </h2>
-        <p class="fusion-lead fusion-lead--wide text-creme/85 reveal-fusion">
-          <span data-bilingual-fr>Habiter, investir ou garder un pied-à-terre — trois intentions, un même niveau de finition.</span>
-          <span data-bilingual-ar hidden>للسكن أو الاستثمار أو الاحتفاظ بموطئ قدم — ثلاث نوايا، ونفس مستوى التشطيب.</span>
-        </p>
-        <div class="fusion-ways">
-          {waysToBe.map((item, i) => (
-            <article class="fusion-way reveal-fusion" style={`--way-i: ${i}`} data-parallax-depth={0.08 + i * 0.05}>
-              <span class="fusion-way__n num-ltr">{String(i + 1).padStart(2, '0')}</span>
-              <span class="fusion-way__mark" aria-hidden="true"></span>
-              <h3 class="fusion-way__title">
-                <span data-bilingual-fr>{item.titleFr}</span>
-                <span data-bilingual-ar hidden>{item.titleAr}</span>
-              </h3>
-              <p class="fusion-way__body">
-                <span data-bilingual-fr>{item.bodyFr}</span>
-                <span data-bilingual-ar hidden>{item.bodyAr}</span>
-              </p>
+        <div class="hm-homes__grid" data-reveal-group>
+          {homes.map((t) => (
+            <article class="hm-home reveal-fusion">
+              <div class="hm-home__img">
+                <img src={t.image} alt={t.titleFr} loading="lazy" />
+                <span class="hm-home__tag"><Bi fr={t.labelFr} ar={t.labelAr} /></span>
+              </div>
+              <div class="hm-home__body">
+                <h3><Bi fr={t.titleFr} ar={t.titleAr} /></h3>
+                <ul class="hm-home__specs">
+                  <li><Bi fr={t.surfaceFr} ar={t.surfaceAr} /></li>
+                  <li><Bi fr={t.roomsFr} ar={t.roomsAr} /></li>
+                  <li><Bi fr={t.bathsFr} ar={t.bathsAr} /></li>
+                </ul>
+                <p class="hm-home__text"><Bi fr={t.bodyFr} ar={t.bodyAr} /></p>
+                <div class="hm-home__foot">
+                  <p class="hm-home__price">
+                    <span class="hm-home__price-label"><Bi fr="à partir de" ar="ابتداءً من" /></span>
+                    <strong class="num-ltr">{site.priceFrom}</strong>
+                  </p>
+                  <a href={contactWith(t.id)} class="hm-link hm-link--tight">
+                    <Bi fr="Être rappelé" ar="اطلبوا اتصالاً" />
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </div>
             </article>
           ))}
         </div>
-      </div>
-    </section>
-
-    <section class="fusion-split fusion-split--map bg-creme">
-      <div class="fusion-pane" data-reveal-group>
-        <h2 class="fusion-h2 reveal-fusion">
-          <span data-bilingual-fr>Km 25, Avenue Mohammed VI</span>
-          <span data-bilingual-ar hidden>الكلم 25، شارع محمد السادس</span>
-        </h2>
-        <p class="fusion-lead fusion-lead--wide text-foret/70 reveal-fusion">
-          <span data-bilingual-fr>
-            Le projet se situe à Aïn Aouda, sur l’Avenue Mohammed VI, à 20 minutes de Rabat par l’autoroute. Une pharmacie, un cabinet vétérinaire et des commerces de proximité sont déjà installés dans le quartier.
-          </span>
-          <span data-bilingual-ar hidden>
-            يقع المشروع في عين عودة، على شارع محمد السادس، على بعد 20 دقيقة من الرباط عبر الطريق السيار. صيدلية وعيادة بيطرية ومحلات قرب موجودة سلفاً في الحي.
-          </span>
-        </p>
-        <a href={routes.localisation()} class="btn btn-solid mt-8 reveal-fusion">
-          <span data-bilingual-fr>Voir la localisation</span>
-          <span data-bilingual-ar hidden>عرض الموقع</span>
-        </a>
-      </div>
-      <div class="fusion-media fusion-media--map" data-media-reveal>
-        <iframe title="Riyad Zaer Gardens — Aïn Aouda" src={routes.mapsEmbed} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div>
-    </section>
-
-    <section class="gallery-arc-block" data-film-gallery data-gallery-parallax>
-      <div class="film-popup" data-film-preview aria-hidden="true">
-        <img data-film-a alt="" />
-        <img data-film-b alt="" />
-      </div>
-      <div class="gallery-arc-block__intro" data-reveal-group>
-        <p class="fusion-eyebrow reveal-fusion">
-          <span data-bilingual-fr>Galerie</span>
-          <span data-bilingual-ar hidden>المعرض</span>
-        </p>
-        <h2 class="fusion-h2 text-creme reveal-fusion">
-          <span data-bilingual-fr>Le projet en images</span>
-          <span data-bilingual-ar hidden>المشروع بالصور</span>
-        </h2>
-      </div>
-      <div class="gallery-arc gallery-arc--top" aria-hidden="true">
-        <div class="gallery-arc__fade gallery-arc__fade--start"></div>
-        <div class="gallery-arc__fade gallery-arc__fade--end"></div>
-        <div class="gallery-arc__wheel gallery-arc__wheel--left" style="--count: 28">
-          {Array.from({ length: 28 }, (_, i) => {
-            const img = galleryImages[i % galleryImages.length];
-            return (
-              <div class="gallery-arc__slot" style={`--i: ${i}`}>
-                <img src={img.src} alt="" data-film-i={i % galleryImages.length} />
-              </div>
-            );
-          })}
+        <div class="hm-homes__more reveal-fusion">
+          <a href={routes.appartements()} class="hm-btn hm-btn--ink">
+            <Bi fr="Voir les appartements" ar="عرض الشقق" />
+            <span class="hm-btn__arrow" aria-hidden="true"></span>
+          </a>
         </div>
       </div>
+    </section>
 
-      <ConversionBlock />
+    <!-- 7 · Finitions -->
+    <section class="hm-finish hm-section hm-section--paper">
+      <div class="hm-wrap hm-finish__grid">
+        <div class="hm-head" data-reveal-group>
+          <p class="hm-eyebrow hm-eyebrow--ink reveal-fusion"><Bi fr="Les finitions" ar="التشطيبات" /></p>
+          <h2 class="hm-h2 reveal-fusion">
+            <Bi fr="Des finitions soignées, livrées prêtes à vivre" ar="تشطيبات متقنة، جاهزة للسكن" />
+          </h2>
+          <p class="hm-lead reveal-fusion">
+            <Bi
+              fr="Des matériaux choisis pour durer et rester faciles à entretenir. Faux plafonds et éclairage sont intégrés dès la livraison."
+              ar="مواد مختارة لتدوم وتسهل صيانتها. الأسقف المعلقة والإضاءة مدمجة منذ التسليم."
+            />
+          </p>
+          <a href={`${routes.appartements()}#finitions`} class="hm-link reveal-fusion">
+            <Bi fr="Voir le détail des finitions" ar="تفاصيل التشطيبات" />
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+        <ul class="hm-finish__list" data-reveal-group>
+          {finishBlocks.map((f) => (
+            <li class="hm-finish__item reveal-fusion">
+              <h3><Bi fr={f.frTitle} ar={f.arTitle} /></h3>
+              <p><Bi fr={f.frText} ar={f.arText} /></p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- 8 · Fonds de commerce -->
+    <section class="hm-shop">
+      <div class="hm-media hm-shop__media" data-media-reveal>
+        <img data-parallax="0.05" src={shop.image} alt="Fonds de commerce en rez-de-chaussée, Avenue Mohammed VI" loading="lazy" />
+      </div>
+      <div class="hm-shop__text" data-reveal-group>
+        <p class="hm-eyebrow reveal-fusion"><Bi fr="Fonds de commerce" ar="المحلات التجارية" /></p>
+        <h2 class="hm-h2 hm-h2--light reveal-fusion">
+          <Bi fr="49 fonds de commerce en rez-de-chaussée" ar="49 محلاً تجارياً في الطابق الأرضي" />
+        </h2>
+        <p class="hm-body hm-body--light reveal-fusion">
+          <Bi
+            fr="Le terrain donne sur trois voies, dont un axe principal au sud : les locaux bénéficient d’une vraie visibilité."
+            ar="يطل العقار على ثلاث طرق، منها محور رئيسي جنوباً: تتمتع المحلات برؤية حقيقية."
+          />
+        </p>
+        <dl class="hm-facts reveal-fusion">
+          <div>
+            <dt><Bi fr="Lots" ar="الوحدات" /></dt>
+            <dd class="num-ltr">49</dd>
+          </div>
+          <div>
+            <dt><Bi fr="Surfaces" ar="المساحات" /></dt>
+            <dd><Bi fr={shop.surfaceFr} ar={shop.surfaceAr} /></dd>
+          </div>
+          <div>
+            <dt><Bi fr="Prix" ar="السعر" /></dt>
+            <dd><Bi fr={shop.priceFr} ar={shop.priceAr} /></dd>
+          </div>
+        </dl>
+        <a href={routes.commerce()} class="hm-btn hm-btn--gold reveal-fusion">
+          <Bi fr="Voir les fonds de commerce" ar="عرض المحلات التجارية" />
+          <span class="hm-btn__arrow" aria-hidden="true"></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 9 · Aide au logement -->
+    <section class="hm-aid hm-section hm-section--dark" id="aide">
+      <div class="hm-wrap hm-aid__grid">
+        <div class="hm-aid__text" data-reveal-group>
+          <p class="hm-eyebrow reveal-fusion"><Bi fr="Aide au logement" ar="دعم السكن" /></p>
+          <h2 class="hm-h2 hm-h2--light reveal-fusion">
+            <Bi fr="Un projet éligible à l’aide au logement" ar="مشروع مؤهل لدعم السكن" />
+          </h2>
+          <p class="hm-body hm-body--light reveal-fusion">
+            <Bi
+              fr="Les surfaces et les prix ont été conçus dès le départ pour répondre aux conditions du programme. L’éligibilité dépend de votre situation : nos conseillers la vérifient avec vous, gratuitement et sans engagement."
+              ar="صُمّمت المساحات والأثمان منذ البداية لتلبية شروط البرنامج. الأهلية تتوقف على وضعيتكم: يتحقق مستشارونا منها معكم مجاناً ودون أي التزام."
+            />
+          </p>
+          <ol class="hm-steps reveal-fusion">
+            {aidSteps.map((s) => (
+              <li><Bi fr={s.fr} ar={s.ar} /></li>
+            ))}
+          </ol>
+        </div>
+        <div class="hm-aid__card reveal-fusion">
+          <div class="hm-aid__row">
+            <span><Bi fr="Sans aide" ar="بدون دعم" /></span>
+            <strong class="num-ltr">{site.priceFrom}</strong>
+          </div>
+          <div class="hm-aid__row hm-aid__row--gold">
+            <span><Bi fr="Avec l’aide au logement" ar="مع دعم السكن" /></span>
+            <strong class="num-ltr">{site.priceWithAid}</strong>
+          </div>
+          <p class="hm-aid__note">
+            <Bi fr="Prix d’appel d’un appartement, à partir de." ar="سعر ابتدائي لشقة، ابتداءً من." />
+          </p>
+          <a href={contactWith('f3')} class="hm-btn hm-btn--gold">
+            <Bi fr="Vérifier mon éligibilité" ar="تحققوا من أهليتي" />
+            <span class="hm-btn__arrow" aria-hidden="true"></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 · Trois façons d'y être -->
+    <section class="hm-ways hm-section">
+      <div class="hm-wrap">
+        <div class="hm-head hm-head--center" data-reveal-group>
+          <h2 class="hm-h2 reveal-fusion">
+            <Bi fr="Trois façons d’être à Riyad Zaer Gardens" ar="ثلاث طرق لتكونوا في رياض زعير غاردنز" />
+          </h2>
+        </div>
+        <ul class="hm-ways__grid" data-reveal-group>
+          {waysToBe.map((w) => (
+            <li class="hm-way reveal-fusion">
+              <h3><Bi fr={w.titleFr} ar={w.titleAr} /></h3>
+              <p><Bi fr={w.bodyFr} ar={w.bodyAr} /></p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- 11 · Galerie -->
+    <section class="hm-gallery" data-lightbox data-reveal-group aria-label="Galerie">
+      {gallery.map((img, i) => (
+        <button type="button" class={`hm-gallery__item hm-gallery__item--${i + 1} reveal-fusion`} data-lightbox-item data-src={img.src} data-alt={img.altFr}>
+          <img src={img.src} alt={img.altFr} loading="lazy" />
+        </button>
+      ))}
+    </section>
+
+    <!-- 12 · Localisation -->
+    <section class="hm-place">
+      <div class="hm-place__text" data-reveal-group>
+        <p class="hm-eyebrow hm-eyebrow--ink reveal-fusion"><Bi fr="Localisation" ar="الموقع" /></p>
+        <h2 class="hm-h2 reveal-fusion"><Bi fr="Km 25, Avenue Mohammed VI" ar="الكلم 25، شارع محمد السادس" /></h2>
+        <p class="hm-body reveal-fusion">
+          <Bi
+            fr="À Aïn Aouda, à 20 minutes de Rabat par l’autoroute. Une pharmacie, un cabinet vétérinaire et des commerces de proximité sont déjà installés dans le quartier."
+            ar="في عين عودة، على بعد 20 دقيقة من الرباط عبر الطريق السيار. صيدلية وعيادة بيطرية ومحلات قريبة موجودة بالفعل في الحي."
+          />
+        </p>
+        <ul class="hm-checks hm-checks--ink reveal-fusion">
+          {accessPoints.map((a) => (
+            <li><Bi fr={a.fr} ar={a.ar} /></li>
+          ))}
+        </ul>
+        <a href={routes.localisation()} class="hm-link reveal-fusion">
+          <Bi fr="Voir la localisation" ar="عرض الموقع" />
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+      <div class="hm-place__map hm-media" data-media-reveal>
+        <iframe title="Carte — Riyad Zaer Gardens" src={routes.mapsEmbed} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </section>
+
+    <!-- 13 · Conversion -->
+    <section class="hm-cta hm-section hm-section--dark" id="contact">
+      <div class="hm-wrap hm-cta__grid">
+        <div class="hm-cta__text" data-reveal-group>
+          <p class="hm-eyebrow reveal-fusion"><Bi fr="Contact" ar="تواصل" /></p>
+          <h2 class="hm-h2 hm-h2--light reveal-fusion"><Bi fr="Parlons de votre projet" ar="لنتحدث عن مشروعكم" /></h2>
+          <p class="hm-body hm-body--light reveal-fusion">
+            <Bi
+              fr="Laissez-nous vos coordonnées. Un conseiller vous rappelle pour répondre à vos questions et vous transmettre la brochure du projet."
+              ar="اتركوا لنا بياناتكم. يتصل بكم مستشار للإجابة عن أسئلتكم وإرسال كتيّب المشروع."
+            />
+          </p>
+          <div class="hm-actions reveal-fusion">
+            <a href={site.whatsapp} target="_blank" rel="noopener" class="hm-btn hm-btn--ghost">
+              <Bi fr="Écrire sur WhatsApp" ar="راسلونا على واتساب" />
+            </a>
+            <a href={`tel:${site.phoneTel}`} class="hm-btn hm-btn--ghost">
+              <span class="num-ltr">{site.phone}</span>
+            </a>
+          </div>
+        </div>
+        <div class="hm-cta__form reveal-fusion">
+          <ContactForm />
+        </div>
+      </div>
     </section>
   </div>
 </PageLayout>

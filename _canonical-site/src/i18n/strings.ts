@@ -65,7 +65,7 @@ export const strings = {
     footer_info: 'معلومات',
     footer_join: 'تواصلوا معنا',
     footer_address: 'الكلم 25، شارع محمد السادس، الرباط — عين عودة',
-    footer_rights: '© 2026 رياض زائر غاردنز — by La Manoussa. جميع الحقوق محفوظة.',
+    footer_rights: '© 2026 رياض زعير غاردنز — by La Manoussa. جميع الحقوق محفوظة.',
     footer_aid: 'مشروع مؤهل لدعم السكن.',
     footer_legal: 'إشارات قانونية',
     footer_privacy: 'سياسة الخصوصية',

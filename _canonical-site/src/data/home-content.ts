@@ -1,12 +1,27 @@
 import { site } from './site';
 
+export const proofPoints = [
+  { fr: 'Appartements F3 et F4', ar: 'شقق F3 و F4' },
+  { fr: 'De 65 à 86 m²', ar: 'من 65 إلى 86 م²' },
+  { fr: 'Dès 420 000 DH', ar: 'ابتداءً من 420 000 درهم' },
+  { fr: 'Éligible à l’aide au logement', ar: 'مؤهل لدعم السكن' },
+  { fr: 'Parking en sous-sol', ar: 'موقف تحت الأرض' },
+  { fr: 'Livraison septembre 2028', ar: 'التسليم شتنبر 2028' },
+] as const;
+
+export const keyFigures = [
+  { value: site.buildings, fr: 'immeubles', ar: 'عمارات' },
+  { value: site.apartments, fr: 'appartements', ar: 'شقة' },
+  { value: site.commercial, fr: 'fonds de commerce', ar: 'محلاً تجارياً' },
+] as const;
+
 export const poleUrban = {
   titleFr: 'Un nouveau pôle urbain à l\'entrée de Rabat',
   titleAr: 'قطب حضري جديد عند مدخل الرباط',
   bodyFr:
     'Riyad Zaer Gardens structure un quartier complet : logements finis, commerces de proximité, espaces verts et circulation apaisée. Tranche 1 : 9 immeubles, 120 appartements et 49 fonds de commerce.',
   bodyAr:
-    'رياد زاير غاردنز يؤسس حياً متكاملاً: سكن منتهٍ، محلات، مساحات خضراء وتنقل هادئ. الطابق 1: 9 عمارات، 120 شقة و 49 محلاً تجارياً.',
+    'رياض زعير غاردنز يؤسس حياً متكاملاً: سكن منتهٍ، محلات، مساحات خضراء وتنقل هادئ. الطابق 1: 9 عمارات، 120 شقة و 49 محلاً تجارياً.',
 } as const;
 
 export const accessPoints = [
@@ -53,11 +68,11 @@ export const visitInfo = {
 export const typologyDetails = [
   {
     specsFr: ['2 chambres + séjour', 'Cuisine ouverte', 'Finitions eco+', 'Ascenseur'],
-    specsAr: ['غرفتان + صالón', 'مطبخ مفتوح', 'تشطيبات eco+', 'مصعد'],
+    specsAr: ['غرفتان + صالون', 'مطبخ مفتوح', 'تشطيبات eco+', 'مصعد'],
   },
   {
     specsFr: ['3 chambres + séjour', 'Volumes familiaux', 'Jusqu\'à 86 m²', 'Ascenseur'],
-    specsAr: ['3 غرف + صالón', 'مساحات عائلية', 'حتى 86 م²', 'مصعد'],
+    specsAr: ['3 غرف + صالون', 'مساحات عائلية', 'حتى 86 م²', 'مصعد'],
   },
   {
     specsFr: ['Rez-de-chaussée', '13 – 30 m²', 'Flux piéton du pôle', 'Investissement locatif'],

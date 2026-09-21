@@ -88,7 +88,7 @@ const apiUrl = import.meta.env.PUBLIC_API_URL ?? 'http://127.0.0.1:8000';
           `Bonjour, je suis ${payload.name}. Tél: ${payload.phone}. Projet: ${payload.interest || 'renseignement'}. ${payload.message}`,
         );
         if (wa) window.open(`${wa}?text=${text}`, '_blank', 'noopener');
-        window.location.href = merci;
+        window.location.href = `${merci}?via=whatsapp`;
       }
     });
   });

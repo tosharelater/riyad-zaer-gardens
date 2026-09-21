@@ -12,18 +12,38 @@ import { routes } from '../lib/routes';
   <div class="fusion-page" data-fusion-page>
     <section class="flex min-h-[80svh] items-center bg-foret text-creme">
       <div class="container-rzg max-w-2xl py-28" data-reveal-group>
-        <h1 class="fusion-h1 reveal-fusion">
-          <span data-bilingual-fr>Merci, votre demande est bien enregistrée</span>
-          <span data-bilingual-ar hidden>شكراً، سُجّل طلبكم</span>
-        </h1>
-        <p class="fusion-lead fusion-lead--wide text-creme/78 reveal-fusion">
-          <span data-bilingual-fr>
-            Un conseiller vous rappelle au plus vite pour répondre à vos questions et vous transmettre la brochure du projet.
-          </span>
-          <span data-bilingual-ar hidden>
-            يتصل بكم مستشار في أقرب وقت للإجابة عن أسئلتكم وإرسال كتيب المشروع.
-          </span>
-        </p>
+        <div data-merci-saved>
+          <h1 class="fusion-h1 reveal-fusion">
+            <span data-bilingual-fr>Merci, votre demande est bien enregistrée</span>
+            <span data-bilingual-ar hidden>شكراً، سُجّل طلبكم</span>
+          </h1>
+          <p class="fusion-lead fusion-lead--wide text-creme/78 reveal-fusion">
+            <span data-bilingual-fr>
+              Un conseiller vous rappelle au plus vite pour répondre à vos questions et vous transmettre la brochure du projet.
+            </span>
+            <span data-bilingual-ar hidden>
+              يتصل بكم مستشار في أقرب وقت للإجابة عن أسئلتكم وإرسال كتيب المشروع.
+            </span>
+          </p>
+        </div>
+        <div data-merci-whatsapp hidden>
+          <h1 class="fusion-h1 reveal-fusion">
+            <span data-bilingual-fr>Dernière étape : envoyez votre message sur WhatsApp</span>
+            <span data-bilingual-ar hidden>خطوة أخيرة: أرسلوا رسالتكم عبر واتساب</span>
+          </h1>
+          <p class="fusion-lead fusion-lead--wide text-creme/78 reveal-fusion">
+            <span data-bilingual-fr>
+              Votre demande n’a pas pu être enregistrée en ligne. Envoyez le message pré-rempli sur WhatsApp, ou appelez-nous : un conseiller vous répond directement.
+            </span>
+            <span data-bilingual-ar hidden>
+              تعذّر تسجيل طلبكم عبر الموقع. أرسلوا الرسالة الجاهزة عبر واتساب أو اتصلوا بنا: يجيبكم مستشار مباشرة.
+            </span>
+          </p>
+          <a href={site.whatsapp} target="_blank" rel="noopener" class="btn btn-solid mt-6">
+            <span data-bilingual-fr>Ouvrir WhatsApp</span>
+            <span data-bilingual-ar hidden>افتحوا واتساب</span>
+          </a>
+        </div>
         <p class="mt-4 text-sm text-creme/70 reveal-fusion">
           <span data-bilingual-fr>Vous préférez ne pas attendre ? Appelez-nous directement au {site.phone}.</span>
           <span data-bilingual-ar hidden>تفضلون عدم الانتظار؟ اتصلوا مباشرة على {site.phone}.</span>
@@ -42,3 +62,10 @@ import { routes } from '../lib/routes';
     </section>
   </div>
 </PageLayout>
+
+<script>
+  if (new URLSearchParams(location.search).get('via') === 'whatsapp') {
+    document.querySelector('[data-merci-saved]')?.setAttribute('hidden', '');
+    document.querySelector('[data-merci-whatsapp]')?.removeAttribute('hidden');
+  }
+</script>
