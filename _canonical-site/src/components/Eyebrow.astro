@@ -1,0 +1,15 @@
+---
+interface Props {
+  n: number;
+  fr: string;
+  ar: string;
+  ink?: boolean;
+  center?: boolean;
+}
+const { n, fr, ar, ink = false, center = false } = Astro.props;
+const num = String(n).padStart(2, '0');
+---
+<p class:list={['hm-eyebrow reveal-fusion', ink && 'hm-eyebrow--ink', center && 'hm-eyebrow--center']}>
+  <span class="hm-eyebrow__num num-ltr" aria-hidden="true">{num}</span>
+  <span data-bilingual-fr set:html={fr} /><span data-bilingual-ar hidden set:html={ar} />
+</p>

@@ -2,6 +2,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import ContactForm from '../components/ContactForm.astro';
 import Bi from '../components/Bi.astro';
+import Eyebrow from '../components/Eyebrow.astro';
 import { site, galleryImages, typologies, amenities, finishes, reasons, waysToBe } from '../data/site';
 import { proofPoints, keyFigures, accessPoints, aidSteps } from '../data/home-content';
 import { routes } from '../lib/routes';
@@ -80,7 +81,7 @@ const contactWith = (interest: string) => `${routes.contact()}?interest=${intere
     <section class="hm-figures hm-section" id="chiffres">
       <div class="hm-wrap hm-figures__grid">
         <div class="hm-figures__intro" data-reveal-group>
-          <p class="hm-eyebrow hm-eyebrow--ink reveal-fusion"><Bi fr="Tranche 1" ar="المرحلة الأولى" /></p>
+          <Eyebrow n={1} fr="Tranche 1" ar="المرحلة الأولى" ink />
           <h2 class="hm-h2 reveal-fusion"><Bi fr="La première tranche en chiffres" ar="المرحلة الأولى بالأرقام" /></h2>
           <p class="hm-lead reveal-fusion">
             <Bi
@@ -105,8 +106,11 @@ const contactWith = (interest: string) => `${routes.contact()}?interest=${intere
       <div class="hm-media hm-brief__media" data-media-reveal>
         <img data-parallax="0.05" src={withBase('/gallery/render-4.jpg')} alt="Vue aérienne de l’îlot Riyad Zaer Gardens et de son cœur planté" loading="lazy" />
       </div>
+      <div class="hm-media hm-brief__accent" data-media-reveal>
+        <img src={withBase('/gallery/render-2.jpg')} alt="Chambre d’un appartement Riyad Zaer Gardens" loading="lazy" />
+      </div>
       <div class="hm-brief__card" data-reveal-group>
-        <p class="hm-eyebrow reveal-fusion"><Bi fr="Le projet" ar="المشروع" /></p>
+        <Eyebrow n={2} fr="Le projet" ar="المشروع" />
         <h2 class="hm-h2 reveal-fusion">
           <Bi fr="Un quartier complet, pas seulement des immeubles" ar="حيّ متكامل، وليس مجرد عمارات" />
         </h2>
@@ -132,7 +136,7 @@ const contactWith = (interest: string) => `${routes.contact()}?interest=${intere
     <section class="hm-why hm-section hm-section--dark">
       <div class="hm-wrap">
         <div class="hm-head hm-head--center" data-reveal-group>
-          <p class="hm-eyebrow reveal-fusion"><Bi fr="Pourquoi ici" ar="لماذا هنا" /></p>
+          <Eyebrow n={3} fr="Pourquoi ici" ar="لماذا هنا" center />
           <h2 class="hm-h2 hm-h2--light reveal-fusion">
             <Bi fr="Quatre raisons de choisir Riyad Zaer Gardens" ar="أربعة أسباب لاختيار رياض زعير غاردنز" />
           </h2>
@@ -153,7 +157,7 @@ const contactWith = (interest: string) => `${routes.contact()}?interest=${intere
     <section class="hm-homes hm-section" id="appartements">
       <div class="hm-wrap">
         <div class="hm-head" data-reveal-group>
-          <p class="hm-eyebrow hm-eyebrow--ink reveal-fusion"><Bi fr="Appartements" ar="الشقق" /></p>
+          <Eyebrow n={4} fr="Appartements" ar="الشقق" ink />
           <h2 class="hm-h2 reveal-fusion">
             <Bi fr="Des appartements F3 et F4 de 65 à 86 m<sup>2</sup>" ar="شقق F3 و F4 من 65 إلى 86 م<sup>2</sup>" />
           </h2>
@@ -173,11 +177,20 @@ const contactWith = (interest: string) => `${routes.contact()}?interest=${intere
               </div>
               <div class="hm-home__body">
                 <h3><Bi fr={t.titleFr} ar={t.titleAr} /></h3>
-                <ul class="hm-home__specs">
-                  <li><Bi fr={t.surfaceFr} ar={t.surfaceAr} /></li>
-                  <li><Bi fr={t.roomsFr} ar={t.roomsAr} /></li>
-                  <li><Bi fr={t.bathsFr} ar={t.bathsAr} /></li>
-                </ul>
+                <dl class="hm-home__specs">
+                  <div>
+                    <dt><Bi fr="Surface" ar="المساحة" /></dt>
+                    <dd><Bi fr={t.surfaceFr} ar={t.surfaceAr} /></dd>
+                  </div>
+                  <div>
+                    <dt><Bi fr="Chambres" ar="الغرف" /></dt>
+                    <dd><Bi fr={t.roomsFr} ar={t.roomsAr} /></dd>
+                  </div>
+                  <div>
+                    <dt><Bi fr="Salle de bain" ar="الحمام" /></dt>
+                    <dd><Bi fr={t.bathsFr} ar={t.bathsAr} /></dd>
+                  </div>
+                </dl>
                 <p class="hm-home__text"><Bi fr={t.bodyFr} ar={t.bodyAr} /></p>
                 <div class="hm-home__foot">
                   <p class="hm-home__price">
@@ -206,7 +219,7 @@ const contactWith = (interest: string) => `${routes.contact()}?interest=${intere
     <section class="hm-finish hm-section hm-section--paper">
       <div class="hm-wrap hm-finish__grid">
         <div class="hm-head" data-reveal-group>
-          <p class="hm-eyebrow hm-eyebrow--ink reveal-fusion"><Bi fr="Les finitions" ar="التشطيبات" /></p>
+          <Eyebrow n={5} fr="Les finitions" ar="التشطيبات" ink />
           <h2 class="hm-h2 reveal-fusion">
             <Bi fr="Des finitions soignées, livrées prêtes à vivre" ar="تشطيبات متقنة، جاهزة للسكن" />
           </h2>
@@ -238,7 +251,7 @@ const contactWith = (interest: string) => `${routes.contact()}?interest=${intere
         <img data-parallax="0.05" src={shop.image} alt="Fonds de commerce en rez-de-chaussée, Avenue Mohammed VI" loading="lazy" />
       </div>
       <div class="hm-shop__text" data-reveal-group>
-        <p class="hm-eyebrow reveal-fusion"><Bi fr="Fonds de commerce" ar="المحلات التجارية" /></p>
+        <Eyebrow n={6} fr="Fonds de commerce" ar="المحلات التجارية" />
         <h2 class="hm-h2 hm-h2--light reveal-fusion">
           <Bi fr="49 fonds de commerce en rez-de-chaussée" ar="49 محلاً تجارياً في الطابق الأرضي" />
         </h2>
@@ -273,7 +286,7 @@ const contactWith = (interest: string) => `${routes.contact()}?interest=${intere
     <section class="hm-aid hm-section hm-section--dark" id="aide">
       <div class="hm-wrap hm-aid__grid">
         <div class="hm-aid__text" data-reveal-group>
-          <p class="hm-eyebrow reveal-fusion"><Bi fr="Aide au logement" ar="دعم السكن" /></p>
+          <Eyebrow n={7} fr="Aide au logement" ar="دعم السكن" />
           <h2 class="hm-h2 hm-h2--light reveal-fusion">
             <Bi fr="Un projet éligible à l’aide au logement" ar="مشروع مؤهل لدعم السكن" />
           </h2>
@@ -340,7 +353,7 @@ const contactWith = (interest: string) => `${routes.contact()}?interest=${intere
     <!-- 12 · Localisation -->
     <section class="hm-place">
       <div class="hm-place__text" data-reveal-group>
-        <p class="hm-eyebrow hm-eyebrow--ink reveal-fusion"><Bi fr="Localisation" ar="الموقع" /></p>
+        <Eyebrow n={8} fr="Localisation" ar="الموقع" ink />
         <h2 class="hm-h2 reveal-fusion"><Bi fr="Km 25, Avenue Mohammed VI" ar="الكلم 25، شارع محمد السادس" /></h2>
         <p class="hm-body reveal-fusion">
           <Bi
@@ -367,7 +380,7 @@ const contactWith = (interest: string) => `${routes.contact()}?interest=${intere
     <section class="hm-cta hm-section hm-section--dark" id="contact">
       <div class="hm-wrap hm-cta__grid">
         <div class="hm-cta__text" data-reveal-group>
-          <p class="hm-eyebrow reveal-fusion"><Bi fr="Contact" ar="تواصل" /></p>
+          <Eyebrow n={9} fr="Contact" ar="تواصل" />
           <h2 class="hm-h2 hm-h2--light reveal-fusion"><Bi fr="Parlons de votre projet" ar="لنتحدث عن مشروعكم" /></h2>
           <p class="hm-body hm-body--light reveal-fusion">
             <Bi
