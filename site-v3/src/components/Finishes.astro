@@ -1,0 +1,89 @@
+---
+import { finishes } from '../data/home';
+---
+<section class="finishes" id="finitions">
+  <div class="finishes-stage">
+    <div class="finishes-copy wrap">
+      <header data-reveal data-split>
+        <p class="kick">Finitions</p>
+        <h2 class="display">{finishes.h2}</h2>
+      </header>
+      <div data-reveal>
+        <p class="lead">{finishes.p1}</p>
+        <p class="lead">{finishes.p2}</p>
+      </div>
+      <ul class="finishes-points" data-reveal>
+        {finishes.points.map((p) => (
+          <li>
+            <strong>{p.title}</strong>
+            <span>{p.body}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <figure class="finishes-media" data-media data-reveal>
+      <img src={finishes.img} alt="Finitions soignées" loading="lazy" />
+    </figure>
+  </div>
+</section>
+<style>
+  .finishes { background: var(--bg); }
+  .finishes-stage {
+    display: grid;
+    grid-template-columns: 0.95fr 1.05fr;
+    min-height: min(80svh, 46rem);
+  }
+  .finishes-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.75rem;
+    padding-block: clamp(3rem, 7vw, 5rem);
+    width: 100%;
+    max-width: none;
+    padding-inline: clamp(1.5rem, 5vw, 4rem);
+  }
+  .finishes-copy .display { max-width: 16ch; }
+  .finishes-copy .lead:first-child { margin-top: 0; }
+  .finishes-copy .lead + .lead { margin-top: 0.85rem; }
+  .finishes-points {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--line);
+    max-width: 28rem;
+  }
+  .finishes-points li {
+    padding: 1.15rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .finishes-points strong {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+  .finishes-points span { color: var(--muted); line-height: 1.55; }
+  .finishes-media {
+    margin: 0;
+    height: 100%;
+    min-height: 28rem;
+  }
+  .finishes-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  @media (max-width: 960px) {
+    .finishes-stage { grid-template-columns: 1fr; }
+    .finishes-media {
+      min-height: 0;
+      aspect-ratio: 16 / 10;
+      order: -1;
+    }
+    .finishes-copy {
+      padding-inline: var(--pad);
+      width: min(var(--wrap), calc(100% - 2 * var(--pad)));
+      margin-inline: auto;
+    }
+  }
+</style>

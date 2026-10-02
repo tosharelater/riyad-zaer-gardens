@@ -1,0 +1,73 @@
+---
+const shots = [
+  '/gallery/render-5.jpg',
+  '/gallery/render-1.jpg',
+  '/gallery/render-6.jpg',
+  '/gallery/render-12.jpg',
+  '/gallery/render-7.jpg',
+  '/gallery/render-8.jpg',
+  '/gallery/render-4.jpg',
+  '/cinematic/facade.png',
+];
+---
+<section class="gal" aria-label="Galerie">
+  <div class="wrap gal-head" data-reveal>
+    <p class="kick">Galerie</p>
+    <h2 class="display">Le projet, vu de près</h2>
+  </div>
+  <ul class="gal-track" data-gal>
+    {shots.map((src) => (
+      <li><img src={src} alt="" loading="lazy" draggable="false" /></li>
+    ))}
+  </ul>
+</section>
+<style>
+  .gal {
+    padding: clamp(4rem, 8vw, 6rem) 0;
+    overflow: hidden;
+    background: var(--cream);
+  }
+  .gal-head { margin-bottom: 1.75rem; }
+  .gal-track {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0 var(--pad) 0.25rem;
+    scrollbar-width: none;
+    cursor: grab;
+  }
+  .gal-track::-webkit-scrollbar { display: none; }
+  .gal-track li {
+    flex: 0 0 auto;
+    width: min(58vw, 18rem);
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    scroll-snap-align: start;
+  }
+  .gal-track li:nth-child(3n) {
+    aspect-ratio: 5 / 4;
+    width: min(62vw, 22rem);
+  }
+  .gal-track img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+</style>
+<script>
+  const track = document.querySelector<HTMLElement>('[data-gal]');
+  if (track) {
+    let down = false, x = 0, left = 0;
+    track.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      down = true; x = e.clientX; left = track.scrollLeft;
+      track.setPointerCapture(e.pointerId);
+    });
+    track.addEventListener('pointermove', (e) => {
+      if (down) track.scrollLeft = left - (e.clientX - x);
+    });
+    const up = () => { down = false; };
+    track.addEventListener('pointerup', up);
+    track.addEventListener('pointercancel', up);
+  }
+</script>

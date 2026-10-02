@@ -1,0 +1,81 @@
+---
+import { nav } from '../data/home';
+---
+<header class="top" data-top>
+  <a class="top-logo" href="#top" aria-label="Riyad Zaer Gardens">
+    <img class="on-dark" src="/brand/logo-light.png" alt="" width="160" height="104" />
+    <img class="on-light" src="/brand/logo-green.png" alt="" width="160" height="104" />
+  </a>
+  <nav class="top-nav" aria-label="Navigation">
+    {nav.map((l) => <a href={l.href}>{l.label}</a>)}
+  </nav>
+  <a class="btn btn-solid top-cta" href="#contact">Être rappelé</a>
+  <button class="top-menu" type="button" data-menu aria-expanded="false" aria-label="Menu">
+    <span></span><span></span>
+  </button>
+  <div class="top-drawer" data-drawer hidden>
+    {nav.map((l) => <a href={l.href}>{l.label}</a>)}
+    <a class="btn btn-solid" href="#contact">Être rappelé</a>
+  </div>
+</header>
+
+<script>
+  const menu = document.querySelector<HTMLButtonElement>('[data-menu]');
+  const drawer = document.querySelector<HTMLElement>('[data-drawer]');
+  menu?.addEventListener('click', () => {
+    const open = menu.getAttribute('aria-expanded') === 'true';
+    menu.setAttribute('aria-expanded', String(!open));
+    drawer?.toggleAttribute('hidden', open);
+  });
+  drawer?.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => {
+      menu?.setAttribute('aria-expanded', 'false');
+      drawer.setAttribute('hidden', '');
+    }),
+  );
+</script>
+
+<style>
+  .top {
+    position: fixed; inset: 0 0 auto; z-index: 60;
+    display: flex; align-items: center; gap: 1.5rem;
+    height: var(--nav);
+    padding: 0 var(--pad);
+    transition: background 0.35s ease, box-shadow 0.35s ease, color 0.35s ease;
+    color: #f7f2e8;
+  }
+  .top.is-solid {
+    background: rgb(255 255 255 / 0.94);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 1px 0 var(--line);
+    color: var(--ink);
+  }
+  .top-logo img { height: 2.5rem; width: auto; }
+  .top-logo .on-light { display: none; }
+  .top.is-solid .on-light { display: block; }
+  .top.is-solid .on-dark { display: none; }
+  .top-nav { display: flex; gap: clamp(0.85rem, 2vw, 1.75rem); margin-inline-start: auto; }
+  .top-nav a {
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+    opacity: 0.85;
+  }
+  .top-nav a:hover { opacity: 1; color: var(--gold); }
+  .top-cta { min-height: 2.5rem; padding: 0.5rem 1.1rem; font-size: 0.75rem; }
+  .top-menu {
+    display: none; width: 2.5rem; height: 2.5rem;
+    flex-direction: column; justify-content: center; gap: 6px; margin-inline-start: auto;
+  }
+  .top-menu span { display: block; height: 2px; background: currentColor; }
+  .top-drawer {
+    position: absolute; inset: 100% 0 auto;
+    display: flex; flex-direction: column; align-items: center; gap: 1.25rem;
+    padding: 1.75rem; background: #fff; color: var(--ink);
+    border-bottom: 1px solid var(--line);
+  }
+  .top-drawer[hidden] { display: none; }
+  .top-drawer a:not(.btn) { font-size: 1.05rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  @media (max-width: 920px) {
+    .top-nav, .top-cta { display: none; }
+    .top-menu { display: flex; }
+  }
+</style>

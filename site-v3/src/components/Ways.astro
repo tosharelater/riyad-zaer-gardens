@@ -1,0 +1,122 @@
+---
+import { ways } from '../data/home';
+---
+<section class="ways" aria-labelledby="ways-title">
+  <div class="wrap">
+    <header class="ways-head" data-reveal data-split>
+      <p class="kick">Présence</p>
+      <h2 class="display" id="ways-title">{ways.h2}</h2>
+    </header>
+
+    <ol class="ways-list">
+      {ways.items.map((w, i) => (
+        <li>
+          <span class="ways-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <div class="ways-body">
+            <h3>{w.title}</h3>
+            <p>{w.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+<style>
+  .ways {
+    padding: clamp(5rem, 10vw, 8.5rem) 0;
+    background: var(--ink);
+    color: #f7f2e8;
+    overflow: hidden;
+  }
+
+  .ways .kick { color: var(--gold); }
+  .ways .kick::before { background: var(--gold); }
+
+  .ways-head {
+    margin-bottom: clamp(3rem, 6vw, 4.5rem);
+  }
+  .ways-head .display {
+    margin-top: 0.45rem;
+    color: #fff;
+    max-width: none;
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+  }
+
+  .ways-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .ways-list li {
+    position: relative;
+    padding-top: 1.5rem;
+    display: grid;
+    gap: 1.75rem;
+    min-height: 100%;
+  }
+
+  .ways-list li::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 2.75rem;
+    height: 2px;
+    background: var(--gold);
+  }
+
+  .ways-n {
+    font-size: clamp(3.5rem, 7vw, 5.5rem);
+    font-weight: 500;
+    letter-spacing: -0.06em;
+    line-height: 0.85;
+    color: rgb(200 181 104 / 0.28);
+  }
+
+  .ways-body {
+    display: grid;
+    gap: 0.9rem;
+    align-content: start;
+  }
+
+  .ways h3 {
+    font-family: var(--serif);
+    font-size: clamp(2.15rem, 4vw, 3.1rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: #f7f2e8;
+    margin: 0;
+  }
+
+  .ways p {
+    margin: 0;
+    color: rgb(247 242 232 / 0.68);
+    font-size: clamp(0.98rem, 1.3vw, 1.08rem);
+    line-height: 1.65;
+    max-width: 28rem;
+  }
+
+  @media (max-width: 800px) {
+    .ways-list {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .ways-list li {
+      padding: 2rem 0;
+      border-bottom: 1px solid rgb(247 242 232 / 0.12);
+      gap: 1.1rem;
+      grid-template-columns: auto 1fr;
+      align-items: start;
+    }
+    .ways-list li:last-child { border-bottom: 0; }
+    .ways-list li::before { display: none; }
+    .ways-n {
+      font-size: 2.75rem;
+      padding-top: 0.15rem;
+    }
+  }
+</style>

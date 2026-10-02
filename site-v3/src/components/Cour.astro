@@ -1,0 +1,194 @@
+---
+import { reasons } from '../data/home';
+
+const quarters = reasons.items.map((r, i) => ({
+  ...r,
+  n: String(i + 1).padStart(2, '0'),
+  corner: (['tl', 'tr', 'bl', 'br'] as const)[i],
+}));
+---
+<section class="reasons" aria-labelledby="reasons-title">
+  <div class="wrap">
+    <header class="reasons-head" data-reveal data-split>
+      <p class="kick">Pourquoi ici</p>
+      <h2 class="display" id="reasons-title">{reasons.h2}</h2>
+      <p class="lead">{reasons.lead}</p>
+    </header>
+
+    <div class="reasons-orbit" data-reasons-orbit>
+      {quarters.map((r) => (
+        <div class={`reasons-copy is-${r.corner}`} data-reasons-copy>
+          <span class="reasons-n">{r.n}</span>
+          <h3>{r.title}</h3>
+          <p>{r.body}</p>
+        </div>
+      ))}
+      {quarters.map((r) => (
+        <figure class={`reasons-q is-${r.corner}`} data-reasons-q>
+          <img src={r.img} alt="" loading="lazy" />
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .reasons {
+    padding: clamp(4rem, 8vw, 6.5rem) 0;
+    background: #fff;
+    overflow: hidden;
+  }
+  .reasons-head {
+    width: 100%;
+    max-width: none;
+    margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+  }
+  .reasons-head .display {
+    max-width: none;
+  }
+  .reasons-head .lead {
+    max-width: none;
+  }
+
+  .reasons-orbit {
+    --q: clamp(8.5rem, 18vw, 15.5rem);
+    --gap: 0.55rem;
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      var(--q)
+      var(--q)
+      minmax(0, 1fr);
+    grid-template-rows: var(--q) var(--q);
+    gap: var(--gap);
+    align-items: center;
+    max-width: 68rem;
+    margin-inline: auto;
+  }
+
+  .reasons-q {
+    margin: 0;
+    width: var(--q);
+    height: var(--q);
+    overflow: hidden;
+    position: relative;
+  }
+  .reasons-q.is-tl {
+    grid-column: 2;
+    grid-row: 1;
+    border-radius: 100% 0 0 0;
+  }
+  .reasons-q.is-tr {
+    grid-column: 3;
+    grid-row: 1;
+    border-radius: 0 100% 0 0;
+  }
+  .reasons-q.is-bl {
+    grid-column: 2;
+    grid-row: 2;
+    border-radius: 0 0 0 100%;
+  }
+  .reasons-q.is-br {
+    grid-column: 3;
+    grid-row: 2;
+    border-radius: 0 0 100% 0;
+  }
+
+  .reasons-q img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .reasons-q.is-tl img { object-position: 70% 70%; }
+  .reasons-q.is-tr img { object-position: 30% 70%; }
+  .reasons-q.is-bl img { object-position: 70% 30%; }
+  .reasons-q.is-br img { object-position: 30% 30%; }
+
+  .reasons-copy {
+    max-width: 22rem;
+  }
+  .reasons-copy.is-tl {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: end;
+    text-align: right;
+    padding-right: clamp(0.5rem, 1.5vw, 1.25rem);
+  }
+  .reasons-copy.is-tr {
+    grid-column: 4;
+    grid-row: 1;
+    justify-self: start;
+    text-align: left;
+    padding-left: clamp(0.5rem, 1.5vw, 1.25rem);
+  }
+  .reasons-copy.is-bl {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: end;
+    text-align: right;
+    padding-right: clamp(0.5rem, 1.5vw, 1.25rem);
+  }
+  .reasons-copy.is-br {
+    grid-column: 4;
+    grid-row: 2;
+    justify-self: start;
+    text-align: left;
+    padding-left: clamp(0.5rem, 1.5vw, 1.25rem);
+  }
+
+  .reasons-n {
+    display: block;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.45rem;
+  }
+  .reasons-copy h3 {
+    font-family: var(--serif);
+    font-size: clamp(1.15rem, 2vw, 1.45rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin: 0 0 0.4rem;
+    color: var(--ink);
+  }
+  .reasons-copy p {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  @media (max-width: 900px) {
+    .reasons-orbit {
+      --q: clamp(7.25rem, 32vw, 10.5rem);
+      grid-template-columns: var(--q) minmax(0, 1fr);
+      grid-template-rows: repeat(4, auto);
+      gap: 1.35rem 0.9rem;
+      align-items: center;
+    }
+
+    .reasons-q.is-tl { grid-area: 1 / 1; }
+    .reasons-copy.is-tl { grid-area: 1 / 2; }
+
+    .reasons-copy.is-tr { grid-area: 2 / 1; }
+    .reasons-q.is-tr { grid-area: 2 / 2; justify-self: end; }
+
+    .reasons-q.is-bl { grid-area: 3 / 1; }
+    .reasons-copy.is-bl { grid-area: 3 / 2; }
+
+    .reasons-copy.is-br { grid-area: 4 / 1; }
+    .reasons-q.is-br { grid-area: 4 / 2; justify-self: end; }
+
+    .reasons-copy.is-tl,
+    .reasons-copy.is-tr,
+    .reasons-copy.is-bl,
+    .reasons-copy.is-br {
+      justify-self: stretch;
+      text-align: left;
+      padding: 0;
+      max-width: none;
+    }
+  }
+</style>

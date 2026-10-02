@@ -1,0 +1,90 @@
+---
+import { commerce } from '../data/home';
+---
+<section class="commerce" id="commerces">
+  <div class="commerce-stage">
+    <figure class="commerce-media" data-media data-reveal>
+      <img src={commerce.img} alt="" loading="lazy" />
+    </figure>
+    <div class="commerce-panel" data-reveal data-split>
+      <p class="kick">Fonds de commerce</p>
+      <h2 class="display">{commerce.h2}</h2>
+      <p class="lead">{commerce.p1}</p>
+      <p class="lead">{commerce.p2}</p>
+      <dl class="commerce-facts">
+        {commerce.facts.map(([k, v]) => (
+          <div>
+            <dt>{k}</dt>
+            <dd>{v}</dd>
+          </div>
+        ))}
+      </dl>
+      <a class="btn btn-light" href={commerce.cta.href}>{commerce.cta.label}</a>
+    </div>
+  </div>
+</section>
+<style>
+  .commerce-stage {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    min-height: min(85svh, 48rem);
+  }
+  .commerce-media {
+    margin: 0;
+    height: 100%;
+    min-height: 28rem;
+  }
+  .commerce-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .commerce-panel {
+    background: var(--canopy);
+    color: #f7f2e8;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3.5rem);
+  }
+  .commerce .kick { color: var(--gold); }
+  .commerce .kick::before { background: var(--gold); }
+  .commerce .display { color: #fff; max-width: 14ch; }
+  .commerce .lead { color: rgb(247 242 232 / 0.72); }
+  .commerce .lead + .lead { margin-top: 0.85rem; }
+  .commerce-facts {
+    display: grid;
+    gap: 0;
+    margin: 2rem 0 1.75rem;
+    border-top: 1px solid rgb(247 242 232 / 0.16);
+  }
+  .commerce-facts > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.95rem 0;
+    border-bottom: 1px solid rgb(247 242 232 / 0.16);
+  }
+  .commerce-facts dt {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgb(247 242 232 / 0.5);
+  }
+  .commerce-facts dd {
+    font-size: 1.05rem;
+    font-weight: 500;
+    text-align: end;
+  }
+  @media (max-width: 960px) {
+    .commerce-stage {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+    .commerce-media {
+      min-height: 0;
+      aspect-ratio: 16 / 10;
+      order: -1;
+    }
+  }
+</style>

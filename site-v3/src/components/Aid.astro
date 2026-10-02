@@ -1,0 +1,135 @@
+---
+import { aid } from '../data/home';
+---
+<section class="aid" id="aide">
+  <div class="wrap">
+    <header class="aid-head" data-reveal data-split>
+      <p class="kick">Aide au logement</p>
+      <h2 class="display">{aid.h2}</h2>
+    </header>
+
+    <div class="aid-shell">
+      <div class="aid-copy" data-reveal>
+        <p class="lead">{aid.p1}</p>
+        <p class="lead">{aid.p2}</p>
+        <p class="lead">{aid.p3}</p>
+        <a class="btn btn-solid" href={aid.cta.href}>{aid.cta.label}</a>
+      </div>
+
+      <aside class="aid-ticket" data-reveal aria-label="Comparaison de prix">
+        <div class="aid-row is-before">
+          <span>Sans aide</span>
+          <strong>{aid.without}</strong>
+        </div>
+        <div class="aid-delta" aria-hidden="true">
+          <span></span>
+        </div>
+        <div class="aid-row is-after">
+          <span>Avec l’aide au logement</span>
+          <strong>{aid.withAid}</strong>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+<style>
+  .aid {
+    padding: clamp(4.5rem, 9vw, 7.5rem) 0;
+    background: var(--cream);
+  }
+
+  .aid-head {
+    width: 100%;
+    max-width: none;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+  }
+  .aid-head .display {
+    margin-top: 0.4rem;
+    max-width: none;
+  }
+
+  .aid-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
+    gap: clamp(2.5rem, 6vw, 5rem);
+    align-items: end;
+  }
+
+  .aid-copy {
+    max-width: 36rem;
+  }
+  .aid-copy .lead:first-child { margin-top: 0; }
+  .aid-copy .lead + .lead { margin-top: 0.85rem; }
+  .aid-copy .btn { margin-top: 1.75rem; }
+
+  .aid-ticket {
+    display: grid;
+    gap: 0;
+    background: #fff;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  .aid-row span {
+    display: block;
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 0.65rem;
+  }
+
+  .aid-row strong {
+    display: block;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .aid-row.is-before span {
+    color: var(--muted);
+  }
+  .aid-row.is-before strong {
+    font-size: clamp(1.15rem, 2vw, 1.45rem);
+    color: rgb(0 45 45 / 0.45);
+    text-decoration: line-through;
+    text-decoration-color: rgb(0 45 45 / 0.28);
+  }
+
+  .aid-delta {
+    display: grid;
+    place-items: center;
+    padding: 1.15rem 0;
+  }
+  .aid-delta span {
+    display: block;
+    width: 1px;
+    height: 2.25rem;
+    background: linear-gradient(
+      180deg,
+      rgb(0 45 45 / 0.18),
+      var(--gold),
+      rgb(0 45 45 / 0.18)
+    );
+  }
+
+  .aid-row.is-after {
+    background: var(--ink);
+    color: #f7f2e8;
+    margin: 0 calc(-1 * clamp(1.5rem, 3vw, 2.25rem)) calc(-1 * clamp(1.5rem, 3vw, 2.25rem));
+    padding: clamp(1.35rem, 2.8vw, 1.85rem) clamp(1.5rem, 3vw, 2.25rem);
+  }
+  .aid-row.is-after span {
+    color: var(--gold);
+  }
+  .aid-row.is-after strong {
+    font-size: clamp(1.65rem, 3.2vw, 2.35rem);
+    color: #f7f2e8;
+  }
+
+  @media (max-width: 900px) {
+    .aid-shell {
+      grid-template-columns: 1fr;
+      align-items: start;
+      gap: 2.25rem;
+    }
+  }
+</style>

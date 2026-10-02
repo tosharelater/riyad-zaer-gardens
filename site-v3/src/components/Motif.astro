@@ -1,0 +1,63 @@
+---
+---
+<section class="motif" aria-label="Cœur d’îlot">
+  <div class="motif-stage wrap">
+    <div class="motif-copy" data-split>
+      <p class="kick">Cœur d’îlot</p>
+      <h2 class="display">Un cœur d’îlot végétalisé</h2>
+      <p class="lead">
+        Les immeubles s’organisent autour d’une cour centrale plantée, calme et réservée aux résidents. Elle apporte de la lumière et de l’air aux appartements, et de la fraîcheur en été.
+      </p>
+    </div>
+    <div class="motif-3d" data-courtyard>
+      <canvas data-courtyard-canvas></canvas>
+      <div class="motif-ring" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+<style>
+  .motif {
+    position: relative;
+    padding: clamp(3.5rem, 8vw, 6.5rem) 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 75% 45%, rgb(10 61 53 / 0.08), transparent 60%),
+      var(--bg);
+    overflow: clip;
+  }
+  .motif-stage {
+    display: grid;
+    grid-template-columns: 0.95fr 1.05fr;
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: center;
+    min-height: min(62svh, 36rem);
+  }
+  .motif-copy { max-width: 28rem; }
+  .motif-copy .display {
+    margin-top: 0.5rem;
+    font-size: clamp(2rem, 4vw, 3.1rem);
+  }
+  .motif-3d {
+    position: relative;
+    height: min(52svh, 30rem);
+    border: 1px solid var(--line);
+    background:
+      linear-gradient(160deg, rgb(0 45 45 / 0.04), transparent 50%),
+      var(--cream);
+  }
+  .motif-3d canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .motif-ring {
+    position: absolute;
+    inset: 12% 14%;
+    border: 1px solid rgb(200 181 104 / 0.28);
+    pointer-events: none;
+    transform: rotate(2deg);
+  }
+  @media (max-width: 900px) {
+    .motif-stage { grid-template-columns: 1fr; min-height: 0; }
+    .motif-3d { height: min(48svh, 22rem); order: -1; }
+  }
+</style>

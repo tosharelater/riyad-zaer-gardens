@@ -1,0 +1,213 @@
+---
+import { hero } from '../data/home';
+---
+<section class="hero" id="top" data-hero>
+  <div class="hero-media" data-hero-media>
+    <img src="/gen/rz-hero.jpg" alt={hero.alt} fetchpriority="high" />
+  </div>
+
+  <div class="hero-shade" aria-hidden="true"></div>
+
+  <div class="hero-copy wrap" data-split>
+    <p class="hero-brand" data-hero-in>Riyad Zaer Gardens</p>
+    <p class="hero-kicker" data-hero-in>{hero.kicker}</p>
+    <h1 class="hero-title">{hero.h1}</h1>
+    <p class="hero-sub" data-hero-in>{hero.sub}</p>
+    <p class="hero-price" data-hero-in>{hero.price}</p>
+    <div class="hero-actions" data-hero-in>
+      <a class="btn btn-solid" href={hero.primary.href}>{hero.primary.label}</a>
+      <a class="btn btn-light" href={hero.secondary.href}>{hero.secondary.label}</a>
+    </div>
+  </div>
+
+  <a class="hero-scroll" href="#proof" data-hero-in aria-label="Continuer">
+    <span>Scroll</span>
+    <i></i>
+  </a>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    overflow: hidden;
+    isolation: isolate;
+    text-align: center;
+  }
+
+  .hero-media {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+  .hero-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    will-change: transform;
+    transform: scale(1.06);
+  }
+  :global(html:not(.intro-lock)) .hero-media img {
+    animation: hero-settle 2.4s var(--ease) both;
+  }
+
+  .hero-shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 70% 65% at 50% 50%, rgb(0 18 18 / 0.35), rgb(0 10 10 / 0.72) 70%),
+      linear-gradient(to top, rgb(0 0 0 / 0.5) 0%, transparent 42%);
+  }
+
+  .hero-copy {
+    position: relative;
+    z-index: 1;
+    width: min(52rem, calc(100% - 2 * var(--pad)));
+    margin-inline: auto;
+    padding-block: calc(var(--nav) + 0.5rem) 4.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .hero-brand {
+    font-family: var(--serif);
+    font-size: clamp(2.4rem, 7vw, 5.5rem);
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    max-width: 16ch;
+    text-align: center;
+  }
+
+  .hero-kicker {
+    margin-bottom: 1rem;
+    font-size: clamp(0.72rem, 1.1vw, 0.8rem);
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / 0.72);
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: clamp(2.6rem, 8vw, 6rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 0.98;
+    text-wrap: balance;
+    text-align: center;
+    margin-inline: auto;
+  }
+  .hero-title .w {
+    display: inline;
+  }
+  .hero-title .w > span { transform: translateY(110%); }
+
+  .hero-sub {
+    margin-top: 1.5rem;
+    margin-inline: auto;
+    max-width: 36rem;
+    font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+    line-height: 1.65;
+    color: rgb(255 255 255 / 0.86);
+    text-align: center;
+  }
+
+  .hero-price {
+    margin-top: 1.75rem;
+    margin-inline: auto;
+    font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 0.85rem 1.25rem;
+    border-block: 1px solid rgb(200 181 104 / 0.4);
+    text-align: center;
+  }
+
+  .hero-actions {
+    margin-top: 1.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.85rem;
+    width: 100%;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    left: 50%;
+    bottom: 1.35rem;
+    translate: -50% 0;
+    z-index: 2;
+    display: grid;
+    justify-items: center;
+    gap: 0.55rem;
+    color: rgb(255 255 255 / 0.6);
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .hero-scroll i {
+    display: block;
+    width: 1px;
+    height: 2.5rem;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    transform-origin: top center;
+  }
+  :global(html:not(.intro-lock)) .hero-scroll i {
+    animation: scroll-line 1.8s var(--ease) infinite;
+  }
+
+  [data-hero-in] {
+    opacity: 0;
+    transform: translateY(1.2rem);
+  }
+  :global(html:not(.intro-lock)) [data-hero-in] {
+    animation: rise 1s var(--ease) both;
+  }
+  :global(html:not(.intro-lock)) .hero-brand { animation-delay: 0.05s; }
+  :global(html:not(.intro-lock)) .hero-kicker { animation-delay: 0.14s; }
+  :global(html:not(.intro-lock)) .hero-sub { animation-delay: 0.45s; }
+  :global(html:not(.intro-lock)) .hero-price { animation-delay: 0.55s; }
+  :global(html:not(.intro-lock)) .hero-actions { animation-delay: 0.62s; }
+  :global(html:not(.intro-lock)) .hero-scroll { animation-delay: 0.78s; }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(1.2rem); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes hero-settle {
+    from { transform: scale(1.06); }
+    to { transform: scale(1); }
+  }
+  @keyframes scroll-line {
+    0%, 100% { transform: scaleY(0.45); opacity: 0.35; }
+    50% { transform: scaleY(1); opacity: 1; }
+  }
+
+  @media (max-width: 700px) {
+    .hero-brand { max-width: 12ch; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-media img,
+    :global(html:not(.intro-lock)) .hero-media img {
+      animation: none;
+      transform: none;
+    }
+    .hero-scroll i { animation: none; }
+  }
+</style>

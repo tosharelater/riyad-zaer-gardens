@@ -1,0 +1,85 @@
+---
+import { contact } from '../data/home';
+---
+<section class="contact" id="contact">
+  <div class="wrap contact-shell">
+    <div class="contact-copy" data-reveal data-split>
+      <p class="kick">Contact</p>
+      <h2 class="display">{contact.h2}</h2>
+      <p class="lead">{contact.body}</p>
+      <a class="phone" href={`tel:${contact.phoneTel}`} dir="ltr">{contact.phone}</a>
+      <div class="contact-actions">
+        <a class="btn btn-solid" href={`tel:${contact.phoneTel}`}>{contact.primary}</a>
+        <a class="btn btn-ghost wa" href={contact.whatsapp}>{contact.secondary}</a>
+      </div>
+    </div>
+    <form class="form" data-reveal onsubmit="return false;">
+      <label><span>Nom</span><input name="name" required autocomplete="name" /></label>
+      <label><span>Téléphone</span><input name="phone" type="tel" required autocomplete="tel" dir="ltr" /></label>
+      <label>
+        <span>Intérêt</span>
+        <select name="interest" required>
+          <option value="">Choisir…</option>
+          <option>Appartement F3</option>
+          <option>Appartement F4</option>
+          <option>Fonds de commerce</option>
+          <option>Investissement locatif</option>
+          <option>Je me renseigne depuis l’étranger</option>
+        </select>
+      </label>
+      <button class="btn btn-solid" type="submit">Envoyer</button>
+    </form>
+  </div>
+</section>
+<style>
+  .contact {
+    padding: clamp(4.5rem, 9vw, 7.5rem) 0;
+    background: var(--cream);
+  }
+  .contact-shell {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+  .contact .display { max-width: 14ch; }
+  .phone {
+    display: block;
+    margin-top: 1.75rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+  }
+  .contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+  .wa { border-color: var(--ink); }
+  .form {
+    display: grid;
+    gap: 0.9rem;
+    padding: clamp(1.35rem, 3vw, 1.85rem);
+    background: #fff;
+    border: 1px solid var(--line);
+  }
+  .form label { display: grid; gap: 0.4rem; }
+  .form span {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .form input, .form select {
+    min-height: 2.85rem;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid var(--line);
+    background: var(--cream);
+  }
+  .form .btn { margin-top: 0.35rem; }
+  @media (max-width: 800px) {
+    .contact-shell { grid-template-columns: 1fr; }
+  }
+</style>

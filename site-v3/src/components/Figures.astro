@@ -1,0 +1,84 @@
+---
+import { figures } from '../data/home';
+---
+<section class="figures" id="chiffres">
+  <div class="wrap figures-shell">
+    <header class="figures-head" data-reveal data-split>
+      <p class="kick">Tranche 1</p>
+      <h2 class="display">{figures.h2}</h2>
+      <p class="lead">{figures.lead}</p>
+    </header>
+
+    <dl class="figures-board" data-figures-board>
+      {figures.items.map((f) => (
+        <div class="figures-item" data-reveal>
+          <dt data-count data-to={f.n}>0</dt>
+          <dd>{f.label}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+<style>
+  .figures {
+    padding: clamp(4.5rem, 9vw, 7.5rem) 0;
+    background: #fff;
+    color: var(--ink);
+  }
+
+  .figures-shell {
+    display: grid;
+    gap: clamp(2.75rem, 5vw, 4rem);
+  }
+
+  .figures-head { width: 100%; max-width: none; }
+  .figures-head .display {
+    margin-top: 0.4rem;
+    max-width: none;
+  }
+  .figures-head .lead {
+    max-width: none;
+  }
+
+  .figures-board {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .figures-item {
+    position: relative;
+    padding-top: 1.25rem;
+  }
+  .figures-item::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 2.5rem;
+    height: 2px;
+    background: var(--gold);
+  }
+
+  .figures-item dt {
+    font-size: clamp(4rem, 9vw, 6.75rem);
+    font-weight: 500;
+    letter-spacing: -0.055em;
+    line-height: 0.88;
+    color: var(--ink);
+  }
+
+  .figures-item dd {
+    margin-top: 0.95rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  @media (max-width: 800px) {
+    .figures-board {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+</style>
