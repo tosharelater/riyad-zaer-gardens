@@ -13,8 +13,8 @@ export const hero = {
   h1: 'Nouveau pôle urbain à Rabat',
   sub: "Riyad Zaer Gardens réunit des appartements F3 et F4 et des fonds de commerce dans un quartier neuf et verdoyant, sur l'Avenue Mohammed VI.",
   price: 'Appartements à partir de 420 000 DH',
-  primary: { label: 'Découvrir le projet', href: '#projet' },
-  secondary: { label: 'Être rappelé', href: '#contact' },
+  primary: { label: 'Découvrir le projet', href: '/le-projet' },
+  secondary: { label: 'Être rappelé', href: '/contact' },
   alt: 'Vue du projet immobilier Riyad Zaer Gardens à Aïn Aouda',
 } as const;
 
@@ -76,7 +76,7 @@ export const projet = {
     'Finitions modernes',
     'Commerces en rez-de-chaussée',
   ],
-  link: { label: 'Découvrir le projet en détail', href: '#projet' },
+  link: { label: 'Découvrir le projet en détail', href: '/le-projet' },
   img: '/gen/rz-aerial.jpg',
   alt: 'Vue aérienne du projet Riyad Zaer Gardens',
 } as const;
@@ -85,13 +85,11 @@ export const apartments = {
   h2: 'Des appartements F3 et F4 de 65 à 86 m²',
   p1: 'Deux typologies sont proposées : des F3 et des F4, de 65 à 86 m². Des surfaces pensées pour être faciles à vivre, que ce soit pour un premier achat ou pour louer.',
   p2: 'Les appartements sont livrés finis, avec balcon ou terrasse selon le lot.',
-  facts: [
-    ['Typologies', 'F3 et F4'],
-    ['Surfaces', 'de 65 à 86 m²'],
-    ['Prix', 'à partir de 420 000 DH'],
-    ["Avec l’aide au logement", 'à partir de 350 000 DH'],
-  ],
-  cta: { label: 'Voir les appartements', href: '#appartements' },
+  types: ['F3', 'F4'],
+  range: 'de 65 à 86 m²',
+  price: 'À partir de 420 000 DH',
+  priceAid: '350 000 DH avec l’aide au logement',
+  cta: { label: 'Voir les appartements', href: '/appartements' },
   img: '/gen/rz-apartment.jpg',
 } as const;
 
@@ -116,7 +114,7 @@ export const commerce = {
     ['Surfaces', 'de 13 à 30 m²'],
     ['Prix', 'à partir de 15 000 DH le m²'],
   ],
-  cta: { label: 'Voir les fonds de commerce', href: '#commerces' },
+  cta: { label: 'Voir les fonds de commerce', href: '/fonds-de-commerce' },
   img: '/gen/rz-commerce.jpg',
 } as const;
 
@@ -127,7 +125,7 @@ export const aid = {
   p3: 'L’éligibilité dépend de votre situation personnelle. Nos conseillers la vérifient avec vous, gratuitement et sans engagement.',
   without: 'à partir de 420 000 DH',
   withAid: 'à partir de 350 000 DH',
-  cta: { label: 'Vérifier mon éligibilité', href: '#contact' },
+  cta: { label: 'Vérifier mon éligibilité', href: '/contact' },
 } as const;
 
 export const ways = {

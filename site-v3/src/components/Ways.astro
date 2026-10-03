@@ -1,5 +1,8 @@
 ---
-import { ways } from '../data/home';
+import { getHome } from '../data/content';
+import { localePath, type Locale } from '../i18n/paths';
+const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
+const { ways } = getHome(locale);
 ---
 <section class="ways" aria-labelledby="ways-title">
   <div class="wrap">

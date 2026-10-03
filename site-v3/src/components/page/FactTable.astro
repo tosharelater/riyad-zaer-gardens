@@ -1,0 +1,49 @@
+---
+interface Props {
+  rows: readonly (readonly [string, string])[];
+  tone?: 'light' | 'ink';
+}
+const { rows, tone = 'light' } = Astro.props;
+---
+<dl class:list={['facts', `tone-${tone}`]}>
+  {rows.map(([k, v]) => (
+    <div>
+      <dt>{k}</dt>
+      <dd>{v}</dd>
+    </div>
+  ))}
+</dl>
+
+<style>
+  .facts {
+    display: grid;
+    gap: 0;
+    margin-top: 0.5rem;
+  }
+  .facts > div {
+    display: grid;
+    grid-template-columns: minmax(8rem, 0.85fr) 1.4fr;
+    gap: 1rem;
+    padding: 1.05rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .facts > div:first-child { border-top: 1px solid var(--line); }
+  .facts dt {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 0.2rem;
+  }
+  .facts dd {
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .tone-ink > div { border-color: rgb(247 242 232 / 0.14); }
+  .tone-ink dt { color: rgb(247 242 232 / 0.5); }
+  .tone-ink dd { color: #f7f2e8; }
+  @media (max-width: 600px) {
+    .facts > div { grid-template-columns: 1fr; gap: 0.3rem; }
+  }
+</style>

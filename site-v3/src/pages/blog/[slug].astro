@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getArticle, getArticles, blogListing } from '../../data/blog';
+import { ui } from '../../i18n/ui';
+import { localePath, type Locale } from '../../i18n/paths';
+
+export function getStaticPaths() {
+  return getArticles('fr').map((a) => ({ params: { slug: a.slug } }));
+}
+
+const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
+const { slug } = Astro.params;
+const article = getArticle(slug!, locale);
+if (!article) return Astro.redirect(localePath(locale, '/blog'));
+
+const t = ui(locale);
+const others = getArticles(locale).filter((a) => a.slug !== article.slug).slice(0, 3);
+const dateFmt = (d: string) =>
+  new Date(d).toLocaleDateString(locale === 'ar' ? 'ar-MA' : 'fr-FR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+---
+<BaseLayout title={article.seoTitle} description={article.description} locale={locale}>
+  <article class="post">
+    <header class="post-hero">
+      <figure class="post-media">
+        <img src={article.image} alt={article.alt} fetchpriority="high" />
+      </figure>
+      <div class="post-shade" aria-hidden="true"></div>
+      <div class="wrap post-intro">
+        <a class="back" href={localePath(locale, '/blog')}>{t.blog.back}</a>
+        <div class="tags">
+          {article.tags.map((tag) => <span>{tag}</span>)}
+        </div>
+        <h1 class="display">{article.title}</h1>
+        <p class="dates">
+          <span>{t.blog.published} {dateFmt(article.date)}</span>
+          <span>{t.blog.updated} {dateFmt(article.updated)}</span>
+        </p>
+      </div>
+    </header>
+
+    <div class="wrap post-body">
+      <p class="deck">{article.excerpt}</p>
+      {article.sections.map((s) => (
+        <section>
+          <h2>{s.h2}</h2>
+          {s.paragraphs.map((p) => <p>{p}</p>)}
+          {s.list && (
+            <ul>
+              {s.list.map((item) => <li>{item}</li>)}
+            </ul>
+          )}
+        </section>
+      ))}
+      {article.cta && (
+        <a class="btn btn-solid" href={localePath(locale, article.cta.href)}>{article.cta.label}</a>
+      )}
+    </div>
+
+    <section class="more wrap">
+      <h2 class="display">{t.blog.more}</h2>
+      <div class="more-grid">
+        {others.map((a) => (
+          <a href={localePath(locale, `/blog/${a.slug}`)}>
+            <img src={a.image} alt="" loading="lazy" />
+            <strong>{a.title}</strong>
+          </a>
+        ))}
+      </div>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .post-hero {
+    position: relative;
+    min-height: min(70svh, 38rem);
+    display: grid;
+    align-items: end;
+    color: #f7f2e8;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .post-media {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    margin: 0;
+  }
+  .post-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .post-shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(105deg, rgb(0 22 22 / 0.82), rgb(0 14 14 / 0.4)),
+      linear-gradient(to top, rgb(0 0 0 / 0.6), transparent 55%);
+  }
+  .post-intro {
+    padding: calc(var(--nav) + 3.5rem) 0 3rem;
+    max-width: 48rem;
+  }
+  .back {
+    display: inline-block;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.25rem;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .tags span {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgb(247 242 232 / 0.7);
+    border: 1px solid rgb(247 242 232 / 0.25);
+    padding: 0.35rem 0.65rem;
+  }
+  .post-intro .display {
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    max-width: 16ch;
+  }
+  .dates {
+    margin-top: 1.1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+    font-size: 0.85rem;
+    color: rgb(247 242 232 / 0.65);
+  }
+
+  .post-body {
+    padding: clamp(2.5rem, 6vw, 4rem) 0 3rem;
+    max-width: 44rem;
+  }
+  .deck {
+    font-size: 1.2rem;
+    line-height: 1.65;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .post-body section { margin-bottom: 2.25rem; }
+  .post-body h2 {
+    font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+    font-weight: 500;
+    margin-bottom: 0.85rem;
+  }
+  .post-body p {
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 0.85rem;
+  }
+  .post-body ul {
+    margin: 0.75rem 0 1rem;
+    display: grid;
+    gap: 0.55rem;
+  }
+  .post-body li {
+    position: relative;
+    padding-inline-start: 1.1rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .post-body li::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0.65em;
+    width: 0.4rem;
+    height: 0.4rem;
+    background: var(--gold);
+  }
+  .post-body .btn { margin-top: 1rem; }
+
+  .more {
+    padding: 2rem 0 5rem;
+  }
+  .more .display {
+    font-size: clamp(1.5rem, 2.8vw, 2rem);
+    margin-bottom: 1.5rem;
+  }
+  .more-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .more-grid a {
+    display: grid;
+    gap: 0.75rem;
+  }
+  .more-grid img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+  }
+  .more-grid strong {
+    font-weight: 500;
+    line-height: 1.35;
+  }
+  .more-grid a:hover strong { color: var(--gold); }
+  @media (max-width: 800px) {
+    .more-grid { grid-template-columns: 1fr; }
+  }
+</style>

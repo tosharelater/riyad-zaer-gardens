@@ -1,5 +1,8 @@
 ---
-import { figures } from '../data/home';
+import { getHome } from '../data/content';
+import { localePath, type Locale } from '../i18n/paths';
+const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
+const { figures } = getHome(locale);
 ---
 <section class="figures" id="chiffres">
   <div class="wrap figures-shell">

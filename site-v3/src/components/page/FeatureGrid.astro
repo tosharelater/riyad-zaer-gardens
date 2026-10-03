@@ -1,0 +1,125 @@
+---
+interface Item {
+  title: string;
+  body: string;
+  image?: string;
+  alt?: string;
+  link?: { label: string; href: string };
+}
+interface Props {
+  kicker?: string;
+  title: string;
+  intro?: string;
+  items: readonly Item[];
+  columns?: 2 | 3 | 4;
+  tone?: 'light' | 'cream' | 'ink';
+}
+const { kicker, title, intro, items, columns = 2, tone = 'light' } = Astro.props;
+const withImages = items.some((i) => i.image);
+---
+<section class:list={['feat', `tone-${tone}`, { 'has-media': withImages }]}>
+  <div class="wrap feat-head">
+    {kicker && <p class="kick">{kicker}</p>}
+    <h2 class="display">{title}</h2>
+    {intro && <p class="lead">{intro}</p>}
+  </div>
+  <div class:list={['wrap', 'feat-grid', `cols-${columns}`]}>
+    {items.map((item) => (
+      <article class="feat-item">
+        {item.image && (
+          <figure>
+            <img src={item.image} alt={item.alt ?? ''} loading="lazy" />
+          </figure>
+        )}
+        <div class="feat-copy">
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+          {item.link && <a class="text-link" href={item.link.href}>{item.link.label}</a>}
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .feat {
+    padding: clamp(3.5rem, 8vw, 6rem) 0;
+  }
+  .tone-cream { background: var(--cream); }
+  .tone-ink {
+    background: var(--ink);
+    color: #f7f2e8;
+  }
+  .tone-ink .kick { color: var(--gold); }
+  .tone-ink .kick::before { background: var(--gold); }
+  .tone-ink .lead,
+  .tone-ink .feat-copy p { color: rgb(247 242 232 / 0.7); }
+
+  .feat-head {
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+  }
+  .feat-head .display {
+    margin-top: 0.45rem;
+    font-size: clamp(1.85rem, 3.4vw, 2.75rem);
+    max-width: 18ch;
+  }
+  .feat-head .lead { max-width: 40rem; }
+
+  .feat-grid {
+    display: grid;
+    gap: 1.25rem;
+  }
+  .cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+  .feat-item {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+  .tone-light:not(.has-media) .feat-item {
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .feat-item figure {
+    margin: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  .feat-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s var(--ease);
+  }
+  .feat-item:hover img { transform: scale(1.04); }
+
+  .feat-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 1.2rem 0 0.25rem;
+    flex: 1;
+  }
+  :not(.has-media) .feat-copy { padding: 0; }
+
+  .feat-copy h3 {
+    font-size: 1.15rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .feat-copy p {
+    color: var(--muted);
+    line-height: 1.65;
+    font-size: 0.98rem;
+  }
+
+  @media (max-width: 900px) {
+    .cols-3, .cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 600px) {
+    .cols-2, .cols-3, .cols-4 { grid-template-columns: 1fr; }
+  }
+</style>

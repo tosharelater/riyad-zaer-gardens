@@ -1,21 +1,55 @@
 ---
-import { nav } from '../data/home';
+import type { Locale } from '../i18n/paths';
+import { getLocaleFromPath, localePath, switchLocalePath } from '../i18n/paths';
+import { ui } from '../i18n/ui';
+
+interface Props {
+  solid?: boolean;
+  locale?: Locale;
+}
+const { solid = false, locale: localeProp } = Astro.props;
+const locale: Locale =
+  localeProp ?? (Astro.currentLocale === 'ar' ? 'ar' : getLocaleFromPath(Astro.url.pathname));
+const t = ui(locale);
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const frPath = switchLocalePath(path, 'fr');
+const arPath = switchLocalePath(path, 'ar');
 ---
-<header class="top" data-top>
-  <a class="top-logo" href="#top" aria-label="Riyad Zaer Gardens">
+<header class:list={['top', { 'is-solid': solid }]} data-top data-always-solid={solid ? '' : undefined}>
+  <a class="top-logo" href={localePath(locale, '/')} aria-label={t.brand.name}>
     <img class="on-dark" src="/brand/logo-light.png" alt="" width="160" height="104" />
     <img class="on-light" src="/brand/logo-green.png" alt="" width="160" height="104" />
   </a>
   <nav class="top-nav" aria-label="Navigation">
-    {nav.map((l) => <a href={l.href}>{l.label}</a>)}
+    {t.nav.map((l) => {
+      const href = localePath(locale, l.path);
+      const active = path === href || (l.path !== '/' && path.endsWith(l.path));
+      return (
+        <a href={href} aria-current={active ? 'page' : undefined}>
+          {l.label}
+        </a>
+      );
+    })}
   </nav>
-  <a class="btn btn-solid top-cta" href="#contact">Être rappelé</a>
-  <button class="top-menu" type="button" data-menu aria-expanded="false" aria-label="Menu">
+  <div class="top-end">
+    <div class="lang" aria-label="Language">
+      <a href={frPath} class:list={{ active: locale === 'fr' }} hreflang="fr" lang="fr">{t.lang.fr}</a>
+      <span aria-hidden="true">/</span>
+      <a href={arPath} class:list={{ active: locale === 'ar' }} hreflang="ar" lang="ar">{t.lang.ar}</a>
+    </div>
+    <a class="btn btn-solid top-cta" href={localePath(locale, '/contact')}>{t.cta}</a>
+  </div>
+  <button class="top-menu" type="button" data-menu aria-expanded="false" aria-label={t.menu}>
     <span></span><span></span>
   </button>
   <div class="top-drawer" data-drawer hidden>
-    {nav.map((l) => <a href={l.href}>{l.label}</a>)}
-    <a class="btn btn-solid" href="#contact">Être rappelé</a>
+    {t.nav.map((l) => <a href={localePath(locale, l.path)}>{l.label}</a>)}
+    <div class="lang drawer-lang">
+      <a href={frPath} class:list={{ active: locale === 'fr' }} hreflang="fr" lang="fr">{t.lang.fr}</a>
+      <span aria-hidden="true">/</span>
+      <a href={arPath} class:list={{ active: locale === 'ar' }} hreflang="ar" lang="ar">{t.lang.ar}</a>
+    </div>
+    <a class="btn btn-solid" href={localePath(locale, '/contact')}>{t.cta}</a>
   </div>
 </header>
 
@@ -38,7 +72,7 @@ import { nav } from '../data/home';
 <style>
   .top {
     position: fixed; inset: 0 0 auto; z-index: 60;
-    display: flex; align-items: center; gap: 1.5rem;
+    display: flex; align-items: center; gap: 1.25rem;
     height: var(--nav);
     padding: 0 var(--pad);
     transition: background 0.35s ease, box-shadow 0.35s ease, color 0.35s ease;
@@ -54,12 +88,27 @@ import { nav } from '../data/home';
   .top-logo .on-light { display: none; }
   .top.is-solid .on-light { display: block; }
   .top.is-solid .on-dark { display: none; }
-  .top-nav { display: flex; gap: clamp(0.85rem, 2vw, 1.75rem); margin-inline-start: auto; }
+  .top-nav {
+    display: flex; gap: clamp(0.65rem, 1.5vw, 1.35rem);
+    margin-inline-start: auto;
+    flex-wrap: nowrap;
+  }
   .top-nav a {
-    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;
+    opacity: 0.85; white-space: nowrap;
+  }
+  .top-nav a:hover,
+  .top-nav a[aria-current='page'] { opacity: 1; color: var(--gold); }
+  .top-end {
+    display: flex; align-items: center; gap: 0.85rem;
+  }
+  .lang {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
     opacity: 0.85;
   }
-  .top-nav a:hover { opacity: 1; color: var(--gold); }
+  .lang a.active { color: var(--gold); opacity: 1; }
+  .lang a:hover { color: var(--gold); }
   .top-cta { min-height: 2.5rem; padding: 0.5rem 1.1rem; font-size: 0.75rem; }
   .top-menu {
     display: none; width: 2.5rem; height: 2.5rem;
@@ -74,8 +123,9 @@ import { nav } from '../data/home';
   }
   .top-drawer[hidden] { display: none; }
   .top-drawer a:not(.btn) { font-size: 1.05rem; letter-spacing: 0.08em; text-transform: uppercase; }
-  @media (max-width: 920px) {
-    .top-nav, .top-cta { display: none; }
+  .drawer-lang { margin-top: 0.25rem; }
+  @media (max-width: 1100px) {
+    .top-nav, .top-end { display: none; }
     .top-menu { display: flex; }
   }
 </style>

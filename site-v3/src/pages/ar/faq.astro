@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/page/PageHero.astro';
+import PageBand from '../../components/page/PageBand.astro';
+import { faqPage as p } from '../../data/pages.ar';
+import { media } from '../../data/media';
+---
+<BaseLayout locale="ar" title={p.seo.title} description={p.seo.description}>
+  <PageHero
+    h1={p.h1}
+    lead={p.lead}
+    kicker="الأسئلة الشائعة"
+    image={media.facade.src}
+    alt={media.facade.alt}
+    compact
+  />
+
+  <div class="faq">
+    {p.groups.map((group) => (
+      <section class="faq-group wrap">
+        <h2 class="display">{group.h2}</h2>
+        <div class="faq-list">
+          {group.items.map((item) => (
+            <details>
+              <summary>{item.q}</summary>
+              <p>{item.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <PageBand image={media.hero.src} />
+</BaseLayout>
+
+<style>
+  .faq {
+    padding: 2rem 0 1rem;
+    background:
+      linear-gradient(180deg, var(--cream) 0%, #fff 18%);
+  }
+  .faq-group {
+    padding: clamp(2rem, 5vw, 3.25rem) 0;
+  }
+  .faq-group .display {
+    font-size: clamp(1.55rem, 2.8vw, 2.1rem);
+    margin-bottom: 1.25rem;
+  }
+  .faq-list {
+    border-top: 1px solid var(--line);
+  }
+  details {
+    border-bottom: 1px solid var(--line);
+    padding: 1.15rem 0;
+  }
+  summary {
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1.05rem;
+    list-style: none;
+    padding-inline-end: 2rem;
+    position: relative;
+    line-height: 1.4;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after {
+    content: '';
+    position: absolute;
+    inset-inline-end: 0.15rem;
+    top: 0.55rem;
+    width: 0.65rem;
+    height: 0.65rem;
+    border-right: 1.5px solid var(--gold);
+    border-bottom: 1.5px solid var(--gold);
+    transform: rotate(45deg);
+    transition: transform 0.25s ease;
+  }
+  details[open] summary::after {
+    top: 0.75rem;
+    transform: rotate(225deg);
+  }
+  details p {
+    margin-top: 0.85rem;
+    color: var(--muted);
+    max-width: 44rem;
+    line-height: 1.7;
+  }
+</style>

@@ -1,0 +1,248 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/page/PageHero.astro';
+import PageBand from '../../components/page/PageBand.astro';
+import MoreLinks from '../../components/page/MoreLinks.astro';
+import MediaSplit from '../../components/page/MediaSplit.astro';
+import FactTable from '../../components/page/FactTable.astro';
+import { appartementsPage as p } from '../../data/pages.ar';
+import { media } from '../../data/media';
+import { localePath } from '../../i18n/paths';
+
+const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath('ar', l.href) }));
+---
+<BaseLayout locale="ar" title={p.seo.title} description={p.seo.description}>
+  <PageHero
+    h1={p.h1}
+    lead={p.lead}
+    kicker="الشقق"
+    image={media.apartment.src}
+    alt={media.apartment.alt}
+  />
+
+  <section class="types">
+    <div class="wrap types-head">
+      <p class="kick">الأنواع</p>
+      <h2 class="display">{p.types.h2}</h2>
+    </div>
+    <div class="types-board">
+      {p.types.items.map((item, i) => (
+        <article class="type">
+          <figure>
+            <img
+              src={i === 0 ? media.apartment.src : media.terrace.src}
+              alt={item.title}
+              loading="lazy"
+            />
+          </figure>
+          <div class="type-copy">
+            <p class="type-mark">{item.mark}</p>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+            <p class="type-surface">{item.surface}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+    <p class="wrap types-note">{p.types.note}</p>
+  </section>
+
+  <MediaSplit
+    image={media.courtyard.src}
+    alt={media.courtyard.alt}
+    kicker="التسليم"
+    title={p.inclus.h2}
+    body={p.inclus.body}
+    tone="cream"
+  >
+    <ul class="check-list">
+      {p.inclus.list.map((item) => <li>{item}</li>)}
+    </ul>
+  </MediaSplit>
+
+  <MediaSplit
+    id="finitions"
+    image={media.finish.src}
+    alt={media.finish.alt}
+    kicker="التشطيبات"
+    title={p.finitions.h2}
+    body={p.finitions.body}
+    reverse
+    tone="light"
+  >
+    <FactTable rows={p.finitions.rows} />
+    <p class="fin-end">{p.finitions.end}</p>
+    <a class="btn btn-ghost" href={localePath('ar', p.finitions.cta.href)}>{p.finitions.cta.label}</a>
+  </MediaSplit>
+
+  <section class="prix">
+    <div class="wrap prix-grid">
+      <div>
+        <p class="kick">الأسعار</p>
+        <h2 class="display">{p.prix.h2}</h2>
+        {p.prix.body.map((t) => <p class="lead">{t}</p>)}
+        <a class="btn btn-solid" href={localePath('ar', p.prix.cta.href)}>{p.prix.cta.label}</a>
+      </div>
+      <aside class="prix-ticket" aria-label="مقارنة الأسعار">
+        <div>
+          <span>{p.prix.withoutLabel}</span>
+          <strong>{p.prix.without}</strong>
+        </div>
+        <div class="is-aid">
+          <span>{p.prix.withAidLabel}</span>
+          <strong>{p.prix.withAid}</strong>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <PageBand mode="aid" />
+  <PageBand image={media.apartment.src} />
+  <MoreLinks h2={p.more.h2} links={moreLinks} />
+</BaseLayout>
+
+<style>
+  .types {
+    padding: clamp(3.5rem, 8vw, 5.5rem) 0;
+  }
+  .types-head {
+    margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+  }
+  .types-head .display {
+    margin-top: 0.45rem;
+    font-size: clamp(1.85rem, 3.4vw, 2.75rem);
+    max-width: 16ch;
+  }
+  .types-board {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .type {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    background: var(--cream);
+  }
+  .type + .type { border-inline-start: 1px solid rgb(0 45 45 / 0.08); }
+  .type figure {
+    margin: 0;
+    aspect-ratio: 16 / 11;
+    overflow: hidden;
+  }
+  .type img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease);
+  }
+  .type:hover img { transform: scale(1.04); }
+  .type-copy {
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    display: grid;
+    gap: 0.65rem;
+  }
+  .type-mark {
+    font-family: var(--serif);
+    font-size: clamp(3.5rem, 7vw, 5.5rem);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+  }
+  .type-copy h3 {
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+  .type-copy p { color: var(--muted); line-height: 1.65; }
+  .type-surface {
+    color: var(--gold) !important;
+    font-weight: 500;
+    margin-top: 0.35rem;
+  }
+  .types-note {
+    margin-top: 1.5rem;
+    color: var(--muted);
+    max-width: 40rem;
+  }
+
+  .check-list {
+    margin-top: 1.25rem;
+    display: grid;
+    gap: 0.7rem;
+  }
+  .check-list li {
+    position: relative;
+    padding-inline-start: 1.15rem;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .check-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.65em;
+    width: 0.4rem;
+    height: 0.4rem;
+    background: var(--gold);
+  }
+
+  .fin-end {
+    margin: 1.25rem 0 1.25rem;
+    color: var(--muted);
+    max-width: 34rem;
+    line-height: 1.65;
+  }
+
+  .prix {
+    padding: clamp(4rem, 8vw, 6rem) 0;
+    background: var(--ink);
+    color: #f7f2e8;
+  }
+  .prix .kick { color: var(--gold); }
+  .prix .kick::before { background: var(--gold); }
+  .prix-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: end;
+  }
+  .prix .display {
+    margin: 0.5rem 0 1rem;
+    font-size: clamp(1.9rem, 3.5vw, 2.85rem);
+    max-width: 14ch;
+  }
+  .prix .lead {
+    color: rgb(247 242 232 / 0.72);
+  }
+  .prix .lead + .lead { margin-top: 0.75rem; }
+  .prix .btn { margin-top: 1.75rem; }
+  .prix-ticket {
+    display: grid;
+    gap: 0;
+    background: rgb(255 255 255 / 0.04);
+    border: 1px solid rgb(247 242 232 / 0.12);
+  }
+  .prix-ticket > div {
+    padding: 1.5rem 1.4rem;
+  }
+  .prix-ticket > div + div {
+    border-top: 1px solid rgb(247 242 232 / 0.12);
+  }
+  .prix-ticket span {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgb(247 242 232 / 0.5);
+    margin-bottom: 0.55rem;
+  }
+  .prix-ticket strong {
+    font-size: clamp(1.2rem, 2vw, 1.45rem);
+    font-weight: 500;
+  }
+  .prix-ticket .is-aid strong { color: var(--gold); }
+
+  @media (max-width: 900px) {
+    .types-board,
+    .prix-grid { grid-template-columns: 1fr; }
+    .type + .type { border: 0; border-top: 1px solid rgb(0 45 45 / 0.08); }
+  }
+</style>

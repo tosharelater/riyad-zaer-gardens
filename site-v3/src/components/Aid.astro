@@ -1,5 +1,8 @@
 ---
-import { aid } from '../data/home';
+import { getHome } from '../data/content';
+import { localePath, type Locale } from '../i18n/paths';
+const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
+const { aid } = getHome(locale);
 ---
 <section class="aid" id="aide">
   <div class="wrap">
@@ -13,7 +16,7 @@ import { aid } from '../data/home';
         <p class="lead">{aid.p1}</p>
         <p class="lead">{aid.p2}</p>
         <p class="lead">{aid.p3}</p>
-        <a class="btn btn-solid" href={aid.cta.href}>{aid.cta.label}</a>
+        <a class="btn btn-solid" href={aid.cta.href.startsWith('/') ? localePath(locale, aid.cta.href) : aid.cta.href}>{aid.cta.label}</a>
       </div>
 
       <aside class="aid-ticket" data-reveal aria-label="Comparaison de prix">

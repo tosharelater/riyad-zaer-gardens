@@ -1,36 +1,52 @@
 ---
-import { footer, contact, nav } from '../data/home';
+import type { Locale } from '../i18n/paths';
+import { getLocaleFromPath, localePath } from '../i18n/paths';
+import { ui, contactInfo } from '../i18n/ui';
+
+interface Props {
+  locale?: Locale;
+}
+const { locale: localeProp } = Astro.props;
+const locale: Locale =
+  localeProp ?? (Astro.currentLocale === 'ar' ? 'ar' : getLocaleFromPath(Astro.url.pathname));
+const t = ui(locale);
 ---
 <footer class="foot">
   <div class="wrap foot-grid">
     <div>
-      <img src="/brand/logo-light.png" alt="Riyad Zaer Gardens" width="140" height="90" />
-      <p class="by">by La Manoussa</p>
-      <p>{footer.slogan}</p>
-      <p>{footer.about}</p>
+      <img src="/brand/logo-light.png" alt={t.brand.name} width="140" height="90" />
+      <p class="by">{t.brand.by}</p>
+      <p>{t.brand.slogan}</p>
+      <p>{t.brand.about}</p>
     </div>
     <div>
-      <p class="col">Le projet</p>
-      {nav.map((l) => <a href={l.href}>{l.label}</a>)}
+      <p class="col">{t.footerCols.project}</p>
+      {t.footerProject.map((l) => <a href={localePath(locale, l.path)}>{l.label}</a>)}
     </div>
     <div>
-      <p class="col">Nous joindre</p>
-      <a href={`tel:${contact.phoneTel}`} dir="ltr">{contact.phone}</a>
-      <a href={contact.whatsapp}>Écrire sur WhatsApp</a>
-      <p>{footer.address}</p>
-      <p>{footer.domain}</p>
+      <p class="col">{t.footerCols.info}</p>
+      {t.footerInfo.map((l) => <a href={localePath(locale, l.path)}>{l.label}</a>)}
+    </div>
+    <div>
+      <p class="col">{t.footerCols.contact}</p>
+      <a href={`tel:${contactInfo.phoneTel}`} dir="ltr">{contactInfo.phone}</a>
+      <a href={contactInfo.whatsapp}>{t.writeWhatsapp}</a>
+      <p>{contactInfo.address}</p>
+      <p>{contactInfo.domain}</p>
     </div>
   </div>
   <div class="wrap foot-copy">
-    <p>{footer.legal}</p>
-    <p>{footer.aidNote}</p>
+    <p>{t.legal.copy}</p>
+    <p>{t.legal.aidNote}</p>
+    <a href={localePath(locale, '/mentions-legales')}>{t.legal.mentions}</a>
+    <a href={`${localePath(locale, '/mentions-legales')}#confidentialite`}>{t.legal.privacy}</a>
   </div>
 </footer>
 
-<nav class="mbar" aria-label="Actions rapides">
-  <a href={`tel:${contact.phoneTel}`}>Appeler</a>
-  <a href={contact.whatsapp}>WhatsApp</a>
-  <a href="#contact">Être rappelé</a>
+<nav class="mbar" aria-label="Actions">
+  <a href={`tel:${contactInfo.phoneTel}`}>{t.call}</a>
+  <a href={contactInfo.whatsapp}>{t.whatsapp}</a>
+  <a href={localePath(locale, '/contact')}>{t.cta}</a>
 </nav>
 <style>
   .foot {
@@ -40,7 +56,7 @@ import { footer, contact, nav } from '../data/home';
   }
   .foot-grid {
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1.2fr;
+    grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
     gap: 2rem;
   }
   .foot img { height: 3rem; width: auto; margin-bottom: 0.65rem; }

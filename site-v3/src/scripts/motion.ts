@@ -27,7 +27,7 @@ const syncChrome = () => {
   const y = window.scrollY;
   const max = document.documentElement.scrollHeight - window.innerHeight;
   if (bar) bar.style.transform = `scaleX(${max > 0 ? Math.min(y / max, 1) : 0})`;
-  nav?.classList.toggle('is-solid', y > 40);
+  nav?.classList.toggle('is-solid', nav.hasAttribute('data-always-solid') || y > 40);
 };
 window.addEventListener('scroll', syncChrome, { passive: true });
 lenis?.on('scroll', syncChrome);

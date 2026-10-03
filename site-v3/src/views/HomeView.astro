@@ -13,9 +13,12 @@ import Aid from '../components/Aid.astro';
 import Ways from '../components/Ways.astro';
 import Lieu from '../components/Lieu.astro';
 import Contact from '../components/Contact.astro';
-import { seo } from '../data/home';
+import { getHome } from '../data/content';
+import type { Locale } from '../i18n/paths';
+const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
+const { seo } = getHome(locale);
 ---
-<BaseLayout title={seo.title} description={seo.description}>
+<BaseLayout title={seo.title} description={seo.description} intro locale={locale}>
   <Hero />
   <Proof />
   <Figures />

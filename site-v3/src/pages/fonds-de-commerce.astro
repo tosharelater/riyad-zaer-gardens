@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/page/PageHero.astro';
+import PageBand from '../components/page/PageBand.astro';
+import MoreLinks from '../components/page/MoreLinks.astro';
+import MediaSplit from '../components/page/MediaSplit.astro';
+import FeatureGrid from '../components/page/FeatureGrid.astro';
+import FactTable from '../components/page/FactTable.astro';
+import { commercePage as p } from '../data/pages';
+import { media } from '../data/media';
+---
+<BaseLayout title={p.seo.title} description={p.seo.description}>
+  <PageHero
+    h1={p.h1}
+    lead={p.lead}
+    kicker="Fonds de commerce"
+    image={media.commerce.src}
+    alt={media.commerce.alt}
+  />
+
+  <MediaSplit
+    image={media.avenue.src}
+    alt={media.avenue.alt}
+    kicker="L’offre"
+    title={p.offre.h2}
+    body={p.offre.body}
+    tone="ink"
+  >
+    <FactTable rows={p.offre.rows} tone="ink" />
+  </MediaSplit>
+
+  <FeatureGrid
+    kicker="Emplacement"
+    title={p.raisons.h2}
+    columns={2}
+    tone="cream"
+    items={[
+      { ...p.raisons.items[0], image: media.apartment.src, alt: 'Appartements au-dessus des commerces' },
+      { ...p.raisons.items[1], image: media.facade.src, alt: media.facade.alt },
+      { ...p.raisons.items[2], image: media.avenue.src, alt: media.avenue.alt },
+      { ...p.raisons.items[3], image: media.aerial.src, alt: media.aerial.alt },
+    ]}
+  />
+
+  <MediaSplit
+    image={media.commerce.src}
+    alt={media.commerce.alt}
+    kicker="Investissement"
+    title={p.invest.h2}
+    body={p.invest.body}
+    reverse
+    tone="light"
+  />
+
+  <PageBand
+    mode="custom"
+    title={p.convert.h2}
+    body={p.convert.body}
+    primary={{ label: 'Être rappelé', href: '/contact' }}
+    secondary={{ label: 'Écrire sur WhatsApp', href: 'https://wa.me/212708080839' }}
+    image={media.commerce.src}
+  />
+  <MoreLinks h2={p.more.h2} links={p.more.links} />
+</BaseLayout>

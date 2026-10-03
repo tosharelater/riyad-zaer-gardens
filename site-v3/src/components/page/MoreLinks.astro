@@ -1,0 +1,92 @@
+---
+import { media } from '../../data/media';
+import { stripLocale } from '../../i18n/paths';
+
+interface Link {
+  title: string;
+  body: string;
+  href: string;
+  image?: string;
+}
+interface Props {
+  h2: string;
+  links: readonly Link[];
+}
+const { h2, links } = Astro.props;
+
+const defaults: Record<string, string> = {
+  '/le-projet': media.aerial.src,
+  '/appartements': media.apartment.src,
+  '/fonds-de-commerce': media.commerce.src,
+  '/localisation': media.avenue.src,
+  '/contact': media.hero.src,
+};
+---
+<section class="more">
+  <div class="wrap">
+    <h2 class="display">{h2}</h2>
+    <div class="more-grid">
+      {links.map((l) => (
+        <a class="more-item" href={l.href}>
+          <figure>
+            <img src={l.image ?? defaults[stripLocale(l.href)] ?? media.hero.src} alt="" loading="lazy" />
+          </figure>
+          <div>
+            <strong>{l.title}</strong>
+            <span>{l.body}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .more {
+    padding: clamp(3.5rem, 8vw, 5.5rem) 0;
+    background: #fff;
+  }
+  .more .display {
+    font-size: clamp(1.7rem, 3vw, 2.35rem);
+    margin-bottom: 1.75rem;
+  }
+  .more-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: 1rem;
+  }
+  .more-item {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
+    background: var(--cream);
+    transition: transform 0.35s var(--ease);
+  }
+  .more-item:hover { transform: translateY(-3px); }
+  .more-item figure {
+    margin: 0;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+  .more-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s var(--ease);
+  }
+  .more-item:hover img { transform: scale(1.05); }
+  .more-item > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1.25rem 1.2rem 1.4rem;
+  }
+  .more-item strong {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+  .more-item span {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+</style>

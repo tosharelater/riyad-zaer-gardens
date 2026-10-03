@@ -1,0 +1,104 @@
+---
+interface Props {
+  image: string;
+  alt?: string;
+  kicker?: string;
+  title: string;
+  body?: string | readonly string[];
+  reverse?: boolean;
+  tone?: 'light' | 'cream' | 'ink';
+  id?: string;
+}
+const {
+  image,
+  alt = '',
+  kicker,
+  title,
+  body,
+  reverse = false,
+  tone = 'light',
+  id,
+} = Astro.props;
+const paras = body == null ? [] : Array.isArray(body) ? [...body] : [body];
+---
+<section class:list={['split', `tone-${tone}`, { reverse }]} id={id}>
+  <figure class="split-media" data-media>
+    <img src={image} alt={alt} loading="lazy" />
+  </figure>
+  <div class="split-panel">
+    {kicker && <p class="kick">{kicker}</p>}
+    <h2 class="display">{title}</h2>
+    {paras.map((p) => <p class="lead">{p}</p>)}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .split {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    min-height: min(72svh, 40rem);
+  }
+  .split.reverse {
+    direction: rtl;
+  }
+  .split.reverse > * {
+    direction: ltr;
+  }
+  .split-media {
+    margin: 0;
+    min-height: 24rem;
+    overflow: hidden;
+  }
+  .split-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .split-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    padding: clamp(2.25rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3.5rem);
+  }
+  .split-panel .display {
+    font-size: clamp(1.85rem, 3.4vw, 2.75rem);
+    max-width: 16ch;
+    margin: 0;
+  }
+  .split-panel .lead {
+    margin: 0;
+    max-width: 34rem;
+  }
+  .split-panel .lead + .lead { margin-top: 0.35rem; }
+
+  .tone-light .split-panel { background: #fff; }
+  .tone-cream .split-panel { background: var(--cream); }
+  .tone-ink .split-panel {
+    background: var(--ink);
+    color: #f7f2e8;
+  }
+  .tone-ink .kick { color: var(--gold); }
+  .tone-ink .kick::before { background: var(--gold); }
+  .tone-ink .lead { color: rgb(247 242 232 / 0.72); }
+
+  .tone-ink .split-panel .btn-ghost {
+    color: #f7f2e8;
+    border-color: rgb(247 242 232 / 0.4);
+  }
+  .split-panel :global(.btn) {
+    align-self: start;
+    margin-top: 0.85rem;
+  }
+
+  @media (max-width: 900px) {
+    .split,
+    .split.reverse {
+      grid-template-columns: 1fr;
+      direction: ltr;
+      min-height: 0;
+    }
+    .split-media { min-height: 18rem; aspect-ratio: 16 / 10; }
+  }
+</style>

@@ -1,0 +1,103 @@
+---
+interface Props {
+  h1: string;
+  lead?: string | readonly string[];
+  kicker?: string;
+  image: string;
+  alt?: string;
+  compact?: boolean;
+}
+const { h1, lead, kicker = 'Riyad Zaer Gardens', image, alt = '', compact = false } = Astro.props;
+const leads = lead == null ? [] : Array.isArray(lead) ? [...lead] : [lead];
+---
+<header class:list={['ph', { 'is-compact': compact }]} data-page-hero>
+  <figure class="ph-media">
+    <img src={image} alt={alt} fetchpriority="high" />
+  </figure>
+  <div class="ph-shade" aria-hidden="true"></div>
+  <div class="ph-copy wrap">
+    <p class="ph-kick">{kicker}</p>
+    <h1 class="ph-title">{h1}</h1>
+    {leads.slice(0, 2).map((p) => <p class="ph-lead">{p}</p>)}
+  </div>
+</header>
+
+<style>
+  .ph {
+    position: relative;
+    min-height: min(78svh, 44rem);
+    display: grid;
+    align-items: end;
+    color: #f7f2e8;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .ph.is-compact {
+    min-height: min(58svh, 32rem);
+  }
+  .ph-media {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    margin: 0;
+  }
+  .ph-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    transform: scale(1.04);
+  }
+  .ph-shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(105deg, rgb(0 20 20 / 0.78) 0%, rgb(0 20 20 / 0.35) 48%, rgb(0 12 12 / 0.55) 100%),
+      linear-gradient(to top, rgb(0 0 0 / 0.55) 0%, transparent 55%);
+  }
+  .ph-copy {
+    position: relative;
+    z-index: 1;
+    padding: calc(var(--nav) + 4rem) 0 clamp(2.75rem, 6vw, 4.5rem);
+    max-width: 52rem;
+  }
+  .ph-kick {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .ph-kick::before {
+    content: '';
+    width: 1.5rem;
+    height: 2px;
+    background: var(--gold);
+  }
+  .ph-title {
+    margin-top: 1rem;
+    font-size: clamp(2.35rem, 5.5vw, 4.25rem);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+    text-wrap: balance;
+    max-width: 14ch;
+  }
+  .ph-lead {
+    margin-top: 1.15rem;
+    max-width: 36rem;
+    font-size: clamp(1.02rem, 1.6vw, 1.15rem);
+    line-height: 1.7;
+    color: rgb(247 242 232 / 0.78);
+  }
+  .ph-lead + .ph-lead { margin-top: 0.65rem; }
+
+  @media (max-width: 700px) {
+    .ph { min-height: 70svh; }
+    .ph-title { max-width: none; }
+  }
+</style>

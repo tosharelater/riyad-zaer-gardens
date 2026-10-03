@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/page/PageHero.astro';
+import FactTable from '../components/page/FactTable.astro';
+import { mentionsPage as p } from '../data/pages';
+import { media } from '../data/media';
+---
+<BaseLayout title={p.seo.title} description={p.seo.description}>
+  <PageHero
+    h1={p.h1}
+    kicker="Informations légales"
+    image={media.facade.src}
+    alt={media.facade.alt}
+    compact
+  />
+
+  <section class="legal wrap">
+    <div class="legal-block">
+      <h2 class="display">{p.editor.h2}</h2>
+      <p class="lead">{p.editor.intro}</p>
+      <FactTable rows={p.editor.rows} />
+    </div>
+    <div class="legal-block">
+      <h2 class="display">{p.ip.h2}</h2>
+      <p class="lead">{p.ip.body}</p>
+    </div>
+    <div class="legal-block" id={p.privacy.id}>
+      <h2 class="display">{p.privacy.h2}</h2>
+      {p.privacy.body.map((t) => <p class="lead">{t}</p>)}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal {
+    padding: clamp(2.5rem, 6vw, 4rem) 0 5rem;
+  }
+  .legal-block {
+    padding: clamp(2rem, 4vw, 3rem) 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .legal-block:last-child { border: 0; }
+  .legal .display {
+    font-size: clamp(1.5rem, 2.8vw, 2rem);
+    margin-bottom: 0.85rem;
+  }
+</style>

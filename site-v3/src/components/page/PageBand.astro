@@ -1,0 +1,146 @@
+---
+import { contactInfo } from '../../data/site';
+import { ui } from '../../i18n/ui';
+import { getLocaleFromPath, localePath, type Locale } from '../../i18n/paths';
+
+const locale: Locale =
+  Astro.currentLocale === 'ar' ? 'ar' : getLocaleFromPath(Astro.url.pathname);
+const dict = ui(locale);
+const convert = {
+  h2: dict.convert.h2,
+  body: dict.convert.body,
+  primary: { label: dict.convert.primary, href: localePath(locale, '/contact') },
+  secondary: { label: dict.convert.secondary, href: contactInfo.whatsapp },
+};
+const aidBand = {
+  h2: dict.aidBand.h2,
+  body: dict.aidBand.body,
+  link: { label: dict.aidBand.link, href: localePath(locale, '/contact') },
+};
+
+interface Props {
+  title?: string;
+  body?: string;
+  mode?: 'convert' | 'aid' | 'custom';
+  primary?: { label: string; href: string };
+  secondary?: { label: string; href: string };
+  image?: string;
+}
+const {
+  title,
+  body,
+  mode = 'convert',
+  primary,
+  secondary,
+  image = '/gen/rz-hero.jpg',
+} = Astro.props;
+
+const copy =
+  mode === 'aid'
+    ? { h2: aidBand.h2, body: aidBand.body, primary: aidBand.link, secondary: undefined }
+    : mode === 'convert'
+      ? {
+          h2: convert.h2,
+          body: convert.body,
+          primary: convert.primary,
+          secondary: convert.secondary,
+        }
+      : {
+          h2: title ?? convert.h2,
+          body: body ?? convert.body,
+          primary: primary ?? convert.primary,
+          secondary: secondary,
+        };
+---
+<section class:list={['band', mode === 'aid' ? 'band-aid' : 'band-convert']}>
+  {mode !== 'aid' && (
+    <figure class="band-bg" aria-hidden="true">
+      <img src={image} alt="" loading="lazy" />
+    </figure>
+  )}
+  <div class="wrap band-inner">
+    <div>
+      <h2 class="display">{copy.h2}</h2>
+      <p class="lead">{copy.body}</p>
+    </div>
+    <div class="band-actions">
+      <a class="btn btn-solid" href={copy.primary.href}>{copy.primary.label}</a>
+      {copy.secondary && (
+        <a
+          class="btn btn-ghost"
+          href={copy.secondary.href}
+          target={copy.secondary.href.startsWith('http') ? '_blank' : undefined}
+          rel={copy.secondary.href.startsWith('http') ? 'noopener' : undefined}
+        >
+          {copy.secondary.label}
+        </a>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .band {
+    position: relative;
+    padding: clamp(4rem, 9vw, 6.5rem) 0;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .band-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    margin: 0;
+  }
+  .band-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.35) saturate(0.85);
+  }
+  .band-convert {
+    color: #f7f2e8;
+  }
+  .band-convert::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(110deg, rgb(0 30 30 / 0.82), rgb(0 20 20 / 0.55)),
+      linear-gradient(to top, rgb(0 0 0 / 0.35), transparent 50%);
+  }
+  .band-convert .lead { color: rgb(247 242 232 / 0.78); }
+  .band-convert .btn-ghost {
+    color: #f7f2e8;
+    border-color: rgb(247 242 232 / 0.4);
+  }
+  .band-convert .btn-ghost:hover {
+    background: #fff;
+    color: var(--ink);
+  }
+  .band-aid {
+    background:
+      radial-gradient(ellipse 80% 120% at 100% 0%, rgb(200 181 104 / 0.18), transparent 55%),
+      var(--cream);
+  }
+  .band-inner {
+    display: grid;
+    grid-template-columns: 1.35fr auto;
+    gap: 2rem;
+    align-items: end;
+  }
+  .band-inner .display {
+    font-size: clamp(1.85rem, 3.5vw, 2.85rem);
+    max-width: 14ch;
+    margin-bottom: 0.85rem;
+  }
+  .band-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  @media (max-width: 800px) {
+    .band-inner { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/page/PageHero.astro';
+import PageBand from '../../components/page/PageBand.astro';
+import MoreLinks from '../../components/page/MoreLinks.astro';
+import MediaSplit from '../../components/page/MediaSplit.astro';
+import FeatureGrid from '../../components/page/FeatureGrid.astro';
+import FactTable from '../../components/page/FactTable.astro';
+import { commercePage as p } from '../../data/pages.ar';
+import { media } from '../../data/media';
+import { localePath } from '../../i18n/paths';
+import { contactInfo } from '../../data/site';
+
+const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath('ar', l.href) }));
+---
+<BaseLayout locale="ar" title={p.seo.title} description={p.seo.description}>
+  <PageHero
+    h1={p.h1}
+    lead={p.lead}
+    kicker="المحلات التجارية"
+    image={media.commerce.src}
+    alt={media.commerce.alt}
+  />
+
+  <MediaSplit
+    image={media.avenue.src}
+    alt={media.avenue.alt}
+    kicker="العرض"
+    title={p.offre.h2}
+    body={p.offre.body}
+    tone="ink"
+  >
+    <FactTable rows={p.offre.rows} tone="ink" />
+  </MediaSplit>
+
+  <FeatureGrid
+    kicker="الموقع"
+    title={p.raisons.h2}
+    columns={2}
+    tone="cream"
+    items={[
+      { ...p.raisons.items[0], image: media.apartment.src, alt: 'شقق فوق المحلات' },
+      { ...p.raisons.items[1], image: media.facade.src, alt: media.facade.alt },
+      { ...p.raisons.items[2], image: media.avenue.src, alt: media.avenue.alt },
+      { ...p.raisons.items[3], image: media.aerial.src, alt: media.aerial.alt },
+    ]}
+  />
+
+  <MediaSplit
+    image={media.commerce.src}
+    alt={media.commerce.alt}
+    kicker="الاستثمار"
+    title={p.invest.h2}
+    body={p.invest.body}
+    reverse
+    tone="light"
+  />
+
+  <PageBand
+    mode="custom"
+    title={p.convert.h2}
+    body={p.convert.body}
+    primary={{ label: 'اطلب اتصالاً', href: localePath('ar', '/contact') }}
+    secondary={{ label: 'راسلنا عبر واتساب', href: contactInfo.whatsapp }}
+    image={media.commerce.src}
+  />
+  <MoreLinks h2={p.more.h2} links={moreLinks} />
+</BaseLayout>

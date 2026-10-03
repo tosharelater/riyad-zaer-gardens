@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/page/PageHero.astro';
+import PageBand from '../components/page/PageBand.astro';
+import MoreLinks from '../components/page/MoreLinks.astro';
+import MediaSplit from '../components/page/MediaSplit.astro';
+import FeatureGrid from '../components/page/FeatureGrid.astro';
+import { localisationPage as p } from '../data/pages';
+import { media } from '../data/media';
+import { contactInfo } from '../data/site';
+---
+<BaseLayout title={p.seo.title} description={p.seo.description}>
+  <PageHero
+    h1={p.h1}
+    lead={p.lead}
+    kicker="Localisation"
+    image={media.avenue.src}
+    alt={media.avenue.alt}
+  />
+
+  <FeatureGrid
+    kicker="Accès"
+    title={p.acces.h2}
+    columns={2}
+    tone="light"
+    items={p.acces.items.map((item, i) => ({
+      ...item,
+      image: [media.avenue.src, media.aerial.src, media.facade.src, media.hero.src][i],
+      alt: item.title,
+    }))}
+  />
+
+  <MediaSplit
+    image={media.courtyard.src}
+    alt={media.courtyard.alt}
+    kicker="Le quartier"
+    title={p.quartier.h2}
+    body={p.quartier.body.split('\n\n')}
+    tone="cream"
+  >
+    <ul class="near">
+      {p.quartier.already.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="near-end">{p.quartier.end}</p>
+  </MediaSplit>
+
+  <section class="map">
+    <div class="wrap map-head">
+      <p class="kick">Sur la carte</p>
+      <h2 class="display">Km 25, Avenue Mohammed VI</h2>
+    </div>
+    <div class="map-frame">
+      <iframe
+        title="Carte — Riyad Zaer Gardens, Aïn Aouda"
+        src={contactInfo.mapEmbed}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+    <div class="wrap map-actions">
+      <a class="btn btn-ghost" href={contactInfo.mapsHref} target="_blank" rel="noopener">
+        Ouvrir dans Google Maps
+      </a>
+    </div>
+  </section>
+
+  <MediaSplit
+    image={media.aerial.src}
+    alt={media.aerial.alt}
+    kicker="Visite"
+    title={p.visit.h2}
+    body={p.visit.body}
+    reverse
+    tone="ink"
+  >
+    <a class="btn btn-solid" href={p.visit.cta.href}>{p.visit.cta.label}</a>
+  </MediaSplit>
+
+  <PageBand image={media.avenue.src} />
+  <MoreLinks h2={p.more.h2} links={p.more.links} />
+</BaseLayout>
+
+<style>
+  .near {
+    margin-top: 1.25rem;
+    display: grid;
+    gap: 0.7rem;
+  }
+  .near li {
+    position: relative;
+    padding-inline-start: 1.1rem;
+    color: var(--muted);
+  }
+  .near li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.65em;
+    width: 0.4rem;
+    height: 0.4rem;
+    background: var(--gold);
+  }
+  .near-end {
+    margin-top: 1.1rem;
+    color: var(--muted);
+    line-height: 1.65;
+    max-width: 34rem;
+  }
+
+  .map {
+    padding: clamp(3.5rem, 8vw, 5rem) 0 0;
+  }
+  .map-head {
+    margin-bottom: 1.5rem;
+  }
+  .map-head .display {
+    margin-top: 0.45rem;
+    font-size: clamp(1.85rem, 3.4vw, 2.75rem);
+  }
+  .map-frame {
+    width: 100%;
+    min-height: min(58vh, 30rem);
+    background: var(--cream);
+  }
+  .map-frame iframe {
+    width: 100%;
+    height: min(58vh, 30rem);
+    border: 0;
+    display: block;
+  }
+  .map-actions {
+    padding: 1.5rem 0 3.5rem;
+  }
+</style>

@@ -1,5 +1,8 @@
 ---
-import { projet } from '../data/home';
+import { getHome } from '../data/content';
+import { localePath, type Locale } from '../i18n/paths';
+const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
+const { projet } = getHome(locale);
 
 /** Stroke icons — one set of paths per amenity */
 const amenityIcons = [
@@ -56,6 +59,7 @@ const amenityIcons = [
         <h2 class="display">{projet.h2}</h2>
         <p class="lead">{projet.p1}</p>
         <p class="lead">{projet.p2}</p>
+        <a class="projet-link" href={projet.link.href.startsWith('/') ? localePath(locale, projet.link.href) : projet.link.href}>{projet.link.label}</a>
       </div>
       <ul class="projet-amenities">
         {projet.amenities.map((a, i) => (
@@ -126,6 +130,17 @@ const amenityIcons = [
   }
   .projet-left .lead:first-of-type { margin-top: 0; }
   .projet-left .lead + .lead { margin-top: 1.1rem; }
+
+  .projet-link {
+    display: inline-block;
+    margin-top: 1.35rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--gold);
+  }
+  .projet-link:hover { color: var(--gold); }
 
   .projet-amenities {
     display: grid;

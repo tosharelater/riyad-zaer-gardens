@@ -2,36 +2,53 @@
 import '@fontsource/outfit/400.css';
 import '@fontsource/outfit/500.css';
 import '@fontsource/ibm-plex-sans/400.css';
+import '@fontsource/noto-sans-arabic/400.css';
+import '@fontsource/noto-sans-arabic/500.css';
 import '../styles/global.css';
 import Intro from '../components/Intro.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import type { Locale } from '../i18n/paths';
+import { getLocaleFromPath } from '../i18n/paths';
 
 interface Props {
   title?: string;
   description?: string;
+  intro?: boolean;
+  solidNav?: boolean;
+  noindex?: boolean;
+  locale?: Locale;
 }
 const {
   title = 'Riyad Zaer Gardens — Appartements neufs à Aïn Aouda',
   description = "Appartements F3 et F4 de 65 à 86 m² et fonds de commerce à Aïn Aouda, à 20 min de Rabat. À partir de 420 000 DH, éligibles à l'aide au logement.",
+  intro = false,
+  solidNav = false,
+  noindex = false,
+  locale: localeProp,
 } = Astro.props;
+
+const locale: Locale =
+  localeProp ?? (Astro.currentLocale === 'ar' ? 'ar' : getLocaleFromPath(Astro.url.pathname));
+const dir = locale === 'ar' ? 'rtl' : 'ltr';
 ---
 <!doctype html>
-<html lang="fr">
+<html lang={locale} dir={dir}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="theme-color" content="#002D2D" />
   </head>
-  <body>
-    <Intro />
+  <body class:list={[{ 'is-page': solidNav, 'is-rtl': locale === 'ar' }]}>
+    {intro && <Intro />}
     <div class="progress" aria-hidden="true"><i data-progress></i></div>
-    <Nav />
+    <Nav solid={solidNav} locale={locale} />
     <main><slot /></main>
-    <Footer />
+    <Footer locale={locale} />
     <script>import '../scripts/motion';</script>
   </body>
 </html>

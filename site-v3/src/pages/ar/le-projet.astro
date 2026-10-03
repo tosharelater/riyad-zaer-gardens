@@ -1,0 +1,147 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/page/PageHero.astro';
+import PageBand from '../../components/page/PageBand.astro';
+import MoreLinks from '../../components/page/MoreLinks.astro';
+import MediaSplit from '../../components/page/MediaSplit.astro';
+import FeatureGrid from '../../components/page/FeatureGrid.astro';
+import FactTable from '../../components/page/FactTable.astro';
+import { projetPage as p } from '../../data/pages.ar';
+import { media } from '../../data/media';
+import { localePath } from '../../i18n/paths';
+
+const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath('ar', l.href) }));
+---
+<BaseLayout locale="ar" title={p.seo.title} description={p.seo.description}>
+  <PageHero
+    h1={p.h1}
+    lead={p.lead}
+    kicker="المشروع"
+    image={media.aerial.src}
+    alt={media.aerial.alt}
+  />
+
+  <FeatureGrid
+    kicker="التصميم"
+    title={p.conception.h2}
+    intro={p.conception.intro}
+    columns={2}
+    tone="light"
+    items={[
+      { ...p.conception.items[0], image: media.facade.src, alt: media.facade.alt },
+      { ...p.conception.items[1], image: media.courtyard.src, alt: media.courtyard.alt },
+      { ...p.conception.items[2], image: media.terrace.src, alt: media.terrace.alt },
+      { ...p.conception.items[3], image: media.avenue.src, alt: media.avenue.alt },
+    ]}
+  />
+
+  <MediaSplit
+    image={media.courtyard.src}
+    alt={media.courtyard.alt}
+    kicker="إطار العيش"
+    title={p.cadre.h2}
+    body={p.cadre.body}
+    tone="cream"
+  />
+
+  <FeatureGrid
+    kicker="الخدمات"
+    title={p.equipements.h2}
+    intro={p.equipements.intro}
+    columns={3}
+    tone="light"
+    items={p.equipements.items.map((item) => ({
+      title: item.title,
+      body: item.body,
+      link:
+        'link' in item
+          ? { ...item.link, href: localePath('ar', item.link.href) }
+          : undefined,
+    }))}
+  />
+
+  <MediaSplit
+    image={media.facade.src}
+    alt={media.facade.alt}
+    kicker="الإدارة"
+    title={p.syndic.h2}
+    body={p.syndic.body}
+    reverse
+    tone="ink"
+  >
+    <ul class="ink-list">
+      {p.syndic.missions.map((m) => <li>{m}</li>)}
+    </ul>
+    <p class="ink-end">{p.syndic.end}</p>
+  </MediaSplit>
+
+  <section class="fiche">
+    <div class="wrap fiche-grid">
+      <div>
+        <p class="kick">المواصفات</p>
+        <h2 class="display">{p.fiche.h2}</h2>
+      </div>
+      <FactTable rows={p.fiche.rows} />
+    </div>
+  </section>
+
+  <MediaSplit
+    image={media.hero.src}
+    alt={media.hero.alt}
+    kicker="التطور"
+    title={p.tranches.h2}
+    body={p.tranches.body}
+    tone="cream"
+  />
+
+  <PageBand mode="aid" />
+  <PageBand image={media.aerial.src} />
+  <MoreLinks h2={p.more.h2} links={moreLinks} />
+</BaseLayout>
+
+<style>
+  .ink-list {
+    margin-top: 1rem;
+    display: grid;
+    gap: 0.7rem;
+  }
+  .ink-list li {
+    position: relative;
+    padding-inline-start: 1.1rem;
+    color: rgb(247 242 232 / 0.78);
+    line-height: 1.55;
+  }
+  .ink-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.65em;
+    width: 0.4rem;
+    height: 0.4rem;
+    background: var(--gold);
+  }
+  .ink-end {
+    margin-top: 1.25rem;
+    color: rgb(247 242 232 / 0.72);
+    max-width: 34rem;
+    line-height: 1.65;
+  }
+  .fiche {
+    padding: clamp(3.5rem, 8vw, 5.5rem) 0;
+    background: #fff;
+  }
+  .fiche-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+  .fiche .display {
+    margin-top: 0.5rem;
+    font-size: clamp(1.85rem, 3.2vw, 2.6rem);
+    max-width: 12ch;
+  }
+  @media (max-width: 900px) {
+    .fiche-grid { grid-template-columns: 1fr; }
+  }
+</style>
