@@ -18,13 +18,13 @@ import { media } from '../data/media';
   />
 
   <section class="types">
-    <div class="wrap types-head">
+    <div class="wrap types-head" data-reveal>
       <p class="kick">Typologies</p>
       <h2 class="display">{p.types.h2}</h2>
     </div>
     <div class="types-board">
       {p.types.items.map((item, i) => (
-        <article class="type">
+        <article class="type" data-reveal>
           <figure>
             <img
               src={i === 0 ? media.apartment.src : media.terrace.src}
@@ -74,13 +74,13 @@ import { media } from '../data/media';
 
   <section class="prix">
     <div class="wrap prix-grid">
-      <div>
+      <div data-reveal>
         <p class="kick">Prix</p>
         <h2 class="display">{p.prix.h2}</h2>
         {p.prix.body.map((t) => <p class="lead">{t}</p>)}
         <a class="btn btn-solid" href={p.prix.cta.href}>{p.prix.cta.label}</a>
       </div>
-      <aside class="prix-ticket" aria-label="Comparaison de prix">
+      <aside class="prix-ticket" data-reveal aria-label="Comparaison de prix">
         <div>
           <span>Sans aide</span>
           <strong>{p.prix.without}</strong>
@@ -113,6 +113,8 @@ import { media } from '../data/media';
   .types-board {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid rgb(0 45 45 / 0.08);
   }
   .type {
     display: grid;
@@ -174,7 +176,7 @@ import { media } from '../data/media';
   .check-list li::before {
     content: '';
     position: absolute;
-    left: 0;
+    inset-inline-start: 0;
     top: 0.65em;
     width: 0.4rem;
     height: 0.4rem;
@@ -232,8 +234,13 @@ import { media } from '../data/media';
     margin-bottom: 0.55rem;
   }
   .prix-ticket strong {
-    font-size: clamp(1.2rem, 2vw, 1.45rem);
-    font-weight: 500;
+    font-family: var(--serif);
+    font-size: clamp(1.45rem, 2.4vw, 1.85rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+  .prix-ticket .is-aid {
+    background: rgb(200 181 104 / 0.08);
   }
   .prix-ticket .is-aid strong { color: var(--gold); }
 

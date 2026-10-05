@@ -1,125 +1,542 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/page/PageHero.astro';
 import PageBand from '../components/page/PageBand.astro';
 import MoreLinks from '../components/page/MoreLinks.astro';
-import MediaSplit from '../components/page/MediaSplit.astro';
-import FeatureGrid from '../components/page/FeatureGrid.astro';
-import FactTable from '../components/page/FactTable.astro';
 import { projetPage as p } from '../data/pages';
 import { media } from '../data/media';
+
+const chapterImages = [
+  media.facade,
+  media.courtyard,
+  media.terrace,
+  media.avenue,
+] as const;
 ---
 <BaseLayout title={p.seo.title} description={p.seo.description}>
-  <PageHero
-    h1={p.h1}
-    lead={p.lead}
-    kicker="Le projet"
-    image={media.aerial.src}
-    alt={media.aerial.alt}
-  />
-
-  <FeatureGrid
-    kicker="Conception"
-    title={p.conception.h2}
-    intro={p.conception.intro}
-    columns={2}
-    tone="light"
-    items={[
-      { ...p.conception.items[0], image: media.facade.src, alt: media.facade.alt },
-      { ...p.conception.items[1], image: media.courtyard.src, alt: media.courtyard.alt },
-      { ...p.conception.items[2], image: media.terrace.src, alt: media.terrace.alt },
-      { ...p.conception.items[3], image: media.avenue.src, alt: media.avenue.alt },
-    ]}
-  />
-
-  <MediaSplit
-    image={media.courtyard.src}
-    alt={media.courtyard.alt}
-    kicker="Cadre de vie"
-    title={p.cadre.h2}
-    body={p.cadre.body}
-    tone="cream"
-  />
-
-  <FeatureGrid
-    kicker="Prestations"
-    title={p.equipements.h2}
-    intro={p.equipements.intro}
-    columns={3}
-    tone="light"
-    items={p.equipements.items.map((item) => ({
-      title: item.title,
-      body: item.body,
-      link: 'link' in item ? item.link : undefined,
-    }))}
-  />
-
-  <MediaSplit
-    image={media.facade.src}
-    alt={media.facade.alt}
-    kicker="Gestion"
-    title={p.syndic.h2}
-    body={p.syndic.body}
-    reverse
-    tone="ink"
-  >
-    <ul class="ink-list">
-      {p.syndic.missions.map((m) => <li>{m}</li>)}
-    </ul>
-    <p class="ink-end">{p.syndic.end}</p>
-  </MediaSplit>
-
-  <section class="fiche">
-    <div class="wrap fiche-grid">
-      <div>
-        <p class="kick">Fiche technique</p>
-        <h2 class="display">{p.fiche.h2}</h2>
+  <div data-projet-page class="projet-page">
+    <!-- Hero -->
+    <header class="ph" data-page-hero data-projet-hero>
+      <figure class="ph-media">
+        <img src={media.aerial.src} alt={media.aerial.alt} fetchpriority="high" />
+      </figure>
+      <div class="ph-shade" aria-hidden="true"></div>
+      <div class="ph-copy wrap">
+        <p class="ph-kick">Le projet</p>
+        <h1 class="ph-title">{p.h1}</h1>
+        {p.lead.map((line) => <p class="ph-lead">{line}</p>)}
       </div>
-      <FactTable rows={p.fiche.rows} />
-    </div>
-  </section>
+    </header>
 
-  <MediaSplit
-    image={media.hero.src}
-    alt={media.hero.alt}
-    kicker="Développement"
-    title={p.tranches.h2}
-    body={p.tranches.body}
-    tone="cream"
-  />
+    <!-- Stats -->
+    <section class="stats" aria-label="Chiffres clés">
+      <div class="wrap stats-rail">
+        <div data-stat>
+          <p class="n" data-value="120">120</p>
+          <p class="l">appartements</p>
+        </div>
+        <div data-stat>
+          <p class="n" data-value="49">49</p>
+          <p class="l">fonds de commerce</p>
+        </div>
+        <div data-stat>
+          <p class="n">65–86</p>
+          <p class="l">m² · F3 et F4</p>
+        </div>
+        <div data-stat>
+          <p class="n">2028</p>
+          <p class="l">livraison prévue</p>
+        </div>
+      </div>
+    </section>
 
-  <PageBand mode="aid" />
-  <PageBand image={media.aerial.src} />
-  <MoreLinks h2={p.more.h2} links={p.more.links} />
+    <!-- Sticky conception chapters -->
+    <section class="chapters" data-chapters>
+      <div class="chapters-media" aria-hidden="true">
+        {chapterImages.map((img, i) => (
+          <figure class="chapters-img" data-chapter-img>
+            <img src={img.src} alt="" />
+          </figure>
+        ))}
+        <div class="chapters-shade"></div>
+      </div>
+
+      <div class="chapters-side">
+        <div class="chapters-inner">
+          <p class="kick light">Conception</p>
+          <p class="chapters-intro">{p.conception.intro}</p>
+
+          <div class="chapters-panels">
+            {p.conception.items.map((item, i) => (
+              <article class="chapter" data-chapter>
+                <span class="chapter-num">0{i + 1}</span>
+                <h2>{item.title}</h2>
+                <p>{item.body}</p>
+              </article>
+            ))}
+          </div>
+
+          <div class="chapter-dots" aria-hidden="true">
+            {p.conception.items.map((_, i) => (
+              <i data-chapter-dot class:list={{ 'is-on': i === 0 }}></i>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Courtyard scene -->
+    <section class="cour-scene" data-cour-scene>
+      <figure class="cour-media">
+        <img src={media.courtyard.src} alt={media.courtyard.alt} loading="lazy" />
+      </figure>
+      <div class="cour-shade" aria-hidden="true"></div>
+      <div class="wrap cour-copy">
+        <p class="kick light" data-cour-line>Cadre de vie</p>
+        <h2 class="display" data-cour-line>{p.cadre.h2}</h2>
+        {p.cadre.body.map((t) => (
+          <p class="cour-p" data-cour-line>{t}</p>
+        ))}
+      </div>
+    </section>
+
+    <!-- Amenities horizontal -->
+    <section class="amenity">
+      <div class="wrap amenity-head" data-reveal>
+        <p class="kick">Prestations</p>
+        <h2 class="display">{p.equipements.h2}</h2>
+        <p class="lead">{p.equipements.intro}</p>
+      </div>
+      <div class="amenity-wrap" data-amenity-wrap>
+        <div class="amenity-track" data-amenity-track>
+          {p.equipements.items.map((item, i) => (
+            <article class="amenity-card">
+              <span>0{i + 1}</span>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+              {'link' in item && item.link && (
+                <a class="text-link" href={item.link.href}>{item.link.label}</a>
+              )}
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Syndic -->
+    <section class="syndic">
+      <div class="syndic-grid wrap">
+        <figure class="syndic-media" data-media>
+          <img src={media.facade.src} alt={media.facade.alt} loading="lazy" />
+        </figure>
+        <div class="syndic-copy" data-reveal>
+          <p class="kick light">Gestion</p>
+          <h2 class="display">{p.syndic.h2}</h2>
+          <p class="lead">{p.syndic.body}</p>
+          <ul class="missions" data-missions>
+            {p.syndic.missions.map((m) => (
+              <li data-mission>{m}</li>
+            ))}
+          </ul>
+          <p class="syndic-end">{p.syndic.end}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fiche -->
+    <section class="fiche" data-fiche>
+      <div class="wrap fiche-grid">
+        <div data-reveal>
+          <p class="kick">Fiche technique</p>
+          <h2 class="display">{p.fiche.h2}</h2>
+        </div>
+        <dl class="fiche-table">
+          {p.fiche.rows.map(([k, v]) => (
+            <div data-fiche-row>
+              <dt>{k}</dt>
+              <dd>{v}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <!-- Tranches -->
+    <section class="tranches">
+      <figure class="tranches-media" data-media>
+        <img src={media.hero.src} alt={media.hero.alt} loading="lazy" />
+      </figure>
+      <div class="tranches-panel" data-reveal>
+        <p class="kick">Développement</p>
+        <h2 class="display">{p.tranches.h2}</h2>
+        {p.tranches.body.map((t) => <p class="lead">{t}</p>)}
+      </div>
+    </section>
+
+    <PageBand mode="aid" />
+    <PageBand image={media.aerial.src} />
+    <MoreLinks h2={p.more.h2} links={p.more.links} />
+  </div>
 </BaseLayout>
 
+<script>
+  import '../scripts/projet-motion';
+</script>
+
 <style>
-  .ink-list {
-    margin-top: 1rem;
-    display: grid;
-    gap: 0.7rem;
+  .projet-page {
+    --ph-ease: cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .ink-list li {
+
+  /* Hero */
+  .ph {
     position: relative;
-    padding-inline-start: 1.1rem;
-    color: rgb(247 242 232 / 0.78);
-    line-height: 1.55;
+    min-height: min(88svh, 52rem);
+    display: grid;
+    align-items: end;
+    color: #f7f2e8;
+    overflow: hidden;
+    isolation: isolate;
   }
-  .ink-list li::before {
+  .ph-media {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    margin: 0;
+  }
+  .ph-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    transform: scale(1.08);
+  }
+  .ph-shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(115deg, rgb(0 16 16 / 0.86) 0%, rgb(0 16 16 / 0.35) 55%, rgb(0 8 8 / 0.55) 100%),
+      linear-gradient(to top, rgb(0 0 0 / 0.6) 0%, transparent 55%);
+  }
+  .ph-copy {
+    padding: calc(var(--nav) + 4.5rem) 0 clamp(3rem, 7vw, 5rem);
+    max-width: 54rem;
+  }
+  .ph-kick {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .ph-kick::before {
+    content: '';
+    width: 1.5rem;
+    height: 2px;
+    background: var(--gold);
+  }
+  .ph-title {
+    margin-top: 1rem;
+    font-size: clamp(2.5rem, 6vw, 4.6rem);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+    max-width: 13ch;
+    text-wrap: balance;
+  }
+  .ph-lead {
+    margin-top: 1.15rem;
+    max-width: 36rem;
+    font-size: clamp(1.02rem, 1.6vw, 1.15rem);
+    line-height: 1.7;
+    color: rgb(247 242 232 / 0.8);
+  }
+
+  /* Stats */
+  .stats {
+    background: var(--ink);
+    color: #f7f2e8;
+    padding: clamp(1.75rem, 4vw, 2.5rem) 0;
+    border-block: 1px solid rgb(200 181 104 / 0.22);
+  }
+  .stats-rail {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+  .stats-rail .n {
+    font-family: var(--serif);
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--gold);
+  }
+  .stats-rail .l {
+    margin-top: 0.45rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgb(247 242 232 / 0.55);
+  }
+
+  /* Chapters sticky */
+  .chapters {
+    position: relative;
+    min-height: 100svh;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    background: #000;
+    color: #f7f2e8;
+    overflow: hidden;
+  }
+  .chapters-media {
+    position: relative;
+    min-height: 100svh;
+  }
+  .chapters-img {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+  }
+  .chapters-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .chapters-shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 40%, rgb(0 0 0 / 0.55));
+    pointer-events: none;
+  }
+  .chapters-side {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100svh;
+    background: rgb(0 18 18 / 0.78);
+    backdrop-filter: blur(10px);
+  }
+  .chapters-inner {
+    padding: 4.5rem clamp(1.5rem, 4vw, 3rem);
+  }
+  .kick.light { color: var(--gold); }
+  .kick.light::before { background: var(--gold); }
+  .chapters-intro {
+    margin: 0.85rem 0 2rem;
+    max-width: 28rem;
+    color: rgb(247 242 232 / 0.7);
+    line-height: 1.65;
+  }
+  .chapters-panels {
+    position: relative;
+    min-height: 15.5rem;
+  }
+  .chapter {
+    position: absolute;
+    inset: 0 auto auto 0;
+    max-width: 28rem;
+    width: 100%;
+  }
+  @media (min-width: 901px) {
+    .chapter:not(:first-child) { opacity: 0; }
+  }
+  .chapter-num {
+    display: block;
+    font-family: var(--serif);
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+  .chapter h2 {
+    font-size: clamp(1.55rem, 2.8vw, 2.1rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+  }
+  .chapter p {
+    color: rgb(247 242 232 / 0.75);
+    line-height: 1.7;
+  }
+  .chapter-dots {
+    display: flex;
+    gap: 0.45rem;
+    margin-top: 2.5rem;
+  }
+  .chapter-dots i {
+    width: 1.75rem;
+    height: 2px;
+    background: rgb(247 242 232 / 0.25);
+    transition: background 0.3s ease, width 0.3s ease;
+  }
+  .chapter-dots i.is-on {
+    width: 2.5rem;
+    background: var(--gold);
+  }
+
+  /* Courtyard */
+  .cour-scene {
+    position: relative;
+    min-height: min(92svh, 48rem);
+    display: grid;
+    align-items: end;
+    color: #f7f2e8;
+    overflow: hidden;
+  }
+  .cour-media {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+  }
+  .cour-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .cour-shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to top, rgb(0 12 12 / 0.88) 0%, rgb(0 12 12 / 0.35) 45%, rgb(0 12 12 / 0.2) 100%);
+  }
+  .cour-copy {
+    position: relative;
+    z-index: 1;
+    padding: 5rem 0 4rem;
+    max-width: 42rem;
+  }
+  .cour-copy .display {
+    margin: 0.75rem 0 1.25rem;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    max-width: 14ch;
+  }
+  .cour-p {
+    margin-top: 0.85rem;
+    max-width: 36rem;
+    color: rgb(247 242 232 / 0.8);
+    line-height: 1.75;
+    font-size: 1.05rem;
+  }
+
+  /* Amenities */
+  .amenity {
+    padding: clamp(3.5rem, 8vw, 5.5rem) 0;
+    background: var(--cream);
+    overflow: hidden;
+  }
+  .amenity-head {
+    margin-bottom: 2rem;
+  }
+  .amenity-head .display {
+    margin-top: 0.45rem;
+    font-size: clamp(1.85rem, 3.4vw, 2.75rem);
+    max-width: 16ch;
+  }
+  .amenity-wrap {
+    padding-inline: var(--pad);
+    overflow: hidden;
+  }
+  .amenity-track {
+    display: flex;
+    gap: 1rem;
+    width: max-content;
+  }
+  .amenity-card {
+    width: min(22rem, 78vw);
+    padding: 1.75rem 0.35rem 1.75rem 0;
+    display: grid;
+    gap: 0.65rem;
+    border-top: 2px solid var(--gold);
+    border-inline-end: 1px solid rgb(0 45 45 / 0.1);
+    padding-inline-end: 1.5rem;
+  }
+  .amenity-card span {
+    font-family: var(--serif);
+    font-size: 2rem;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .amenity-card h3 {
+    font-size: 1.15rem;
+    font-weight: 500;
+  }
+  .amenity-card p {
+    color: var(--muted);
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+
+  /* Syndic */
+  .syndic {
+    background: var(--ink);
+    color: #f7f2e8;
+  }
+  .syndic-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    max-width: none;
+    width: min(100%, var(--wrap));
+    padding-inline: 0;
+  }
+  .syndic-media {
+    margin: 0;
+    min-height: 28rem;
+  }
+  .syndic-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .syndic-copy {
+    padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 4vw, 3.5rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .syndic-copy .display {
+    margin: 0.5rem 0 1rem;
+    font-size: clamp(1.85rem, 3.2vw, 2.6rem);
+    max-width: 14ch;
+  }
+  .syndic-copy .lead {
+    color: rgb(247 242 232 / 0.72);
+  }
+  .missions {
+    margin-top: 1.5rem;
+    display: grid;
+    gap: 0;
+  }
+  .missions li {
+    padding: 0.95rem 0;
+    border-top: 1px solid rgb(247 242 232 / 0.14);
+    color: rgb(247 242 232 / 0.82);
+    line-height: 1.5;
+    padding-inline-start: 1.1rem;
+    position: relative;
+  }
+  .missions li::before {
     content: '';
     position: absolute;
-    left: 0;
-    top: 0.65em;
+    inset-inline-start: 0;
+    top: 1.3rem;
     width: 0.4rem;
     height: 0.4rem;
     background: var(--gold);
   }
-  .ink-end {
+  .syndic-end {
     margin-top: 1.25rem;
-    color: rgb(247 242 232 / 0.72);
-    max-width: 34rem;
+    color: rgb(247 242 232 / 0.65);
     line-height: 1.65;
   }
+
+  /* Fiche */
   .fiche {
     padding: clamp(3.5rem, 8vw, 5.5rem) 0;
     background: #fff;
@@ -135,7 +552,103 @@ import { media } from '../data/media';
     font-size: clamp(1.85rem, 3.2vw, 2.6rem);
     max-width: 12ch;
   }
+  .fiche-table {
+    border-top: 1px solid var(--line);
+  }
+  .fiche-table > div {
+    display: grid;
+    grid-template-columns: minmax(8rem, 0.85fr) 1.4fr;
+    gap: 1rem;
+    padding: 1.05rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .fiche-table dt {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 0.2rem;
+  }
+  .fiche-table dd {
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
+
+  /* Tranches */
+  .tranches {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    min-height: min(70svh, 38rem);
+    background: var(--cream);
+  }
+  .tranches-media {
+    margin: 0;
+    min-height: 22rem;
+  }
+  .tranches-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .tranches-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.85rem;
+    padding: clamp(2.25rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3.5rem);
+  }
+  .tranches-panel .display {
+    font-size: clamp(1.85rem, 3.4vw, 2.75rem);
+    max-width: 14ch;
+  }
+
   @media (max-width: 900px) {
-    .fiche-grid { grid-template-columns: 1fr; }
+    .stats-rail { grid-template-columns: 1fr 1fr; gap: 1.5rem 1rem; }
+    .chapters {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+    .chapters-media {
+      min-height: 50vw;
+      aspect-ratio: 16 / 11;
+    }
+    .chapters-side {
+      min-height: 0;
+      padding-block: 0;
+      background: var(--ink);
+    }
+    .chapters-inner {
+      padding-block: 2.5rem;
+    }
+    .chapters-panels {
+      display: grid;
+      gap: 2rem;
+      min-height: 0;
+    }
+    .chapter {
+      position: relative;
+      inset: auto;
+      max-width: none;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .chapter-dots { display: none; }
+    .amenity-track {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+    .amenity-card { width: 100%; }
+    .syndic-grid,
+    .fiche-grid,
+    .tranches {
+      grid-template-columns: 1fr;
+    }
+    .fiche-table > div { grid-template-columns: 1fr; gap: 0.3rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ph-media img { transform: none; }
   }
 </style>

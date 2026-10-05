@@ -585,6 +585,23 @@ function commerceScene() {
   }
 }
 
+function pageHeroParallax() {
+  const hero = document.querySelector<HTMLElement>('[data-page-hero]');
+  const img = hero?.querySelector<HTMLElement>('.ph-media img');
+  if (!hero || !img) return;
+
+  gsap.to(img, {
+    yPercent: 12,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: hero,
+      start: 'top top',
+      end: 'bottom top',
+      scrub: 0.8,
+    },
+  });
+}
+
 function boot() {
   if (reduce) {
     document.querySelectorAll<HTMLElement>('h1.hero-title .w > span').forEach((s) => {
@@ -594,6 +611,7 @@ function boot() {
   }
 
   heroScene();
+  pageHeroParallax();
   enterOnce();
   mediaDepth();
   figuresScene();

@@ -25,7 +25,7 @@ const paras = body == null ? [] : Array.isArray(body) ? [...body] : [body];
   <figure class="split-media" data-media>
     <img src={image} alt={alt} loading="lazy" />
   </figure>
-  <div class="split-panel">
+  <div class="split-panel" data-reveal>
     {kicker && <p class="kick">{kicker}</p>}
     <h2 class="display">{title}</h2>
     {paras.map((p) => <p class="lead">{p}</p>)}
@@ -37,15 +37,14 @@ const paras = body == null ? [] : Array.isArray(body) ? [...body] : [body];
   .split {
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
+    grid-template-areas: 'media panel';
     min-height: min(72svh, 40rem);
   }
   .split.reverse {
-    direction: rtl;
-  }
-  .split.reverse > * {
-    direction: ltr;
+    grid-template-areas: 'panel media';
   }
   .split-media {
+    grid-area: media;
     margin: 0;
     min-height: 24rem;
     overflow: hidden;
@@ -56,6 +55,7 @@ const paras = body == null ? [] : Array.isArray(body) ? [...body] : [body];
     object-fit: cover;
   }
   .split-panel {
+    grid-area: panel;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -96,7 +96,9 @@ const paras = body == null ? [] : Array.isArray(body) ? [...body] : [body];
     .split,
     .split.reverse {
       grid-template-columns: 1fr;
-      direction: ltr;
+      grid-template-areas:
+        'media'
+        'panel';
       min-height: 0;
     }
     .split-media { min-height: 18rem; aspect-ratio: 16 / 10; }

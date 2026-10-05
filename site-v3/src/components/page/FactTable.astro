@@ -24,8 +24,12 @@ const { rows, tone = 'light' } = Astro.props;
     display: grid;
     grid-template-columns: minmax(8rem, 0.85fr) 1.4fr;
     gap: 1rem;
-    padding: 1.05rem 0;
+    padding: 1.1rem 0;
     border-bottom: 1px solid var(--line);
+    transition: background 0.25s ease;
+  }
+  .facts > div:hover {
+    background: rgb(0 45 45 / 0.02);
   }
   .facts > div:first-child { border-top: 1px solid var(--line); }
   .facts dt {
