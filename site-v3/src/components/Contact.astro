@@ -1,6 +1,7 @@
 ---
 import { getHome } from '../data/content';
 import { localePath, type Locale } from '../i18n/paths';
+import Icon from './Icon.astro';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { contact } = getHome(locale);
 ---
@@ -12,8 +13,8 @@ const { contact } = getHome(locale);
       <p class="lead">{contact.body}</p>
       <a class="phone" href={`tel:${contact.phoneTel}`} dir="ltr">{contact.phone}</a>
       <div class="contact-actions">
-        <a class="btn btn-solid" href={`tel:${contact.phoneTel}`}>{contact.primary}</a>
-        <a class="btn btn-ghost wa" href={contact.whatsapp}>{contact.secondary}</a>
+        <a class="btn btn-solid" href={`tel:${contact.phoneTel}`}><Icon name="phone" />{contact.primary}</a>
+        <a class="btn btn-ghost wa" href={contact.whatsapp}><Icon name="message-circle" />{contact.secondary}</a>
       </div>
     </div>
     <form class="form" data-reveal onsubmit="return false;">

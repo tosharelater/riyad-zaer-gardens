@@ -1,6 +1,5 @@
 ---
 import { getHome } from '../data/content';
-import { media } from '../data/media';
 import { localePath, type Locale } from '../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { apartments } = getHome(locale);
@@ -14,7 +13,7 @@ const { apartments } = getHome(locale);
 
   <div class="homes-board">
     <figure class="homes-media" data-media data-reveal>
-      <img src={media.terrace.src} alt={media.terrace.alt} loading="lazy" />
+      <img src="/photos/chambre-enfants.jpg" alt="Chambre d’enfant — Riyad Zaer Gardens" loading="lazy" />
     </figure>
 
     <div class="homes-side" data-reveal>

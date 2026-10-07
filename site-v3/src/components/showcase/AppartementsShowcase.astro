@@ -1,5 +1,6 @@
 ---
 import PageHero from '../page/PageHero.astro';
+import Icon from '../Icon.astro';
 import PageBand from '../page/PageBand.astro';
 import MoreLinks from '../page/MoreLinks.astro';
 import FactTable from '../page/FactTable.astro';
@@ -48,14 +49,12 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.hr
 const withoutLabel = 'withoutLabel' in p.prix ? (p.prix as { withoutLabel: string }).withoutLabel : L.without;
 const withAidLabel = 'withAidLabel' in p.prix ? (p.prix as { withAidLabel: string }).withAidLabel : L.withAid;
 const keep = (t: string) => t.replace(/(\d) (?=\d|DH|درهم)/g, '$1 ');
-const pad = (i: number) => String(i + 1).padStart(2, '0');
 ---
 <div data-apt-page class="apt-page">
   <PageHero
     h1={p.h1}
     lead={p.lead}
     kicker={L.kick}
-    index="02"
     image={media.apartment.src}
     alt={media.apartment.alt}
     position="center 55%"
@@ -81,7 +80,6 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
             <article class="type" data-type>
               <p class="type-mark" aria-hidden="true">{'mark' in item ? item.mark : item.title.replace(/.* /, '')}</p>
               <div class="type-body">
-                <span class="type-idx">{pad(i)}</span>
                 <h3>{item.title}</h3>
                 <p>{item.body}</p>
                 <p class="type-surface">{item.surface}</p>
@@ -94,15 +92,19 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
   </section>
 
   <section class="inclus" data-inclus>
-    <div class="wrap inclus-grid">
+    <div class="wrap text-photo">
       <div data-reveal data-split>
         <p class="kick">{L.inclus}</p>
         <h2 class="display">{p.inclus.h2}</h2>
         <p class="lead">{p.inclus.body}</p>
+        <ul class="ruled" data-ruled>
+          {p.inclus.list.map((item) => <li><span class="tick"><Icon name="check" size="1rem" /></span>{item}</li>)}
+        </ul>
       </div>
-      <ol class="ruled" data-ruled>
-        {p.inclus.list.map((item, i) => <li><span>{pad(i)}</span>{item}</li>)}
-      </ol>
+      <div class="inclus-photos">
+        <figure data-media><img src="/photos/chambre.jpg" alt="Chambre" loading="lazy" decoding="async" /></figure>
+        <figure data-media><img src="/photos/cuisine.jpg" alt="Cuisine" loading="lazy" decoding="async" /></figure>
+      </div>
     </div>
   </section>
 
@@ -220,12 +222,6 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
     padding: var(--sec) 0;
     background: var(--cream);
   }
-  .inclus-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: clamp(2.5rem, 7vw, 7rem);
-    align-items: end;
-  }
   .inclus .display { margin: 1rem 0 0.25rem; max-width: 13ch; }
   .ruled {
     border-top: 1px solid var(--line);
@@ -319,11 +315,20 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
 
   @media (max-width: 900px) {
     .types-grid,
-    .inclus-grid,
     .finish-grid,
     .prix-grid { grid-template-columns: 1fr; }
     .type, .type + .type { padding-inline: 0; border-inline-start: 0; }
     .type + .type { margin-top: 2.5rem; border-top: 1px solid var(--line); }
     .finish-copy { position: static; }
   }
+  .inclus-photos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(0.75rem, 1.5vw, 1.25rem);
+    align-items: end;
+  }
+  .inclus-photos figure { margin: 0; aspect-ratio: 3 / 4; }
+  .inclus-photos figure + figure { margin-bottom: clamp(2rem, 6vw, 5rem); }
+  .inclus-photos img { width: 100%; height: 100%; object-fit: cover; }
+  .ruled { margin-top: 1.75rem; }
 </style>

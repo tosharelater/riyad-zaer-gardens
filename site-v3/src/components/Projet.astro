@@ -1,72 +1,33 @@
 ---
 import { getHome } from '../data/content';
 import { localePath, type Locale } from '../i18n/paths';
+import Icon from './Icon.astro';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { projet } = getHome(locale);
 
-/** Stroke icons — one set of paths per amenity */
-const amenityIcons = [
-  // Ascenseur
-  [
-    'M6 3h12v18H6z',
-    'M10 9.5 12 7l2 2.5',
-    'M10 14.5 12 17l2-2.5',
-  ],
-  // Cœur d’îlot / végétal
-  [
-    'M12 22v-7',
-    'M9 22h6',
-    'M12 15c-3.8 0-6.5-2.4-6.5-5.8C5.5 6.2 8.6 4 12 4s6.5 2.2 6.5 5.2C18.5 12.6 15.8 15 12 15Z',
-    'M12 8.5c-.8 1.2-1.2 2.4-1.2 3.5',
-  ],
-  // Parking couvert
-  [
-    'M4 19h16',
-    'M6 19 7.5 13h9L18 19',
-    'M8 13V9.5h8V13',
-    'M9 19v2',
-    'M15 19v2',
-    'M5 9.5 12 5l7 4.5',
-  ],
-  // Sécurité
-  [
-    'M12 3 5 6.2v5c0 4.1 2.9 7.1 7 8.8 4.1-1.7 7-4.7 7-8.8v-5L12 3Z',
-    'M9.5 12.2 11.2 14l3.8-4',
-  ],
-  // Finitions
-  [
-    'M4 20h16',
-    'M7 20V9l5-5 5 5v11',
-    'M10 20v-5h4v5',
-  ],
-  // Commerces
-  [
-    'M4 10h16l-1.2 10H5.2L4 10Z',
-    'M5.5 6h13l1 4h-15l1-4Z',
-    'M9 14v4',
-    'M15 14v4',
-  ],
-] as const;
+/** One icon per amenity, same order as the data */
+const amenityIcons = ['arrow-up-down', 'trees', 'square-parking', 'shield-check', 'paint-roller', 'store'];
 
 ---
 <section class="projet" id="projet">
-  <div class="wrap projet-grid">
-    <div class="projet-copy" data-reveal data-split>
-      <p class="kick">{locale === 'ar' ? 'المشروع' : 'Le projet'}</p>
-      <h2 class="display">{projet.h2}</h2>
-      <p class="lead">{projet.p1}</p>
-      <p class="lead">{projet.p2}</p>
-      <a class="projet-link" href={projet.link.href.startsWith('/') ? localePath(locale, projet.link.href) : projet.link.href}>{projet.link.label}</a>
+  <div class="wrap">
+    <div class="projet-grid">
+      <div class="projet-copy" data-reveal data-split>
+        <p class="kick">{locale === 'ar' ? 'المشروع' : 'Le projet'}</p>
+        <h2 class="display">{projet.h2}</h2>
+        <p class="lead">{projet.p1}</p>
+        <p class="lead">{projet.p2}</p>
+        <a class="projet-link" href={projet.link.href.startsWith('/') ? localePath(locale, projet.link.href) : projet.link.href}>{projet.link.label}</a>
+      </div>
+      <figure class="projet-photo" data-media>
+        <img src="/photos/aerial-ilot.jpg" alt={projet.alt} loading="lazy" decoding="async" />
+      </figure>
     </div>
 
     <ul class="projet-amenities" data-reveal>
       {projet.amenities.map((a, i) => (
         <li>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            {amenityIcons[i].map((d) => (
-              <path d={d} />
-            ))}
-          </svg>
+          <Icon name={amenityIcons[i]} size="1.5rem" />
           <span>{a}</span>
         </li>
       ))}
@@ -82,16 +43,29 @@ const amenityIcons = [
   .projet-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: clamp(2.5rem, 7vw, 7rem);
-    align-items: start;
+    gap: clamp(2.5rem, 6vw, 6rem);
+    align-items: center;
   }
   .projet-copy .display {
     margin: 1rem 0 0.25rem;
     max-width: 16ch;
   }
   .projet-copy .lead + .lead { margin-top: 0.85rem; }
+  .projet-photo {
+    margin: 0;
+    aspect-ratio: 1 / 1;
+  }
+  .projet-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
   .projet-amenities {
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: clamp(1.5rem, 4vw, 3rem);
     border-top: 1px solid var(--line);
   }
   .projet-amenities li {
@@ -101,16 +75,17 @@ const amenityIcons = [
     align-items: center;
     padding: 1.2rem 0;
     border-bottom: 1px solid var(--line);
-    font-size: 1.05rem;
+    font-size: 1.02rem;
     line-height: 1.45;
   }
-  .projet-amenities svg {
-    width: 1.5rem;
-    height: 1.5rem;
-    color: var(--gold-deep);
-  }
+  .projet-amenities :global(.icon) { color: var(--gold-deep); }
 
   @media (max-width: 900px) {
     .projet-grid { grid-template-columns: 1fr; }
+    .projet-photo { aspect-ratio: 4 / 3; }
+    .projet-amenities { grid-template-columns: 1fr; }
+  }
+  @media (min-width: 901px) and (max-width: 1100px) {
+    .projet-amenities { grid-template-columns: 1fr 1fr; }
   }
 </style>

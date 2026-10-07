@@ -139,6 +139,30 @@ body::after {
   .head-split > .lead { grid-column: 1; justify-self: start; }
 }
 
+/* Text beside its photo — no picture ever stands on its own */
+.text-photo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2.5rem, 6vw, 6rem);
+  align-items: center;
+}
+.text-photo > figure {
+  margin: 0;
+  aspect-ratio: 4 / 5;
+}
+.text-photo > figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.text-photo.is-flip > figure { order: -1; }
+.text-photo .display { margin: 1rem 0 0.25rem; max-width: 15ch; }
+.text-photo .lead + .lead { margin-top: 0.85rem; }
+@media (max-width: 900px) {
+  .text-photo { grid-template-columns: 1fr; }
+  .text-photo > figure { aspect-ratio: 4 / 3; order: -1; }
+}
+
 .progress {
   position: fixed; inset: 0 0 auto; z-index: 100; height: 2px; pointer-events: none;
 }
@@ -185,8 +209,24 @@ figure { overflow: hidden; }
   background-size: 0 1px;
 }
 
+/* Icons: traced on scroll (motion.ts adds .draw / .is-drawn) */
+.icon.draw :is(path, circle, rect, line, polyline, polygon, ellipse) {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.3s var(--ease-io);
+}
+.icon.draw.is-drawn :is(path, circle, rect, line, polyline, polygon, ellipse) {
+  stroke-dashoffset: 0;
+}
+.btn .icon { transition: transform 0.5s var(--ease); }
+.btn:hover .icon { transform: translateX(3px); }
+[dir='rtl'] .btn:hover .icon { transform: translateX(-3px); }
+
 /* Cross-document page transitions */
 @view-transition { navigation: auto; }
+/* The menu bar stays put while the page underneath changes */
+.top { view-transition-name: site-nav; }
+::view-transition-group(site-nav) { animation: none; }
 ::view-transition-old(root) {
   animation: vt-out 0.42s var(--ease-io) both;
 }

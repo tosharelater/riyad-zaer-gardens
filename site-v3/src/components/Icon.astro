@@ -1,0 +1,42 @@
+---
+/**
+ * Inline Lucide icon (lucide-static), read at build time — no runtime JS.
+ * Usage: <Icon name="map-pin" />
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+
+interface Props {
+  name: string;
+  size?: string;
+  class?: string;
+  strokeWidth?: number;
+}
+const { name, size = '1.25em', class: cls, strokeWidth = 1.4 } = Astro.props;
+
+const file = path.join(process.cwd(), 'node_modules', 'lucide-static', 'icons', `${name}.svg`);
+const raw = fs.readFileSync(file, 'utf-8');
+// Keep only the drawing; we set our own svg attributes below.
+const inner = raw.replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+---
+<svg
+  class:list={['icon', cls]}
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width={strokeWidth}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  set:html={inner}
+/>
+
+<style>
+  .icon {
+    display: inline-block;
+    flex: none;
+    vertical-align: -0.2em;
+  }
+</style>

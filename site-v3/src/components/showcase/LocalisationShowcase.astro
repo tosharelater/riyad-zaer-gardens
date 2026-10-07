@@ -1,5 +1,6 @@
 ---
 import PageHero from '../page/PageHero.astro';
+import Icon from '../Icon.astro';
 import MoreLinks from '../page/MoreLinks.astro';
 import PageBand from '../page/PageBand.astro';
 import { media } from '../../data/media';
@@ -48,15 +49,14 @@ const iframeTitle =
   'map' in p && p.map && 'iframeTitle' in p.map ? (p.map as { iframeTitle: string }).iframeTitle : L.iframeTitle;
 const mapsCta =
   'map' in p && p.map && 'mapsCta' in p.map ? (p.map as { mapsCta: string }).mapsCta : L.mapsCta;
-const pad = (i: number) => String(i + 1).padStart(2, '0');
+const accessIcons = ['route', 'signpost', 'car', 'map-pin'];
 ---
 <div data-loc-page class="loc-page">
   <PageHero
     h1={p.h1}
     lead={p.lead}
     kicker={L.kick}
-    index="04"
-    image={media.avenue.src}
+    image="/photos/rue-facade.jpg"
     alt={media.avenue.alt}
     facts={[
       { n: '20', l: L.min, count: 20 },
@@ -74,7 +74,7 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
       <ol class="access-grid">
         {p.acces.items.map((item, i) => (
           <li class="stop" data-stop>
-            <span class="stop-n">{pad(i)}</span>
+            <span class="stop-n"><Icon name={accessIcons[i] ?? 'map-pin'} size="1.5rem" /></span>
             <h3>{item.title}</h3>
             <p>{item.body}</p>
           </li>
@@ -100,18 +100,19 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
   </section>
 
   <section class="quartier">
-    <div class="wrap quartier-grid">
-    <div class="quartier-copy" data-reveal data-split>
-      <p class="kick">{L.area}</p>
-      <h2 class="display">{p.quartier.h2}</h2>
-      {p.quartier.body.split('\n\n').map((t) => <p class="lead">{t}</p>)}
-    </div>
-    <div class="quartier-list">
-      <ol class="near">
-        {p.quartier.already.map((item, i) => <li><span>{pad(i)}</span>{item}</li>)}
-      </ol>
-      <p class="near-end">{p.quartier.end}</p>
-    </div>
+    <div class="wrap text-photo is-flip">
+      <div data-reveal data-split>
+        <p class="kick">{L.area}</p>
+        <h2 class="display">{p.quartier.h2}</h2>
+        {p.quartier.body.split('\n\n').map((t) => <p class="lead">{t}</p>)}
+        <ul class="near">
+          {p.quartier.already.map((item) => <li><span class="tick"><Icon name="check" size="1rem" /></span>{item}</li>)}
+        </ul>
+        <p class="near-end">{p.quartier.end}</p>
+      </div>
+      <figure data-media>
+        <img src="/photos/facade-angle.jpg" alt={media.facade.alt} loading="lazy" decoding="async" />
+      </figure>
     </div>
   </section>
 
@@ -152,11 +153,8 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
   }
   .stop-n {
     grid-row: 1 / span 2;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
     color: var(--gold-deep);
-    padding-top: 0.45rem;
+    padding-top: 0.1rem;
   }
   .stop h3 {
     font-family: var(--display);
@@ -208,15 +206,8 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
     padding: var(--sec) 0;
     background: var(--cream);
   }
-  .quartier-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: clamp(2.5rem, 7vw, 7rem);
-    align-items: end;
-  }
-  .quartier-copy .display { margin: 1rem 0 0.25rem; max-width: 12ch; }
-  .quartier-copy .lead + .lead { margin-top: 0.75rem; }
   .near {
+    margin-top: 1.75rem;
     border-top: 1px solid var(--line);
   }
   .near li {
@@ -243,6 +234,5 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
     .access-grid { grid-template-columns: 1fr; }
     .map-frame { height: 60svh; }
     .map-card { position: relative; inset: auto; width: auto; }
-    .quartier-grid { grid-template-columns: 1fr; }
   }
 </style>

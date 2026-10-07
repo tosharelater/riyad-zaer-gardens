@@ -1,106 +1,89 @@
 ---
 import { getHome } from '../data/content';
 import type { Locale } from '../i18n/paths';
+import Icon from './Icon.astro';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { ways } = getHome(locale);
+const wayIcons = ['house', 'trending-up', 'plane'];
 ---
 <section class="ways" aria-labelledby="ways-title">
   <div class="wrap">
     <header class="ways-head" data-reveal data-split>
-      <p class="kick">Présence</p>
+      <p class="kick">{locale === 'ar' ? 'الحضور' : 'Présence'}</p>
       <h2 class="display" id="ways-title">{ways.h2}</h2>
     </header>
 
-    <ol class="ways-list">
+    <ul class="ways-list">
       {ways.items.map((w, i) => (
         <li>
-          <span class="ways-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <Icon name={wayIcons[i] ?? 'house'} size="2rem" />
           <h3>{w.title}</h3>
           <p>{w.body}</p>
         </li>
       ))}
-    </ol>
+    </ul>
   </div>
 </section>
 <style>
   .ways {
     padding: var(--sec) 0;
-    background: var(--cream);
-    color: var(--ink);
+    background: var(--bg);
   }
-
-
   .ways-head {
-    margin-bottom: clamp(3rem, 6vw, 5rem);
+    margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
   }
   .ways-head .display {
     margin-top: 1rem;
-    max-width: 16ch;
+    max-width: 20ch;
   }
 
   .ways-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     border-top: 1px solid var(--line);
   }
-
   .ways-list li {
     position: relative;
     display: grid;
-    grid-template-columns: 3rem minmax(0, 0.8fr) minmax(0, 1.2fr);
-    gap: clamp(1rem, 4vw, 4rem);
-    align-items: baseline;
-    padding: clamp(1.4rem, 2.6vw, 2rem) 0;
-    border-bottom: 1px solid var(--line);
+    align-content: start;
+    gap: 1rem;
+    padding: clamp(1.75rem, 3vw, 2.5rem) clamp(1.25rem, 3vw, 2.5rem);
   }
-  /* Gold rule sweeps across the row on hover */
-  .ways-list li::after {
+  .ways-list li:first-child { padding-inline-start: 0; }
+  .ways-list li:last-child { padding-inline-end: 0; }
+  .ways-list li + li { border-inline-start: 1px solid var(--line); }
+  /* A rule grows along the top edge on hover */
+  .ways-list li::before {
     content: '';
     position: absolute;
-    inset: auto 0 -1px 0;
+    inset: -1px 0 auto 0;
     height: 1px;
-    background: var(--ink);
+    background: var(--gold-deep);
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 0.9s var(--ease);
+    transition: transform 0.8s var(--ease);
   }
-  .ways-list li:hover::after { transform: scaleX(1); }
+  .ways-list li:hover::before { transform: scaleX(1); }
+  :global([dir='rtl']) .ways-list li::before { transform-origin: right; }
 
-  .ways-n {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    color: var(--gold-deep);
-    font-variant-numeric: tabular-nums;
-  }
-
+  .ways-list :global(.icon) { color: var(--gold-deep); }
   .ways h3 {
     font-family: var(--display);
-    font-weight: 400;
-    font-size: clamp(1.75rem, 3vw, 2.6rem);
-    line-height: 1;
-    color: var(--ink);
-    transition: transform 0.8s var(--ease), color 0.5s ease;
+    font-weight: 500;
+    font-size: clamp(1.5rem, 2.2vw, 1.9rem);
+    line-height: 1.15;
   }
-  .ways-list li:hover h3 {
-    transform: translateX(0.75rem);
-    color: var(--gold-deep);
-  }
-
   .ways p {
     color: var(--muted);
-    font-size: clamp(1rem, 1.3vw, 1.1rem);
-    line-height: 1.65;
-    max-width: 30rem;
+    line-height: 1.7;
+    max-width: 24rem;
   }
 
   @media (max-width: 800px) {
-    .ways-list li {
-      grid-template-columns: 2.5rem 1fr;
-      row-gap: 0.85rem;
-    }
-    .ways p { grid-column: 2; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .ways-list li:hover h3 { transform: none; }
+    .ways-list { grid-template-columns: 1fr; }
+    .ways-list li,
+    .ways-list li:first-child,
+    .ways-list li:last-child { padding-inline: 0; }
+    .ways-list li + li { border-inline-start: 0; border-top: 1px solid var(--line); }
   }
 </style>

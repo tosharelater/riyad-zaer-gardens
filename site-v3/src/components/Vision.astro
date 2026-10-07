@@ -1,14 +1,22 @@
 ---
-import { getHome } from '../data/content';
-import { localePath, type Locale } from '../i18n/paths';
+import type { Locale } from '../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
-const { gallery } = getHome(locale);
+const ar = locale === 'ar';
+/** Project renders — the gallery is the one place they appear together */
+const gallery = [
+  { src: '/photos/facade-sunset.jpg', alt: ar ? 'الواجهة عند الغروب' : 'Façade au coucher du soleil' },
+  { src: '/photos/allee-jardin.jpg', alt: ar ? 'ممر مشجر داخل الإقامة' : 'Allée plantée de la résidence' },
+  { src: '/photos/facade-angle.jpg', alt: ar ? 'المبنى من الزاوية' : 'Immeuble vu depuis l’angle' },
+  { src: '/photos/cuisine.jpg', alt: ar ? 'المطبخ' : 'Cuisine' },
+  { src: '/photos/rue-facade.jpg', alt: ar ? 'الواجهة على الشارع' : 'Façade sur rue' },
+  { src: '/photos/chambre.jpg', alt: ar ? 'غرفة نوم' : 'Chambre' },
+];
 ---
 <section class="vision" aria-label="Galerie du projet">
   <div class="wrap vision-top">
     <div class="vision-head" data-reveal data-split>
-      <p class="kick">Le projet en images</p>
-      <h2 class="display">Regarder le quartier prendre forme</h2>
+      <p class="kick">{ar ? 'المشروع بالصور' : 'Le projet en images'}</p>
+      <h2 class="display">{ar ? 'شاهدوا الحي وهو يتشكّل' : 'Regarder le quartier prendre forme'}</h2>
     </div>
     <div class="vision-nav" data-reveal>
       <button type="button" class="vision-btn" data-vision-prev aria-label="Image précédente">
@@ -61,7 +69,7 @@ const { gallery } = getHome(locale);
 <style>
   .vision {
     padding: var(--sec) 0;
-    background: var(--bg);
+    background: var(--cream);
     color: var(--ink);
   }
 

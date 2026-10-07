@@ -66,8 +66,9 @@ function heroScene() {
 
   gsap.fromTo(
     '[data-hero-brand] .w > span',
-    { yPercent: 115 },
-    { yPercent: 0, duration: 1.3, stagger: 0.08, ease: 'power4.out', delay: 0.45 },
+    // y: 0 clears the CSS pre-hide (translateY 110%) that GSAP reads in as an offset
+    { yPercent: 115, y: 0 },
+    { yPercent: 0, y: 0, duration: 1.3, stagger: 0.08, ease: 'power4.out', delay: 0.45 },
   );
 
   if (isDesktop() && window.matchMedia('(pointer: fine)').matches) {
@@ -479,6 +480,29 @@ function waysScene() {
   });
 }
 
+// Line icons trace themselves when they scroll into view.
+function iconDraw() {
+  const icons = [...document.querySelectorAll<SVGSVGElement>('main svg.icon')].filter(
+    (svg) => !svg.closest('.btn'),
+  );
+  icons.forEach((svg) => {
+    svg.classList.add('draw');
+    svg.querySelectorAll('path, circle, rect, line, polyline, polygon, ellipse').forEach((el) => {
+      el.setAttribute('pathLength', '1');
+    });
+  });
+  const io = new IntersectionObserver(
+    (entries) =>
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('is-drawn');
+        io.unobserve(e.target);
+      }),
+    { threshold: 0.6 },
+  );
+  icons.forEach((svg) => io.observe(svg));
+}
+
 function countBig() {
   document.querySelectorAll<HTMLElement>('[data-count-big]').forEach((el) => {
     const to = Number(el.dataset.to);
@@ -601,8 +625,8 @@ function pageHeroScene() {
 
   gsap.fromTo(
     hero.querySelectorAll('[data-ph-title] .w > span'),
-    { yPercent: 115 },
-    { yPercent: 0, duration: 1.25, stagger: 0.07, ease: 'power4.out', delay: 0.4 },
+    { yPercent: 115, y: 0 },
+    { yPercent: 0, y: 0, duration: 1.25, stagger: 0.07, ease: 'power4.out', delay: 0.4 },
   );
 
   gsap
@@ -651,6 +675,7 @@ function boot() {
   commerceScene();
   footMark();
   countBig();
+  iconDraw();
   ScrollTrigger.refresh();
 }
 

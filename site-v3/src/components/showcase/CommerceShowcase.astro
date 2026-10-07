@@ -1,5 +1,6 @@
 ---
 import PageHero from '../page/PageHero.astro';
+import Icon from '../Icon.astro';
 import PageBand from '../page/PageBand.astro';
 import MoreLinks from '../page/MoreLinks.astro';
 import FactTable from '../page/FactTable.astro';
@@ -42,15 +43,15 @@ const L =
       };
 
 const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.href) }));
-const pad = (i: number) => String(i + 1).padStart(2, '0');
+/** Same order as the reasons in the data */
+const reasonIcons = ['users', 'signpost', 'trending-up', 'square-parking'];
 ---
 <div data-com-page class="com-page">
   <PageHero
     h1={p.h1}
     lead={p.lead}
     kicker={L.kick}
-    index="03"
-    image={media.commerce.src}
+    image="/photos/commerces-jour.jpg"
     alt={media.commerce.alt}
     facts={[
       { n: '49', l: L.lots, count: 49 },
@@ -82,7 +83,7 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
       <ol class="reasons-grid">
         {p.raisons.items.map((item, i) => (
           <li class="reason" data-reason>
-            <span class="reason-num">{pad(i)}</span>
+            <span class="reason-num"><Icon name={reasonIcons[i] ?? 'check'} size="1.5rem" /></span>
             <h3>{item.title}</h3>
             <p>{item.body}</p>
           </li>
@@ -92,14 +93,15 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
   </section>
 
   <section class="invest">
-    <div class="wrap invest-grid">
-      <div class="invest-copy" data-reveal data-split>
+    <div class="wrap text-photo">
+      <div data-reveal data-split>
         <p class="kick">{L.invest}</p>
         <h2 class="display">{p.invest.h2}</h2>
-      </div>
-      <div class="invest-body" data-reveal>
         {p.invest.body.map((t) => <p class="lead">{t}</p>)}
       </div>
+      <figure data-media>
+        <img src="/photos/facade-soir.jpg" alt={media.commerce.alt} loading="lazy" decoding="async" />
+      </figure>
     </div>
   </section>
 
@@ -157,7 +159,7 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
     font-weight: 600;
     letter-spacing: 0.18em;
     color: var(--gold-deep);
-    padding-top: 0.45rem;
+    padding-top: 0.1rem;
   }
   .reason h3 {
     font-family: var(--display);
@@ -174,18 +176,9 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
     padding: var(--sec) 0;
     background: var(--bg);
   }
-  .invest-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: clamp(2.5rem, 7vw, 7rem);
-    align-items: end;
-  }
-  .invest-copy .display { margin-top: 1rem; max-width: 12ch; }
-  .invest-body .lead:first-child { margin-top: 0; }
-  .invest-body .lead + .lead { margin-top: 0.85rem; }
 
   @media (max-width: 900px) {
-    .offer-grid, .invest-grid { grid-template-columns: 1fr; }
+    .offer-grid { grid-template-columns: 1fr; }
     .reasons-grid { grid-template-columns: 1fr; }
   }
 </style>

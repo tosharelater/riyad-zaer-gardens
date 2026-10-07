@@ -1,5 +1,6 @@
 ---
 import PageHero from '../page/PageHero.astro';
+import Icon from '../Icon.astro';
 import PageBand from '../page/PageBand.astro';
 import MoreLinks from '../page/MoreLinks.astro';
 import { media } from '../../data/media';
@@ -42,16 +43,18 @@ const L =
       };
 
 const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.href) }));
-const pad = (i: number) => String(i + 1).padStart(2, '0');
+/** Same order as the conception choices */
+const chapterIcons = ['signpost', 'trees', 'sun', 'square-parking'];
+/** Same order as the amenities in the data */
+const amenityIcons = ['arrow-up-down', 'trees', 'square-parking', 'shield-check', 'paint-roller', 'store'];
 ---
 <div data-projet-page class="projet-page">
   <PageHero
     h1={p.h1}
     lead={p.lead}
     kicker={L.kick}
-    index="01"
-    image={media.aerial.src}
-    alt={media.aerial.alt}
+    image="/photos/facade-commerces.jpg"
+    alt={media.hero.alt}
     facts={[
       { n: '120', l: L.apt, count: 120 },
       { n: '49', l: L.shops, count: 49 },
@@ -70,7 +73,7 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
       <ol class="chapters-grid">
         {p.conception.items.map((item, i) => (
           <li class="chapter" data-chapter>
-            <span class="chapter-num">{pad(i)}</span>
+            <span class="chapter-num"><Icon name={chapterIcons[i] ?? 'check'} size="1.5rem" /></span>
             <h3>{item.title}</h3>
             <p>{item.body}</p>
           </li>
@@ -80,14 +83,17 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
   </section>
 
   <section class="cour-scene" data-cour-scene>
-    <div class="wrap cour-copy">
-      <p class="kick" data-cour-line>{L.life}</p>
-      <h2 class="display" data-cour-line>{p.cadre.h2}</h2>
-      <div class="cour-body">
+    <div class="wrap text-photo is-flip">
+      <div>
+        <p class="kick" data-cour-line>{L.life}</p>
+        <h2 class="display" data-cour-line>{p.cadre.h2}</h2>
         {p.cadre.body.map((t) => (
-          <p data-cour-line>{t}</p>
+          <p class="lead" data-cour-line>{t}</p>
         ))}
       </div>
+      <figure data-media>
+        <img src="/photos/allee-jardin.jpg" alt={media.courtyard.alt} loading="lazy" decoding="async" />
+      </figure>
     </div>
   </section>
 
@@ -101,7 +107,7 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
       <ol class="amenity-grid">
         {p.equipements.items.map((item, i) => (
           <li class="amenity-item" data-amenity>
-            <span>{pad(i)}</span>
+            <span><Icon name={amenityIcons[i] ?? 'check'} size="1.6rem" /></span>
             <h3>{item.title}</h3>
             <p>{item.body}</p>
             {'link' in item && item.link && (
@@ -122,8 +128,8 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
       <p class="syndic-end">{p.syndic.end}</p>
     </div>
       <ol class="missions" data-missions>
-        {p.syndic.missions.map((m, i) => (
-          <li data-mission><span>{pad(i)}</span>{m}</li>
+        {p.syndic.missions.map((m) => (
+          <li data-mission><span class="tick"><Icon name="check" size="1rem" /></span>{m}</li>
         ))}
       </ol>
     </div>
@@ -211,24 +217,6 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
     padding: var(--sec) 0;
     background: var(--cream);
   }
-  .cour-copy {
-    display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-    column-gap: clamp(2rem, 7vw, 7rem);
-    align-items: end;
-  }
-  .cour-copy .kick { grid-column: 1 / -1; }
-  .cour-copy .display {
-    margin-top: 1rem;
-    font-size: clamp(2.6rem, 5.6vw, 5rem);
-    max-width: 13ch;
-  }
-  .cour-body p {
-    color: var(--muted);
-    font-size: 1.08rem;
-    line-height: 1.75;
-  }
-  .cour-body p + p { margin-top: 0.85rem; }
 
   /* Amenities */
   .amenity {
@@ -360,7 +348,6 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
 
   @media (max-width: 900px) {
     .chapters-grid { grid-template-columns: 1fr; }
-    .cour-copy { grid-template-columns: 1fr; row-gap: 1.25rem; }
     .amenity-grid { grid-template-columns: 1fr; }
     .amenity-item:not(:nth-child(3n + 1)) { padding-inline-start: 0; border-inline-start: 0; }
     .syndic-grid, .tranches-grid { grid-template-columns: 1fr; }

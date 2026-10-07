@@ -1,9 +1,10 @@
 ---
 import { getHome } from '../data/content';
 import type { Locale } from '../i18n/paths';
+import Icon from './Icon.astro';
+const reasonIcons = ['trees', 'clock-3', 'key-round', 'badge-percent'];
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { reasons } = getHome(locale);
-const pad = (i: number) => String(i + 1).padStart(2, '0');
 ---
 <section class="reasons" aria-labelledby="reasons-title">
   <div class="wrap">
@@ -16,7 +17,7 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
     <ol class="reasons-grid">
       {reasons.items.map((r, i) => (
         <li data-reason-item>
-          <span class="reasons-n">{pad(i)}</span>
+          <span class="reasons-top"><Icon name={reasonIcons[i]} size="1.75rem" /></span>
           <h3>{r.title}</h3>
           <p>{r.body}</p>
         </li>
@@ -57,6 +58,12 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
     transition: transform 0.8s var(--ease);
   }
   .reasons-grid li:hover::before { transform: scaleX(1); }
+  .reasons-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--gold-deep);
+  }
   .reasons-n {
     font-size: 0.75rem;
     font-weight: 600;

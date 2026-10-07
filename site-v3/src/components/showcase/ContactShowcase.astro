@@ -1,5 +1,6 @@
 ---
 import PageHero from '../page/PageHero.astro';
+import Icon from '../Icon.astro';
 import { contactInfo } from '../../data/site';
 import { media } from '../../data/media';
 import { localePath, type Locale } from '../../i18n/paths';
@@ -21,7 +22,7 @@ const L =
     h1={p.h1}
     lead={p.lead}
     kicker={L.kick}
-    index="05"
+    image="/photos/facade-sunset.jpg"
     compact
   >
     <a class="btn btn-solid" href={`tel:${contactInfo.phoneTel}`} dir="ltr">{contactInfo.phone}</a>
@@ -78,16 +79,16 @@ const L =
           <h2 class="display aside-title">{p.direct.h2}</h2>
         </div>
         <div class="aside-block">
-          <h3>{p.direct.phone.title}</h3>
+          <h3><Icon name="phone" />{p.direct.phone.title}</h3>
           <a class="big" href={`tel:${contactInfo.phoneTel}`} dir="ltr">{p.direct.phone.label}</a>
         </div>
         <div class="aside-block">
-          <h3>{p.direct.whatsapp.title}</h3>
+          <h3><Icon name="message-circle" />{p.direct.whatsapp.title}</h3>
           <p>{p.direct.whatsapp.body}</p>
           <a href={contactInfo.whatsapp} target="_blank" rel="noopener">{p.direct.whatsappCta}</a>
         </div>
         <div class="aside-block">
-          <h3>{p.direct.place.title}</h3>
+          <h3><Icon name="map-pin" />{p.direct.place.title}</h3>
           <p>{p.direct.place.body}</p>
         </div>
 
@@ -211,6 +212,7 @@ const L =
     padding-top: 0;
     border-top: 0;
   }
+  .aside h3 :global(.icon) { margin-inline-end: 0.5rem; color: var(--gold-deep); }
   .aside h3 {
     font-size: 0.75rem;
     font-weight: 600;

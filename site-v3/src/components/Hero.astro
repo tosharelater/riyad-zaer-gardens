@@ -1,11 +1,14 @@
 ---
 import { getHome } from '../data/content';
 import { localePath, type Locale } from '../i18n/paths';
+import Icon from './Icon.astro';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { hero, proof } = getHome(locale);
 const href = (h: string) => (h.startsWith('/') ? localePath(locale, h) : h);
 // The price already has its own block; the strip carries the other facts.
 const specs = proof.filter((p) => !/420/.test(p)).slice(0, 5);
+// Same order as the facts: typologies, surfaces, aid, parking, delivery
+const specIcons = ['building-2', 'ruler', 'badge-percent', 'square-parking', 'calendar-check-2'];
 const [priceLead, priceValue] = (() => {
   const m = hero.price.match(/^(.*?)(\d[\d\s  ]*\d.*)$/);
   return m ? [m[1].trim(), m[2].trim()] : ['', hero.price];
@@ -13,7 +16,7 @@ const [priceLead, priceValue] = (() => {
 ---
 <section class="hero" id="top" data-hero>
   <div class="hero-media" data-hero-media>
-    <img src="/gen/rz-hero.jpg" alt={hero.alt} fetchpriority="high" />
+    <img src="/photos/facade-nuit.jpg" alt={hero.alt} fetchpriority="high" />
   </div>
   <div class="hero-shade" aria-hidden="true"></div>
 
@@ -38,7 +41,7 @@ const [priceLead, priceValue] = (() => {
   </div>
 
   <ul class="hero-specs wrap" id="proof" aria-label="Points clés">
-    {specs.map((s) => <li data-hero-spec>{s}</li>)}
+    {specs.map((s, i) => <li data-hero-spec><Icon name={specIcons[i] ?? 'check'} />{s}</li>)}
   </ul>
 </section>
 
@@ -189,13 +192,7 @@ const [priceLead, priceValue] = (() => {
     gap: 0.7rem;
     white-space: nowrap;
   }
-  .hero-specs li::before {
-    content: '';
-    width: 5px;
-    height: 5px;
-    rotate: 45deg;
-    border: 1px solid var(--gold);
-  }
+  .hero-specs li :global(.icon) { color: var(--gold); width: 1.15rem; height: 1.15rem; }
 
   [data-hero-in],
   [data-hero-spec] {
