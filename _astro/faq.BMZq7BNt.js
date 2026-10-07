@@ -1,0 +1,1 @@
+document.querySelectorAll(`[data-faq]`).forEach(e=>{e.addEventListener(`toggle`,t=>{let n=t.target;n instanceof HTMLDetailsElement&&n.open&&e.querySelectorAll(`details[open]`).forEach(e=>{e!==n&&e.removeAttribute(`open`)})},!0)});
