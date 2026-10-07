@@ -36,52 +36,78 @@ const { contact } = getHome(locale);
 </section>
 <style>
   .contact {
-    padding: clamp(4.5rem, 9vw, 7.5rem) 0;
-    background: var(--cream);
+    padding: var(--sec) 0;
+    background: var(--ink);
+    color: var(--cream);
   }
+  .contact .kick { color: var(--gold); }
+  .contact .lead { color: rgb(244 238 226 / 0.74); }
+  .contact .btn-ghost { color: var(--cream); --fill: var(--cream); --on-fill: var(--ink); }
   .contact-shell {
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
-    gap: clamp(2rem, 5vw, 4rem);
-    align-items: start;
+    gap: clamp(3rem, 8vw, 7rem);
+    align-items: end;
   }
-  .contact .display { max-width: 14ch; }
+  .contact .display { margin-top: 1rem; max-width: 12ch; }
   .phone {
+    font-weight: 300;
     display: block;
     margin-top: 1.75rem;
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 500;
-    letter-spacing: -0.03em;
-    color: var(--ink);
+    width: fit-content;
+    font-family: var(--display);
+    font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+    line-height: 1.1;
+    color: var(--cream);
+    background: linear-gradient(var(--gold), var(--gold)) no-repeat 0 100% / 0 1px;
+    transition: background-size 0.7s var(--ease);
   }
+  .phone:hover { background-size: 100% 1px; }
   .contact-actions {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
     margin-top: 1.5rem;
   }
-  .wa { border-color: var(--ink); }
+  .wa { border-color: rgb(244 238 226 / 0.5); }
   .form {
     display: grid;
-    gap: 0.9rem;
-    padding: clamp(1.35rem, 3vw, 1.85rem);
-    background: #fff;
-    border: 1px solid var(--line);
+    gap: 1.75rem;
   }
-  .form label { display: grid; gap: 0.4rem; }
+  .form label { display: grid; gap: 0.35rem; position: relative; }
   .form span {
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: rgb(244 238 226 / 0.6);
+    transition: color 0.3s ease;
   }
+  .form label:focus-within span { color: var(--gold); }
   .form input, .form select {
-    min-height: 2.85rem;
-    padding: 0.65rem 0.85rem;
-    border: 1px solid var(--line);
-    background: var(--cream);
+    min-height: 3rem;
+    padding: 0.5rem 0;
+    border: 0;
+    border-bottom: 1px solid rgb(244 238 226 / 0.3);
+    color: var(--cream);
+    border-radius: 0;
+    background: transparent;
+    font-size: 1.1rem;
+    outline: none;
   }
-  .form .btn { margin-top: 0.35rem; }
+  .form select option { color: var(--ink); background: var(--bg); }
+  .form label::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 1px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s var(--ease);
+  }
+  .form label:focus-within::after { transform: scaleX(1); }
+  .form .btn { margin-top: 0.5rem; justify-self: start; min-width: 12rem; }
   @media (max-width: 800px) {
     .contact-shell { grid-template-columns: 1fr; }
   }

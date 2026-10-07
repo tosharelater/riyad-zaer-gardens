@@ -3,6 +3,8 @@ import { getHome } from '../data/content';
 import { localePath, type Locale } from '../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { aid } = getHome(locale);
+// Never let a price break across lines
+const keep = (t: string) => t.replace(/(\d) (?=\d|DH|درهم)/g, '$1\u202f');
 ---
 <section class="aid" id="aide">
   <div class="wrap">
@@ -22,14 +24,14 @@ const { aid } = getHome(locale);
       <aside class="aid-ticket" data-reveal aria-label="Comparaison de prix">
         <div class="aid-row is-before">
           <span>Sans aide</span>
-          <strong>{aid.without}</strong>
+          <strong>{keep(aid.without)}</strong>
         </div>
         <div class="aid-delta" aria-hidden="true">
           <span></span>
         </div>
         <div class="aid-row is-after">
           <span>Avec l’aide au logement</span>
-          <strong>{aid.withAid}</strong>
+          <strong>{keep(aid.withAid)}</strong>
         </div>
       </aside>
     </div>
@@ -37,18 +39,16 @@ const { aid } = getHome(locale);
 </section>
 <style>
   .aid {
-    padding: clamp(4.5rem, 9vw, 7.5rem) 0;
+    padding: var(--sec) 0;
     background: var(--cream);
   }
 
   .aid-head {
-    width: 100%;
-    max-width: none;
-    margin-bottom: clamp(2rem, 4vw, 3rem);
+    margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
   }
   .aid-head .display {
-    margin-top: 0.4rem;
-    max-width: none;
+    margin-top: 1rem;
+    max-width: 18ch;
   }
 
   .aid-shell {
@@ -68,22 +68,24 @@ const { aid } = getHome(locale);
   .aid-ticket {
     display: grid;
     gap: 0;
-    background: #fff;
+    background: var(--bg);
     padding: clamp(1.5rem, 3vw, 2.25rem);
   }
 
   .aid-row span {
     display: block;
-    font-size: 0.68rem;
-    letter-spacing: 0.16em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     margin-bottom: 0.65rem;
   }
 
   .aid-row strong {
     display: block;
+    font-family: var(--display);
     font-weight: 500;
-    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
     line-height: 1.1;
   }
 
@@ -124,7 +126,7 @@ const { aid } = getHome(locale);
     color: var(--gold);
   }
   .aid-row.is-after strong {
-    font-size: clamp(1.65rem, 3.2vw, 2.35rem);
+    font-size: clamp(1.9rem, 3.2vw, 2.6rem);
     color: #f7f2e8;
   }
 

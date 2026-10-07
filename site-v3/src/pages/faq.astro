@@ -10,12 +10,10 @@ import { media } from '../data/media';
     h1={p.h1}
     lead={p.lead}
     kicker="FAQ"
-    image={media.facade.src}
-    alt={media.facade.alt}
     compact
   />
 
-  <div class="faq">
+  <div class="faq" data-faq>
     {p.groups.map((group) => (
       <section class="faq-group wrap">
         <h2 class="display">{group.h2}</h2>
@@ -31,59 +29,83 @@ import { media } from '../data/media';
     ))}
   </div>
 
-  <PageBand image={media.hero.src} />
+  <PageBand />
 </BaseLayout>
+
+<script>
+  import '../scripts/faq';
+</script>
 
 <style>
   .faq {
-    padding: 2rem 0 1rem;
-    background:
-      linear-gradient(180deg, var(--cream) 0%, #fff 18%);
+    padding: var(--sec) 0 calc(var(--sec) * 0.6);
+    background: var(--bg);
   }
   .faq-group {
-    padding: clamp(2rem, 5vw, 3.25rem) 0;
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(1.5rem, 6vw, 6rem);
+    align-items: start;
+    padding-bottom: clamp(3rem, 6vw, 5rem);
   }
   .faq-group .display {
-    font-size: clamp(1.55rem, 2.8vw, 2.1rem);
-    margin-bottom: 1.25rem;
+    position: sticky;
+    top: calc(var(--nav) + 2rem);
+    font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+    max-width: 12ch;
   }
   .faq-list {
     border-top: 1px solid var(--line);
   }
   details {
     border-bottom: 1px solid var(--line);
-    padding: 1.15rem 0;
   }
   summary {
     cursor: pointer;
-    font-weight: 500;
-    font-size: 1.05rem;
     list-style: none;
-    padding-right: 2rem;
     position: relative;
-    line-height: 1.4;
+    padding: 1.4rem 0;
+    padding-inline-end: 3rem;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(1.2rem, 1.8vw, 1.45rem);
+    line-height: 1.3;
+    transition: color 0.3s ease;
   }
+  summary:hover { color: var(--gold-deep); }
   summary::-webkit-details-marker { display: none; }
+  /* Plus that turns into a minus */
+  summary::before,
   summary::after {
     content: '';
     position: absolute;
-    right: 0.15rem;
-    top: 0.55rem;
-    width: 0.65rem;
-    height: 0.65rem;
-    border-right: 1.5px solid var(--gold);
-    border-bottom: 1.5px solid var(--gold);
-    transform: rotate(45deg);
-    transition: transform 0.25s ease;
+    inset-inline-end: 0.4rem;
+    top: 50%;
+    width: 0.9rem;
+    height: 1px;
+    background: currentColor;
+    transition: transform 0.5s var(--ease);
   }
-  details[open] summary::after {
-    top: 0.75rem;
-    transform: rotate(225deg);
-  }
+  summary::after { transform: rotate(90deg); }
+  details[open] summary::after { transform: rotate(0deg); }
   details p {
-    margin-top: 0.85rem;
-    color: var(--muted);
-    max-width: 44rem;
-    line-height: 1.7;
+    padding-block-end: 1.6rem;
+    padding-inline-end: 3rem;
+    color: rgb(0 45 45 / 0.8);
+    max-width: 40rem;
+    font-size: 1.05rem;
+    line-height: 1.75;
+    animation: faq-open 0.6s var(--ease) both;
+  }
+  @keyframes faq-open {
+    from { opacity: 0; transform: translateY(-0.5rem); }
+  }
+  @media (max-width: 800px) {
+    .faq-group { grid-template-columns: 1fr; }
+    .faq-group .display { position: static; }
+    details p { padding-inline-end: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    details p { animation: none; }
   }
 </style>

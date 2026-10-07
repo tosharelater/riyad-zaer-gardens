@@ -1,6 +1,6 @@
 ---
 interface Props {
-  image: string;
+  image?: string;
   alt?: string;
   kicker?: string;
   title: string;
@@ -21,15 +21,19 @@ const {
 } = Astro.props;
 const paras = body == null ? [] : Array.isArray(body) ? [...body] : [body];
 ---
-<section class:list={['split', `tone-${tone}`, { reverse }]} id={id}>
-  <figure class="split-media" data-media>
-    <img src={image} alt={alt} loading="lazy" />
-  </figure>
-  <div class="split-panel" data-reveal>
+<section class:list={['split', `tone-${tone}`, { reverse, 'is-text': !image }]} id={id}>
+  {image && (
+    <figure class="split-media" data-media>
+      <img src={image} alt={alt} loading="lazy" />
+    </figure>
+  )}
+  <div class="split-panel" data-reveal data-split>
     {kicker && <p class="kick">{kicker}</p>}
     <h2 class="display">{title}</h2>
-    {paras.map((p) => <p class="lead">{p}</p>)}
-    <slot />
+    <div class="split-body">
+      {paras.map((p) => <p class="lead">{p}</p>)}
+      <slot />
+    </div>
   </div>
 </section>
 
@@ -73,14 +77,13 @@ const paras = body == null ? [] : Array.isArray(body) ? [...body] : [body];
   }
   .split-panel .lead + .lead { margin-top: 0.35rem; }
 
-  .tone-light .split-panel { background: #fff; }
+  .tone-light .split-panel { background: var(--bg); }
   .tone-cream .split-panel { background: var(--cream); }
   .tone-ink .split-panel {
     background: var(--ink);
     color: #f7f2e8;
   }
   .tone-ink .kick { color: var(--gold); }
-  .tone-ink .kick::before { background: var(--gold); }
   .tone-ink .lead { color: rgb(247 242 232 / 0.72); }
 
   .tone-ink .split-panel .btn-ghost {
@@ -92,7 +95,31 @@ const paras = body == null ? [] : Array.isArray(body) ? [...body] : [body];
     margin-top: 0.85rem;
   }
 
+  /* Text only: title left, copy right, on the page grid */
+  .split.is-text {
+    display: block;
+    min-height: 0;
+    padding: var(--sec) 0;
+  }
+  .split.is-text .split-panel {
+    width: min(var(--wrap), calc(100% - 2 * var(--pad)));
+    margin-inline: auto;
+    padding: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: clamp(2.5rem, 7vw, 7rem);
+    row-gap: 1rem;
+    align-items: end;
+  }
+  .split.is-text .kick { grid-column: 1 / -1; }
+  .split.is-text .display { max-width: 14ch; }
+  .tone-cream.is-text { background: var(--cream); }
+  .tone-light.is-text { background: var(--bg); }
+  .tone-ink.is-text { background: var(--ink); color: var(--cream); }
+  .split.is-text .split-panel { background: none; }
+
   @media (max-width: 900px) {
+    .split.is-text .split-panel { grid-template-columns: 1fr; }
     .split,
     .split.reverse {
       grid-template-columns: 1fr;
@@ -101,6 +128,6 @@ const paras = body == null ? [] : Array.isArray(body) ? [...body] : [body];
         'panel';
       min-height: 0;
     }
-    .split-media { min-height: 18rem; aspect-ratio: 16 / 10; }
+    .split-media { min-height: 0; aspect-ratio: 16 / 10; }
   }
 </style>

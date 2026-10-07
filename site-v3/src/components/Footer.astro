@@ -50,9 +50,11 @@ const t = ui(locale);
 </nav>
 <style>
   .foot {
-    background: #000;
-    color: rgb(247 242 232 / 0.72);
-    padding: 3.5rem 0 5.5rem;
+    background: var(--night);
+    color: rgb(244 238 226 / 0.72);
+    padding: clamp(4rem, 8vw, 6rem) 0 2rem;
+    overflow: hidden;
+    border-top: 1px solid rgb(244 238 226 / 0.08);
   }
   .foot-grid {
     display: grid;
@@ -68,16 +70,19 @@ const t = ui(locale);
     margin-bottom: 0.85rem;
   }
   .foot .col {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: rgb(247 242 232 / 0.45);
     margin-bottom: 0.85rem;
   }
   .foot a, .foot p { display: block; margin-top: 0.4rem; font-size: 0.92rem; }
-  .foot a:hover { color: var(--gold); }
+  .foot-grid a { width: fit-content; margin-top: 0; padding-block: 0.6rem; transition: color 0.3s ease, transform 0.5s var(--ease); }
+  .foot-grid a:hover { color: var(--gold); transform: translateX(4px); }
+  .foot-copy a { padding-block: 0.5rem; margin-top: 0; }
+  .foot-copy a:hover { color: var(--gold); }
   .foot-copy {
-    margin-top: 2.5rem;
+    margin-top: 3rem;
     padding-top: 1.25rem;
     border-top: 1px solid rgb(255 255 255 / 0.1);
     display: flex;
@@ -98,7 +103,7 @@ const t = ui(locale);
   .mbar a {
     padding: 0.9rem 0.5rem;
     text-align: center;
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: #f7f2e8;
@@ -108,6 +113,8 @@ const t = ui(locale);
   @media (max-width: 800px) {
     .foot-grid { grid-template-columns: 1fr; text-align: center; }
     .foot img { margin-inline: auto; }
+    .foot-grid a { margin-inline: auto; }
+    .foot { padding-bottom: 5.5rem; }
     .mbar { display: grid; }
   }
 </style>

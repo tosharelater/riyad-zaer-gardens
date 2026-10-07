@@ -327,6 +327,7 @@ export const contactPage = {
       interest: 'مشروعكم',
       interestPlaceholder: 'اختر…',
       message: 'رسالتكم (اختياري)',
+      phoneInvalid: 'يرجى إدخال رقم هاتف صالح.',
     },
     interests: [
       'شقة F3',

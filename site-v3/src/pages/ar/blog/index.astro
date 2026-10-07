@@ -16,17 +16,12 @@ const t = ui('ar');
     h1={listing.h1}
     lead={listing.lead}
     kicker={t.blog.kicker}
-    image={media.terrace.src}
-    alt="شرفة"
     compact
   />
 
   <section class="blog wrap">
     {articles.map((a) => (
       <article class="card">
-        <a class="card-media" href={localePath(locale, `/blog/${a.slug}`)}>
-          <img src={a.image} alt={a.alt} loading="lazy" />
-        </a>
         <div class="card-copy">
           <div class="meta">
             <time datetime={a.date}>{a.date}</time>
@@ -45,59 +40,59 @@ const t = ui('ar');
 
 <style>
   .blog {
-    display: grid;
-    gap: 1.5rem;
-    padding: clamp(2.5rem, 6vw, 4rem) 0 5rem;
+    padding: var(--sec) 0;
   }
   .card {
-    display: grid;
-    grid-template-columns: minmax(12rem, 0.85fr) 1.15fr;
-    background: var(--cream);
-    overflow: hidden;
+    border-top: 1px solid var(--line);
   }
-  .card-media {
-    display: block;
-    min-height: 14rem;
-    overflow: hidden;
-  }
-  .card-media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.7s var(--ease);
-  }
-  .card:hover img { transform: scale(1.04); }
+  .card:last-child { border-bottom: 1px solid var(--line); }
   .card-copy {
-    padding: clamp(1.35rem, 3vw, 2.25rem);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 0.65rem;
+    display: grid;
+    grid-template-columns: 14rem minmax(0, 1fr) minmax(0, 0.8fr);
+    column-gap: clamp(1.5rem, 4vw, 4rem);
+    row-gap: 0.75rem;
+    align-items: baseline;
+    padding: clamp(1.75rem, 3.5vw, 2.75rem) 0;
   }
   .meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem 1rem;
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
+    grid-row: 1 / span 3;
+    display: grid;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--muted);
   }
-  .meta span { color: var(--gold); }
+  .meta span { color: var(--gold-deep); }
   .card-copy h2 {
-    font-size: clamp(1.35rem, 2.5vw, 1.85rem);
+    grid-column: 2;
+    font-family: var(--display);
     font-weight: 500;
-    letter-spacing: -0.02em;
-    line-height: 1.35;
+    font-size: clamp(1.7rem, 3vw, 2.6rem);
+    line-height: 1.08;
+    text-wrap: balance;
   }
-  .card-copy h2 a:hover { color: var(--gold); }
+  .card-copy h2 a {
+    background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0 1px;
+    transition: background-size 0.7s var(--ease);
+  }
+  .card:hover .card-copy h2 a { background-size: 100% 1px; }
   .card-copy p {
+    grid-column: 3;
+    grid-row: 1;
     color: var(--muted);
-    line-height: 1.75;
-    max-width: 38rem;
+    line-height: 1.7;
   }
-  @media (max-width: 800px) {
-    .card { grid-template-columns: 1fr; }
-    .card-media { aspect-ratio: 16 / 10; min-height: 0; }
+  .card-copy .text-link {
+    grid-column: 3;
+    grid-row: 2;
+    justify-self: start;
+    margin-top: 0;
+  }
+  @media (max-width: 900px) {
+    .card-copy { grid-template-columns: 1fr; }
+    .meta { grid-row: auto; display: flex; gap: 1rem; }
+    .card-copy h2, .card-copy p, .card-copy .text-link { grid-column: 1; grid-row: auto; }
   }
 </style>

@@ -1,6 +1,6 @@
 ---
 import { getHome } from '../data/content';
-import { localePath, type Locale } from '../i18n/paths';
+import type { Locale } from '../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { ways } = getHome(locale);
 ---
@@ -15,10 +15,8 @@ const { ways } = getHome(locale);
       {ways.items.map((w, i) => (
         <li>
           <span class="ways-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-          <div class="ways-body">
-            <h3>{w.title}</h3>
-            <p>{w.body}</p>
-          </div>
+          <h3>{w.title}</h3>
+          <p>{w.body}</p>
         </li>
       ))}
     </ol>
@@ -26,100 +24,83 @@ const { ways } = getHome(locale);
 </section>
 <style>
   .ways {
-    padding: clamp(5rem, 10vw, 8.5rem) 0;
-    background: var(--ink);
-    color: #f7f2e8;
-    overflow: hidden;
+    padding: var(--sec) 0;
+    background: var(--cream);
+    color: var(--ink);
   }
 
-  .ways .kick { color: var(--gold); }
-  .ways .kick::before { background: var(--gold); }
 
   .ways-head {
-    margin-bottom: clamp(3rem, 6vw, 4.5rem);
+    margin-bottom: clamp(3rem, 6vw, 5rem);
   }
   .ways-head .display {
-    margin-top: 0.45rem;
-    color: #fff;
-    max-width: none;
-    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+    margin-top: 1rem;
+    max-width: 16ch;
   }
 
   .ways-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(1.5rem, 4vw, 3rem);
+    border-top: 1px solid var(--line);
   }
 
   .ways-list li {
     position: relative;
-    padding-top: 1.5rem;
     display: grid;
-    gap: 1.75rem;
-    min-height: 100%;
+    grid-template-columns: 3rem minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(1rem, 4vw, 4rem);
+    align-items: baseline;
+    padding: clamp(1.4rem, 2.6vw, 2rem) 0;
+    border-bottom: 1px solid var(--line);
   }
-
-  .ways-list li::before {
+  /* Gold rule sweeps across the row on hover */
+  .ways-list li::after {
     content: '';
     position: absolute;
-    inset: 0 auto auto 0;
-    width: 2.75rem;
-    height: 2px;
-    background: var(--gold);
+    inset: auto 0 -1px 0;
+    height: 1px;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.9s var(--ease);
   }
+  .ways-list li:hover::after { transform: scaleX(1); }
 
   .ways-n {
-    font-size: clamp(3.5rem, 7vw, 5.5rem);
-    font-weight: 500;
-    letter-spacing: -0.06em;
-    line-height: 0.85;
-    color: rgb(200 181 104 / 0.28);
-  }
-
-  .ways-body {
-    display: grid;
-    gap: 0.9rem;
-    align-content: start;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: var(--gold-deep);
+    font-variant-numeric: tabular-nums;
   }
 
   .ways h3 {
-    font-family: var(--serif);
-    font-size: clamp(2.15rem, 4vw, 3.1rem);
+    font-family: var(--display);
     font-weight: 400;
-    letter-spacing: -0.02em;
+    font-size: clamp(1.75rem, 3vw, 2.6rem);
     line-height: 1;
-    color: #f7f2e8;
-    margin: 0;
+    color: var(--ink);
+    transition: transform 0.8s var(--ease), color 0.5s ease;
+  }
+  .ways-list li:hover h3 {
+    transform: translateX(0.75rem);
+    color: var(--gold-deep);
   }
 
   .ways p {
-    margin: 0;
-    color: rgb(247 242 232 / 0.68);
-    font-size: clamp(0.98rem, 1.3vw, 1.08rem);
+    color: var(--muted);
+    font-size: clamp(1rem, 1.3vw, 1.1rem);
     line-height: 1.65;
-    max-width: 28rem;
+    max-width: 30rem;
   }
 
   @media (max-width: 800px) {
-    .ways-list {
-      grid-template-columns: 1fr;
-      gap: 0;
-    }
     .ways-list li {
-      padding: 2rem 0;
-      border-bottom: 1px solid rgb(247 242 232 / 0.12);
-      gap: 1.1rem;
-      grid-template-columns: auto 1fr;
-      align-items: start;
+      grid-template-columns: 2.5rem 1fr;
+      row-gap: 0.85rem;
     }
-    .ways-list li:last-child { border-bottom: 0; }
-    .ways-list li::before { display: none; }
-    .ways-n {
-      font-size: 2.75rem;
-      padding-top: 0.15rem;
-    }
+    .ways p { grid-column: 2; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ways-list li:hover h3 { transform: none; }
   }
 </style>

@@ -1,7 +1,9 @@
 ---
-import '@fontsource/outfit/400.css';
-import '@fontsource/outfit/500.css';
-import '@fontsource/ibm-plex-sans/400.css';
+import '@fontsource/poppins/300.css';
+import '@fontsource/poppins/400.css';
+import '@fontsource/poppins/500.css';
+import '@fontsource/poppins/600.css';
+
 import '@fontsource/noto-sans-arabic/400.css';
 import '@fontsource/noto-sans-arabic/500.css';
 import '../styles/global.css';
@@ -9,7 +11,7 @@ import Intro from '../components/Intro.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import type { Locale } from '../i18n/paths';
-import { getLocaleFromPath } from '../i18n/paths';
+import { getLocaleFromPath, switchLocalePath } from '../i18n/paths';
 
 interface Props {
   title?: string;
@@ -18,6 +20,7 @@ interface Props {
   solidNav?: boolean;
   noindex?: boolean;
   locale?: Locale;
+  ogImage?: string;
 }
 const {
   title = 'Riyad Zaer Gardens — Appartements neufs à Aïn Aouda',
@@ -26,11 +29,17 @@ const {
   solidNav = false,
   noindex = false,
   locale: localeProp,
+  ogImage = '/gen/rz-hero.jpg',
 } = Astro.props;
 
 const locale: Locale =
   localeProp ?? (Astro.currentLocale === 'ar' ? 'ar' : getLocaleFromPath(Astro.url.pathname));
 const dir = locale === 'ar' ? 'rtl' : 'ltr';
+const path = Astro.url.pathname;
+const frHref = new URL(switchLocalePath(path, 'fr'), Astro.site ?? 'https://riyadzaergardens.com').href;
+const arHref = new URL(switchLocalePath(path, 'ar'), Astro.site ?? 'https://riyadzaergardens.com').href;
+const canonical = new URL(path, Astro.site ?? 'https://riyadzaergardens.com').href;
+const ogAbs = new URL(ogImage, Astro.site ?? 'https://riyadzaergardens.com').href;
 ---
 <!doctype html>
 <html lang={locale} dir={dir}>
@@ -40,6 +49,20 @@ const dir = locale === 'ar' ? 'rtl' : 'ltr';
     <title>{title}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="fr" href={frHref} />
+    <link rel="alternate" hreflang="ar" href={arHref} />
+    <link rel="alternate" hreflang="x-default" href={frHref} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={locale === 'ar' ? 'ar_MA' : 'fr_MA'} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogAbs} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogAbs} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="theme-color" content="#002D2D" />
   </head>

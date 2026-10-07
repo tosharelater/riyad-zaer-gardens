@@ -32,6 +32,7 @@ const { gallery } = getHome(locale);
         data-gallery-open
         data-index={i}
         aria-label={`Agrandir : ${g.alt}`}
+        data-caption={g.alt}
       >
         <img src={g.src} alt={g.alt} loading="lazy" draggable="false" />
       </button>
@@ -59,9 +60,9 @@ const { gallery } = getHome(locale);
 
 <style>
   .vision {
-    padding: clamp(4rem, 8vw, 6.5rem) 0 clamp(3rem, 6vw, 4.5rem);
-    background: var(--ink);
-    color: #f7f2e8;
+    padding: var(--sec) 0;
+    background: var(--bg);
+    color: var(--ink);
   }
 
   .vision-top {
@@ -72,13 +73,9 @@ const { gallery } = getHome(locale);
     margin-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
   }
 
-  .vision .kick { color: var(--gold); }
-  .vision .kick::before { background: var(--gold); }
   .vision .display {
-    margin-top: 0.45rem;
-    color: #f7f2e8;
-    font-size: clamp(1.6rem, 3.2vw, 2.4rem);
-    max-width: none;
+    margin-top: 1rem;
+    max-width: 16ch;
   }
 
   .vision-nav {
@@ -93,17 +90,17 @@ const { gallery } = getHome(locale);
     height: 2.75rem;
     display: grid;
     place-items: center;
-    border: 1px solid rgb(247 242 232 / 0.22);
+    border: 1px solid var(--line);
     border-radius: 999px;
     background: transparent;
-    color: #f7f2e8;
+    color: var(--ink);
     cursor: pointer;
     transition: background 0.25s var(--ease), border-color 0.25s var(--ease);
   }
   .vision-btn:hover {
-    background: rgb(247 242 232 / 0.08);
-    border-color: var(--gold);
-    color: var(--gold);
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--bg);
   }
   .vision-btn svg {
     width: 1.1rem;
@@ -118,8 +115,7 @@ const { gallery } = getHome(locale);
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    scrollbar-color: rgb(200 181 104 / 0.45) transparent;
+    scrollbar-width: none;
     cursor: grab;
     user-select: none;
   }
@@ -136,9 +132,8 @@ const { gallery } = getHome(locale);
     border: 0;
     aspect-ratio: 4 / 5;
     overflow: hidden;
-    border-radius: 1.15rem;
     scroll-snap-align: start;
-    background: rgb(247 242 232 / 0.06);
+    background: var(--cream);
     cursor: pointer;
     position: relative;
   }
@@ -154,11 +149,29 @@ const { gallery } = getHome(locale);
     object-fit: cover;
     display: block;
     pointer-events: none;
-    transition: transform 0.7s var(--ease);
+    transition: transform 1.2s var(--ease), filter 0.6s ease;
   }
-  .vision-card:hover img {
-    transform: scale(1.04);
+  .vision-rail:hover .vision-card img { filter: saturate(0.6) brightness(0.92); }
+  .vision-rail .vision-card:hover img {
+    transform: scale(1.05);
+    filter: none;
   }
+  .vision-card::after {
+    content: attr(data-caption);
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 2.5rem 1rem 0.9rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-align: start;
+    color: #fff;
+    background: linear-gradient(to top, rgb(1 22 21 / 0.7), transparent);
+    opacity: 0;
+    transform: translateY(0.5rem);
+    transition: opacity 0.5s ease, transform 0.6s var(--ease);
+  }
+  .vision-card:hover::after,
+  .vision-card:focus-visible::after { opacity: 1; transform: none; }
 
   @media (min-width: 901px) {
     .vision-card {
@@ -209,7 +222,6 @@ const { gallery } = getHome(locale);
     width: auto;
     height: auto;
     object-fit: contain;
-    border-radius: 0.75rem;
   }
   .gallery-lightbox figcaption {
     font-size: 0.85rem;

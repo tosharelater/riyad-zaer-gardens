@@ -2,70 +2,17 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { notFoundPage as p } from '../../data/pages.ar';
 import { media } from '../../data/media';
+import PageHero from '../../components/page/PageHero.astro';
 import { localePath } from '../../i18n/paths';
 ---
 <BaseLayout locale="ar" title={p.seoTitle}>
-  <section class="nf">
-    <figure class="nf-bg" aria-hidden="true">
-      <img src={media.aerial.src} alt="" />
-    </figure>
-    <div class="nf-shade" aria-hidden="true"></div>
-    <div class="nf-copy wrap">
-      <p class="kick">{p.kick}</p>
-      <h1 class="display">{p.h1}</h1>
-      <p class="lead">{p.body}</p>
-      <div class="actions">
-        <a class="btn btn-solid" href={localePath('ar', p.primary.href)}>{p.primary.label}</a>
-        <a class="btn btn-light" href={localePath('ar', p.secondary.href)}>{p.secondary.label}</a>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    h1={p.h1}
+    lead={p.body}
+    kicker={p.kick}
+    compact
+  >
+    <a class="btn btn-solid" href={localePath('ar', p.primary.href)}>{p.primary.label}</a>
+    <a class="btn btn-light" href={localePath('ar', p.secondary.href)}>{p.secondary.label}</a>
+  </PageHero>
 </BaseLayout>
-
-<style>
-  .nf {
-    position: relative;
-    min-height: min(85svh, 46rem);
-    display: grid;
-    align-items: end;
-    color: #f7f2e8;
-    isolation: isolate;
-    overflow: hidden;
-  }
-  .nf-bg {
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-    margin: 0;
-  }
-  .nf-bg img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .nf-shade {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background:
-      linear-gradient(105deg, rgb(0 25 25 / 0.82), rgb(0 15 15 / 0.45)),
-      linear-gradient(to top, rgb(0 0 0 / 0.55), transparent 50%);
-  }
-  .nf-copy {
-    padding: calc(var(--nav) + 5rem) 0 5rem;
-    max-width: 38rem;
-  }
-  .nf .kick { color: var(--gold); }
-  .nf .kick::before { background: var(--gold); }
-  .nf .display {
-    margin: 1rem 0;
-    font-size: clamp(2.1rem, 4.5vw, 3.4rem);
-  }
-  .nf .lead { color: rgb(247 242 232 / 0.78); }
-  .actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 2rem;
-  }
-</style>

@@ -16,14 +16,10 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath('ar', l.href
     h1={p.h1}
     lead={p.lead}
     kicker="المطوّر"
-    image={media.aerial.src}
-    alt={media.aerial.alt}
     compact
   />
 
   <MediaSplit
-    image={media.hero.src}
-    alt={media.hero.alt}
     kicker="Riyad Zaer Gardens"
     title={p.splitTitle}
     body={[p.body, p.note]}
@@ -36,7 +32,6 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath('ar', l.href
     body={p.band.body}
     primary={{ label: p.band.primary, href: localePath('ar', '/contact') }}
     secondary={{ label: p.band.secondary, href: `tel:${contactInfo.phoneTel}` }}
-    image={media.facade.src}
   />
   <MoreLinks h2={p.more.h2} links={moreLinks} />
 </BaseLayout>

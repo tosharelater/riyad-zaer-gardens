@@ -1,21 +1,21 @@
 ---
 import { getHome } from '../data/content';
-import { localePath, type Locale } from '../i18n/paths';
+import type { Locale } from '../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { figures } = getHome(locale);
 ---
 <section class="figures" id="chiffres">
-  <div class="wrap figures-shell">
-    <header class="figures-head" data-reveal data-split>
-      <p class="kick">Tranche 1</p>
+  <div class="wrap">
+    <header class="figures-head head-split" data-reveal data-split>
+      <p class="kick">{locale === 'ar' ? 'المرحلة الأولى' : 'Tranche 1'}</p>
       <h2 class="display">{figures.h2}</h2>
       <p class="lead">{figures.lead}</p>
     </header>
 
     <dl class="figures-board" data-figures-board>
       {figures.items.map((f) => (
-        <div class="figures-item" data-reveal>
-          <dt data-count data-to={f.n}>0</dt>
+        <div class="figures-item">
+          <dt data-count data-to={f.n}>{f.n}</dt>
           <dd>{f.label}</dd>
         </div>
       ))}
@@ -24,64 +24,46 @@ const { figures } = getHome(locale);
 </section>
 <style>
   .figures {
-    padding: clamp(4.5rem, 9vw, 7.5rem) 0;
-    background: #fff;
-    color: var(--ink);
+    padding: var(--sec) 0;
+    background: var(--bg);
   }
-
-  .figures-shell {
-    display: grid;
-    gap: clamp(2.75rem, 5vw, 4rem);
-  }
-
-  .figures-head { width: 100%; max-width: none; }
-  .figures-head .display {
-    margin-top: 0.4rem;
-    max-width: none;
-  }
-  .figures-head .lead {
-    max-width: none;
-  }
+  .figures-head { margin-bottom: clamp(2.5rem, 5vw, 3.5rem); }
 
   .figures-board {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(1.5rem, 4vw, 3rem);
+    border-block: 1px solid var(--line);
   }
-
   .figures-item {
-    position: relative;
-    padding-top: 1.25rem;
+    padding: clamp(1.5rem, 3vw, 2.25rem) 0;
   }
-  .figures-item::before {
-    content: '';
-    position: absolute;
-    inset: 0 auto auto 0;
-    width: 2.5rem;
-    height: 2px;
-    background: var(--gold);
+  .figures-item + .figures-item {
+    padding-inline-start: clamp(1.25rem, 3vw, 2.5rem);
+    border-inline-start: 1px solid var(--line);
   }
-
   .figures-item dt {
-    font-size: clamp(4rem, 9vw, 6.75rem);
-    font-weight: 500;
-    letter-spacing: -0.055em;
-    line-height: 0.88;
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(3.25rem, 6.5vw, 5.75rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
     color: var(--ink);
   }
-
   .figures-item dd {
-    margin-top: 0.95rem;
+    margin-top: 0.6rem;
     font-size: 0.78rem;
-    letter-spacing: 0.16em;
+    font-weight: 600;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--muted);
   }
-
-  @media (max-width: 800px) {
-    .figures-board {
-      grid-template-columns: 1fr;
-      gap: 2rem;
+  @media (max-width: 600px) {
+    .figures-board { grid-template-columns: 1fr; }
+    .figures-item + .figures-item {
+      padding-inline-start: 0;
+      border-inline-start: 0;
+      border-top: 1px solid var(--line);
     }
   }
 </style>

@@ -134,11 +134,13 @@ export const appartementsPage = {
     items: [
       {
         title: 'Appartement F3',
+        mark: 'F3',
         body: 'Un séjour, deux chambres, une cuisine et une salle de bain. Selon le lot : balcon ou terrasse, buanderie et placards intégrés.',
         surface: 'Surface : environ 68 à 72 m².',
       },
       {
         title: 'Appartement F4',
+        mark: 'F4',
         body: 'Un séjour, trois chambres, une cuisine, une salle de bain et un WC séparé. Selon le lot : balcon ou terrasse, buanderie et placards intégrés.',
         surface: 'Surface : environ 77 à 86 m².',
       },
@@ -314,6 +316,15 @@ export const contactPage = {
   lead: 'Une question sur les typologies, les prix ou l’aide au logement ? Laissez-nous vos coordonnées : un conseiller vous rappelle et vous transmet la brochure du projet.',
   form: {
     h2: 'Être rappelé',
+    fields: {
+      name: 'Nom complet',
+      phone: 'Téléphone',
+      email: 'E-mail',
+      interest: 'Votre projet',
+      interestPlaceholder: 'Choisir…',
+      message: 'Votre message (facultatif)',
+      phoneInvalid: 'Indiquez un numéro de téléphone valide.',
+    },
     interests: [
       'Appartement F3',
       'Appartement F4',
@@ -328,6 +339,7 @@ export const contactPage = {
     h2: 'Nous joindre directement',
     phone: { title: 'Par téléphone', label: '07 08 08 08 39' },
     whatsapp: { title: 'Sur WhatsApp', body: 'Écrivez-nous, nous répondons rapidement.' },
+    whatsappCta: 'Écrire sur WhatsApp',
     place: { title: 'Sur place', body: 'Km 25, Avenue Mohammed VI, Rabat — Aïn Aouda' },
   },
   visit: {

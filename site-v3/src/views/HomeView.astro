@@ -1,15 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
-import Proof from '../components/Proof.astro';
 import Figures from '../components/Figures.astro';
-import Vision from '../components/Vision.astro';
 import Cour from '../components/Cour.astro';
 import Projet from '../components/Projet.astro';
 import Logements from '../components/Logements.astro';
-import Finishes from '../components/Finishes.astro';
 import Commerce from '../components/Commerce.astro';
-import Aid from '../components/Aid.astro';
 import Ways from '../components/Ways.astro';
 import Lieu from '../components/Lieu.astro';
 import Contact from '../components/Contact.astro';
@@ -20,16 +16,12 @@ const { seo } = getHome(locale);
 ---
 <BaseLayout title={seo.title} description={seo.description} intro locale={locale}>
   <Hero />
-  <Proof />
   <Figures />
   <Cour />
   <Projet />
   <Logements />
-  <Finishes />
   <Commerce />
-  <Aid />
   <Ways />
-  <Vision />
   <Lieu />
   <Contact />
 </BaseLayout>

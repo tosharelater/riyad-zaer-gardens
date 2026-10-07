@@ -12,14 +12,10 @@ import { media } from '../data/media';
     h1={p.h1}
     lead={p.lead}
     kicker="Le promoteur"
-    image={media.aerial.src}
-    alt={media.aerial.alt}
     compact
   />
 
   <MediaSplit
-    image={media.hero.src}
-    alt={media.hero.alt}
     kicker="Riyad Zaer Gardens"
     title="Un projet développé par La Manoussa"
     body={[p.body, p.note]}
@@ -32,7 +28,6 @@ import { media } from '../data/media';
     body="Notre équipe commerciale répond à vos questions et vous accompagne dans votre projet d’achat."
     primary={{ label: 'Être rappelé', href: '/contact' }}
     secondary={{ label: 'Appeler le 07 08 08 08 39', href: 'tel:+212708080839' }}
-    image={media.facade.src}
   />
   <MoreLinks h2={p.more.h2} links={p.more.links} />
 </BaseLayout>

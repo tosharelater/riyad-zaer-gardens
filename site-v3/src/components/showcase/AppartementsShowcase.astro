@@ -1,0 +1,329 @@
+---
+import PageHero from '../page/PageHero.astro';
+import PageBand from '../page/PageBand.astro';
+import MoreLinks from '../page/MoreLinks.astro';
+import FactTable from '../page/FactTable.astro';
+import { media } from '../../data/media';
+import { localePath, type Locale } from '../../i18n/paths';
+import { appartementsPage as aptFr } from '../../data/pages';
+import { appartementsPage as aptAr } from '../../data/pages.ar';
+
+interface Props {
+  locale?: Locale;
+}
+const { locale = 'fr' } = Astro.props;
+const p = locale === 'ar' ? aptAr : aptFr;
+const L =
+  locale === 'ar'
+    ? {
+        kick: 'الشقق',
+        types: 'الأنواع',
+        inclus: 'عند التسليم',
+        finish: 'التشطيبات',
+        price: 'الأسعار',
+        without: 'بدون دعم',
+        withAid: 'مع دعم السكن',
+        leadTitle: 'احصلوا على الكتيّب والأسعار',
+        leadBody: 'مستشار يتصل بكم مع الشقق المتاحة وتفاصيل التشطيبات.',
+        apt: 'شقق',
+        typo: 'نوعان',
+        delivery: 'التسليم',
+      }
+    : {
+        kick: 'Appartements',
+        types: 'Typologies',
+        inclus: 'Livraison',
+        finish: 'Finitions',
+        price: 'Prix',
+        without: 'Sans aide',
+        withAid: 'Avec l’aide au logement',
+        leadTitle: 'Recevoir la brochure et les prix',
+        leadBody: 'Un conseiller vous rappelle avec les lots disponibles et le détail des prestations.',
+        apt: 'appartements',
+        typo: 'typologies',
+        delivery: 'livraison',
+      };
+
+const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.href) }));
+const withoutLabel = 'withoutLabel' in p.prix ? (p.prix as { withoutLabel: string }).withoutLabel : L.without;
+const withAidLabel = 'withAidLabel' in p.prix ? (p.prix as { withAidLabel: string }).withAidLabel : L.withAid;
+const keep = (t: string) => t.replace(/(\d) (?=\d|DH|درهم)/g, '$1 ');
+const pad = (i: number) => String(i + 1).padStart(2, '0');
+---
+<div data-apt-page class="apt-page">
+  <PageHero
+    h1={p.h1}
+    lead={p.lead}
+    kicker={L.kick}
+    index="02"
+    image={media.apartment.src}
+    alt={media.apartment.alt}
+    position="center 55%"
+    facts={[
+      { n: '120', l: L.apt, count: 120 },
+      { n: 'F3 · F4', l: L.typo },
+      { n: '65–86', l: 'm²' },
+      { n: '2028', l: L.delivery },
+    ]}
+  />
+
+  <section class="types">
+    <div class="wrap">
+      <header class="head-split types-head" data-reveal data-split>
+        <p class="kick">{L.types}</p>
+        <h2 class="display">{p.types.h2}</h2>
+        <p class="lead">{p.types.note}</p>
+      </header>
+
+      <div class="types-grid">
+        {p.types.items.map((item, i) => {
+          return (
+            <article class="type" data-type>
+              <p class="type-mark" aria-hidden="true">{'mark' in item ? item.mark : item.title.replace(/.* /, '')}</p>
+              <div class="type-body">
+                <span class="type-idx">{pad(i)}</span>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+                <p class="type-surface">{item.surface}</p>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="inclus" data-inclus>
+    <div class="wrap inclus-grid">
+      <div data-reveal data-split>
+        <p class="kick">{L.inclus}</p>
+        <h2 class="display">{p.inclus.h2}</h2>
+        <p class="lead">{p.inclus.body}</p>
+      </div>
+      <ol class="ruled" data-ruled>
+        {p.inclus.list.map((item, i) => <li><span>{pad(i)}</span>{item}</li>)}
+      </ol>
+    </div>
+  </section>
+
+  <section class="finish" id="finitions">
+    <div class="wrap finish-grid">
+      <div class="finish-copy" data-reveal data-split>
+        <p class="kick">{L.finish}</p>
+        <h2 class="display">{p.finitions.h2}</h2>
+        <p class="lead">{p.finitions.body}</p>
+        <p class="fin-end">{p.finitions.end}</p>
+        <a class="btn btn-ghost" href={localePath(locale, p.finitions.cta.href)}>{p.finitions.cta.label}</a>
+      </div>
+      <div data-reveal>
+        <FactTable rows={p.finitions.rows} />
+      </div>
+    </div>
+  </section>
+
+  <section class="prix" data-prix>
+    <div class="wrap prix-grid">
+      <div data-reveal data-split>
+        <p class="kick">{L.price}</p>
+        <h2 class="display">{p.prix.h2}</h2>
+        {p.prix.body.map((t) => <p class="lead">{t}</p>)}
+        <a class="btn btn-solid" href={localePath(locale, p.prix.cta.href)}>{p.prix.cta.label}</a>
+      </div>
+      <aside class="prix-ticket" aria-label={L.price}>
+        <div class="is-before">
+          <span>{withoutLabel}</span>
+          <strong data-price-from>{keep(p.prix.without)}</strong>
+        </div>
+        <div class="is-aid">
+          <span>{withAidLabel}</span>
+          <strong data-price-to>{keep(p.prix.withAid)}</strong>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <PageBand
+    mode="custom"
+    title={L.leadTitle}
+    body={L.leadBody}
+    primary={{ label: p.prix.cta.label, href: localePath(locale, '/contact') }}
+  />
+  <MoreLinks h2={p.more.h2} links={moreLinks} />
+</div>
+
+<script>
+  import '../../scripts/appartements-motion';
+</script>
+
+<style>
+  /* Typologies — side by side, no photos */
+  .types {
+    padding: var(--sec) 0;
+    background: var(--bg);
+  }
+  .types-head { margin-bottom: clamp(3rem, 6vw, 5rem); }
+  .types-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--line);
+  }
+  .type {
+    padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1.5rem, 4vw, 4rem) 0 0;
+  }
+  .type + .type {
+    padding-inline-start: clamp(1.5rem, 4vw, 4rem);
+    padding-inline-end: 0;
+    border-inline-start: 1px solid var(--line);
+  }
+  .type-mark {
+    font-weight: 300;
+    font-family: var(--display);
+    font-size: clamp(7rem, 17vw, 15rem);
+    line-height: 0.82;
+    letter-spacing: -0.05em;
+    color: var(--ink);
+    transition: color 0.6s ease;
+  }
+  .type:hover .type-mark { color: var(--gold-deep); }
+  .type-body {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: clamp(1.5rem, 3vw, 2.5rem);
+    max-width: 30rem;
+  }
+  .type-idx {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: var(--gold-deep);
+  }
+  .type-body h3 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    line-height: 1.1;
+  }
+  .type-body > p:not(.type-surface) {
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .type-surface {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  /* Inclus */
+  .inclus {
+    padding: var(--sec) 0;
+    background: var(--cream);
+  }
+  .inclus-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(2.5rem, 7vw, 7rem);
+    align-items: end;
+  }
+  .inclus .display { margin: 1rem 0 0.25rem; max-width: 13ch; }
+  .ruled {
+    border-top: 1px solid var(--line);
+  }
+  .ruled li {
+    display: grid;
+    grid-template-columns: 2.75rem 1fr;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.5;
+  }
+  .ruled span {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--gold-deep);
+    padding-top: 0.2rem;
+  }
+
+  /* Finitions */
+  .finish {
+    padding: var(--sec) 0;
+    background: var(--bg);
+  }
+  .finish-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(2.5rem, 7vw, 7rem);
+    align-items: start;
+  }
+  .finish-copy { position: sticky; top: calc(var(--nav) + 2rem); }
+  .finish .display { margin: 1rem 0 0.25rem; max-width: 12ch; }
+  .fin-end {
+    margin: 1.25rem 0 1.75rem;
+    color: var(--muted);
+    line-height: 1.65;
+    max-width: 34rem;
+  }
+
+  /* Prix */
+  .prix {
+    padding: var(--sec) 0;
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .prix .kick { color: var(--gold); }
+  .prix-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: clamp(2.5rem, 7vw, 7rem);
+    align-items: end;
+  }
+  .prix .display { margin: 1rem 0 0.25rem; max-width: 13ch; color: var(--cream); }
+  .prix .lead { color: rgb(244 238 226 / 0.74); }
+  .prix .lead + .lead { margin-top: 0.75rem; }
+  .prix .btn { margin-top: 2rem; }
+  .prix-ticket {
+    border-top: 1px solid rgb(244 238 226 / 0.2);
+  }
+  .prix-ticket > div {
+    padding: clamp(1.25rem, 2.5vw, 1.75rem) 0;
+    border-bottom: 1px solid rgb(244 238 226 / 0.2);
+  }
+  .prix-ticket span {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgb(244 238 226 / 0.55);
+    margin-bottom: 0.6rem;
+  }
+  .prix-ticket strong {
+    display: block;
+    font-family: var(--display);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.05;
+  }
+  .prix-ticket .is-before strong {
+    font-size: clamp(1.3rem, 2vw, 1.6rem);
+    color: rgb(244 238 226 / 0.5);
+    text-decoration: line-through;
+    text-decoration-thickness: 1px;
+  }
+  .prix-ticket .is-aid span { color: var(--gold); }
+  .prix-ticket .is-aid strong {
+    font-size: clamp(2.2rem, 4.2vw, 3.6rem);
+    color: var(--gold);
+  }
+
+  @media (max-width: 900px) {
+    .types-grid,
+    .inclus-grid,
+    .finish-grid,
+    .prix-grid { grid-template-columns: 1fr; }
+    .type, .type + .type { padding-inline: 0; border-inline-start: 0; }
+    .type + .type { margin-top: 2.5rem; border-top: 1px solid var(--line); }
+    .finish-copy { position: static; }
+  }
+</style>

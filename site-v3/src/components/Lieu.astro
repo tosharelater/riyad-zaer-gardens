@@ -1,149 +1,60 @@
 ---
 import { getHome } from '../data/content';
-import { localePath, type Locale } from '../i18n/paths';
+import type { Locale } from '../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { lieu } = getHome(locale);
 ---
 <section class="lieu" id="lieu">
-  <div class="lieu-stage">
-    <figure class="lieu-media" data-media>
-      <img src={lieu.img} alt="Avenue Mohammed VI, Aïn Aouda" loading="lazy" />
-    </figure>
-    <div class="lieu-overlay wrap">
-      <div data-reveal data-split>
-        <p class="kick">Localisation</p>
-        <h2 class="display">{lieu.h2}</h2>
-        <p class="lead">{lieu.body}</p>
-        <a
-          class="btn btn-light"
-          href={lieu.cta.href}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {lieu.cta.label}
-        </a>
-      </div>
+  <div class="wrap lieu-grid">
+    <div class="lieu-copy" data-reveal data-split>
+      <p class="kick">{locale === 'ar' ? 'الموقع' : 'Localisation'}</p>
+      <h2 class="display">{lieu.h2}</h2>
+      <p class="lead">{lieu.body}</p>
+      <p class="lieu-address">{lieu.address}</p>
+      <a class="btn btn-ghost" href={lieu.cta.href} target="_blank" rel="noopener noreferrer">{lieu.cta.label}</a>
+    </div>
+    <div class="lieu-map" data-reveal>
+      <iframe
+        title="Carte de situation de Riyad Zaer Gardens à Aïn Aouda"
+        src={lieu.mapEmbed}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+      ></iframe>
     </div>
   </div>
-
-  <div class="lieu-map" data-reveal>
-    <iframe
-      title="Carte de situation de Riyad Zaer Gardens à Aïn Aouda"
-      src={lieu.mapEmbed}
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade"
-      allowfullscreen
-    ></iframe>
-    <a
-      class="lieu-map-hint"
-      href={lieu.cta.href}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <span>{lieu.address}</span>
-      <em>Ouvrir dans Google Maps →</em>
-    </a>
-  </div>
 </section>
-<style>
-  .lieu-stage {
-    position: relative;
-    min-height: min(72svh, 40rem);
-    color: #fff;
-    overflow: hidden;
-    isolation: isolate;
-  }
-  .lieu-media {
-    position: absolute;
-    inset: 0;
-    margin: 0;
-    z-index: -2;
-  }
-  .lieu-media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 45%;
-  }
-  .lieu-stage::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(
-      90deg,
-      rgb(0 20 20 / 0.82) 0%,
-      rgb(0 20 20 / 0.45) 48%,
-      rgb(0 0 0 / 0.2) 100%
-    );
-  }
-  .lieu-overlay {
-    position: relative;
-    min-height: inherit;
-    display: flex;
-    align-items: flex-end;
-    padding-block: clamp(3rem, 8vw, 5rem);
-  }
-  .lieu .kick { color: var(--gold); }
-  .lieu .kick::before { background: var(--gold); }
-  .lieu .display {
-    color: #fff;
-    font-size: clamp(2.4rem, 5.5vw, 4.5rem);
-    max-width: 14ch;
-  }
-  .lieu .lead {
-    color: rgb(255 255 255 / 0.82);
-    max-width: 34rem;
-  }
-  .lieu .btn { margin-top: 1.75rem; }
 
+<style>
+  .lieu {
+    padding: var(--sec) 0;
+    background: var(--bg);
+  }
+  .lieu-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: clamp(2.5rem, 7vw, 7rem);
+    align-items: center;
+  }
+  .lieu-copy .display { margin: 1rem 0 0.25rem; max-width: 12ch; }
+  .lieu-address {
+    margin: 1.75rem 0;
+    padding: 1rem 0;
+    border-block: 1px solid var(--line);
+    font-weight: 500;
+  }
   .lieu-map {
-    position: relative;
-    height: min(52svh, 28rem);
-    background: var(--ink);
+    aspect-ratio: 4 / 3;
+    background: var(--cream);
   }
   .lieu-map iframe {
     width: 100%;
     height: 100%;
     border: 0;
     display: block;
-    filter: grayscale(0.25) contrast(1.04);
+    filter: grayscale(0.3);
   }
-  .lieu-map-hint {
-    position: absolute;
-    left: var(--pad);
-    bottom: clamp(1.1rem, 3vw, 1.75rem);
-    z-index: 1;
-    display: grid;
-    gap: 0.25rem;
-    padding: 0.85rem 1.1rem;
-    background: rgb(0 45 45 / 0.94);
-    color: #f7f2e8;
-    text-decoration: none;
-    max-width: min(28rem, calc(100% - 2 * var(--pad)));
-    transition: background 0.25s var(--ease);
-  }
-  .lieu-map-hint:hover {
-    background: var(--ink);
-  }
-  .lieu-map-hint span {
-    font-size: 0.92rem;
-    font-weight: 500;
-    letter-spacing: -0.01em;
-  }
-  .lieu-map-hint em {
-    font-style: normal;
-    font-size: 0.68rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
-
-  @media (max-width: 700px) {
-    .lieu-stage { min-height: 64svh; }
-    .lieu-stage::before {
-      background: linear-gradient(to top, rgb(0 0 0 / 0.85), rgb(0 0 0 / 0.25));
-    }
-    .lieu-map { height: min(46svh, 22rem); }
+  @media (max-width: 900px) {
+    .lieu-grid { grid-template-columns: 1fr; }
   }
 </style>
