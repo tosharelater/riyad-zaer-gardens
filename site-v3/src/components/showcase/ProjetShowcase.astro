@@ -192,15 +192,15 @@ const promoteur = 'promoteur' in p ? p.promoteur : null;
   }
   .chapter-num {
     grid-row: 1 / span 2;
-    font-size: 0.7rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
-    color: var(--gold);
+    letter-spacing: -0.005em;
+    color: var(--canopy);
     padding-top: 0.4rem;
   }
   .chapter h3 {
     font-family: var(--display);
-    font-weight: 500;
+    font-weight: 600;
     font-size: clamp(1.25rem, 1.8vw, 1.5rem);
     line-height: 1.2;
   }
@@ -220,6 +220,7 @@ const promoteur = 'promoteur' in p ? p.promoteur : null;
     color: var(--cream);
   }
   .amenity .kick { color: var(--gold-soft); }
+  .amenity .lead { color: var(--muted-on-dark); }
   .amenity-head { margin-bottom: clamp(3rem, 6vw, 4.5rem); }
   .amenity-head .lead { color: var(--muted-on-dark); }
   .amenity-grid {
@@ -237,7 +238,7 @@ const promoteur = 'promoteur' in p ? p.promoteur : null;
   }
   .amenity-item h3 {
     font-family: var(--display);
-    font-weight: 500;
+    font-weight: 600;
     font-size: clamp(1.35rem, 2vw, 1.7rem);
     line-height: 1.15;
   }
@@ -247,8 +248,7 @@ const promoteur = 'promoteur' in p ? p.promoteur : null;
   }
   .amenity-item .text-link {
     justify-self: start;
-    color: var(--cream);
-    background-image: linear-gradient(var(--gold-soft), var(--gold-soft));
+    color: var(--gold-soft);
   }
 
   .syndic {

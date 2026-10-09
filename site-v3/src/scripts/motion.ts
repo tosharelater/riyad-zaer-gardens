@@ -97,11 +97,11 @@ function enterOnce() {
   gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((el) => {
     gsap.fromTo(
       el,
-      { autoAlpha: 0, y: 48 },
+      { autoAlpha: 0, y: 24 },
       {
         autoAlpha: 1,
         y: 0,
-        duration: 1.05,
+        duration: 0.8,
         ease: 'power3.out',
         scrollTrigger: { trigger: el, start: 'top 86%', once: true },
       },
@@ -134,9 +134,9 @@ function mediaDepth() {
 
     gsap.fromTo(
       fig,
-      { clipPath: 'inset(12% 12% 12% 12% round 0px)' },
+      { clipPath: 'inset(4% 4% 4% 4% round 22px)' },
       {
-        clipPath: 'inset(0% 0% 0% 0% round 0px)',
+        clipPath: 'inset(0% 0% 0% 0% round 22px)',
         ease: 'none',
         scrollTrigger: {
           trigger: fig,
@@ -149,7 +149,7 @@ function mediaDepth() {
 
     gsap.fromTo(
       img,
-      { scale: 1.2 },
+      { scale: 1.08 },
       {
         scale: 1,
         ease: 'none',

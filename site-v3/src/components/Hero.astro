@@ -14,7 +14,6 @@ const [priceLead, priceValue] = (() => {
     <img src="/photos/facade-nuit.jpg" alt={hero.alt} fetchpriority="high" decoding="async" />
   </div>
   <div class="hero-shade" aria-hidden="true"></div>
-  <div class="hero-glow" aria-hidden="true"></div>
 
   <div class="hero-copy wrap" data-split>
     <h1 class="hero-title">
@@ -61,7 +60,7 @@ const [priceLead, priceValue] = (() => {
     height: 100%;
     object-fit: cover;
     object-position: center 48%;
-    transform: scale(1.12);
+    transform: scale(1.06);
   }
   :global(html:not(.intro-lock)) .hero-media {
     animation: hero-curtain 1.6s var(--ease-io) both;
@@ -76,22 +75,13 @@ const [priceLead, priceValue] = (() => {
     z-index: -1;
     pointer-events: none;
     background:
-      linear-gradient(to top, color-mix(in srgb, var(--ink) 92%, transparent) 0%, color-mix(in srgb, var(--ink) 48%, transparent) 42%, color-mix(in srgb, var(--ink) 8%, transparent) 76%),
-      linear-gradient(to bottom, color-mix(in srgb, var(--ink) 44%, transparent), transparent 30%),
-      linear-gradient(118deg, color-mix(in srgb, var(--ink) 28%, transparent) 0%, transparent 50%);
-  }
-  .hero-glow {
-    position: absolute;
-    inset: auto 0 0 0;
-    height: 52%;
-    z-index: -1;
-    pointer-events: none;
-    background: radial-gradient(ellipse 70% 95% at 30% 100%, color-mix(in srgb, var(--gold) 26%, transparent), transparent 70%);
+      linear-gradient(to top, rgb(0 0 0 / 0.72) 0%, rgb(0 0 0 / 0.32) 40%, rgb(0 0 0 / 0) 68%),
+      linear-gradient(to bottom, rgb(0 0 0 / 0.35), transparent 22%);
   }
 
   .hero-copy {
     padding-top: calc(var(--nav) + 3.5rem);
-    padding-bottom: clamp(2.5rem, 5vw, 3.75rem);
+    padding-bottom: clamp(3rem, 7vw, 5rem);
   }
 
   .hero-title {
@@ -106,33 +96,32 @@ const [priceLead, priceValue] = (() => {
     word-spacing: 0.04em;
     line-height: 0.95;
     color: var(--cream);
-    text-shadow: 0 2px 40px color-mix(in srgb, var(--ink) 25%, transparent);
+    color: #fff;
   }
   .hero-brand :global(.w > span) { transform: translateY(110%); }
+  :global([dir='rtl']) .hero-brand { direction: ltr; unicode-bidi: isolate; text-align: right; }
   .hero-place {
     font-family: var(--font);
-    font-size: clamp(1.1rem, 2vw, 1.55rem);
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    line-height: 1.35;
-    color: rgb(255 255 255 / 0.88);
-    max-width: 28rem;
+    font-size: clamp(1.35rem, 2.6vw, 2.1rem);
+    font-weight: 600;
+    letter-spacing: -0.022em;
+    line-height: 1.15;
+    color: #fff;
+    max-width: 32rem;
   }
 
   .hero-foot {
-    margin-top: clamp(1.75rem, 3.5vw, 2.5rem);
-    padding-top: 1.35rem;
+    margin-top: clamp(1rem, 2vw, 1.4rem);
     display: grid;
-    gap: 1.35rem;
+    gap: clamp(1.5rem, 3vw, 2rem);
     align-items: start;
-    border-top: 1px solid color-mix(in srgb, var(--cream) 12%, transparent);
   }
 
   .hero-sub {
-    max-width: 36rem;
-    font-size: 1rem;
-    line-height: 1.65;
-    color: rgb(255 255 255 / 0.8);
+    max-width: 34rem;
+    font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+    line-height: 1.45;
+    color: rgb(255 255 255 / 0.86);
     text-wrap: pretty;
   }
 
@@ -148,19 +137,18 @@ const [priceLead, priceValue] = (() => {
     gap: 0.25rem;
   }
   .hero-price span {
-    font-size: 0.68rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--gold-soft);
+    letter-spacing: -0.005em;
+    color: rgb(255 255 255 / 0.72);
   }
   .hero-price strong {
     font-family: var(--display);
-    font-weight: 500;
+    font-weight: 600;
     font-size: clamp(1.45rem, 2.2vw, 1.85rem);
     line-height: 1;
     letter-spacing: -0.02em;
-    color: var(--gold);
+    color: #fff;
     white-space: nowrap;
   }
 
@@ -186,16 +174,19 @@ const [priceLead, priceValue] = (() => {
     to { opacity: 1; transform: none; }
   }
   @keyframes hero-curtain {
-    from { clip-path: inset(0 0 100% 0); }
-    to { clip-path: inset(0 0 0 0); }
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
   @keyframes hero-settle {
-    from { transform: scale(1.12); }
-    to { transform: scale(1.02); }
+    from { transform: scale(1.06); }
+    to { transform: scale(1); }
   }
 
   @media (max-width: 700px) {
     .hero-row { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 800px) {
+    .hero-copy { padding-bottom: 6.5rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -26,7 +26,6 @@ const { figures } = getHome(locale);
   .figures {
     padding: var(--sec) 0;
     background:
-      radial-gradient(ellipse 60% 45% at 0% 100%, color-mix(in srgb, var(--gold) 7%, transparent), transparent 55%),
       var(--bg);
   }
   .figures-board {
@@ -41,18 +40,17 @@ const { figures } = getHome(locale);
   }
   .figures-item dt {
     font-family: var(--display);
-    font-weight: 400;
-    font-size: clamp(2.75rem, 5.5vw, 4.25rem);
+    font-weight: 600;
+    font-size: clamp(3rem, 6.5vw, 5rem);
     line-height: 1;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.045em;
     font-variant-numeric: tabular-nums;
     color: var(--ink);
   }
   .figures-item dd {
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
     color: var(--muted);
   }
   @media (max-width: 600px) {

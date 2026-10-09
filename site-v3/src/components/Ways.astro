@@ -14,7 +14,6 @@ const { ways } = getHome(locale);
     <ul class="ways-list">
       {ways.items.map((w, i) => (
         <li>
-          <span class="ways-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
           <h3>{w.title}</h3>
           <p>{w.body}</p>
         </li>
@@ -26,8 +25,6 @@ const { ways } = getHome(locale);
   .ways {
     padding: var(--sec) 0;
     background:
-      radial-gradient(ellipse 60% 45% at 10% 100%, color-mix(in srgb, var(--gold) 10%, transparent), transparent 55%),
-      radial-gradient(ellipse 45% 40% at 100% 0%, color-mix(in srgb, var(--canopy) 40%, transparent), transparent 55%),
       var(--ink);
     color: var(--cream);
   }
@@ -44,14 +41,14 @@ const { ways } = getHome(locale);
   }
 
   .ways-n {
-    font-size: 0.7rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: -0.005em;
     color: var(--gold-soft);
   }
   .ways h3 {
     font-family: var(--display);
-    font-weight: 500;
+    font-weight: 600;
     font-size: clamp(1.45rem, 2.1vw, 1.85rem);
     line-height: 1.15;
   }

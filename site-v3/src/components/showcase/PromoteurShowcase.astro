@@ -122,8 +122,7 @@ const projectImages = ['/photos/aerial-ilot.jpg', '/photos/facade-golden.jpg'] a
   .projet-scene .kick { color: var(--gold-soft); }
   .projet-scene .lead { color: var(--muted-on-dark); }
   .projet-scene .text-link {
-    color: var(--cream);
-    background-image: linear-gradient(var(--gold-soft), var(--gold-soft));
+    color: var(--gold-soft);
   }
   .projet-scene .display {
     margin: 1rem 0 0.35rem;
@@ -157,24 +156,23 @@ const projectImages = ['/photos/aerial-ilot.jpg', '/photos/facade-golden.jpg'] a
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 1.2s var(--ease);
+    transition: transform 0.8s var(--ease);
   }
-  .partners-list li:hover .partner-media img { transform: scale(1.04); }
+  .partners-list li:hover .partner-media img { transform: scale(1.02); }
   .partner-copy {
     display: grid;
     align-content: start;
     gap: 0.65rem;
   }
   .partner-role {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+    letter-spacing: -0.005em;
     color: var(--canopy);
   }
   .partners-list h3 {
     font-family: var(--display);
-    font-weight: 500;
+    font-weight: 600;
     font-size: clamp(1.85rem, 3.2vw, 2.5rem);
     letter-spacing: -0.03em;
     line-height: 1.1;

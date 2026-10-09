@@ -106,10 +106,8 @@ const copy =
     color: var(--muted);
   }
   .band-convert .btn-ghost {
-    color: var(--ink);
-    border-color: var(--ink);
-    --fill: var(--ink);
-    --on-fill: var(--cream);
+    color: var(--canopy);
+    border-color: var(--canopy);
   }
   /* With photo: ink veil over the image */
   .band-convert:has(.band-bg) {
@@ -122,20 +120,14 @@ const copy =
     inset: 0;
     z-index: -1;
     background:
-      linear-gradient(
-        to top,
-        color-mix(in srgb, var(--ink) 92%, transparent),
-        color-mix(in srgb, var(--ink) 58%, transparent) 55%,
-        color-mix(in srgb, var(--ink) 42%, transparent)
-      );
+      linear-gradient(to top, rgb(0 0 0 / 0.72), rgb(0 0 0 / 0.42) 55%, rgb(0 0 0 / 0.3));
   }
   .band-convert:has(.band-bg) .lead { color: var(--muted-on-dark); }
   .band-convert:has(.band-bg) .btn-ghost {
-    color: var(--cream);
-    border-color: color-mix(in srgb, var(--cream) 55%, transparent);
-    --fill: var(--cream);
-    --on-fill: var(--ink);
+    color: #fff;
+    border-color: rgb(255 255 255 / 0.6);
   }
+  .band-convert:has(.band-bg) .btn-ghost:hover { background: #fff; color: var(--ink); }
   .band-aid {
     background: var(--cream);
   }

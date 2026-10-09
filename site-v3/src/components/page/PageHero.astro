@@ -108,9 +108,8 @@ const plain = !image;
     inset: 0;
     z-index: -1;
     background:
-      linear-gradient(to top, color-mix(in srgb, var(--ink) 93%, transparent) 0%, color-mix(in srgb, var(--ink) 52%, transparent) 40%, color-mix(in srgb, var(--ink) 10%, transparent) 74%),
-      linear-gradient(to bottom, color-mix(in srgb, var(--ink) 46%, transparent), transparent 32%),
-      radial-gradient(ellipse 58% 48% at 22% 100%, color-mix(in srgb, var(--gold) 20%, transparent), transparent 70%);
+      linear-gradient(to top, rgb(0 0 0 / 0.74) 0%, rgb(0 0 0 / 0.34) 42%, rgb(0 0 0 / 0) 70%),
+      linear-gradient(to bottom, rgb(0 0 0 / 0.35), transparent 22%);
   }
 
   .ph-copy {
@@ -123,52 +122,50 @@ const plain = !image;
     flex-wrap: wrap;
     align-items: center;
     gap: 0.6rem 0.9rem;
-    font-size: 0.7rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    color: color-mix(in srgb, var(--cream) 78%, transparent);
+    letter-spacing: -0.01em;
+    color: rgb(255 255 255 / 0.85);
   }
   .ph-index {
-    color: var(--gold-soft);
+    color: #fff;
     font-variant-numeric: tabular-nums;
   }
   .ph-kick i {
-    width: 0.4rem;
-    height: 0.4rem;
-    background: var(--gold);
+    width: 0.25rem;
+    height: 0.25rem;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.6;
   }
 
   .ph-title {
     margin-top: 0.85rem;
     font-family: var(--display);
-    font-size: clamp(2.1rem, 4.5vw, 3.65rem);
-    font-weight: 500;
+    font-size: clamp(2.4rem, 5.6vw, 4.5rem);
+    font-weight: 600;
     letter-spacing: -0.03em;
-    line-height: 1.12;
-    max-width: min(22rem, 100%);
+    line-height: 1.06;
+    max-width: min(46rem, 100%);
     text-wrap: balance;
-    text-shadow: 0 2px 28px color-mix(in srgb, var(--ink) 28%, transparent);
   }
   .is-compact .ph-title {
     font-size: clamp(1.95rem, 4vw, 3.1rem);
   }
 
   .ph-foot {
-    margin-top: 1.5rem;
-    padding-top: 1.25rem;
+    margin-top: 1.25rem;
     display: grid;
-    gap: 1.25rem;
+    gap: 1.5rem;
     align-items: start;
-    border-top: 1px solid color-mix(in srgb, var(--cream) 12%, transparent);
   }
   .ph-leads {
     max-width: 36rem;
   }
   .ph-lead {
-    font-size: clamp(0.98rem, 1.2vw, 1.08rem);
-    line-height: 1.75;
-    color: color-mix(in srgb, var(--cream) 88%, transparent);
+    font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+    line-height: 1.45;
+    color: rgb(255 255 255 / 0.86);
     text-wrap: pretty;
   }
   .ph-lead + .ph-lead { margin-top: 0.65rem; }
@@ -190,20 +187,19 @@ const plain = !image;
     gap: 0.15rem;
   }
   .ph-facts dt {
-    font-weight: 500;
+    font-weight: 600;
     font-family: var(--display);
     font-size: clamp(1.7rem, 3vw, 2.5rem);
     line-height: 1;
     letter-spacing: -0.03em;
-    color: var(--gold-soft);
+    color: #fff;
     font-variant-numeric: tabular-nums;
   }
   .ph-facts dd {
     margin-top: 0.45rem;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+    letter-spacing: -0.005em;
     color: var(--muted-on-dark);
   }
 
@@ -223,25 +219,26 @@ const plain = !image;
   /* Plain: no photo, type on cream */
   .ph.is-plain {
     min-height: 0;
-    background: var(--cream);
+    background: var(--bg);
     color: var(--ink);
   }
   .ph.is-plain .ph-copy { padding-top: calc(var(--nav) + clamp(4rem, 10vw, 8rem)); }
-  .is-plain .ph-kick { color: var(--muted); }
+  .is-plain .ph-kick { color: var(--canopy); }
   .is-plain .ph-kick i { background: var(--line); }
   .is-plain .ph-index { color: var(--gold-deep); }
   .is-plain .ph-lead { color: var(--muted); }
   .is-plain .ph-facts dt { color: var(--ink); }
   .is-plain .ph-facts dd { color: var(--muted); }
-  .is-plain .ph-extra :global(.btn-light) { color: var(--ink); border-color: var(--ink); --fill: var(--ink); --on-fill: var(--cream); }
+  .is-plain .ph-extra :global(.btn-light) { color: var(--canopy); border-color: var(--canopy); background: transparent; }
+  .is-plain .ph-extra :global(.btn-light:hover) { color: #fff; background: var(--canopy); }
 
   @keyframes ph-curtain {
-    from { clip-path: inset(0 0 100% 0); }
-    to { clip-path: inset(0 0 0 0); }
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
   @keyframes ph-settle {
-    from { transform: scale(1.12); }
-    to { transform: scale(1.02); }
+    from { transform: scale(1.06); }
+    to { transform: scale(1); }
   }
   @keyframes ph-rise {
     from { opacity: 0; transform: translateY(1.1rem); }

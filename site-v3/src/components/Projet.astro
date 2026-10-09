@@ -60,23 +60,15 @@ const amenityIcons = ['arrow-up-down', 'trees', 'square-parking', 'shield-check'
     position: relative;
     isolation: isolate;
   }
-  .projet-photo::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: linear-gradient(160deg, color-mix(in srgb, var(--ink) 12%, transparent), transparent 45%);
-    z-index: 1;
-  }
   .projet-photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center 40%;
-    transition: transform 1.6s var(--ease);
+    transition: transform 0.8s var(--ease);
   }
   .projet:hover .projet-photo img {
-    transform: scale(1.045);
+    transform: scale(1.02);
   }
 
   .projet-amenities {

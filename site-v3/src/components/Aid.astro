@@ -74,17 +74,16 @@ const keep = (t: string) => t.replace(/(\d) (?=\d|DH|درهم)/g, '$1\u202f');
 
   .aid-row span {
     display: block;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+    letter-spacing: -0.005em;
     margin-bottom: 0.65rem;
   }
 
   .aid-row strong {
     display: block;
     font-family: var(--display);
-    font-weight: 500;
+    font-weight: 600;
     font-variant-numeric: tabular-nums;
     line-height: 1.1;
   }
@@ -123,7 +122,7 @@ const keep = (t: string) => t.replace(/(\d) (?=\d|DH|درهم)/g, '$1\u202f');
     padding: clamp(1.35rem, 2.8vw, 1.85rem) clamp(1.5rem, 3vw, 2.25rem);
   }
   .aid-row.is-after span {
-    color: var(--gold);
+    color: var(--gold-soft);
   }
   .aid-row.is-after strong {
     font-size: clamp(1.9rem, 3.2vw, 2.6rem);

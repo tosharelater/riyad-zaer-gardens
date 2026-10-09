@@ -119,10 +119,9 @@ const dateFmt = (d: string) =>
   }
   .back {
     display: inline-block;
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gold);
+    font-size: 0.875rem;
+    letter-spacing: -0.005em;
+    color: var(--canopy);
     margin-bottom: 1.25rem;
   }
   .tags {
@@ -132,16 +131,15 @@ const dateFmt = (d: string) =>
     margin-bottom: 1rem;
   }
   .tags span {
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: -0.005em;
     color: color-mix(in srgb, var(--cream) 78%, transparent);
     border: 1px solid color-mix(in srgb, var(--cream) 28%, transparent);
     padding: 0.35rem 0.65rem;
   }
   .post-intro .display {
     font-family: var(--display);
-    font-weight: 500;
+    font-weight: 600;
     font-size: clamp(2.15rem, 4.5vw, 3.65rem);
     max-width: 18ch;
     letter-spacing: -0.035em;
@@ -161,7 +159,7 @@ const dateFmt = (d: string) =>
   }
   .deck {
     font-family: var(--display);
-    font-weight: 500;
+    font-weight: 600;
     font-size: clamp(1.4rem, 2.2vw, 1.75rem);
     line-height: 1.35;
     color: var(--ink);
@@ -171,7 +169,7 @@ const dateFmt = (d: string) =>
   .post-body section { margin-bottom: 2.25rem; }
   .post-body h2 {
     font-family: var(--display);
-    font-weight: 500;
+    font-weight: 600;
     font-size: clamp(1.6rem, 2.6vw, 2.1rem);
     line-height: 1.15;
     margin: 3rem 0 1rem;
@@ -229,15 +227,15 @@ const dateFmt = (d: string) =>
     width: 100%;
     aspect-ratio: 4 / 3;
     object-fit: cover;
-    transition: transform 1.2s var(--ease);
+    transition: transform 0.8s var(--ease);
   }
   .more-grid strong {
     font-family: var(--display);
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1.35rem;
     line-height: 1.2;
   }
-  .more-grid a:hover img { transform: scale(1.04); }
+  .more-grid a:hover img { transform: scale(1.02); }
   @media (max-width: 800px) {
     .more-grid { grid-template-columns: 1fr; }
   }

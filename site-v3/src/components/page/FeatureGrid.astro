@@ -50,7 +50,7 @@ const withImages = items.some((i) => i.image);
     background: var(--ink);
     color: var(--cream);
   }
-  .tone-ink .kick { color: var(--gold); }
+  .tone-ink .kick { color: var(--gold-soft); }
   .tone-ink .lead,
   .tone-ink .feat-copy p { color: color-mix(in srgb, var(--cream) 70%, transparent); }
 
@@ -93,7 +93,7 @@ const withImages = items.some((i) => i.image);
     object-fit: cover;
     transition: transform 0.8s var(--ease);
   }
-  .feat-item:hover img { transform: scale(1.045); }
+  .feat-item:hover img { transform: scale(1.02); }
 
   .feat-copy {
     display: flex;
@@ -111,13 +111,9 @@ const withImages = items.some((i) => i.image);
     line-height: 1.3;
   }
   .has-media .feat-copy h3 {
-    padding-top: 0.65rem;
-    border-top: 2px solid var(--gold);
+    padding-top: 0.25rem;
     width: fit-content;
     max-width: 100%;
-  }
-  .tone-ink.has-media .feat-copy h3 {
-    border-top-color: var(--gold);
   }
   .feat-copy p {
     color: var(--muted);
