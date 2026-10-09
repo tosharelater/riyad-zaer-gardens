@@ -257,7 +257,7 @@ const promoteur = 'promoteur' in p ? p.promoteur : null;
   }
   .syndic-grid {
     display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: var(--gap);
     align-items: start;
   }
@@ -278,8 +278,13 @@ const promoteur = 'promoteur' in p ? p.promoteur : null;
     align-items: start;
   }
   .missions span {
-    color: color-mix(in srgb, var(--ink) 42%, transparent);
-    padding-top: 0.2rem;
+    display: inline-grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--gold) 22%, transparent);
+    color: var(--gold-text);
   }
   .syndic-end {
     margin-top: 1.5rem;

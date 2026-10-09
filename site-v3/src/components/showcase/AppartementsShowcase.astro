@@ -232,11 +232,11 @@ const figures = 'figures' in p ? p.figures : null;
     padding: 0;
   }
   .type-mark {
-    font-weight: 300;
+    font-weight: 500;
     font-family: var(--display);
-    font-size: clamp(5.5rem, 12vw, 10rem);
-    line-height: 0.88;
-    letter-spacing: -0.05em;
+    font-size: clamp(4.5rem, 9vw, 7.5rem);
+    line-height: 0.9;
+    letter-spacing: -0.055em;
     color: var(--gold-text);
     transition: color 0.3s ease;
   }
@@ -284,8 +284,13 @@ const figures = 'figures' in p ? p.figures : null;
     align-items: start;
   }
   .ruled span {
-    color: color-mix(in srgb, var(--cream) 45%, transparent);
-    padding-top: 0.15rem;
+    display: inline-grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: rgb(217 201 135 / 0.16);
+    color: var(--gold-soft);
   }
 
   .finish {
@@ -372,8 +377,8 @@ const figures = 'figures' in p ? p.figures : null;
   }
   .map-card {
     position: absolute;
-    inset-inline-start: var(--pad);
-    bottom: var(--pad);
+    inset-inline-start: max(var(--pad), calc((100% - var(--wrap)) / 2));
+    bottom: clamp(2rem, 4vw, 3rem);
     width: min(26rem, calc(100% - 2 * var(--pad)));
     padding: clamp(1.5rem, 3vw, 2.25rem);
     background: var(--cream);

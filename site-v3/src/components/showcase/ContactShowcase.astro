@@ -161,7 +161,7 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.hr
   .contact-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: clamp(3rem, 8vw, 8rem);
+    gap: var(--gap);
     align-items: start;
   }
   .form-panel {
@@ -176,7 +176,7 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.hr
   }
   .form {
     display: grid;
-    gap: 2rem;
+    gap: 1.5rem;
     position: relative;
   }
   .map {
@@ -196,7 +196,7 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.hr
   .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    gap: 1.25rem;
   }
   .form label {
     position: relative;
@@ -274,7 +274,8 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.hr
   .aside-block {
     padding: 0;
   }
-  .aside h3 :global(.icon) { margin-inline-end: 0.5rem; color: var(--canopy); }
+  .aside .kick { color: var(--gold-text); }
+  .aside h3 :global(.icon) { margin-inline-end: 0.5rem; color: var(--gold-text); }
   .aside h3 {
     font-size: 0.875rem;
     font-weight: 600;
@@ -283,7 +284,7 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.hr
     margin-bottom: 0.45rem;
   }
   .aside .big {
-    font-weight: 300;
+    font-weight: 500;
     font-family: var(--display);
     font-size: clamp(2rem, 3.2vw, 2.8rem);
     line-height: 1.05;
@@ -294,6 +295,11 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.hr
   .aside a { font-weight: 500; display: inline-block; padding-block: 0.35rem; }
   .aside a:not(.big):not(.text-link):hover { color: var(--canopy); }
   .aside p { color: var(--muted); line-height: 1.6; }
+  .aside-block.soft {
+    margin-top: 0.75rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--line);
+  }
   .aside-block.soft h2 {
     font-family: var(--display);
     font-weight: 600;

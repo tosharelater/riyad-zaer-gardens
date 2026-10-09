@@ -72,8 +72,8 @@ const answerCount = p.groups.reduce((n, g) => n + g.items.length, 0);
   }
   .faq-grid {
     display: grid;
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-    gap: clamp(1.5rem, 6vw, 6rem);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--gap);
     align-items: start;
   }
   .faq-grid .display {

@@ -170,8 +170,8 @@ const quartierBody = typeof p.quartier.body === 'string' ? p.quartier.body.split
   }
   .map-card {
     position: absolute;
-    inset-inline-start: var(--pad);
-    bottom: var(--pad);
+    inset-inline-start: max(var(--pad), calc((100% - var(--wrap)) / 2));
+    bottom: clamp(2rem, 4vw, 3rem);
     width: min(26rem, calc(100% - 2 * var(--pad)));
     padding: clamp(1.5rem, 3vw, 2.25rem);
     background: var(--cream);
@@ -205,8 +205,13 @@ const quartierBody = typeof p.quartier.body === 'string' ? p.quartier.body.split
     align-items: start;
   }
   .near span {
-    color: color-mix(in srgb, var(--ink) 42%, transparent);
-    padding-top: 0.2rem;
+    display: inline-grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--gold) 22%, transparent);
+    color: var(--gold-text);
   }
   .near-end {
     margin-top: 1.25rem;

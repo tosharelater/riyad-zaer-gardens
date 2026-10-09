@@ -38,6 +38,8 @@ const { ways } = getHome(locale);
     display: grid;
     align-content: start;
     gap: 0.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgb(217 201 135 / 0.35);
   }
 
   .ways-n {
@@ -54,8 +56,9 @@ const { ways } = getHome(locale);
   }
   .ways p {
     color: var(--muted-on-dark);
-    line-height: 1.7;
-    font-size: 0.95rem;
+    line-height: 1.6;
+    font-size: 1.0625rem;
+    max-width: 30ch;
   }
 
   @media (max-width: 800px) {

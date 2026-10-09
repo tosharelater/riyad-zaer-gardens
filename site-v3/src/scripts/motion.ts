@@ -133,23 +133,8 @@ function mediaDepth() {
     if (!img) return;
 
     gsap.fromTo(
-      fig,
-      { clipPath: 'inset(4% 4% 4% 4% round 22px)' },
-      {
-        clipPath: 'inset(0% 0% 0% 0% round 22px)',
-        ease: 'none',
-        scrollTrigger: {
-          trigger: fig,
-          start: 'top 92%',
-          end: 'top 48%',
-          scrub: 0.7,
-        },
-      },
-    );
-
-    gsap.fromTo(
       img,
-      { scale: 1.08 },
+      { scale: 1.06 },
       {
         scale: 1,
         ease: 'none',

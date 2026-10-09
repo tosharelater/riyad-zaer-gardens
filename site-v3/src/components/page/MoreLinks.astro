@@ -56,7 +56,7 @@ const defaults: Record<string, string> = {
   }
   .more-list {
     display: grid;
-    gap: clamp(0.5rem, 1.5vw, 1rem);
+    gap: 0;
   }
   .more-item {
     position: relative;
@@ -64,17 +64,19 @@ const defaults: Record<string, string> = {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 2.5rem;
     gap: clamp(1rem, 3vw, 2.5rem);
     align-items: center;
-    padding: clamp(0.85rem, 2vw, 1.25rem) 0;
+    padding: clamp(1.1rem, 2.2vw, 1.6rem) 0;
+    border-top: 1px solid var(--line);
   }
+  .more-list > li:last-child .more-item { border-bottom: 1px solid var(--line); }
   .more-item strong {
     font-family: var(--display);
-    font-weight: 300;
-    font-size: clamp(1.8rem, 3.6vw, 3rem);
-    line-height: 1;
-    letter-spacing: -0.02em;
-    transition: transform 0.7s var(--ease);
+    font-weight: 600;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    line-height: 1.05;
+    letter-spacing: -0.028em;
+    transition: transform 0.4s var(--ease), color 0.25s ease;
   }
-  .more-item:hover strong { transform: translateX(0.6rem); }
+  .more-item:hover strong { transform: translateX(0.4rem); color: var(--canopy); }
   .more-item span {
     color: var(--muted);
     font-size: 0.98rem;
@@ -103,15 +105,16 @@ const defaults: Record<string, string> = {
     place-items: center;
     width: 2.5rem;
     height: 2.5rem;
-    border: 1px solid var(--line);
+    border: 1px solid color-mix(in srgb, var(--canopy) 30%, transparent);
     border-radius: 50%;
-    transition: background 0.5s var(--ease), color 0.5s var(--ease), border-color 0.5s var(--ease);
+    color: var(--canopy);
+    transition: background 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease);
   }
   .more-item i svg { width: 1rem; height: 1rem; }
   .more-item:hover i {
-    background: var(--ink);
-    border-color: var(--ink);
-    color: var(--cream);
+    background: var(--canopy);
+    border-color: var(--canopy);
+    color: var(--paper);
   }
   :global([dir='rtl']) .more-item i svg { transform: scaleX(-1); }
   :global([dir='rtl']) .more-item:hover strong { transform: translateX(-0.6rem); }

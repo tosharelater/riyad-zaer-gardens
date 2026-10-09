@@ -129,7 +129,7 @@ const L =
   }
   .offer-grid {
     display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: var(--gap);
     align-items: start;
   }
@@ -196,8 +196,8 @@ const L =
   }
   .map-card {
     position: absolute;
-    inset-inline-start: var(--pad);
-    bottom: var(--pad);
+    inset-inline-start: max(var(--pad), calc((100% - var(--wrap)) / 2));
+    bottom: clamp(2rem, 4vw, 3rem);
     width: min(26rem, calc(100% - 2 * var(--pad)));
     padding: clamp(1.5rem, 3vw, 2.25rem);
     background: var(--cream);
