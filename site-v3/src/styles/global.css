@@ -1,30 +1,36 @@
-/* Riyad Zaer Gardens — Apple-inspired system
-   Quiet white / light-gray surfaces, near-black type, one brand green for actions,
-   champagne only as a small note on dark surfaces. Photography carries the colour.
-   Type: Inter (SF-like) for everything · Audrey only for the home hero wordmark.
+/* Riyad Zaer Gardens — garden-calm system
+   Layout and type follow Apple's restraint; colour is the brand's own:
+   deep garden green, champagne gold, warm ivory. Photography carries the rest.
 
-   Contrast (WCAG):
-   --ink #1d1f1e on #ffffff 16.4:1 · --muted #5f6563 on #ffffff 6.0:1, on #f5f5f7 5.5:1
-   --canopy #0a4d42 on #ffffff 9.6:1 (white on canopy 9.6:1)
-   --gold-soft #d8c890 on --ink 11.0:1 */
+   Palette (WCAG contrast):
+   --ink    #002d2d  text & dark sections   14.6:1 on --paper, 13.1:1 on --cream
+   --canopy #0a3d35  buttons & links         10.7:1 on --cream, ivory on it 12:1
+   --gold   #c8b568  accents on dark          7.3:1 on --ink (also gold buttons w/ ink text)
+   --gold-soft #d9c987 eyebrows on dark       9.0:1 on --ink
+   --gold-text #7a6628 eyebrows on light      4.9:1 on --cream, 5.5:1 on --paper
+   --muted  #4a5e59  secondary text          6.1:1 on --cream, 6.8:1 on --paper
+   --paper  #fffdf8  warm white surface · --cream #f6f0e4 ivory surface
+   Type: Inter for everything · Audrey only for the home hero wordmark. */
 
 :root {
-  --ink: #1d1f1e;
-  --canopy: #0a4d42;
-  --canopy-hover: #0d6153;
-  --gold: #b49a56;
-  --gold-soft: #d8c890;
-  --cream: #ffffff;
-  --alt: #f5f5f7;
+  --ink: #002d2d;
+  --canopy: #0a3d35;
+  --canopy-hover: #12564b;
+  --gold: #c8b568;
+  --gold-soft: #d9c987;
+  --gold-text: #7a6628;
+  --paper: #fffdf8;
+  --cream: #f6f0e4;
+  --alt: #f6f0e4;
 
-  --bg: var(--cream);
+  --bg: var(--paper);
   --night: var(--ink);
-  --gold-deep: var(--canopy);
+  --gold-deep: var(--gold-text);
 
-  --muted: #5f6563;
-  --muted-on-dark: rgb(255 255 255 / 0.72);
-  --line: rgb(0 0 0 / 0.08);
-  --line-on-dark: rgb(255 255 255 / 0.14);
+  --muted: #4a5e59;
+  --muted-on-dark: rgb(246 240 228 / 0.76);
+  --line: rgb(0 45 45 / 0.1);
+  --line-on-dark: rgb(246 240 228 / 0.14);
 
   --font: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', 'Noto Sans Arabic', system-ui, sans-serif;
   --display: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Noto Sans Arabic', system-ui, sans-serif;
@@ -62,10 +68,10 @@ a { color: inherit; text-decoration: none; }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { border: 0; background: none; cursor: pointer; }
 ul, ol { list-style: none; padding: 0; }
-::selection { background: color-mix(in srgb, var(--canopy) 22%, transparent); color: var(--ink); }
+::selection { background: color-mix(in srgb, var(--gold) 45%, transparent); color: var(--ink); }
 
 :focus-visible {
-  outline: 2px solid #0a84ff;
+  outline: 2px solid var(--canopy);
   outline-offset: 3px;
   border-radius: 6px;
 }
@@ -101,30 +107,44 @@ ul, ol { list-style: none; padding: 0; }
 .btn:active { transform: scale(0.98); }
 .btn-solid {
   background: var(--canopy);
-  color: #fff;
+  color: var(--paper);
 }
 .btn-solid:hover { background: var(--canopy-hover); }
+/* On photos and deep-green surfaces the primary action turns champagne */
+:where(.hero, .ph:not(.is-plain), .tone-dark, .tone-canopy, .reasons, .ways, .inclus, .amenity,
+  .band-convert:has(.band-bg), .projet-scene, .foot, .top:not(.is-solid)) .btn-solid {
+  background: var(--gold);
+  color: var(--ink);
+}
+:where(.hero, .ph:not(.is-plain), .tone-dark, .tone-canopy, .reasons, .ways, .inclus, .amenity,
+  .band-convert:has(.band-bg), .projet-scene, .foot, .top:not(.is-solid)) .btn-solid:hover {
+  background: var(--gold-soft);
+}
+:where(.hero, .ph:not(.is-plain), .tone-dark, .tone-canopy, .reasons, .ways, .inclus, .amenity,
+  .band-convert:has(.band-bg), .projet-scene, .foot) :focus-visible {
+  outline-color: var(--gold-soft);
+}
 .btn-ghost {
   background: transparent;
   color: var(--canopy);
   border-color: var(--canopy);
 }
-.btn-ghost:hover { background: var(--canopy); color: #fff; }
+.btn-ghost:hover { background: var(--canopy); color: var(--paper); }
 .btn-light {
-  background: rgb(255 255 255 / 0.14);
-  color: #fff;
-  border-color: rgb(255 255 255 / 0.55);
+  background: rgb(255 252 244 / 0.12);
+  color: var(--paper);
+  border-color: rgb(246 240 228 / 0.6);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
 }
-.btn-light:hover { background: #fff; color: var(--ink); border-color: #fff; }
+.btn-light:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }
 
 /* Eyebrow: small, semibold, colour only — no ornaments */
 .kick {
   display: inline-flex; align-items: center; gap: 0.5rem;
   font-family: var(--font);
   font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; text-transform: none;
-  color: var(--canopy);
+  color: var(--gold-text);
 }
 
 .display {
@@ -324,22 +344,27 @@ body.is-rtl .mbar a {
 
 .tone-dark {
   background: var(--ink);
-  color: #f5f5f7;
+  color: var(--cream);
 }
 .tone-dark .kick { color: var(--gold-soft); }
 .tone-dark .lead,
 .tone-dark .muted { color: var(--muted-on-dark); }
 .tone-canopy {
   background: var(--canopy);
-  color: #fff;
+  color: var(--cream);
 }
 .tone-canopy .kick { color: var(--gold-soft); }
 .tone-gold {
-  background: var(--alt);
+  background: var(--cream);
   color: var(--ink);
 }
-.tone-gold .kick { color: var(--canopy); }
+.tone-gold .kick { color: var(--gold-text); }
 .tone-gold .lead { color: var(--muted); }
 
-/* Alternate light section surface */
-.tone-alt { background: var(--alt); }
+.tone-alt { background: var(--cream); }
+
+/* Links on deep-green surfaces */
+:where(.tone-dark, .reasons, .ways, .inclus, .amenity, .projet-scene) :is(.text-link, .projet-link) { color: var(--gold-soft); }
+
+/* The wordmark stays in Audrey in both languages */
+body.is-rtl .hero-brand { font-family: var(--audrey); letter-spacing: -0.03em; }

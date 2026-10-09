@@ -62,7 +62,7 @@ const form = (locale === 'ar' ? contactAr : contactFr).form;
     background: var(--alt);
     color: var(--ink);
   }
-  .contact .kick { color: var(--canopy); }
+  .contact .kick { color: var(--gold-text); }
   .contact .lead { color: var(--muted); }
   .contact-shell {
     display: grid;
@@ -96,15 +96,14 @@ const form = (locale === 'ar' ? contactAr : contactFr).form;
     gap: 0.65rem;
     margin-top: 1.25rem;
   }
-  .wa { border-color: color-mix(in srgb, var(--ink) 35%, transparent); }
   .form {
     display: grid;
     gap: 1.25rem;
     position: relative;
     padding: clamp(1.85rem, 3.8vw, 2.65rem);
-    background: #fff;
+    background: var(--paper);
     border-radius: var(--radius);
-    box-shadow: 0 4px 24px rgb(0 0 0 / 0.06);
+    box-shadow: 0 4px 24px rgb(0 36 34 / 0.06);
   }
   .form label { display: grid; gap: 0.35rem; position: relative; }
   .form span {
@@ -120,9 +119,9 @@ const form = (locale === 'ar' ? contactAr : contactFr).form;
     min-width: 0;
     min-height: 3.25rem;
     padding: 0.75rem 1rem;
-    border: 1px solid rgb(0 0 0 / 0.16);
+    border: 1px solid rgb(0 36 34 / 0.16);
     border-radius: 12px;
-    background: #fff;
+    background: var(--paper);
     color: var(--ink);
     font-size: 1.0625rem;
     outline: none;

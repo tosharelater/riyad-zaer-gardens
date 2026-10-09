@@ -75,8 +75,9 @@ const [priceLead, priceValue] = (() => {
     z-index: -1;
     pointer-events: none;
     background:
-      linear-gradient(to top, rgb(0 0 0 / 0.72) 0%, rgb(0 0 0 / 0.32) 40%, rgb(0 0 0 / 0) 68%),
-      linear-gradient(to bottom, rgb(0 0 0 / 0.35), transparent 22%);
+      linear-gradient(to top, rgb(0 36 34 / 0.84) 0%, rgb(0 36 34 / 0.5) 38%, rgb(0 36 34 / 0) 72%),
+      linear-gradient(90deg, rgb(0 36 34 / 0.42) 0%, rgb(0 36 34 / 0) 62%),
+      linear-gradient(to bottom, rgb(0 36 34 / 0.4), transparent 22%);
   }
 
   .hero-copy {
@@ -96,7 +97,7 @@ const [priceLead, priceValue] = (() => {
     word-spacing: 0.04em;
     line-height: 0.95;
     color: var(--cream);
-    color: #fff;
+    color: var(--paper);
   }
   .hero-brand :global(.w > span) { transform: translateY(110%); }
   :global([dir='rtl']) .hero-brand { direction: ltr; unicode-bidi: isolate; text-align: right; }
@@ -106,7 +107,7 @@ const [priceLead, priceValue] = (() => {
     font-weight: 600;
     letter-spacing: -0.022em;
     line-height: 1.15;
-    color: #fff;
+    color: var(--paper);
     max-width: 32rem;
   }
 
@@ -121,7 +122,7 @@ const [priceLead, priceValue] = (() => {
     max-width: 34rem;
     font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
     line-height: 1.45;
-    color: rgb(255 255 255 / 0.86);
+    color: rgb(255 252 244 / 0.86);
     text-wrap: pretty;
   }
 
@@ -140,7 +141,7 @@ const [priceLead, priceValue] = (() => {
     font-size: 0.875rem;
     font-weight: 600;
     letter-spacing: -0.005em;
-    color: rgb(255 255 255 / 0.72);
+    color: var(--gold-soft);
   }
   .hero-price strong {
     font-family: var(--display);
@@ -148,7 +149,7 @@ const [priceLead, priceValue] = (() => {
     font-size: clamp(1.45rem, 2.2vw, 1.85rem);
     line-height: 1;
     letter-spacing: -0.02em;
-    color: #fff;
+    color: var(--paper);
     white-space: nowrap;
   }
 

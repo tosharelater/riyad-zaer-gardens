@@ -147,7 +147,7 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.hr
 <style>
   .visit-scene {
     padding: var(--sec) 0;
-    background: var(--cream);
+    background: var(--paper);
   }
   .visit-scene .display {
     margin: 1rem 0 0.35rem;
@@ -166,11 +166,9 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.hr
   }
   .form-panel {
     padding: clamp(1.85rem, 3.8vw, 2.85rem);
-    background: #fff;
-    border: 1px solid color-mix(in srgb, var(--ink) 7%, transparent);
-    box-shadow:
-      0 1px 0 color-mix(in srgb, var(--ink) 3%, transparent),
-      0 20px 48px color-mix(in srgb, var(--ink) 5%, transparent);
+    background: var(--paper);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 0 rgb(0 45 45 / 0.04), 0 18px 44px rgb(0 45 45 / 0.08);
   }
   .form-panel .display {
     margin: 1rem 0 clamp(2rem, 4vw, 3rem);
@@ -220,9 +218,9 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.hr
     min-width: 0;
     min-height: 3.25rem;
     padding: 0.75rem 1rem;
-    border: 1px solid rgb(0 0 0 / 0.16);
+    border: 1px solid rgb(0 36 34 / 0.16);
     border-radius: 12px;
-    background: #fff;
+    background: var(--paper);
     color: var(--ink);
     font-size: 1.0625rem;
     outline: none;

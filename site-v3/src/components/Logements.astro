@@ -7,7 +7,7 @@ const { apartments } = getHome(locale);
 <section class="homes" id="appartements">
   <div class="wrap homes-grid">
     <div class="homes-block" data-reveal data-split>
-      <p class="kick">Appartements</p>
+      <p class="kick">{locale === 'ar' ? 'الشقق' : 'Appartements'}</p>
       <h2 class="display">{apartments.h2}</h2>
       <p class="lead">{apartments.p1}</p>
 
