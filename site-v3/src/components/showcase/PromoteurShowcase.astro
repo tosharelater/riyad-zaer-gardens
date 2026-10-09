@@ -1,0 +1,205 @@
+---
+import PageHero from '../page/PageHero.astro';
+import PageBand from '../page/PageBand.astro';
+import MoreLinks from '../page/MoreLinks.astro';
+import { media } from '../../data/media';
+import { contactInfo } from '../../data/site';
+import { localePath, type Locale } from '../../i18n/paths';
+import { promoteurPage as promoFr } from '../../data/pages';
+import { promoteurPage as promoAr } from '../../data/pages.ar';
+
+interface Props {
+  locale?: Locale;
+}
+const { locale = 'fr' } = Astro.props;
+const p = locale === 'ar' ? promoAr : promoFr;
+const L =
+  locale === 'ar'
+    ? { kick: 'المطوّر', discover: 'اكتشفوا المشروع' }
+    : { kick: 'Le promoteur', discover: 'Découvrir le projet' };
+
+const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.href) }));
+const projectImages = ['/photos/aerial-ilot.jpg', '/photos/facade-golden.jpg'] as const;
+---
+<div data-promo-page class="promo-page">
+  <PageHero
+    h1={p.h1}
+    lead={p.lead}
+    kicker={L.kick}
+    image="/photos/facade-commerces.jpg"
+    alt={media.facade.alt}
+    position="center 42%"
+  />
+
+  {'partners' in p && p.partners && (
+    <section class="partners">
+      <div class="wrap">
+        <header class="head-split partners-head" data-reveal data-split>
+          <p class="kick">{p.partners.kick}</p>
+          <h2 class="display">{'role' in p && p.role ? p.role.h2 : p.partners.h2}</h2>
+          {'role' in p && p.role && p.role.body.map((t) => <p class="lead">{t}</p>)}
+        </header>
+        <ol class="partners-list">
+          {p.partners.items.map((item, i) => (
+            <li data-reveal>
+              <figure class="partner-media">
+                <img
+                  src={projectImages[i] ?? projectImages[0]}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+              <div class="partner-copy">
+                <p class="partner-role">{item.role}</p>
+                <h3>{item.title}</h3>
+                <p class="partner-body">{item.body}</p>
+                {i === 1 && (
+                  <a class="text-link" href={localePath(locale, '/le-projet')}>{L.discover}</a>
+                )}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )}
+
+  {'projet' in p && p.projet && (
+    <section class="projet-scene">
+      <div class="wrap text-photo">
+        <div data-reveal data-split>
+          <p class="kick">{p.projet.kick}</p>
+          <h2 class="display">{p.projet.h2}</h2>
+          {p.projet.body.map((t) => <p class="lead">{t}</p>)}
+        </div>
+        <figure data-media>
+          <img src="/photos/aerial-ilot.jpg" alt={media.aerial.alt} loading="lazy" decoding="async" />
+        </figure>
+      </div>
+    </section>
+  )}
+
+  {'band' in p && p.band && (
+    <PageBand
+      mode="custom"
+      title={p.band.title}
+      body={p.band.body}
+      primary={{ label: p.band.primary, href: localePath(locale, '/contact') }}
+      secondary={{ label: p.band.secondary, href: `tel:${contactInfo.phoneTel}` }}
+      image="/photos/facade-golden.jpg"
+    />
+  )}
+  <MoreLinks h2={p.more.h2} links={moreLinks} />
+</div>
+
+<style>
+  .role {
+    padding: var(--sec) 0;
+    background: var(--cream);
+  }
+  .role-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: clamp(2rem, 6vw, 6rem);
+    row-gap: 1.25rem;
+    align-items: start;
+  }
+  .role-grid > .kick { grid-column: 1 / -1; }
+  .role-grid > .display {
+    margin: 0;
+    max-width: none;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+  }
+  .role-copy .lead { margin: 0; }
+  .role-copy .lead + .lead { margin-top: 0.85rem; }
+
+  .projet-scene {
+    padding: var(--sec) 0;
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .projet-scene .kick { color: var(--gold-soft); }
+  .projet-scene .lead { color: var(--muted-on-dark); }
+  .projet-scene .text-link {
+    color: var(--cream);
+    background-image: linear-gradient(var(--gold-soft), var(--gold-soft));
+  }
+  .projet-scene .display {
+    margin: 1rem 0 0.35rem;
+    max-width: none;
+  }
+
+  .partners {
+    padding: var(--sec) 0;
+    background: var(--cream);
+    color: var(--ink);
+  }
+  .partners-head { margin-bottom: clamp(2.5rem, 5vw, 3.75rem); }
+  .partners-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.75rem, 4vw, 3rem);
+    align-items: stretch;
+  }
+  .partners-list li {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 1rem;
+    height: 100%;
+  }
+  .partner-media {
+    margin: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  .partner-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s var(--ease);
+  }
+  .partners-list li:hover .partner-media img { transform: scale(1.04); }
+  .partner-copy {
+    display: grid;
+    align-content: start;
+    gap: 0.65rem;
+  }
+  .partner-role {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--canopy);
+  }
+  .partners-list h3 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(1.85rem, 3.2vw, 2.5rem);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+  .partner-body {
+    max-width: 32rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .partner-copy .text-link {
+    margin-top: 0.85rem;
+    justify-self: start;
+  }
+  .promo-note {
+    margin-top: clamp(2rem, 4vw, 3rem);
+    font-size: 0.92rem;
+    color: var(--muted);
+    max-width: 40rem;
+  }
+
+  @media (max-width: 900px) {
+    .role-grid { grid-template-columns: 1fr; }
+    .partners-list { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .partner-media img { transition: none; }
+  }
+</style>

@@ -1,8 +1,0 @@
----
-interface Props {
-  fr: string;
-  ar: string;
-}
-const { fr, ar } = Astro.props;
----
-<span data-bilingual-fr set:html={fr} /><span data-bilingual-ar hidden set:html={ar} />

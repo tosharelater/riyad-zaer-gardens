@@ -1,18 +1,17 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import StatusShowcase from '../../components/showcase/StatusShowcase.astro';
 import { notFoundPage as p } from '../../data/pages.ar';
-import { media } from '../../data/media';
-import PageHero from '../../components/page/PageHero.astro';
-import { localePath } from '../../i18n/paths';
 ---
 <BaseLayout locale="ar" title={p.seoTitle}>
-  <PageHero
+  <StatusShowcase
+    locale="ar"
+    kicker={p.kick}
     h1={p.h1}
     lead={p.body}
-    kicker={p.kick}
-    compact
-  >
-    <a class="btn btn-solid" href={localePath('ar', p.primary.href)}>{p.primary.label}</a>
-    <a class="btn btn-light" href={localePath('ar', p.secondary.href)}>{p.secondary.label}</a>
-  </PageHero>
+    image="/photos/facade-nuit.jpg"
+    primary={p.primary}
+    secondary={p.secondary}
+    more={p.more}
+  />
 </BaseLayout>

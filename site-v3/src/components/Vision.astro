@@ -4,12 +4,20 @@ const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const ar = locale === 'ar';
 /** Project renders — the gallery is the one place they appear together */
 const gallery = [
-  { src: '/photos/facade-sunset.jpg', alt: ar ? 'الواجهة عند الغروب' : 'Façade au coucher du soleil' },
-  { src: '/photos/allee-jardin.jpg', alt: ar ? 'ممر مشجر داخل الإقامة' : 'Allée plantée de la résidence' },
-  { src: '/photos/facade-angle.jpg', alt: ar ? 'المبنى من الزاوية' : 'Immeuble vu depuis l’angle' },
+  { src: '/photos/facade-nuit.jpg', alt: ar ? 'الواجهة عند الغروب' : 'Façade au coucher du soleil', wide: true },
+  { src: '/photos/salon.jpg', alt: ar ? 'صالة المعيشة' : 'Salon' },
+  { src: '/photos/allee-jardin.jpg', alt: ar ? 'قلب الحي المزروع' : 'Cœur d’îlot végétalisé' },
+  { src: '/photos/commerce-angle.jpg', alt: ar ? 'المحلات في الطابق الأرضي' : 'Commerces en rez-de-chaussée' },
+  { src: '/photos/facade-golden.jpg', alt: ar ? 'الواجهة والنخيل' : 'Façade plantée', wide: true },
+  { src: '/photos/salon-balcon.jpg', alt: ar ? 'صالة مع شرفة' : 'Salon avec balcon' },
+  { src: '/photos/aerial-ilot.jpg', alt: ar ? 'منظر جوي للمجمّع' : 'Vue d’ensemble de l’îlot', wide: true },
   { src: '/photos/cuisine.jpg', alt: ar ? 'المطبخ' : 'Cuisine' },
-  { src: '/photos/rue-facade.jpg', alt: ar ? 'الواجهة على الشارع' : 'Façade sur rue' },
-  { src: '/photos/chambre.jpg', alt: ar ? 'غرفة نوم' : 'Chambre' },
+  { src: '/photos/commerce-interieur.jpg', alt: ar ? 'داخل محل تجاري' : 'Local commercial' },
+  { src: '/photos/salon-coin.jpg', alt: ar ? 'زاوية الصالة' : 'Coin salon' },
+  { src: '/photos/facade-street.jpg', alt: ar ? 'الواجهة على الشارع' : 'Façade sur rue', wide: true },
+  { src: '/photos/chambre-enfants.jpg', alt: ar ? 'غرفة أطفال' : 'Chambre d’enfants' },
+  { src: '/photos/commerce-trottoir.jpg', alt: ar ? 'واجهة المحلات' : 'Vitrine commerciale' },
+  { src: '/photos/facade-corner.jpg', alt: ar ? 'زاوية المشروع' : 'Angle du projet' },
 ];
 ---
 <section class="vision" aria-label="Galerie du projet">
@@ -36,7 +44,7 @@ const gallery = [
     {gallery.map((g, i) => (
       <button
         type="button"
-        class="vision-card"
+        class:list={['vision-card', { 'is-wide': g.wide }]}
         data-gallery-open
         data-index={i}
         aria-label={`Agrandir : ${g.alt}`}
@@ -69,28 +77,34 @@ const gallery = [
 <style>
   .vision {
     padding: var(--sec) 0;
-    background: var(--cream);
+    background:
+      radial-gradient(ellipse 80% 50% at 10% 0%, color-mix(in srgb, var(--gold) 14%, transparent), transparent 55%),
+      radial-gradient(ellipse 50% 40% at 100% 80%, color-mix(in srgb, var(--canopy) 4%, transparent), transparent 55%),
+      var(--cream);
     color: var(--ink);
   }
 
   .vision-top {
     display: flex;
-    align-items: end;
+    align-items: flex-start;
     justify-content: space-between;
-    gap: 1.5rem;
-    margin-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
+    gap: var(--gap);
+    margin-bottom: var(--head-gap);
   }
 
-  .vision .display {
-    margin-top: 1rem;
-    max-width: 16ch;
+  .vision-head {
+    display: grid;
+    gap: 0.65rem;
+    max-width: 28rem;
   }
+  .vision-head .kick { margin: 0; }
+  .vision-head .display { margin: 0; max-width: none; }
 
   .vision-nav {
     display: flex;
-    gap: 0.55rem;
+    gap: 0.5rem;
     flex-shrink: 0;
-    padding-bottom: 0.2rem;
+    margin-top: 1.7rem;
   }
 
   .vision-btn {
@@ -99,16 +113,15 @@ const gallery = [
     display: grid;
     place-items: center;
     border: 1px solid var(--line);
-    border-radius: 999px;
     background: transparent;
     color: var(--ink);
     cursor: pointer;
-    transition: background 0.25s var(--ease), border-color 0.25s var(--ease);
+    transition: background 0.25s var(--ease), border-color 0.25s var(--ease), color 0.25s var(--ease);
   }
   .vision-btn:hover {
     background: var(--ink);
     border-color: var(--ink);
-    color: var(--bg);
+    color: var(--cream);
   }
   .vision-btn svg {
     width: 1.1rem;
@@ -117,9 +130,9 @@ const gallery = [
 
   .vision-rail {
     display: flex;
-    gap: 0.75rem;
+    gap: 1rem;
     overflow-x: auto;
-    padding: 0 var(--pad) 0.5rem;
+    padding: 0 var(--pad) 0.75rem;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
@@ -127,6 +140,7 @@ const gallery = [
     cursor: grab;
     user-select: none;
   }
+  .vision-rail::-webkit-scrollbar { display: none; }
   .vision-rail.is-dragging {
     cursor: grabbing;
     scroll-behavior: auto;
@@ -134,21 +148,20 @@ const gallery = [
   }
 
   .vision-card {
-    flex: 0 0 min(72vw, 22rem);
+    flex: 0 0 min(70vw, 20rem);
     margin: 0;
     padding: 0;
     border: 0;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 3 / 4;
     overflow: hidden;
     scroll-snap-align: start;
-    background: var(--cream);
+    background: color-mix(in srgb, var(--ink) 6%, var(--cream));
     cursor: pointer;
     position: relative;
   }
-
-  .vision-card:nth-child(3n) {
-    flex-basis: min(78vw, 26rem);
-    aspect-ratio: 5 / 4;
+  .vision-card.is-wide {
+    flex-basis: min(84vw, 30rem);
+    aspect-ratio: 16 / 10;
   }
 
   .vision-card img {
@@ -157,36 +170,38 @@ const gallery = [
     object-fit: cover;
     display: block;
     pointer-events: none;
-    transition: transform 1.2s var(--ease), filter 0.6s ease;
+    transition: transform 1.35s var(--ease);
   }
-  .vision-rail:hover .vision-card img { filter: saturate(0.6) brightness(0.92); }
-  .vision-rail .vision-card:hover img {
-    transform: scale(1.05);
-    filter: none;
+  .vision-card:hover img,
+  .vision-card:focus-visible img {
+    transform: scale(1.06);
   }
   .vision-card::after {
     content: attr(data-caption);
     position: absolute;
     inset: auto 0 0 0;
-    padding: 2.5rem 1rem 0.9rem;
+    padding: 3rem 1.1rem 1rem;
     font-size: 0.78rem;
     letter-spacing: 0.04em;
     text-align: start;
-    color: #fff;
-    background: linear-gradient(to top, rgb(1 22 21 / 0.7), transparent);
+    color: var(--cream);
+    background: linear-gradient(to top, color-mix(in srgb, var(--ink) 78%, transparent), transparent);
     opacity: 0;
-    transform: translateY(0.5rem);
-    transition: opacity 0.5s ease, transform 0.6s var(--ease);
+    transform: translateY(0.4rem);
+    transition: opacity 0.45s ease, transform 0.55s var(--ease);
   }
   .vision-card:hover::after,
-  .vision-card:focus-visible::after { opacity: 1; transform: none; }
+  .vision-card:focus-visible::after {
+    opacity: 1;
+    transform: none;
+  }
 
   @media (min-width: 901px) {
     .vision-card {
-      flex-basis: min(28vw, 20rem);
+      flex-basis: min(26vw, 19rem);
     }
-    .vision-card:nth-child(3n) {
-      flex-basis: min(34vw, 24rem);
+    .vision-card.is-wide {
+      flex-basis: min(42vw, 32rem);
     }
   }
 
@@ -206,11 +221,11 @@ const gallery = [
     max-height: none;
     width: 100vw;
     height: 100vh;
-    background: rgb(0 18 18 / 0.94);
-    color: #f7f2e8;
+    background: color-mix(in srgb, var(--ink) 94%, transparent);
+    color: var(--cream);
   }
   .gallery-lightbox::backdrop {
-    background: rgb(0 10 10 / 0.72);
+    background: color-mix(in srgb, var(--ink) 72%, transparent);
   }
   .gallery-lightbox[open] {
     display: grid;
@@ -234,7 +249,7 @@ const gallery = [
   .gallery-lightbox figcaption {
     font-size: 0.85rem;
     letter-spacing: 0.04em;
-    color: rgb(247 242 232 / 0.7);
+    color: color-mix(in srgb, var(--cream) 70%, transparent);
     text-align: center;
   }
   .gallery-close {
@@ -245,8 +260,8 @@ const gallery = [
     height: 2.75rem;
     border: 0;
     border-radius: 999px;
-    background: rgb(247 242 232 / 0.1);
-    color: #f7f2e8;
+    background: color-mix(in srgb, var(--cream) 10%, transparent);
+    color: var(--cream);
     font-size: 1.6rem;
     line-height: 1;
     cursor: pointer;
@@ -259,10 +274,10 @@ const gallery = [
     height: 2.75rem;
     display: grid;
     place-items: center;
-    border: 1px solid rgb(247 242 232 / 0.22);
+    border: 1px solid color-mix(in srgb, var(--cream) 22%, transparent);
     border-radius: 999px;
-    background: rgb(0 45 45 / 0.55);
-    color: #f7f2e8;
+    background: color-mix(in srgb, var(--ink) 55%, transparent);
+    color: var(--cream);
     cursor: pointer;
   }
   .gallery-nav.is-prev { left: 1.25rem; }

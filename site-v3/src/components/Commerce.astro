@@ -36,32 +36,39 @@ const href = (h: string) => (h.startsWith('/') ? localePath(locale, h) : h);
   .commerce-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: clamp(2.5rem, 7vw, 7rem);
-    align-items: end;
+    gap: var(--gap);
+    align-items: start;
   }
-  .commerce-copy .display { margin: 1rem 0 0.25rem; max-width: 16ch; }
-  .commerce-copy .lead + .lead { margin-top: 0.85rem; }
+  .commerce-copy .kick { margin: 0; }
+  .commerce-copy .display { margin: 0.65rem 0 0; max-width: none; }
+  .commerce-copy .lead { margin-top: 0.85rem; }
+  .commerce-copy .lead + .lead { margin-top: 0.75rem; }
   .commerce-facts {
+    display: grid;
+    gap: 0.15rem;
     margin-bottom: 2rem;
-    border-top: 1px solid var(--line);
   }
   .commerce-facts > div {
     display: flex;
     justify-content: space-between;
     gap: 1rem;
-    padding: 1.1rem 0;
+    padding: 0.85rem 0;
     border-bottom: 1px solid var(--line);
   }
+  .commerce-facts > div:last-child { border-bottom: 0; }
   .commerce-facts dt {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 600;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--muted);
   }
   .commerce-facts dd {
+    font-family: var(--display);
     font-weight: 500;
+    font-size: 1.05rem;
     text-align: end;
+    color: var(--ink);
   }
   @media (max-width: 900px) {
     .commerce-grid { grid-template-columns: 1fr; }

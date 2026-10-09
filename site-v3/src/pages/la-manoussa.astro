@@ -1,33 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/page/PageHero.astro';
-import MoreLinks from '../components/page/MoreLinks.astro';
-import PageBand from '../components/page/PageBand.astro';
-import MediaSplit from '../components/page/MediaSplit.astro';
+import PromoteurShowcase from '../components/showcase/PromoteurShowcase.astro';
 import { promoteurPage as p } from '../data/pages';
-import { media } from '../data/media';
 ---
 <BaseLayout title={p.seo.title} description={p.seo.description}>
-  <PageHero
-    h1={p.h1}
-    lead={p.lead}
-    kicker="Le promoteur"
-    compact
-  />
-
-  <MediaSplit
-    kicker="Riyad Zaer Gardens"
-    title="Un projet développé par La Manoussa"
-    body={[p.body, p.note]}
-    tone="cream"
-  />
-
-  <PageBand
-    mode="custom"
-    title="Une question sur le projet ?"
-    body="Notre équipe commerciale répond à vos questions et vous accompagne dans votre projet d’achat."
-    primary={{ label: 'Être rappelé', href: '/contact' }}
-    secondary={{ label: 'Appeler le 07 08 08 08 39', href: 'tel:+212708080839' }}
-  />
-  <MoreLinks h2={p.more.h2} links={p.more.links} />
+  <PromoteurShowcase locale="fr" />
 </BaseLayout>

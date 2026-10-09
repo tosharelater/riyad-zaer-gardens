@@ -140,7 +140,7 @@ const frArticles: BlogArticle[] = [
       {
         h2: 'Où se situe Aïn Aouda',
         paragraphs: [
-          'Aïn Aouda se trouve au sud de Rabat, sur l’axe de l’Avenue Mohammed VI. Depuis le centre, le trajet prend environ 20 minutes par l’autoroute.',
+          'Le projet se trouve sur l’axe de l’Avenue Mohammed VI. Depuis le centre de Rabat, le trajet prend environ 25 minutes par l’autoroute.',
           'C’est précisément cette distance — assez proche pour travailler en ville, assez éloignée pour retrouver de l’espace — qui attire de nouveaux habitants.',
         ],
       },
@@ -213,7 +213,7 @@ const frArticles: BlogArticle[] = [
         h2: 'Ce que propose Riyad Zaer Gardens',
         paragraphs: [
           'La première tranche compte 120 appartements et 49 fonds de commerce, de 13 à 30 m², en rez-de-chaussée sur l’Avenue Mohammed VI.',
-          'Les appartements démarrent à 420 000 DH (350 000 DH avec l’aide au logement selon éligibilité). Les locaux commerciaux sont proposés à partir de 15 000 DH le m².',
+          'Les appartements démarrent à 420 000 DH (350 000 DH avec l’aide au logement selon éligibilité). Les locaux commerciaux sont proposés à partir de 200 000 DH.',
         ],
       },
     ],
@@ -249,7 +249,7 @@ const frArticles: BlogArticle[] = [
       {
         h2: 'Comment organiser votre venue',
         paragraphs: [
-          'Indiquez vos disponibilités via le formulaire de contact ou appelez le 07 08 08 08 39. Nous convenons d’un créneau avec vous.',
+          'Indiquez vos disponibilités via le formulaire de contact ou appelez le 06 30 88 44 44. Nous convenons d’un créneau avec vous.',
         ],
       },
     ],
@@ -433,7 +433,7 @@ const arArticles: BlogArticle[] = [
       {
         h2: 'كيف تنظّمون زيارتكم؟',
         paragraphs: [
-          'اتركوا أوقات فراغكم عبر نموذج الاتصال أو اتصلوا على 07 08 08 08 39.',
+          'اتركوا أوقات فراغكم عبر نموذج الاتصال أو اتصلوا على 06 30 88 44 44.',
         ],
       },
     ],
@@ -458,6 +458,14 @@ export const blogListing = {
     },
     h1: 'Blog & guides',
     lead: 'Des repères simples pour préparer votre achat à Aïn Aouda : aide au logement, typologies, localisation et investissement.',
+    more: {
+      h2: 'Aller plus loin',
+      links: [
+        { title: 'Le projet', body: 'Découvrir Riyad Zaer Gardens', href: '/le-projet' },
+        { title: 'FAQ', body: 'Les réponses essentielles', href: '/faq' },
+        { title: 'Contact', body: 'Parler à un conseiller', href: '/contact' },
+      ],
+    },
   },
   ar: {
     seo: {
@@ -467,5 +475,13 @@ export const blogListing = {
     },
     h1: 'المدونة والأدلة',
     lead: 'مراجع واضحة لتحضير شرائكم في عين عودة: دعم السكن، الصيغ، الموقع والاستثمار.',
+    more: {
+      h2: 'اكتشفوا المزيد',
+      links: [
+        { title: 'المشروع', body: 'اكتشف رياض زعير غاردنز', href: '/le-projet' },
+        { title: 'الأسئلة الشائعة', body: 'الإجابات الأساسية', href: '/faq' },
+        { title: 'اتصل بنا', body: 'تحدث مع مستشار', href: '/contact' },
+      ],
+    },
   },
 } as const;

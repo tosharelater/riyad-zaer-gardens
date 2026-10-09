@@ -171,40 +171,44 @@ function figuresScene() {
 
   items.forEach((item, i) => {
     const dt = item.querySelector<HTMLElement>('[data-count]');
-    const to = Number(dt?.dataset.to || '0');
-    if (dt) dt.textContent = '0';
+    const to = Number(dt?.dataset.to || dt?.textContent || '0');
+    if (dt) dt.dataset.to = String(to);
 
     gsap.fromTo(
       item,
-      { autoAlpha: 0, y: 32 },
+      { autoAlpha: 0, y: 28 },
       {
         autoAlpha: 1,
         y: 0,
-        duration: 0.95,
-        delay: i * 0.1,
+        duration: 0.9,
+        delay: i * 0.08,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: board,
-          start: 'top 80%',
+          start: 'top 82%',
           once: true,
         },
       },
     );
 
-    if (!dt) return;
+    if (!dt || !to) return;
     const obj = { v: 0 };
     ScrollTrigger.create({
       trigger: board,
-      start: 'top 78%',
+      start: 'top 80%',
       once: true,
       onEnter: () => {
+        dt.textContent = '0';
         gsap.to(obj, {
           v: to,
-          duration: 1.7,
-          delay: 0.12 + i * 0.12,
+          duration: 1.6,
+          delay: 0.1 + i * 0.1,
           ease: 'power3.out',
           onUpdate: () => {
             dt.textContent = String(Math.round(obj.v));
+          },
+          onComplete: () => {
+            dt.textContent = String(to);
           },
         });
       },

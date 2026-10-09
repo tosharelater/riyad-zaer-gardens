@@ -4,19 +4,19 @@ export const brand = {
   name: 'Riyad Zaer Gardens',
   by: 'by La Manoussa',
   slogan: 'Nouveau pôle urbain à Rabat.',
-  about: 'Appartements F3 et F4 et fonds de commerce à Aïn Aouda, à 20 minutes de Rabat.',
+  about: 'Appartements 2 & 3 chambres et fonds de commerce à 25 minutes de Rabat.',
 } as const;
 
 export const contactInfo = {
-  phone: '07 08 08 08 39',
-  phoneTel: '+212708080839',
-  whatsapp: 'https://wa.me/212708080839',
-  address: 'Km 25, Avenue Mohammed VI, Rabat — Aïn Aouda',
+  phone: '06 30 88 44 44',
+  phoneTel: '+212630884444',
+  whatsapp: 'https://wa.me/212630884444',
+  address: 'Km 25, Avenue Mohammed VI, Rabat',
   domain: 'riyadzaergardens.com',
   mapsHref:
-    'https://www.google.com/maps/search/?api=1&query=Km+25+Avenue+Mohammed+VI+Ain+Aouda',
+    'https://www.google.com/maps/search/?api=1&query=Km+25+Avenue+Mohammed+VI+Rabat',
   mapEmbed:
-    'https://maps.google.com/maps?q=Km+25,+Avenue+Mohammed+VI,+A%C3%AFn+Aouda&hl=fr&z=14&output=embed',
+    'https://maps.google.com/maps?q=Km+25,+Avenue+Mohammed+VI,+Rabat&hl=fr&z=14&output=embed',
 } as const;
 
 /** Main nav — 6 entries in official order */

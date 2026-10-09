@@ -1,17 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import StatusShowcase from '../components/showcase/StatusShowcase.astro';
 import { merciPage as p } from '../data/pages';
-import { media } from '../data/media';
-import PageHero from '../components/page/PageHero.astro';
 ---
 <BaseLayout title={p.seo.title} description={p.seo.description} noindex>
-  <PageHero
+  <StatusShowcase
+    locale="fr"
+    kicker="Confirmation"
     h1={p.h1}
-    lead={[p.body, p.wait]}
-    kicker={'Confirmation'}
-    compact
-  >
-    <a class="btn btn-solid" href={p.primary.href}>{p.primary.label}</a>
-    <a class="btn btn-light" href={p.secondary.href}>{p.secondary.label}</a>
-  </PageHero>
+    lead={[p.lead, p.body, p.wait]}
+    image="/photos/facade-sunset.jpg"
+    primary={p.primary}
+    secondary={p.secondary}
+    more={p.more}
+  />
 </BaseLayout>

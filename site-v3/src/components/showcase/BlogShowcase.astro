@@ -1,0 +1,134 @@
+---
+import PageHero from '../page/PageHero.astro';
+import PageBand from '../page/PageBand.astro';
+import MoreLinks from '../page/MoreLinks.astro';
+import { blogListing, getArticles } from '../../data/blog';
+import { media } from '../../data/media';
+import { ui } from '../../i18n/ui';
+import { localePath, type Locale } from '../../i18n/paths';
+
+interface Props {
+  locale?: Locale;
+}
+const { locale = 'fr' } = Astro.props;
+const listing = blogListing[locale];
+const articles = getArticles(locale);
+const t = ui(locale);
+const moreLinks = listing.more.links.map((l) => ({ ...l, href: localePath(locale, l.href) }));
+const dateFmt = (d: string) =>
+  new Date(d).toLocaleDateString(locale === 'ar' ? 'ar-MA' : 'fr-FR', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+---
+<div data-blog-page class="blog-page">
+  <PageHero
+    h1={listing.h1}
+    lead={listing.lead}
+    kicker={t.blog.kicker}
+    image="/photos/facade-golden.jpg"
+    alt={media.terrace.alt}
+    position="center 40%"
+  />
+
+  <section class="blog wrap">
+    {articles.map((a) => (
+      <article class="entry" data-reveal>
+        <a class="entry-link" href={localePath(locale, `/blog/${a.slug}`)}>
+          <figure class="entry-media">
+            <img src={a.image} alt="" loading="lazy" decoding="async" />
+          </figure>
+          <div class="entry-copy">
+            <div class="meta">
+              <time datetime={a.date}>{dateFmt(a.date)}</time>
+              <span>{a.tags[0]}</span>
+            </div>
+            <h2>{a.title}</h2>
+            <p>{a.excerpt}</p>
+            <span class="text-link">{t.blog.read}</span>
+          </div>
+        </a>
+      </article>
+    ))}
+  </section>
+
+  <PageBand image="/photos/allee-jardin.jpg" />
+  <MoreLinks h2={listing.more.h2} links={moreLinks} />
+</div>
+
+<style>
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .meta span { color: var(--canopy); }
+
+  .blog {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.75rem, 3.5vw, 2.75rem);
+    padding: var(--sec) 0;
+    background: var(--cream);
+  }
+  .entry {
+    margin: 0;
+  }
+  .entry-link {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100%;
+    overflow: hidden;
+  }
+  .entry-media {
+    margin: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--ink) 4%, transparent);
+  }
+  .entry-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s var(--ease);
+  }
+  .entry:hover .entry-media img { transform: scale(1.04); }
+  .entry-copy {
+    display: grid;
+    gap: 0.75rem;
+    align-content: start;
+    padding: clamp(1.1rem, 2vw, 1.5rem) 0 0;
+  }
+  .entry-copy h2 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(1.35rem, 2vw, 1.75rem);
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+  .entry-copy p {
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .entry-copy .text-link {
+    justify-self: start;
+    margin-top: 0.25rem;
+  }
+
+  @media (max-width: 900px) {
+    .blog { grid-template-columns: 1fr; }
+    .entry-media { aspect-ratio: 16 / 10; }
+  }
+  @media (min-width: 901px) and (max-width: 1100px) {
+    .blog { grid-template-columns: 1fr 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .entry-media img { transition: none; }
+  }
+</style>

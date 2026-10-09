@@ -27,7 +27,7 @@ const amenityIcons = ['arrow-up-down', 'trees', 'square-parking', 'shield-check'
     <ul class="projet-amenities" data-reveal>
       {projet.amenities.map((a, i) => (
         <li>
-          <Icon name={amenityIcons[i]} size="1.5rem" />
+          <Icon name={amenityIcons[i]} size="1.15rem" />
           <span>{a}</span>
         </li>
       ))}
@@ -43,42 +43,57 @@ const amenityIcons = ['arrow-up-down', 'trees', 'square-parking', 'shield-check'
   .projet-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: clamp(2.5rem, 6vw, 6rem);
+    gap: var(--gap);
     align-items: center;
   }
+  .projet-copy .kick { margin: 0; }
   .projet-copy .display {
-    margin: 1rem 0 0.25rem;
-    max-width: 16ch;
+    margin: 0.65rem 0 0;
+    max-width: none;
   }
-  .projet-copy .lead + .lead { margin-top: 0.85rem; }
+  .projet-copy .lead { margin-top: 0.85rem; }
+  .projet-copy .lead + .lead { margin-top: 0.75rem; }
   .projet-photo {
     margin: 0;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 5 / 4;
+    overflow: hidden;
+    position: relative;
+    isolation: isolate;
+  }
+  .projet-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(160deg, color-mix(in srgb, var(--ink) 12%, transparent), transparent 45%);
+    z-index: 1;
   }
   .projet-photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center 40%;
+    transition: transform 1.6s var(--ease);
+  }
+  .projet:hover .projet-photo img {
+    transform: scale(1.045);
   }
 
   .projet-amenities {
-    margin-top: clamp(3rem, 6vw, 4.5rem);
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    column-gap: clamp(1.5rem, 4vw, 3rem);
-    border-top: 1px solid var(--line);
+    gap: 1.25rem var(--gap);
   }
   .projet-amenities li {
     display: grid;
-    grid-template-columns: 1.6rem 1fr;
-    gap: 1rem;
-    align-items: center;
-    padding: 1.2rem 0;
-    border-bottom: 1px solid var(--line);
-    font-size: 1.02rem;
+    grid-template-columns: 1.25rem 1fr;
+    gap: 0.75rem;
+    align-items: start;
+    font-size: 0.98rem;
     line-height: 1.45;
   }
-  .projet-amenities :global(.icon) { color: var(--gold-deep); }
+  .projet-amenities :global(.icon) { color: color-mix(in srgb, var(--ink) 42%, transparent); }
 
   @media (max-width: 900px) {
     .projet-grid { grid-template-columns: 1fr; }

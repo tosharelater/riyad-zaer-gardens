@@ -1,5 +1,6 @@
 ---
 import PageHero from '../page/PageHero.astro';
+import MoreLinks from '../page/MoreLinks.astro';
 import Icon from '../Icon.astro';
 import { contactInfo } from '../../data/site';
 import { media } from '../../data/media';
@@ -14,20 +15,41 @@ const { locale = 'fr' } = Astro.props;
 const p = locale === 'ar' ? contactAr : contactFr;
 const L =
   locale === 'ar'
-    ? { kick: 'اتصل بنا', form: 'النموذج', direct: 'مباشر' }
-    : { kick: 'Contact', form: 'Formulaire', direct: 'Direct' };
+    ? { kick: 'Riyad Zaer Gardens', form: 'النموذج', direct: 'مباشر' }
+    : { kick: 'Riyad Zaer Gardens', form: 'Formulaire', direct: 'Direct' };
+
+const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.href) }));
 ---
 <div data-contact-page class="contact-page">
   <PageHero
     h1={p.h1}
     lead={p.lead}
     kicker={L.kick}
-    image="/photos/facade-sunset.jpg"
-    compact
+    image="/photos/facade-nuit.jpg"
+    alt={media.hero.alt}
+    position="center 35%"
+    facts={[
+      { n: '25', l: locale === 'ar' ? 'دقيقة من الرباط' : 'min de Rabat', count: 25 },
+      { n: 'Km 25', l: 'Mohammed VI' },
+      { n: '2028', l: locale === 'ar' ? 'التسليم' : 'livraison' },
+    ]}
   >
     <a class="btn btn-solid" href={`tel:${contactInfo.phoneTel}`} dir="ltr">{contactInfo.phone}</a>
     <a class="btn btn-light" href={contactInfo.whatsapp} target="_blank" rel="noopener">WhatsApp</a>
   </PageHero>
+
+  <section class="visit-scene">
+    <div class="wrap text-photo">
+      <div data-reveal data-split>
+        <p class="kick">{L.direct}</p>
+        <h2 class="display">{p.visit.h2}</h2>
+        <p class="lead">{p.visit.body}</p>
+      </div>
+      <figure data-media>
+        <img src="/photos/facade-street.jpg" alt={media.avenue.alt} loading="lazy" decoding="async" />
+      </figure>
+    </div>
+  </section>
 
   <section class="contact">
     <div class="wrap contact-layout">
@@ -74,6 +96,9 @@ const L =
       </div>
 
       <aside class="aside" data-contact-aside>
+        <figure class="aside-media">
+          <img src="/photos/facade-corner.jpg" alt={media.facade.alt} loading="lazy" decoding="async" />
+        </figure>
         <div class="aside-block">
           <p class="kick">{L.direct}</p>
           <h2 class="display aside-title">{p.direct.h2}</h2>
@@ -91,12 +116,6 @@ const L =
           <h3><Icon name="map-pin" />{p.direct.place.title}</h3>
           <p>{p.direct.place.body}</p>
         </div>
-
-        <div class="aside-block soft">
-          <h2>{p.visit.h2}</h2>
-          <p>{p.visit.body}</p>
-        </div>
-
         <div class="aside-block soft">
           <h2>{p.faq.h2}</h2>
           <p>{p.faq.body}</p>
@@ -105,6 +124,19 @@ const L =
       </aside>
     </div>
   </section>
+
+  <section class="map">
+    <div class="map-frame">
+      <iframe
+        title={locale === 'ar' ? 'خريطة — رياض زعير غاردنز' : 'Carte — Riyad Zaer Gardens'}
+        src={contactInfo.mapEmbed}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+  </section>
+
+  <MoreLinks h2={p.more.h2} links={moreLinks} />
 </div>
 
 <script>
@@ -113,24 +145,55 @@ const L =
 </script>
 
 <style>
+  .visit-scene {
+    padding: var(--sec) 0;
+    background: var(--cream);
+  }
+  .visit-scene .display {
+    margin: 1rem 0 0.35rem;
+    max-width: none;
+  }
+
   .contact {
     padding: var(--sec) 0;
     background: var(--cream);
   }
   .contact-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: clamp(3rem, 8vw, 8rem);
     align-items: start;
   }
+  .form-panel {
+    padding: clamp(1.85rem, 3.8vw, 2.85rem);
+    background: #fff;
+    border: 1px solid color-mix(in srgb, var(--ink) 7%, transparent);
+    box-shadow:
+      0 1px 0 color-mix(in srgb, var(--ink) 3%, transparent),
+      0 20px 48px color-mix(in srgb, var(--ink) 5%, transparent);
+  }
   .form-panel .display {
     margin: 1rem 0 clamp(2rem, 4vw, 3rem);
-    max-width: 12ch;
+    max-width: none;
   }
   .form {
     display: grid;
     gap: 2rem;
     position: relative;
+  }
+  .map {
+    background: var(--ink);
+  }
+  .map-frame {
+    height: min(70svh, 38rem);
+    overflow: hidden;
+  }
+  .map-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    filter: grayscale(0.4) contrast(1.05) sepia(0.12);
   }
   .form-row {
     display: grid;
@@ -157,7 +220,7 @@ const L =
     width: 100%;
     padding: 0.6rem 0;
     border: 0;
-    border-bottom: 1px solid rgb(0 45 45 / 0.28);
+    border-bottom: 1px solid color-mix(in srgb, var(--ink) 28%, transparent);
     border-radius: 0;
     background: transparent;
     font-size: 1.1rem;
@@ -175,7 +238,7 @@ const L =
     transition: transform 0.6s var(--ease);
   }
   .form label:focus-within::after { transform: scaleX(1); }
-  .form input:user-invalid { border-bottom-color: #a33a2b; }
+  .form input:user-invalid { border-bottom-color: var(--canopy); }
   .form .btn { justify-self: start; min-width: 14rem; margin-top: 0.5rem; }
   .form .btn[aria-busy='true'] { opacity: 0.7; }
   .form-note {
@@ -198,21 +261,27 @@ const L =
     position: sticky;
     top: calc(var(--nav) + 2rem);
     display: grid;
+    gap: 1.35rem;
+  }
+  .aside-media {
+    margin: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  .aside-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .aside-title {
-    margin: 1rem 0 1.5rem;
+    margin: 1rem 0 0.5rem;
     font-size: clamp(1.9rem, 3vw, 2.6rem);
-    max-width: 12ch;
+    max-width: none;
   }
   .aside-block {
-    padding: 1.25rem 0;
-    border-top: 1px solid var(--line);
+    padding: 0;
   }
-  .aside-block:first-child {
-    padding-top: 0;
-    border-top: 0;
-  }
-  .aside h3 :global(.icon) { margin-inline-end: 0.5rem; color: var(--gold-deep); }
+  .aside h3 :global(.icon) { margin-inline-end: 0.5rem; color: var(--canopy); }
   .aside h3 {
     font-size: 0.75rem;
     font-weight: 600;
@@ -231,17 +300,8 @@ const L =
   }
   .aside .big:hover { background-size: 100% 1px; }
   .aside a { font-weight: 500; display: inline-block; padding-block: 0.35rem; }
-  .aside a:not(.big):not(.text-link):hover { color: var(--gold-deep); }
+  .aside a:not(.big):not(.text-link):hover { color: var(--canopy); }
   .aside p { color: var(--muted); line-height: 1.6; }
-  .aside-media {
-    margin: 1.25rem 0;
-    aspect-ratio: 16 / 11;
-  }
-  .aside-media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
   .aside-block.soft h2 {
     font-family: var(--display);
     font-weight: 500;

@@ -1,14 +1,12 @@
 ---
 import { getHome } from '../data/content';
 import type { Locale } from '../i18n/paths';
-import Icon from './Icon.astro';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { ways } = getHome(locale);
-const wayIcons = ['house', 'trending-up', 'plane'];
 ---
 <section class="ways" aria-labelledby="ways-title">
   <div class="wrap">
-    <header class="ways-head" data-reveal data-split>
+    <header class="ways-head head-split" data-reveal data-split>
       <p class="kick">{locale === 'ar' ? 'الحضور' : 'Présence'}</p>
       <h2 class="display" id="ways-title">{ways.h2}</h2>
     </header>
@@ -16,7 +14,7 @@ const wayIcons = ['house', 'trending-up', 'plane'];
     <ul class="ways-list">
       {ways.items.map((w, i) => (
         <li>
-          <Icon name={wayIcons[i] ?? 'house'} size="2rem" />
+          <span class="ways-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
           <h3>{w.title}</h3>
           <p>{w.body}</p>
         </li>
@@ -27,63 +25,43 @@ const wayIcons = ['house', 'trending-up', 'plane'];
 <style>
   .ways {
     padding: var(--sec) 0;
-    background: var(--bg);
+    background:
+      radial-gradient(ellipse 60% 45% at 10% 100%, color-mix(in srgb, var(--gold) 10%, transparent), transparent 55%),
+      radial-gradient(ellipse 45% 40% at 100% 0%, color-mix(in srgb, var(--canopy) 40%, transparent), transparent 55%),
+      var(--ink);
+    color: var(--cream);
   }
-  .ways-head {
-    margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
-  }
-  .ways-head .display {
-    margin-top: 1rem;
-    max-width: 20ch;
-  }
-
+  .ways .kick { color: var(--gold-soft); }
   .ways-list {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    border-top: 1px solid var(--line);
+    gap: var(--gap);
   }
   .ways-list li {
-    position: relative;
     display: grid;
     align-content: start;
-    gap: 1rem;
-    padding: clamp(1.75rem, 3vw, 2.5rem) clamp(1.25rem, 3vw, 2.5rem);
+    gap: 0.75rem;
   }
-  .ways-list li:first-child { padding-inline-start: 0; }
-  .ways-list li:last-child { padding-inline-end: 0; }
-  .ways-list li + li { border-inline-start: 1px solid var(--line); }
-  /* A rule grows along the top edge on hover */
-  .ways-list li::before {
-    content: '';
-    position: absolute;
-    inset: -1px 0 auto 0;
-    height: 1px;
-    background: var(--gold-deep);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.8s var(--ease);
-  }
-  .ways-list li:hover::before { transform: scaleX(1); }
-  :global([dir='rtl']) .ways-list li::before { transform-origin: right; }
 
-  .ways-list :global(.icon) { color: var(--gold-deep); }
+  .ways-n {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: var(--gold-soft);
+  }
   .ways h3 {
     font-family: var(--display);
     font-weight: 500;
-    font-size: clamp(1.5rem, 2.2vw, 1.9rem);
+    font-size: clamp(1.45rem, 2.1vw, 1.85rem);
     line-height: 1.15;
   }
   .ways p {
-    color: var(--muted);
+    color: var(--muted-on-dark);
     line-height: 1.7;
-    max-width: 24rem;
+    font-size: 0.95rem;
   }
 
   @media (max-width: 800px) {
     .ways-list { grid-template-columns: 1fr; }
-    .ways-list li,
-    .ways-list li:first-child,
-    .ways-list li:last-child { padding-inline: 0; }
-    .ways-list li + li { border-inline-start: 0; border-top: 1px solid var(--line); }
   }
 </style>

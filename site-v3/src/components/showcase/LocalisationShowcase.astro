@@ -1,7 +1,6 @@
 ---
 import PageHero from '../page/PageHero.astro';
 import Icon from '../Icon.astro';
-import MoreLinks from '../page/MoreLinks.astro';
 import PageBand from '../page/PageBand.astro';
 import { media } from '../../data/media';
 import { contactInfo } from '../../data/site';
@@ -22,12 +21,9 @@ const L =
         area: 'الحي',
         map: 'على الخريطة',
         mapTitle: 'Km 25، شارع محمد السادس',
-        iframeTitle: 'خريطة — رياض زعير غاردنز، عين عودة',
+        iframeTitle: 'خريطة — رياض زعير غاردنز',
         mapsCta: 'فتح في Google Maps',
         visit: 'زيارة',
-        min: 'دقيقة من الرباط',
-        road: 'شارع محمد السادس',
-        ways: 'طرق تحيط بالأرض',
       }
     : {
         kick: 'Localisation',
@@ -35,34 +31,25 @@ const L =
         area: 'Le quartier',
         map: 'Sur la carte',
         mapTitle: 'Km 25, Avenue Mohammed VI',
-        iframeTitle: 'Carte — Riyad Zaer Gardens, Aïn Aouda',
+        iframeTitle: 'Carte — Riyad Zaer Gardens',
         mapsCta: 'Ouvrir dans Google Maps',
         visit: 'Visite',
-        min: 'minutes de Rabat',
-        road: 'Avenue Mohammed VI',
-        ways: 'voies bordent le terrain',
       };
 
-const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.href) }));
 const mapTitle = 'map' in p && p.map && 'title' in p.map ? (p.map as { title: string }).title : L.mapTitle;
 const iframeTitle =
   'map' in p && p.map && 'iframeTitle' in p.map ? (p.map as { iframeTitle: string }).iframeTitle : L.iframeTitle;
 const mapsCta =
   'map' in p && p.map && 'mapsCta' in p.map ? (p.map as { mapsCta: string }).mapsCta : L.mapsCta;
-const accessIcons = ['route', 'signpost', 'car', 'map-pin'];
+const quartierBody = typeof p.quartier.body === 'string' ? p.quartier.body.split('\n\n') : p.quartier.body;
 ---
 <div data-loc-page class="loc-page">
   <PageHero
     h1={p.h1}
     lead={p.lead}
     kicker={L.kick}
-    image="/photos/rue-facade.jpg"
+    image="/photos/facade-street.jpg"
     alt={media.avenue.alt}
-    facts={[
-      { n: '20', l: L.min, count: 20 },
-      { n: 'Km 25', l: L.road },
-      { n: '3', l: L.ways },
-    ]}
   />
 
   <section class="access" data-access>
@@ -74,12 +61,29 @@ const accessIcons = ['route', 'signpost', 'car', 'map-pin'];
       <ol class="access-grid">
         {p.acces.items.map((item, i) => (
           <li class="stop" data-stop>
-            <span class="stop-n"><Icon name={accessIcons[i] ?? 'map-pin'} size="1.5rem" /></span>
+            <span class="stop-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             <h3>{item.title}</h3>
             <p>{item.body}</p>
           </li>
         ))}
       </ol>
+    </div>
+  </section>
+
+  <section class="quartier">
+    <div class="wrap text-photo is-flip">
+      <div data-reveal data-split>
+        <p class="kick">{L.area}</p>
+        <h2 class="display">{p.quartier.h2}</h2>
+        {quartierBody.map((t) => <p class="lead">{t}</p>)}
+        <ul class="near">
+          {p.quartier.already.map((item) => <li><span class="tick"><Icon name="check" size="1rem" /></span>{item}</li>)}
+        </ul>
+        <p class="near-end">{p.quartier.end}</p>
+      </div>
+      <figure data-media>
+        <img src="/photos/facade-golden.jpg" alt={media.facade.alt} loading="lazy" decoding="async" />
+      </figure>
     </div>
   </section>
 
@@ -99,30 +103,13 @@ const accessIcons = ['route', 'signpost', 'car', 'map-pin'];
     </div>
   </section>
 
-  <section class="quartier">
-    <div class="wrap text-photo is-flip">
-      <div data-reveal data-split>
-        <p class="kick">{L.area}</p>
-        <h2 class="display">{p.quartier.h2}</h2>
-        {p.quartier.body.split('\n\n').map((t) => <p class="lead">{t}</p>)}
-        <ul class="near">
-          {p.quartier.already.map((item) => <li><span class="tick"><Icon name="check" size="1rem" /></span>{item}</li>)}
-        </ul>
-        <p class="near-end">{p.quartier.end}</p>
-      </div>
-      <figure data-media>
-        <img src="/photos/facade-angle.jpg" alt={media.facade.alt} loading="lazy" decoding="async" />
-      </figure>
-    </div>
-  </section>
-
   <PageBand
     mode="custom"
     title={p.visit.h2}
     body={p.visit.body}
     primary={{ label: p.visit.cta.label, href: localePath(locale, p.visit.cta.href) }}
+    image="/photos/facade-street.jpg"
   />
-  <MoreLinks h2={p.more.h2} links={moreLinks} />
 </div>
 
 <script>
@@ -130,31 +117,30 @@ const accessIcons = ['route', 'signpost', 'car', 'map-pin'];
 </script>
 
 <style>
-  /* Access — four answers, numbered */
   .access {
     padding: var(--sec) 0;
-    background: var(--bg);
+    background: var(--cream);
   }
   .access-head { margin-bottom: clamp(3rem, 6vw, 4.5rem); }
-  .access-head .display { margin-top: 1rem; max-width: 14ch; }
+  .access-head .display { margin-top: 1rem; max-width: none; }
   .access-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    column-gap: clamp(2rem, 6vw, 6rem);
-    border-top: 1px solid var(--line);
+    gap: clamp(1.75rem, 4vw, 3rem) clamp(2rem, 6vw, 6rem);
   }
   .stop {
     display: grid;
     grid-template-columns: 3rem 1fr;
     column-gap: 1rem;
     row-gap: 0.6rem;
-    padding: clamp(1.5rem, 3vw, 2.25rem) 0;
-    border-bottom: 1px solid var(--line);
   }
   .stop-n {
     grid-row: 1 / span 2;
-    color: var(--gold-deep);
-    padding-top: 0.1rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    padding-top: 0.4rem;
   }
   .stop h3 {
     font-family: var(--display);
@@ -167,13 +153,12 @@ const accessIcons = ['route', 'signpost', 'car', 'map-pin'];
     line-height: 1.7;
   }
 
-  /* Map — full bleed with a floating address card */
   .map {
     position: relative;
     background: var(--ink);
   }
   .map-frame {
-    height: min(82svh, 46rem);
+    height: min(70svh, 38rem);
     overflow: hidden;
   }
   .map-frame iframe {
@@ -189,7 +174,7 @@ const accessIcons = ['route', 'signpost', 'car', 'map-pin'];
     bottom: var(--pad);
     width: min(26rem, calc(100% - 2 * var(--pad)));
     padding: clamp(1.5rem, 3vw, 2.25rem);
-    background: var(--bg);
+    background: var(--cream);
     display: grid;
     gap: 0.85rem;
   }
@@ -201,28 +186,25 @@ const accessIcons = ['route', 'signpost', 'car', 'map-pin'];
   }
   .map-card .btn { justify-self: start; margin-top: 0.5rem; }
 
-  /* Quartier */
   .quartier {
     padding: var(--sec) 0;
     background: var(--cream);
   }
   .near {
     margin-top: 1.75rem;
-    border-top: 1px solid var(--line);
+    display: grid;
+    gap: 0.85rem;
   }
   .near li {
     display: grid;
-    grid-template-columns: 3rem 1fr;
-    padding: 1.1rem 0;
-    border-bottom: 1px solid var(--line);
+    grid-template-columns: 1.5rem 1fr;
+    gap: 0.75rem;
     font-size: 1.05rem;
+    align-items: start;
   }
   .near span {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    color: var(--gold-deep);
-    padding-top: 0.25rem;
+    color: color-mix(in srgb, var(--ink) 42%, transparent);
+    padding-top: 0.2rem;
   }
   .near-end {
     margin-top: 1.25rem;
@@ -232,7 +214,7 @@ const accessIcons = ['route', 'signpost', 'car', 'map-pin'];
 
   @media (max-width: 900px) {
     .access-grid { grid-template-columns: 1fr; }
-    .map-frame { height: 60svh; }
+    .map-frame { height: min(60svh, 32rem); }
     .map-card { position: relative; inset: auto; width: auto; }
   }
 </style>

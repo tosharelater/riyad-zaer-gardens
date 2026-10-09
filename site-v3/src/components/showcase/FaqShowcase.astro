@@ -1,0 +1,138 @@
+---
+import PageHero from '../page/PageHero.astro';
+import PageBand from '../page/PageBand.astro';
+import MoreLinks from '../page/MoreLinks.astro';
+import { media } from '../../data/media';
+import { localePath, type Locale } from '../../i18n/paths';
+import { faqPage as faqFr } from '../../data/pages';
+import { faqPage as faqAr } from '../../data/pages.ar';
+
+interface Props {
+  locale?: Locale;
+}
+const { locale = 'fr' } = Astro.props;
+const p = locale === 'ar' ? faqAr : faqFr;
+const L =
+  locale === 'ar'
+    ? { kick: 'الأسئلة الشائعة', topics: 'مواضيع', answers: 'إجابات' }
+    : { kick: 'FAQ', topics: 'thèmes', answers: 'réponses' };
+
+const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.href) }));
+const answerCount = p.groups.reduce((n, g) => n + g.items.length, 0);
+---
+<div data-faq-page class="faq-page">
+  <PageHero
+    h1={p.h1}
+    lead={p.lead}
+    kicker={L.kick}
+    image="/photos/allee-jardin.jpg"
+    alt={media.courtyard.alt}
+    position="center 45%"
+    facts={[
+      { n: String(p.groups.length), l: L.topics, count: p.groups.length },
+      { n: String(answerCount), l: L.answers, count: answerCount },
+      { n: '2028', l: locale === 'ar' ? 'التسليم' : 'livraison' },
+    ]}
+  />
+
+  <div class="faq" data-faq>
+    {p.groups.map((group, gi) => (
+      <section class:list={['faq-group', { 'is-cream': gi % 2 === 1 }]}>
+        <div class="wrap faq-grid">
+          <h2 class="display" data-reveal data-split>{group.h2}</h2>
+          <div class="faq-list">
+            {group.items.map((item) => (
+              <details>
+                <summary>{item.q}</summary>
+                <p>{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <PageBand image="/photos/facade-golden.jpg" />
+  <MoreLinks h2={p.more.h2} links={moreLinks} />
+</div>
+
+<script>
+  import '../../scripts/faq';
+</script>
+
+<style>
+  .faq-group {
+    padding: clamp(3rem, 6vw, 5rem) 0;
+    background: var(--cream);
+  }
+  /* Same cream surface — rhythm via type, never yellow fills */
+  .faq-group.is-cream {
+    background: var(--cream);
+  }
+  .faq-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(1.5rem, 6vw, 6rem);
+    align-items: start;
+  }
+  .faq-grid .display {
+    position: sticky;
+    top: calc(var(--nav) + 2rem);
+    font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+    max-width: none;
+    margin: 0;
+  }
+  .faq-list {
+    display: grid;
+    gap: 0.25rem;
+  }
+  details[open] summary { color: var(--ink); }
+  summary {
+    cursor: pointer;
+    list-style: none;
+    position: relative;
+    padding: 1.15rem 0;
+    padding-inline-end: 3rem;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(1.2rem, 1.8vw, 1.45rem);
+    line-height: 1.3;
+    transition: color 0.3s ease;
+  }
+  summary:hover { color: var(--canopy); }
+  summary::-webkit-details-marker { display: none; }
+  summary::before,
+  summary::after {
+    content: '';
+    position: absolute;
+    inset-inline-end: 0.4rem;
+    top: 50%;
+    width: 0.9rem;
+    height: 1px;
+    background: currentColor;
+    transition: transform 0.5s var(--ease);
+  }
+  summary::after { transform: rotate(90deg); }
+  details[open] summary::after { transform: rotate(0deg); }
+  details p {
+    padding-block-end: 1.6rem;
+    padding-inline-end: 3rem;
+    color: var(--muted);
+    max-width: 40rem;
+    font-size: 1.05rem;
+    line-height: 1.75;
+    animation: faq-open 0.6s var(--ease) both;
+  }
+  @keyframes faq-open {
+    from { opacity: 0; transform: translateY(-0.5rem); }
+  }
+  @media (max-width: 800px) {
+    .faq-grid { grid-template-columns: 1fr; }
+    .faq-grid .display { position: static; }
+    details p { padding-inline-end: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    details p { animation: none; }
+  }
+</style>

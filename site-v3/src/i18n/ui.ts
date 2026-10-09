@@ -6,7 +6,7 @@ const fr = {
     name: 'Riyad Zaer Gardens',
     by: 'by La Manoussa',
     slogan: 'Nouveau pôle urbain à Rabat.',
-    about: 'Appartements F3 et F4 et fonds de commerce à Aïn Aouda, à 20 minutes de Rabat.',
+    about: 'Appartements 2 & 3 chambres et fonds de commerce à 25 minutes de Rabat.',
   },
   nav: [
     { label: 'Accueil', path: '/' },

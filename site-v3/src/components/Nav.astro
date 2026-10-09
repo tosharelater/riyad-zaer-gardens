@@ -78,15 +78,18 @@ const arPath = switchLocalePath(path, 'ar');
     height: var(--nav);
     padding: 0 var(--pad);
     transition: background 0.45s ease, box-shadow 0.45s ease, color 0.45s ease, transform 0.6s var(--ease);
-    color: #f7f2e8;
+    color: var(--cream);
   }
   .top.is-hidden { transform: translateY(-100%); }
   .top.is-solid {
-    background: rgb(252 250 246 / 0.9);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 1px 0 var(--line);
+    background: color-mix(in srgb, var(--cream) 92%, transparent);
+    backdrop-filter: blur(16px) saturate(1.1);
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--ink) 8%, transparent);
     color: var(--ink);
   }
+  .top.is-solid .lang a.active { color: var(--canopy); }
+  .top.is-solid .lang a:hover { color: var(--canopy); }
+  .top.is-solid .top-nav a::after { background: var(--canopy); }
   .top-logo img { height: 2.5rem; width: auto; }
   .top-logo .on-light { display: none; }
   .top.is-solid .on-light { display: block; }

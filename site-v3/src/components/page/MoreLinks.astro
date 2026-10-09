@@ -21,6 +21,8 @@ const defaults: Record<string, string> = {
   '/localisation': media.avenue.src,
   '/contact': media.hero.src,
   '/blog': media.terrace.src,
+  '/faq': media.courtyard.src,
+  '/': media.hero.src,
 };
 ---
 <section class="more">
@@ -46,14 +48,15 @@ const defaults: Record<string, string> = {
 
 <style>
   .more {
-    padding: var(--sec) 0;
-    background: var(--bg);
+    padding: clamp(3.5rem, 7vw, 5.5rem) 0;
+    background: var(--cream);
   }
   .more-kick {
     margin-bottom: 1.5rem;
   }
   .more-list {
-    border-top: 1px solid var(--line);
+    display: grid;
+    gap: clamp(0.5rem, 1.5vw, 1rem);
   }
   .more-item {
     position: relative;
@@ -61,20 +64,8 @@ const defaults: Record<string, string> = {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 2.5rem;
     gap: clamp(1rem, 3vw, 2.5rem);
     align-items: center;
-    padding: clamp(1.25rem, 2.5vw, 1.75rem) 0;
-    border-bottom: 1px solid var(--line);
+    padding: clamp(0.85rem, 2vw, 1.25rem) 0;
   }
-  .more-item::after {
-    content: '';
-    position: absolute;
-    inset: auto 0 -1px 0;
-    height: 1px;
-    background: var(--ink);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.8s var(--ease);
-  }
-  .more-item:hover::after { transform: scaleX(1); }
   .more-item strong {
     font-family: var(--display);
     font-weight: 300;
@@ -120,7 +111,7 @@ const defaults: Record<string, string> = {
   .more-item:hover i {
     background: var(--ink);
     border-color: var(--ink);
-    color: var(--bg);
+    color: var(--cream);
   }
   :global([dir='rtl']) .more-item i svg { transform: scaleX(-1); }
   :global([dir='rtl']) .more-item:hover strong { transform: translateX(-0.6rem); }

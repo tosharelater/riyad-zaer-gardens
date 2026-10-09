@@ -12,7 +12,7 @@ interface Props {
   class?: string;
   strokeWidth?: number;
 }
-const { name, size = '1.25em', class: cls, strokeWidth = 1.4 } = Astro.props;
+const { name, size = '1.15em', class: cls, strokeWidth = 1.25 } = Astro.props;
 
 const file = path.join(process.cwd(), 'node_modules', 'lucide-static', 'icons', `${name}.svg`);
 const raw = fs.readFileSync(file, 'utf-8');

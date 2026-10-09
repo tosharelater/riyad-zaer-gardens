@@ -1,0 +1,112 @@
+---
+import PageHero from '../page/PageHero.astro';
+import FactTable from '../page/FactTable.astro';
+import { media } from '../../data/media';
+import type { Locale } from '../../i18n/paths';
+import { mentionsPage as menFr } from '../../data/pages';
+import { mentionsPage as menAr } from '../../data/pages.ar';
+
+interface Props {
+  locale?: Locale;
+}
+const { locale = 'fr' } = Astro.props;
+const p = locale === 'ar' ? menAr : menFr;
+const kick = locale === 'ar' ? p.heroKicker : 'Informations légales';
+---
+<div data-legal-page class="legal-page">
+  <PageHero
+    h1={p.h1}
+    lead={p.lead}
+    kicker={kick}
+    image="/photos/facade-golden.jpg"
+    alt={media.facade.alt}
+    position="center 35%"
+  />
+
+  <section class="editor">
+    <div class="wrap editor-grid" data-reveal data-split>
+      <div>
+        <p class="kick">{kick}</p>
+        <h2 class="display">{p.editor.h2}</h2>
+        <p class="lead">{p.editor.intro}</p>
+      </div>
+      <FactTable rows={p.editor.rows} />
+    </div>
+  </section>
+
+  <section class="ip">
+    <div class="wrap text-photo is-flip">
+      <div data-reveal data-split>
+        <h2 class="display">{p.ip.h2}</h2>
+        <p class="lead">{p.ip.body}</p>
+      </div>
+      <figure data-media>
+        <img src="/photos/facade-corner.jpg" alt={media.facade.alt} loading="lazy" decoding="async" />
+      </figure>
+    </div>
+  </section>
+
+  <section class="privacy" id={p.privacy.id}>
+    <div class="wrap privacy-grid" data-reveal data-split>
+      <h2 class="display">{p.privacy.h2}</h2>
+      <div class="privacy-copy">
+        {p.privacy.body.map((t) => <p class="lead">{t}</p>)}
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+  .editor {
+    padding: var(--sec) 0;
+    background: var(--cream);
+  }
+  .editor-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+  .editor-grid .display {
+    margin: 0.75rem 0 0.5rem;
+    max-width: none;
+    font-size: clamp(1.9rem, 3.4vw, 2.75rem);
+  }
+  .editor-grid .lead { margin: 0; }
+
+  .ip {
+    padding: var(--sec) 0;
+    background: var(--cream);
+  }
+  .ip .display {
+    margin: 0 0 0.75rem;
+    max-width: none;
+  }
+
+  /* Cream before footer ink — never yellow, never ink→ink */
+  .privacy {
+    padding: var(--sec) 0;
+    background: var(--cream);
+    color: var(--ink);
+  }
+  .privacy-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
+  }
+  .privacy .display {
+    margin: 0;
+    max-width: none;
+  }
+  .privacy-copy .lead {
+    margin: 0;
+    color: var(--muted);
+  }
+  .privacy-copy .lead + .lead { margin-top: 0.85rem; }
+
+  @media (max-width: 900px) {
+    .editor-grid,
+    .privacy-grid { grid-template-columns: 1fr; }
+  }
+</style>

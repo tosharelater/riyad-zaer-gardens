@@ -43,7 +43,7 @@
   html.intro-on .intro {
     position: fixed; inset: 0; z-index: 200;
     display: grid; place-items: center;
-    background: var(--night);
+    background: var(--ink);
     clip-path: inset(0 0 0 0);
     transition: clip-path 1s var(--ease-io);
   }
@@ -63,7 +63,7 @@
     display: block;
     width: 5rem;
     height: 1px;
-    background: rgb(200 181 104 / 0.25);
+    background: color-mix(in srgb, var(--gold) 25%, transparent);
     overflow: hidden;
     position: relative;
   }

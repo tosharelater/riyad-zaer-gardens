@@ -2,9 +2,9 @@
 import PageHero from '../page/PageHero.astro';
 import Icon from '../Icon.astro';
 import PageBand from '../page/PageBand.astro';
-import MoreLinks from '../page/MoreLinks.astro';
 import FactTable from '../page/FactTable.astro';
 import { media } from '../../data/media';
+import { contactInfo } from '../../data/site';
 import { localePath, type Locale } from '../../i18n/paths';
 import { appartementsPage as aptFr } from '../../data/pages';
 import { appartementsPage as aptAr } from '../../data/pages.ar';
@@ -26,9 +26,10 @@ const L =
         withAid: 'مع دعم السكن',
         leadTitle: 'احصلوا على الكتيّب والأسعار',
         leadBody: 'مستشار يتصل بكم مع الشقق المتاحة وتفاصيل التشطيبات.',
-        apt: 'شقق',
-        typo: 'نوعان',
-        delivery: 'التسليم',
+        map: 'على الخريطة',
+        mapTitle: 'Km 25، شارع محمد السادس',
+        iframeTitle: 'خريطة — رياض زعير غاردنز',
+        mapsCta: 'فتح في Google Maps',
       }
     : {
         kick: 'Appartements',
@@ -40,31 +41,40 @@ const L =
         withAid: 'Avec l’aide au logement',
         leadTitle: 'Recevoir la brochure et les prix',
         leadBody: 'Un conseiller vous rappelle avec les lots disponibles et le détail des prestations.',
-        apt: 'appartements',
-        typo: 'typologies',
-        delivery: 'livraison',
+        map: 'Sur la carte',
+        mapTitle: 'Km 25, Avenue Mohammed VI',
+        iframeTitle: 'Carte — Riyad Zaer Gardens',
+        mapsCta: 'Ouvrir dans Google Maps',
       };
 
-const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.href) }));
 const withoutLabel = 'withoutLabel' in p.prix ? (p.prix as { withoutLabel: string }).withoutLabel : L.without;
 const withAidLabel = 'withAidLabel' in p.prix ? (p.prix as { withAidLabel: string }).withAidLabel : L.withAid;
 const keep = (t: string) => t.replace(/(\d) (?=\d|DH|درهم)/g, '$1 ');
+const figures = 'figures' in p ? p.figures : null;
 ---
 <div data-apt-page class="apt-page">
   <PageHero
     h1={p.h1}
     lead={p.lead}
     kicker={L.kick}
-    image={media.apartment.src}
+    image="/photos/salon.jpg"
     alt={media.apartment.alt}
-    position="center 55%"
-    facts={[
-      { n: '120', l: L.apt, count: 120 },
-      { n: 'F3 · F4', l: L.typo },
-      { n: '65–86', l: 'm²' },
-      { n: '2028', l: L.delivery },
-    ]}
+    position="center 45%"
+    compact
   />
+
+  {figures && (
+    <section class="figures">
+      <div class="wrap figures-grid">
+        {figures.map((f) => (
+          <div class="figure" data-reveal>
+            <strong>{f.n}</strong>
+            <span>{f.label}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
 
   <section class="types">
     <div class="wrap">
@@ -75,14 +85,14 @@ const keep = (t: string) => t.replace(/(\d) (?=\d|DH|درهم)/g, '$1 ');
       </header>
 
       <div class="types-grid">
-        {p.types.items.map((item, i) => {
+        {p.types.items.map((item) => {
           return (
             <article class="type" data-type>
               <p class="type-mark" aria-hidden="true">{'mark' in item ? item.mark : item.title.replace(/.* /, '')}</p>
               <div class="type-body">
                 <h3>{item.title}</h3>
                 <p>{item.body}</p>
-                <p class="type-surface">{item.surface}</p>
+                {item.surface && <p class="type-surface">{item.surface}</p>}
               </div>
             </article>
           );
@@ -102,8 +112,9 @@ const keep = (t: string) => t.replace(/(\d) (?=\d|DH|درهم)/g, '$1 ');
         </ul>
       </div>
       <div class="inclus-photos">
-        <figure data-media><img src="/photos/chambre.jpg" alt="Chambre" loading="lazy" decoding="async" /></figure>
-        <figure data-media><img src="/photos/cuisine.jpg" alt="Cuisine" loading="lazy" decoding="async" /></figure>
+        <figure data-media><img src="/photos/salon-balcon.jpg" alt="Salon" loading="lazy" decoding="async" /></figure>
+        <figure data-media><img src="/photos/salon-coin.jpg" alt="Coin salon" loading="lazy" decoding="async" /></figure>
+        <figure data-media class="is-wide"><img src="/photos/cuisine.jpg" alt="Cuisine" loading="lazy" decoding="async" /></figure>
       </div>
     </div>
   </section>
@@ -149,8 +160,24 @@ const keep = (t: string) => t.replace(/(\d) (?=\d|DH|درهم)/g, '$1 ');
     title={L.leadTitle}
     body={L.leadBody}
     primary={{ label: p.prix.cta.label, href: localePath(locale, '/contact') }}
+    image="/photos/chambre-enfants.jpg"
   />
-  <MoreLinks h2={p.more.h2} links={moreLinks} />
+
+  <section class="map">
+    <div class="map-frame" data-map-frame>
+      <iframe
+        title={L.iframeTitle}
+        src={contactInfo.mapEmbed}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+    <div class="map-card" data-reveal>
+      <p class="kick">{L.map}</p>
+      <h2>{L.mapTitle}</h2>
+      <a class="btn btn-solid" href={contactInfo.mapsHref} target="_blank" rel="noopener">{L.mapsCta}</a>
+    </div>
+  </section>
 </div>
 
 <script>
@@ -158,46 +185,68 @@ const keep = (t: string) => t.replace(/(\d) (?=\d|DH|درهم)/g, '$1 ');
 </script>
 
 <style>
-  /* Typologies — side by side, no photos */
+  .figures {
+    padding: clamp(2.75rem, 5.5vw, 4.5rem) 0;
+    background: var(--cream);
+  }
+  .figures-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--gap);
+  }
+  .figure {
+    display: grid;
+    gap: 0.5rem;
+    justify-items: start;
+    align-content: start;
+  }
+  .figure strong {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(1.75rem, 3vw, 2.4rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+  .figure > span:last-child {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  @media (max-width: 800px) {
+    .figures-grid { grid-template-columns: 1fr 1fr; }
+  }
+
   .types {
     padding: var(--sec) 0;
-    background: var(--bg);
+    background: var(--cream);
   }
   .types-head { margin-bottom: clamp(3rem, 6vw, 5rem); }
   .types-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    border-top: 1px solid var(--line);
+    gap: var(--gap);
   }
   .type {
-    padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1.5rem, 4vw, 4rem) 0 0;
-  }
-  .type + .type {
-    padding-inline-start: clamp(1.5rem, 4vw, 4rem);
-    padding-inline-end: 0;
-    border-inline-start: 1px solid var(--line);
+    padding: 0;
   }
   .type-mark {
     font-weight: 300;
     font-family: var(--display);
-    font-size: clamp(7rem, 17vw, 15rem);
-    line-height: 0.82;
+    font-size: clamp(5.5rem, 12vw, 10rem);
+    line-height: 0.88;
     letter-spacing: -0.05em;
-    color: var(--ink);
+    color: color-mix(in srgb, var(--ink) 18%, transparent);
     transition: color 0.6s ease;
   }
-  .type:hover .type-mark { color: var(--gold-deep); }
+  .type:hover .type-mark { color: color-mix(in srgb, var(--canopy) 55%, transparent); }
   .type-body {
     display: grid;
     gap: 0.75rem;
     margin-top: clamp(1.5rem, 3vw, 2.5rem);
     max-width: 30rem;
-  }
-  .type-idx {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    color: var(--gold-deep);
   }
   .type-body h3 {
     font-family: var(--display);
@@ -217,43 +266,41 @@ const keep = (t: string) => t.replace(/(\d) (?=\d|DH|درهم)/g, '$1 ');
     color: var(--ink);
   }
 
-  /* Inclus */
   .inclus {
     padding: var(--sec) 0;
-    background: var(--cream);
+    background: var(--ink);
+    color: var(--cream);
   }
-  .inclus .display { margin: 1rem 0 0.25rem; max-width: 13ch; }
+  .inclus .kick { color: var(--gold-soft); }
+  .inclus .display { color: var(--cream); margin: 1rem 0 0.25rem; max-width: none; }
   .ruled {
-    border-top: 1px solid var(--line);
+    display: grid;
+    gap: 0.85rem;
   }
   .ruled li {
     display: grid;
-    grid-template-columns: 2.75rem 1fr;
-    padding: 1rem 0;
-    border-bottom: 1px solid var(--line);
+    grid-template-columns: 1.5rem 1fr;
+    gap: 0.75rem;
     line-height: 1.5;
+    align-items: start;
   }
   .ruled span {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    color: var(--gold-deep);
-    padding-top: 0.2rem;
+    color: color-mix(in srgb, var(--cream) 45%, transparent);
+    padding-top: 0.15rem;
   }
 
-  /* Finitions */
   .finish {
     padding: var(--sec) 0;
-    background: var(--bg);
+    background: var(--cream);
   }
   .finish-grid {
     display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: clamp(2.5rem, 7vw, 7rem);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--gap);
     align-items: start;
   }
   .finish-copy { position: sticky; top: calc(var(--nav) + 2rem); }
-  .finish .display { margin: 1rem 0 0.25rem; max-width: 12ch; }
+  .finish .display { margin: 1rem 0 0.25rem; max-width: none; }
   .fin-end {
     margin: 1.25rem 0 1.75rem;
     color: var(--muted);
@@ -261,29 +308,26 @@ const keep = (t: string) => t.replace(/(\d) (?=\d|DH|درهم)/g, '$1 ');
     max-width: 34rem;
   }
 
-  /* Prix */
   .prix {
     padding: var(--sec) 0;
-    background: var(--ink);
-    color: var(--cream);
+    background: var(--cream);
+    color: var(--ink);
   }
-  .prix .kick { color: var(--gold); }
   .prix-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-    gap: clamp(2.5rem, 7vw, 7rem);
-    align-items: end;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--gap);
+    align-items: start;
   }
-  .prix .display { margin: 1rem 0 0.25rem; max-width: 13ch; color: var(--cream); }
-  .prix .lead { color: rgb(244 238 226 / 0.74); }
+  .prix .display { margin: 1rem 0 0.25rem; max-width: none; }
   .prix .lead + .lead { margin-top: 0.75rem; }
   .prix .btn { margin-top: 2rem; }
   .prix-ticket {
-    border-top: 1px solid rgb(244 238 226 / 0.2);
+    display: grid;
+    gap: clamp(1.25rem, 2.5vw, 1.75rem);
   }
   .prix-ticket > div {
-    padding: clamp(1.25rem, 2.5vw, 1.75rem) 0;
-    border-bottom: 1px solid rgb(244 238 226 / 0.2);
+    padding: 0;
   }
   .prix-ticket span {
     display: block;
@@ -291,7 +335,7 @@ const keep = (t: string) => t.replace(/(\d) (?=\d|DH|درهم)/g, '$1 ');
     font-weight: 600;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: rgb(244 238 226 / 0.55);
+    color: var(--canopy);
     margin-bottom: 0.6rem;
   }
   .prix-ticket strong {
@@ -303,32 +347,77 @@ const keep = (t: string) => t.replace(/(\d) (?=\d|DH|درهم)/g, '$1 ');
   }
   .prix-ticket .is-before strong {
     font-size: clamp(1.3rem, 2vw, 1.6rem);
-    color: rgb(244 238 226 / 0.5);
+    color: color-mix(in srgb, var(--ink) 45%, transparent);
     text-decoration: line-through;
     text-decoration-thickness: 1px;
   }
-  .prix-ticket .is-aid span { color: var(--gold); }
+  .prix-ticket .is-aid span { color: var(--canopy); }
   .prix-ticket .is-aid strong {
     font-size: clamp(2.2rem, 4.2vw, 3.6rem);
-    color: var(--gold);
+    color: var(--ink);
   }
 
+  .map {
+    position: relative;
+    background: var(--ink);
+  }
+  .map-frame {
+    height: min(70svh, 38rem);
+    overflow: hidden;
+  }
+  .map-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    filter: grayscale(0.4) contrast(1.05) sepia(0.12);
+  }
+  .map-card {
+    position: absolute;
+    inset-inline-start: var(--pad);
+    bottom: var(--pad);
+    width: min(26rem, calc(100% - 2 * var(--pad)));
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    background: var(--cream);
+    display: grid;
+    gap: 0.85rem;
+  }
+  .map-card h2 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+    line-height: 1.1;
+  }
+  .map-card .btn { justify-self: start; margin-top: 0.5rem; }
+
   @media (max-width: 900px) {
+    .figures-grid { grid-template-columns: 1fr 1fr; }
     .types-grid,
     .finish-grid,
     .prix-grid { grid-template-columns: 1fr; }
-    .type, .type + .type { padding-inline: 0; border-inline-start: 0; }
-    .type + .type { margin-top: 2.5rem; border-top: 1px solid var(--line); }
     .finish-copy { position: static; }
+    .map-frame { height: min(60svh, 32rem); }
+    .map-card { position: relative; inset: auto; width: auto; }
   }
   .inclus-photos {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: clamp(0.75rem, 1.5vw, 1.25rem);
-    align-items: end;
+    align-items: start;
   }
-  .inclus-photos figure { margin: 0; aspect-ratio: 3 / 4; }
-  .inclus-photos figure + figure { margin-bottom: clamp(2rem, 6vw, 5rem); }
-  .inclus-photos img { width: 100%; height: 100%; object-fit: cover; }
+  .inclus-photos figure { margin: 0; aspect-ratio: 3 / 4; overflow: hidden; }
+  .inclus-photos figure:first-child { margin-bottom: clamp(2rem, 6vw, 5rem); }
+  .inclus-photos figure.is-wide {
+    grid-column: 1 / -1;
+    aspect-ratio: 16 / 10;
+    margin-bottom: 0;
+  }
+  .inclus-photos img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s var(--ease);
+  }
+  .inclus-photos figure:hover img { transform: scale(1.04); }
   .ruled { margin-top: 1.75rem; }
 </style>

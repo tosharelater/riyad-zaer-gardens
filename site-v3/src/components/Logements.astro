@@ -5,26 +5,14 @@ const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { apartments } = getHome(locale);
 ---
 <section class="homes" id="appartements">
-  <div class="wrap homes-head head-split" data-reveal data-split>
-    <p class="kick">Appartements</p>
-    <h2 class="display">{apartments.h2}</h2>
-    <p class="lead">{apartments.p1}</p>
-  </div>
+  <div class="wrap homes-grid">
+    <div class="homes-block" data-reveal data-split>
+      <p class="kick">Appartements</p>
+      <h2 class="display">{apartments.h2}</h2>
+      <p class="lead">{apartments.p1}</p>
 
-  <div class="homes-board">
-    <figure class="homes-media" data-media data-reveal>
-      <img src="/photos/chambre-enfants.jpg" alt="Chambre d’enfant — Riyad Zaer Gardens" loading="lazy" />
-    </figure>
-
-    <div class="homes-side" data-reveal>
-      <div class="homes-types" aria-label="Typologies">
-        {apartments.types.map((t) => (
-          <p class="homes-type">{t}</p>
-        ))}
-      </div>
-
+      <p class="homes-types">{apartments.types.join(' · ')}</p>
       <p class="homes-note">{apartments.p2}</p>
-      <p class="homes-range">{apartments.range}</p>
 
       <div class="homes-price">
         <strong>{apartments.price}</strong>
@@ -33,121 +21,91 @@ const { apartments } = getHome(locale);
 
       <a class="btn btn-ghost" href={apartments.cta.href.startsWith('/') ? localePath(locale, apartments.cta.href) : apartments.cta.href}>{apartments.cta.label}</a>
     </div>
+    <figure class="homes-media" data-media data-reveal>
+      <img src="/photos/salon.jpg" alt="" loading="lazy" decoding="async" />
+    </figure>
   </div>
 </section>
 <style>
   .homes {
     background: var(--cream);
-    padding: var(--sec) 0 0;
+    padding: var(--sec) 0;
   }
-
-  .homes-head {
-    margin-bottom: clamp(2.5rem, 5vw, 4rem);
-  }
-
-  .homes-board {
+  .homes-grid {
     display: grid;
-    grid-template-columns: 1.35fr 0.85fr;
-    gap: 0;
-    align-items: stretch;
-    min-height: min(72svh, 40rem);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--gap);
+    align-items: center;
   }
-
+  .homes .kick { margin: 0; }
+  .homes .display {
+    margin: 0.65rem 0 0;
+    max-width: none;
+  }
+  .homes .lead { margin-top: 0.85rem; }
+  .homes-types {
+    margin-top: 1.5rem;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(1.25rem, 2vw, 1.55rem);
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .homes-note {
+    margin-top: 0.65rem;
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.65;
+    max-width: 32rem;
+  }
+  .homes-price {
+    display: grid;
+    gap: 0.3rem;
+    margin-top: 1.35rem;
+  }
+  .homes-price strong {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+    line-height: 1.1;
+    color: var(--canopy);
+  }
+  .homes-price span {
+    font-size: 0.92rem;
+    color: var(--muted);
+  }
+  .homes .btn {
+    margin-top: 1.35rem;
+  }
   .homes-media {
     margin: 0;
-    height: 100%;
-    min-height: 26rem;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    position: relative;
+    isolation: isolate;
+  }
+  .homes-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to top, color-mix(in srgb, var(--ink) 16%, transparent), transparent 40%);
+    z-index: 1;
   }
   .homes-media img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 1.6s var(--ease);
   }
-
-  .homes-side {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1.35rem;
-    padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 4vw, 3rem);
-    background: var(--bg);
+  .homes:hover .homes-media img {
+    transform: scale(1.045);
   }
-
-  .homes-types {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-  }
-  .homes-type {
-    margin: 0;
-    padding: 1.1rem 0;
-    font-family: var(--display);
-    font-weight: 300;
-    font-size: clamp(3.25rem, 6.5vw, 5.25rem);
-    letter-spacing: 0;
-    line-height: 0.95;
-    color: var(--ink);
-  }
-  .homes-type + .homes-type {
-    padding-left: 1.25rem;
-    border-left: 1px solid var(--line);
-  }
-
-  .homes-note {
-    margin: 0;
-    color: var(--muted);
-    font-size: 1rem;
-    line-height: 1.6;
-    max-width: 28rem;
-  }
-
-  .homes-range {
-    margin: 0;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--gold-deep);
-  }
-
-  .homes-price {
-    display: grid;
-    gap: 0.35rem;
-    padding-top: 0.35rem;
-  }
-  .homes-price strong {
-    font-family: var(--display);
-    font-weight: 500;
-    font-size: clamp(1.6rem, 2.6vw, 2.1rem);
-    line-height: 1.05;
-    color: var(--ink);
-  }
-  .homes-price span {
-    font-size: 0.95rem;
-    color: var(--muted);
-  }
-
-  .homes-side .btn {
-    align-self: start;
-    margin-top: 0.5rem;
-  }
-
-  @media (max-width: 960px) {
-    .homes {
-      padding-bottom: 0;
-    }
-    .homes-board {
-      grid-template-columns: 1fr;
-      min-height: 0;
-    }
+  @media (max-width: 900px) {
+    .homes-grid { grid-template-columns: 1fr; }
     .homes-media {
-      min-height: 0;
+      order: -1;
       aspect-ratio: 16 / 10;
-    }
-    .homes-side {
-      padding-inline: var(--pad);
     }
   }
 </style>

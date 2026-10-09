@@ -1,16 +1,21 @@
-/** Inner pages content — official copy from contenu-site-web */
+/** Inner pages content — client feedback Oct 2026 */
 
 export const projetPage = {
   seo: {
-    title: 'Le projet Riyad Zaer Gardens — Aïn Aouda, Rabat',
+    title: 'Le projet Riyad Zaer Gardens — À 25 min de Rabat',
     description:
-      "Découvrez Riyad Zaer Gardens : 120 appartements et 49 commerces à Aïn Aouda, autour d'un cœur d'îlot végétalisé, avec parking en sous-sol. Livraison 2028.",
+      "Découvrez Riyad Zaer Gardens : 120 appartements et 49 commerces à 25 minutes de Rabat, autour d'une cour plantée, avec parking en sous-sol. Livraison 2028.",
   },
-  h1: 'Riyad Zaer Gardens, un quartier neuf à Aïn Aouda',
-  lead: [
-    "Riyad Zaer Gardens est un projet immobilier de moyen standing développé par La Manoussa, sur l'Avenue Mohammed VI à Aïn Aouda. Il est conçu en plusieurs tranches, pour devenir un véritable quartier au fil des années.",
-    "La première tranche, aujourd'hui commercialisée, regroupe un îlot complet avec ses logements, sa cour plantée et ses commerces de proximité.",
-  ],
+  h1: 'Nouveau pôle urbain à 25 minutes de Rabat',
+  lead: "120 appartements et 49 commerces, organisés autour d'une cour plantée.",
+  promoteur: {
+    h2: 'Un projet développé par La Manoussa',
+    body: [
+      'Riyad Zaer Gardens est un projet immobilier de moyen standing développé par La Manoussa. Il est conçu en plusieurs tranches, pour devenir un véritable quartier au fil des années.',
+      "La première tranche, aujourd'hui commercialisée, regroupe un îlot complet avec ses logements, sa cour plantée et ses commerces de proximité.",
+    ],
+    link: { label: 'Découvrir La Manoussa', href: '/la-manoussa' },
+  },
   conception: {
     h2: 'Un projet pensé avant d’être construit',
     intro: "L'implantation, l'orientation et l'organisation des immeubles ont été étudiées pour le confort quotidien des résidents.",
@@ -36,7 +41,7 @@ export const projetPage = {
   cadre: {
     h2: 'Une cour plantée au cœur de la résidence',
     body: [
-      "Aïn Aouda offre ce que le centre de Rabat ne peut plus offrir : de l’espace, du calme et de la verdure. Riyad Zaer Gardens en fait son point de départ.",
+      "À 25 minutes de Rabat, le projet offre de l’espace, du calme et de la verdure. Riyad Zaer Gardens en fait son point de départ.",
       "Les espaces verts ont été conçus comme un lieu de respiration au milieu des immeubles, avec des aires de jeux pour les enfants. L’objectif est simple : que l’on puisse sortir de chez soi et être immédiatement dehors, au calme.",
     ],
   },
@@ -85,10 +90,9 @@ export const projetPage = {
     rows: [
       ['Promoteur', 'La Manoussa'],
       ['Architecte', 'Mabani Architects'],
-      ['Localisation', 'Aïn Aouda'],
       ['Adresse', 'Km 25, Avenue Mohammed VI, Rabat'],
       ['Standing', 'Moyen standing, finitions modernes'],
-      ['Appartements', '120 logements, F3 et F4'],
+      ['Appartements', '120 logements, 2 & 3 chambres'],
       ['Surfaces des appartements', 'de 65 à 86 m²'],
       ['Fonds de commerce', '49 locaux, de 13 à 30 m²'],
       ['Stationnement', 'Parking couvert sur deux niveaux de sous-sol, places titrées en supplément'],
@@ -111,38 +115,43 @@ export const projetPage = {
   more: {
     h2: 'Aller plus loin',
     links: [
-      { title: 'Les appartements', body: 'F3 et F4, de 65 à 86 m²', href: '/appartements' },
+      { title: 'Les appartements', body: '2 & 3 chambres de 65 à 86 m²', href: '/appartements' },
       { title: 'Les fonds de commerce', body: '49 locaux de 13 à 30 m²', href: '/fonds-de-commerce' },
-      { title: 'La localisation', body: 'Aïn Aouda, à 20 minutes de Rabat', href: '/localisation' },
+      { title: 'La localisation', body: 'Km 25 avenue Mohammed VI, Rabat (Route de Ain Aouda)', href: '/localisation' },
     ],
   },
 } as const;
 
 export const appartementsPage = {
   seo: {
-    title: 'Appartements F3 et F4 à Aïn Aouda — Riyad Zaer Gardens',
+    title: 'Appartements 2 & 3 chambres — Riyad Zaer Gardens',
     description:
-      'Appartements neufs F3 et F4 de 65 à 86 m² à Aïn Aouda, livrés finis. À partir de 420 000 DH, ou 350 000 DH avec l’aide au logement. Livraison 2028.',
+      'Appartements neufs 2 & 3 chambres de 65 à 86 m² à 25 minutes de Rabat, livrés finis. À partir de 420 000 DH, ou 350 000 DH avec l’aide au logement. Livraison 2028.',
   },
-  h1: 'Appartements F3 et F4 à Aïn Aouda',
+  h1: 'Appartements 2 & 3 chambres',
   lead: [
-    'La première tranche de Riyad Zaer Gardens compte 120 appartements, répartis en deux typologies : F3 et F4, de 65 à 86 m².',
-    'Tous les logements sont livrés finis. Vous emménagez sans travaux à prévoir.',
+    'La première tranche de Riyad Zaer Gardens compte 120 appartements, répartis en deux typologies : 2 chambres et 3 chambres, de 65 à 86 m².',
+  ],
+  figures: [
+    { n: '120', label: 'Appartements', icon: 'home' },
+    { n: '2 & 3', label: 'Chambres', icon: 'bed-double' },
+    { n: '65-86 m²', label: 'Superficies', icon: 'ruler' },
+    { n: '2028', label: 'Livraison', icon: 'calendar' },
   ],
   types: {
-    h2: 'Deux typologies, de 65 à 86 m²',
+    h2: 'Typologies',
     items: [
       {
-        title: 'Appartement F3',
+        title: 'Appartement 2 chambres',
         mark: 'F3',
         body: 'Un séjour, deux chambres, une cuisine et une salle de bain. Selon le lot : balcon ou terrasse, buanderie et placards intégrés.',
-        surface: 'Surface : environ 68 à 72 m².',
+        surface: '',
       },
       {
-        title: 'Appartement F4',
+        title: 'Appartement 3 chambres',
         mark: 'F4',
         body: 'Un séjour, trois chambres, une cuisine, une salle de bain et un WC séparé. Selon le lot : balcon ou terrasse, buanderie et placards intégrés.',
-        surface: 'Surface : environ 77 à 86 m².',
+        surface: '',
       },
     ],
     note: 'Les surfaces varient selon l’étage et la position dans la résidence. Un conseiller vous indique les lots encore disponibles.',
@@ -189,29 +198,28 @@ export const appartementsPage = {
     h2: 'Aller plus loin',
     links: [
       { title: 'Le projet', body: 'Découvrir le quartier en détail', href: '/le-projet' },
-      { title: 'La localisation', body: 'Aïn Aouda, à 20 minutes de Rabat', href: '/localisation' },
+      { title: 'La localisation', body: 'Km 25, Avenue Mohammed VI, Rabat', href: '/localisation' },
     ],
   },
 } as const;
 
 export const commercePage = {
   seo: {
-    title: 'Fonds de commerce à Aïn Aouda — Riyad Zaer Gardens',
+    title: 'Fonds de commerce aux portes de Rabat — Riyad Zaer Gardens',
     description:
-      "49 fonds de commerce de 13 à 30 m² en pied d'immeuble à Aïn Aouda, sur l'Avenue Mohammed VI. À partir de 15 000 DH le m². Livraison prévue en 2028.",
+      "49 fonds de commerce de 13 à 30 m² en pied d'immeuble à 25 minutes de Rabat, sur l'Avenue Mohammed VI. À partir de 200 000 DH. Livraison prévue en 2028.",
   },
-  h1: 'Fonds de commerce à Aïn Aouda',
+  h1: 'Fonds de commerce aux portes de Rabat',
   lead: [
-    "La première tranche de Riyad Zaer Gardens compte 49 fonds de commerce, de 13 à 30 m², installés en rez-de-chaussée sur l'Avenue Mohammed VI.",
-    "Ces locaux s'adressent aussi bien aux commerçants qui veulent ouvrir dans un quartier neuf qu'aux investisseurs qui cherchent un bien à louer.",
+    'La première tranche de Riyad Zaer Gardens compte 49 fonds de commerce, de 13 à 30 m², installés en rez-de-chaussée de la résidence.',
   ],
   offre: {
     h2: '49 locaux de 13 à 30 m²',
     rows: [
       ['Nombre de lots', '49'],
       ['Surfaces', 'de 13 à 30 m²'],
-      ['Prix', 'à partir de 15 000 DH le m²'],
-      ['Emplacement', 'Rez-de-chaussée, Avenue Mohammed VI'],
+      ['Prix', 'À partir de 200 000 DH'],
+      ['Emplacement', 'Km 25, Avenue Mohammed VI, Rabat'],
       ['Livraison', 'Prévue en septembre 2028'],
     ],
     body: 'Les surfaces proposées conviennent aux commerces de proximité : alimentation, services, restauration rapide, santé, beauté ou petits bureaux.',
@@ -229,7 +237,7 @@ export const commercePage = {
       },
       {
         title: 'Un quartier en développement',
-        body: "Aïn Aouda se développe rapidement. S'installer maintenant, c'est prendre position avant que la zone ne soit entièrement construite.",
+        body: "La zone se développe rapidement. S'installer maintenant, c'est prendre position avant qu'elle ne soit entièrement construite.",
       },
       {
         title: 'Un stationnement enterré',
@@ -238,10 +246,9 @@ export const commercePage = {
     ],
   },
   invest: {
-    h2: 'Un bien commercial à louer',
+    h2: 'Investir dans un local commercial',
     body: [
-      'Un local commercial dans un quartier neuf constitue un actif simple à mettre en location, avec une demande qui se construit en même temps que le quartier.',
-      "Les surfaces restent maîtrisées, ce qui permet d'entrer avec un budget mesuré.",
+      "Acheter un local commercial dans un quartier neuf, c'est se positionner tôt sur une zone dont la clientèle se constitue en même temps que le quartier. Vous restez libre de l'exploiter vous-même ou de le mettre en location. Les surfaces restent maîtrisées, ce qui permet d'investir avec un budget mesuré.",
     ],
   },
   convert: {
@@ -252,26 +259,25 @@ export const commercePage = {
     h2: 'Aller plus loin',
     links: [
       { title: 'Le projet', body: '120 appartements et 49 commerces', href: '/le-projet' },
-      { title: 'La localisation', body: 'Aïn Aouda, à 20 minutes de Rabat', href: '/localisation' },
+      { title: 'La localisation', body: 'Km 25, Avenue Mohammed VI, Rabat', href: '/localisation' },
     ],
   },
 } as const;
 
 export const localisationPage = {
   seo: {
-    title: 'Où se situe Riyad Zaer Gardens — Aïn Aouda, Rabat',
+    title: 'Localisation du projet — Riyad Zaer Gardens, Rabat',
     description:
-      "Riyad Zaer Gardens se situe Km 25, Avenue Mohammed VI à Aïn Aouda, à 20 minutes de Rabat par l'autoroute. Découvrez l'accès et le quartier.",
+      "Riyad Zaer Gardens se situe Km 25, Avenue Mohammed VI, à 25 minutes de Rabat par l'autoroute. Découvrez l'accès et le quartier.",
   },
-  h1: 'Km 25, Avenue Mohammed VI, Aïn Aouda',
+  h1: 'Localisation du projet',
   lead: [
-    'Riyad Zaer Gardens se situe à Aïn Aouda, sur l’Avenue Mohammed VI, à 20 minutes de Rabat.',
-    "C'est l'équilibre que cherchent beaucoup d'habitants de la région : le calme et la verdure, sans s'éloigner de la ville et de son activité.",
+    "Riyad Zaer Gardens se situe au Km 25, sur l'avenue Mohamed VI (Route de Ain Aouda), à 25 minutes de Rabat. C'est l'équilibre que cherchent beaucoup d'habitants de la région : le calme et la verdure, sans s'éloigner de la ville et de son activité.",
   ],
   acces: {
     h2: 'Comment y accéder',
     items: [
-      { title: 'Depuis Rabat', body: "Environ 20 minutes par l'autoroute et l'Avenue Mohammed VI." },
+      { title: 'Depuis Rabat', body: "Environ 25 minutes par l'autoroute et l'Avenue Mohammed VI." },
       {
         title: 'Depuis Témara et Salé',
         body: 'La zone est reliée aux principaux axes qui desservent Rabat, Témara et Salé.',
@@ -280,17 +286,20 @@ export const localisationPage = {
         title: 'En voiture',
         body: "L'accès se fait directement depuis l'Avenue Mohammed VI, sans traversée de centre-ville.",
       },
-      {
-        title: 'Trois accès possibles',
-        body: 'Le terrain est bordé par trois voies : un axe principal large au sud, une voie secondaire à l’ouest et une troisième au nord, intégrée au lotissement. Entrer et sortir de la résidence reste simple, même aux heures de pointe.',
-      },
     ],
   },
   quartier: {
-    h2: 'Vivre à Aïn Aouda',
-    body: "Aïn Aouda est l'une des zones qui se développent le plus rapidement autour de Rabat. On y trouve encore de l'espace, de la verdure et un rythme plus calme qu'en ville.\n\nLe quartier n'est pas à construire entièrement : des services de proximité sont déjà installés à quelques minutes du projet.",
-    already: ['Une pharmacie', 'Un cabinet vétérinaire', 'Des commerces et services de proximité intégrés au quartier'],
-    end: 'Et 49 commerces viendront s’ajouter en rez-de-chaussée de la résidence, à la livraison.',
+    h2: 'Vivre aux portes de Rabat',
+    body: "Le projet s'installe dans l'une des zones qui se développent le plus vite autour de Rabat. On y trouve encore de l'espace, de la verdure et un rythme plus calme qu'en ville. Et il n'arrive pas dans un secteur vide : la ville est déjà équipée, et l'essentiel se trouve à quelques minutes.",
+    already: [
+      'Une pharmacie',
+      'Un cabinet vétérinaire',
+      'Des écoles',
+      'Une mosquée',
+      'Supermarché',
+      'Des espaces verts',
+    ],
+    end: 'Et la résidence compte elle-même 49 commerces en rez-de-chaussée.',
   },
   visit: {
     h2: 'Venir voir le site',
@@ -299,20 +308,17 @@ export const localisationPage = {
   },
   more: {
     h2: 'Aller plus loin',
-    links: [
-      { title: 'Le projet', body: 'Autour d’espaces verts', href: '/le-projet' },
-      { title: 'Les appartements', body: 'F3 et F4, de 65 à 86 m²', href: '/appartements' },
-    ],
+    links: [],
   },
 } as const;
 
 export const contactPage = {
   seo: {
-    title: 'Contact — Riyad Zaer Gardens, Aïn Aouda',
+    title: 'Contact — Riyad Zaer Gardens',
     description:
-      'Contactez Riyad Zaer Gardens à Aïn Aouda : demande de brochure, prix, visite du site. Un conseiller vous rappelle. Tél. 07 08 08 08 39.',
+      'Contactez Riyad Zaer Gardens : demande de brochure, prix, visite du site. Un conseiller vous rappelle. Tél. 06 30 88 44 44.',
   },
-  h1: 'Contacter Riyad Zaer Gardens',
+  h1: 'Contact',
   lead: 'Une question sur les typologies, les prix ou l’aide au logement ? Laissez-nous vos coordonnées : un conseiller vous rappelle et vous transmet la brochure du projet.',
   form: {
     h2: 'Être rappelé',
@@ -325,22 +331,16 @@ export const contactPage = {
       message: 'Votre message (facultatif)',
       phoneInvalid: 'Indiquez un numéro de téléphone valide.',
     },
-    interests: [
-      'Appartement F3',
-      'Appartement F4',
-      'Fonds de commerce',
-      'Investissement locatif',
-      'Je me renseigne depuis l’étranger',
-    ],
+    interests: ['Appartements 2 chambres', 'Appartements 3 chambres', 'Fonds de commerce'],
     note: 'Vos informations servent uniquement à vous recontacter au sujet du projet. Elles ne sont ni revendues, ni utilisées à d’autres fins.',
     submit: 'Envoyer ma demande',
   },
   direct: {
     h2: 'Nous joindre directement',
-    phone: { title: 'Par téléphone', label: '07 08 08 08 39' },
+    phone: { title: 'Par téléphone', label: '06 30 88 44 44' },
     whatsapp: { title: 'Sur WhatsApp', body: 'Écrivez-nous, nous répondons rapidement.' },
     whatsappCta: 'Écrire sur WhatsApp',
-    place: { title: 'Sur place', body: 'Km 25, Avenue Mohammed VI, Rabat — Aïn Aouda' },
+    place: { title: 'Sur place', body: 'Km 25, Avenue Mohammed VI, Rabat' },
   },
   visit: {
     h2: 'Visiter le site du projet',
@@ -351,23 +351,31 @@ export const contactPage = {
     body: 'Les réponses aux questions les plus courantes sur les prix, l’aide au logement et la livraison sont regroupées sur une page dédiée.',
     link: { label: 'Consulter la FAQ', href: '/faq' },
   },
+  more: {
+    h2: 'Aller plus loin',
+    links: [
+      { title: 'Le projet', body: 'Découvrir Riyad Zaer Gardens', href: '/le-projet' },
+      { title: 'Appartements', body: 'Typologies, surfaces et prix', href: '/appartements' },
+      { title: 'FAQ', body: 'Les réponses essentielles', href: '/faq' },
+    ],
+  },
 } as const;
 
 export const faqPage = {
   seo: {
-    title: 'Questions fréquentes — Riyad Zaer Gardens, Aïn Aouda',
+    title: 'Questions fréquentes — Riyad Zaer Gardens',
     description:
-      'Prix, surfaces, aide au logement, livraison, parking : toutes les réponses sur les appartements et commerces de Riyad Zaer Gardens à Aïn Aouda.',
+      'Prix, surfaces, aide au logement, livraison, parking : toutes les réponses sur les appartements et commerces de Riyad Zaer Gardens.',
   },
   h1: 'Questions fréquentes',
-  lead: 'Les réponses aux questions que l’on nous pose le plus souvent sur Riyad Zaer Gardens. Si vous ne trouvez pas la vôtre, appelez-nous au 07 08 08 08 39.',
+  lead: 'Les réponses aux questions que l’on nous pose le plus souvent sur Riyad Zaer Gardens. Si vous ne trouvez pas la vôtre, appelez-nous au 06 30 88 44 44.',
   groups: [
     {
       h2: 'Le projet',
       items: [
         {
           q: 'Où se situe exactement Riyad Zaer Gardens ?',
-          a: 'Le projet se situe à Aïn Aouda, Km 25 sur l’Avenue Mohammed VI, à 20 minutes de Rabat par l’autoroute.',
+          a: "Le projet se situe à 25 minutes de Rabat par l'autoroute, sur un axe principal. Nos conseillers vous indiquent l'emplacement exact et peuvent convenir d'un rendez-vous sur place.",
         },
         {
           q: 'Qui est le promoteur ?',
@@ -394,14 +402,17 @@ export const faqPage = {
     {
       h2: 'Les appartements',
       items: [
-        { q: 'Quelles typologies sont proposées ?', a: 'Deux typologies : des F3 et des F4.' },
+        {
+          q: 'Quelles typologies sont proposées ?',
+          a: 'Deux typologies : des appartements de 2 et 3 chambres.',
+        },
         {
           q: 'Quelles sont les surfaces ?',
           a: 'Les appartements font de 65 à 86 m², selon la typologie et l’étage.',
         },
         {
-          q: 'Les appartements sont-ils livrés finis ?',
-          a: 'Oui. Les logements sont livrés avec leurs finitions. Aucun travaux n’est à prévoir avant d’emménager.',
+          q: 'Les finitions sont-elles comprises dans le prix ?',
+          a: "Oui. Le projet prévoit des appartements avec finitions : sols, menuiseries, salle de bain équipée, faux plafonds et éclairage. Vous n'achetez pas un logement brut. Le détail complet des prestations figure dans la brochure.",
         },
         {
           q: 'Le parking est-il compris dans le prix ?',
@@ -436,6 +447,14 @@ export const faqPage = {
       ],
     },
   ],
+  more: {
+    h2: 'Aller plus loin',
+    links: [
+      { title: 'Le projet', body: 'Découvrir Riyad Zaer Gardens', href: '/le-projet' },
+      { title: 'Appartements', body: 'Typologies, surfaces et prix', href: '/appartements' },
+      { title: 'Contact', body: 'Parler à un conseiller', href: '/contact' },
+    ],
+  },
 } as const;
 
 export const merciPage = {
@@ -443,11 +462,20 @@ export const merciPage = {
     title: 'Merci pour votre demande — Riyad Zaer Gardens',
     description: 'Votre demande a bien été envoyée. Un conseiller Riyad Zaer Gardens vous rappelle prochainement.',
   },
-  h1: 'Merci, votre demande est bien enregistrée',
+  h1: 'Merci',
+  lead: 'Votre demande est bien enregistrée.',
   body: 'Un conseiller vous rappelle au plus vite pour répondre à vos questions et vous transmettre la brochure du projet.',
-  wait: 'Vous préférez ne pas attendre ? Appelez-nous directement au 07 08 08 08 39.',
-  primary: { label: 'Appeler maintenant', href: 'tel:+212708080839' },
+  wait: 'Vous préférez ne pas attendre ? Appelez-nous directement au 06 30 88 44 44.',
+  primary: { label: 'Appeler maintenant', href: 'tel:+212630884444' },
   secondary: { label: 'Découvrir le projet', href: '/le-projet' },
+  more: {
+    h2: 'En attendant',
+    links: [
+      { title: 'Le projet', body: 'Voir l’îlot et les prestations', href: '/le-projet' },
+      { title: 'Appartements', body: '2 & 3 chambres et finitions', href: '/appartements' },
+      { title: 'Localisation', body: 'Km 25, Avenue Mohammed VI', href: '/localisation' },
+    ],
+  },
 } as const;
 
 export const mentionsPage = {
@@ -456,14 +484,15 @@ export const mentionsPage = {
     description:
       'Mentions légales et politique de confidentialité du site Riyad Zaer Gardens, projet immobilier développé par La Manoussa.',
   },
-  h1: 'Mentions légales et confidentialité',
+  h1: 'Mentions légales',
+  lead: 'Éditeur, propriété intellectuelle et confidentialité des données recueillies sur riyadzaergardens.com.',
   editor: {
     h2: 'Éditeur du site',
     intro: 'Le site riyadzaergardens.com est édité par :',
     rows: [
       ['Raison sociale', 'Lamanoussa SARL AU'],
       ['Forme juridique', 'SARL AU'],
-      ['Téléphone', '07 08 08 08 39'],
+      ['Téléphone', '06 30 88 44 44'],
     ],
   },
   ip: {
@@ -476,7 +505,7 @@ export const mentionsPage = {
     body: [
       'Les informations recueillies via le formulaire de contact servent uniquement à vous recontacter au sujet du projet Riyad Zaer Gardens.',
       'Elles ne sont ni revendues, ni utilisées à d’autres fins.',
-      'Pour toute question relative à vos données, contactez-nous au 07 08 08 08 39.',
+      'Pour toute question relative à vos données, contactez-nous au 06 30 88 44 44.',
     ],
   },
 } as const;
@@ -485,21 +514,21 @@ export const guidesPage = {
   seo: {
     title: 'Guides & actualités — Riyad Zaer Gardens',
     description:
-      'Nos guides pour acheter à Aïn Aouda : aide au logement, choix entre F3 et F4, investissement locatif près de Rabat.',
+      'Nos guides pour acheter près de Rabat : aide au logement, choix entre 2 et 3 chambres, investissement locatif.',
   },
   h1: 'Guides & actualités',
-  lead: "Des repères simples pour préparer votre achat à Aïn Aouda : comprendre l'aide au logement, choisir entre un F3 et un F4, ou évaluer un investissement locatif près de Rabat.",
+  lead: "Des repères simples pour préparer votre achat : comprendre l'aide au logement, choisir entre 2 et 3 chambres, ou évaluer un investissement locatif près de Rabat.",
   items: [
     {
       title: 'Comprendre l’aide au logement',
       body: 'Comment le programme d’aide peut faire passer le prix d’entrée de 420 000 DH à 350 000 DH selon votre situation.',
     },
     {
-      title: 'Choisir entre un F3 et un F4',
+      title: 'Choisir entre 2 et 3 chambres',
       body: 'Surfaces, usages et questions à se poser avant de réserver un appartement à Riyad Zaer Gardens.',
     },
     {
-      title: 'Acheter à Aïn Aouda : ce qu’il faut savoir',
+      title: 'Acheter aux portes de Rabat : ce qu’il faut savoir',
       body: 'Distance de Rabat, cadre de vie et dynamisme d’une zone qui se développe rapidement.',
     },
   ],
@@ -507,26 +536,71 @@ export const guidesPage = {
 
 export const promoteurPage = {
   seo: {
-    title: 'La Manoussa, promoteur de Riyad Zaer Gardens',
+    title: 'La Manoussa — Promoteur de Riyad Zaer Gardens',
     description:
-      'La Manoussa est le promoteur de Riyad Zaer Gardens à Aïn Aouda : 9 immeubles, 120 appartements et 49 commerces, livraison prévue en 2028.',
+      "La Manoussa est le promoteur des projets Les Portes de Zaer et Riyad Zaer Gardens, sur l'Avenue Mohammed VI.",
   },
-  h1: 'La Manoussa, promoteur de Riyad Zaer Gardens',
-  lead: 'Riyad Zaer Gardens est développé par La Manoussa, promoteur immobilier actif dans la région de Rabat. La conception architecturale du projet est signée Mabani Architects.',
-  body: '9 immeubles, 120 appartements et 49 fonds de commerce à Aïn Aouda, sur l’Avenue Mohammed VI. Livraison prévue en septembre 2028.',
-  note: 'Les informations détaillées sur le promoteur (historique, autres projets) seront complétées dès validation officielle.',
+  h1: 'La Manoussa, promoteur immobilier',
+  lead:
+    "Deux projets sur l'Avenue Mohammed VI : le lotissement Les Portes de Zaer, et la résidence Riyad Zaer Gardens.",
+  role: {
+    h2: 'Nos projets',
+    body: [
+      'La Manoussa développe deux projets sur l’Avenue Mohammed VI, avec des positionnements distincts et une même ambition : faire naître un quartier là où la ville s’étend.',
+    ],
+  },
+  projet: {
+    kick: 'Continuité',
+    h2: "D'un lotissement à un quartier",
+    body: [
+      "La Manoussa a d'abord ouvert le terrain avec Les Portes de Zaer. Riyad Zaer Gardens s'y implante aujourd'hui.",
+      'Même avenue, même logique : faire naître un quartier là où la ville s’étend.',
+    ],
+  },
+  partners: {
+    kick: 'Portefeuille',
+    h2: 'Les Portes de Zaer et Riyad Zaer Gardens',
+    items: [
+      {
+        title: 'Les Portes de Zaer',
+        role: 'Lotissement',
+        body: 'Un lotissement résidentiel : des lots de terrain constructibles pour villas et petits collectifs. C’est le premier projet de La Manoussa sur l’avenue.',
+      },
+      {
+        title: 'Riyad Zaer Gardens',
+        role: 'Résidence',
+        body: 'Une résidence de 120 appartements 2 et 3 chambres et 49 fonds de commerce, organisée autour d’une cour centrale plantée.',
+      },
+    ],
+  },
+  note: '',
+  band: {
+    title: 'Une question sur nos projets ?',
+    body: 'Notre équipe commerciale vous répond et vous présente les biens disponibles.',
+    primary: 'Être rappelé',
+    secondary: 'Appeler le 06 30 88 44 44',
+  },
   more: {
     h2: 'Aller plus loin',
     links: [
       { title: 'Le projet', body: 'Découvrir Riyad Zaer Gardens', href: '/le-projet' },
+      { title: 'Appartements', body: '2 & 3 chambres, surfaces et prix', href: '/appartements' },
       { title: 'Contact', body: 'Parler à un conseiller', href: '/contact' },
     ],
   },
 } as const;
 
 export const notFoundPage = {
-  h1: 'Cette page n’existe pas',
+  h1: 'Page introuvable',
   body: 'Le lien que vous avez suivi ne mène nulle part. Revenez à l’accueil ou découvrez directement les appartements disponibles.',
   primary: { label: 'Retour à l’accueil', href: '/' },
   secondary: { label: 'Voir les appartements', href: '/appartements' },
+  more: {
+    h2: 'Continuer',
+    links: [
+      { title: 'Accueil', body: 'Revenir au projet', href: '/' },
+      { title: 'Appartements', body: '2 & 3 chambres et prix', href: '/appartements' },
+      { title: 'Contact', body: 'Parler à un conseiller', href: '/contact' },
+    ],
+  },
 } as const;

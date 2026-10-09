@@ -57,6 +57,11 @@ const paras = body == null ? [] : Array.isArray(body) ? [...body] : [body];
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transform: scale(1.04);
+    transition: transform 1.4s var(--ease);
+  }
+  .split:hover .split-media img {
+    transform: scale(1);
   }
   .split-panel {
     grid-area: panel;
@@ -68,7 +73,7 @@ const paras = body == null ? [] : Array.isArray(body) ? [...body] : [body];
   }
   .split-panel .display {
     font-size: clamp(1.85rem, 3.4vw, 2.75rem);
-    max-width: 16ch;
+    max-width: none;
     margin: 0;
   }
   .split-panel .lead {
@@ -81,14 +86,14 @@ const paras = body == null ? [] : Array.isArray(body) ? [...body] : [body];
   .tone-cream .split-panel { background: var(--cream); }
   .tone-ink .split-panel {
     background: var(--ink);
-    color: #f7f2e8;
+    color: var(--cream);
   }
   .tone-ink .kick { color: var(--gold); }
-  .tone-ink .lead { color: rgb(247 242 232 / 0.72); }
+  .tone-ink .lead { color: var(--muted-on-dark); }
 
   .tone-ink .split-panel .btn-ghost {
-    color: #f7f2e8;
-    border-color: rgb(247 242 232 / 0.4);
+    color: var(--cream);
+    border-color: color-mix(in srgb, var(--cream) 40%, transparent);
   }
   .split-panel :global(.btn) {
     align-self: start;
@@ -106,13 +111,13 @@ const paras = body == null ? [] : Array.isArray(body) ? [...body] : [body];
     margin-inline: auto;
     padding: 0;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    column-gap: clamp(2.5rem, 7vw, 7rem);
-    row-gap: 1rem;
-    align-items: end;
+    gap: 0.75rem;
+    align-items: start;
+    max-width: 40rem;
   }
-  .split.is-text .kick { grid-column: 1 / -1; }
-  .split.is-text .display { max-width: 14ch; }
+  .split.is-text .display { max-width: none; margin: 0; }
+  .split.is-text .kick { margin: 0; }
+  .split.is-text .lead { margin: 0; }
   .tone-cream.is-text { background: var(--cream); }
   .tone-light.is-text { background: var(--bg); }
   .tone-ink.is-text { background: var(--ink); color: var(--cream); }

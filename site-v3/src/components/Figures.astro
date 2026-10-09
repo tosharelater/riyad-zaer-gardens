@@ -6,7 +6,7 @@ const { figures } = getHome(locale);
 ---
 <section class="figures" id="chiffres">
   <div class="wrap">
-    <header class="figures-head head-split" data-reveal data-split>
+    <header class="head-split" data-reveal data-split>
       <p class="kick">{locale === 'ar' ? 'المرحلة الأولى' : 'Tranche 1'}</p>
       <h2 class="display">{figures.h2}</h2>
       <p class="lead">{figures.lead}</p>
@@ -25,45 +25,37 @@ const { figures } = getHome(locale);
 <style>
   .figures {
     padding: var(--sec) 0;
-    background: var(--bg);
+    background:
+      radial-gradient(ellipse 60% 45% at 0% 100%, color-mix(in srgb, var(--gold) 7%, transparent), transparent 55%),
+      var(--bg);
   }
-  .figures-head { margin-bottom: clamp(2.5rem, 5vw, 3.5rem); }
-
   .figures-board {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    border-block: 1px solid var(--line);
+    gap: var(--gap);
   }
   .figures-item {
-    padding: clamp(1.5rem, 3vw, 2.25rem) 0;
-  }
-  .figures-item + .figures-item {
-    padding-inline-start: clamp(1.25rem, 3vw, 2.5rem);
-    border-inline-start: 1px solid var(--line);
+    display: grid;
+    gap: 0.55rem;
+    align-content: start;
   }
   .figures-item dt {
     font-family: var(--display);
-    font-weight: 300;
-    font-size: clamp(3.25rem, 6.5vw, 5.75rem);
+    font-weight: 400;
+    font-size: clamp(2.75rem, 5.5vw, 4.25rem);
     line-height: 1;
     letter-spacing: -0.04em;
     font-variant-numeric: tabular-nums;
     color: var(--ink);
   }
   .figures-item dd {
-    margin-top: 0.6rem;
-    font-size: 0.78rem;
+    font-size: 0.68rem;
     font-weight: 600;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--muted);
   }
   @media (max-width: 600px) {
-    .figures-board { grid-template-columns: 1fr; }
-    .figures-item + .figures-item {
-      padding-inline-start: 0;
-      border-inline-start: 0;
-      border-top: 1px solid var(--line);
-    }
+    .figures-board { grid-template-columns: 1fr; gap: 1.75rem; }
   }
 </style>

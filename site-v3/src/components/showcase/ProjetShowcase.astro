@@ -17,51 +17,58 @@ const L =
   locale === 'ar'
     ? {
         kick: 'المشروع',
-        apt: 'شقق',
-        shops: 'محلات تجارية',
-        size: 'm² · F3 و F4',
-        delivery: 'التسليم المتوقع',
+        ctaApt: 'عرض الشقق',
+        ctaCall: 'اطلب اتصالاً',
+        promoteur: 'المطوّر',
         conception: 'التصميم',
         life: 'إطار العيش',
         amenities: 'الخدمات',
         management: 'الإدارة',
-        fiche: 'المواصفات',
         develop: 'التطور',
       }
     : {
         kick: 'Le projet',
-        apt: 'appartements',
-        shops: 'fonds de commerce',
-        size: 'm² · F3 et F4',
-        delivery: 'livraison prévue',
+        ctaApt: 'Voir les appartements',
+        ctaCall: 'Être rappelé',
+        promoteur: 'Le promoteur',
         conception: 'Conception',
         life: 'Cadre de vie',
         amenities: 'Prestations',
         management: 'Gestion',
-        fiche: 'Fiche technique',
         develop: 'Développement',
       };
 
 const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.href) }));
-/** Same order as the conception choices */
-const chapterIcons = ['signpost', 'trees', 'sun', 'square-parking'];
-/** Same order as the amenities in the data */
 const amenityIcons = ['arrow-up-down', 'trees', 'square-parking', 'shield-check', 'paint-roller', 'store'];
+const promoteur = 'promoteur' in p ? p.promoteur : null;
 ---
 <div data-projet-page class="projet-page">
   <PageHero
     h1={p.h1}
     lead={p.lead}
     kicker={L.kick}
-    image="/photos/facade-commerces.jpg"
-    alt={media.hero.alt}
-    facts={[
-      { n: '120', l: L.apt, count: 120 },
-      { n: '49', l: L.shops, count: 49 },
-      { n: '65–86', l: L.size },
-      { n: '2028', l: L.delivery },
-    ]}
-  />
+    image="/photos/aerial-ilot.jpg"
+    alt="Vue de la résidence Riyad Zaer Gardens"
+  >
+    <a class="btn btn-solid" href={localePath(locale, '/appartements')}>{L.ctaApt}</a>
+    <a class="btn btn-light" href={localePath(locale, '/contact')}>{L.ctaCall}</a>
+  </PageHero>
+
+  {promoteur && (
+    <section class="promoteur">
+      <div class="wrap text-photo">
+        <div data-reveal data-split>
+          <p class="kick">{L.promoteur}</p>
+          <h2 class="display">{promoteur.h2}</h2>
+          {promoteur.body.map((t) => <p class="lead">{t}</p>)}
+          <a class="text-link" href={localePath(locale, promoteur.link.href)}>{promoteur.link.label}</a>
+        </div>
+        <figure data-media>
+          <img src="/photos/facade-golden.jpg" alt={media.facade.alt} loading="lazy" decoding="async" />
+        </figure>
+      </div>
+    </section>
+  )}
 
   <section class="chapters">
     <div class="wrap">
@@ -73,7 +80,7 @@ const amenityIcons = ['arrow-up-down', 'trees', 'square-parking', 'shield-check'
       <ol class="chapters-grid">
         {p.conception.items.map((item, i) => (
           <li class="chapter" data-chapter>
-            <span class="chapter-num"><Icon name={chapterIcons[i] ?? 'check'} size="1.5rem" /></span>
+            <span class="chapter-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             <h3>{item.title}</h3>
             <p>{item.body}</p>
           </li>
@@ -107,7 +114,7 @@ const amenityIcons = ['arrow-up-down', 'trees', 'square-parking', 'shield-check'
       <ol class="amenity-grid">
         {p.equipements.items.map((item, i) => (
           <li class="amenity-item" data-amenity>
-            <span><Icon name={amenityIcons[i] ?? 'check'} size="1.6rem" /></span>
+            <span><Icon name={amenityIcons[i] ?? 'check'} size="1.15rem" /></span>
             <h3>{item.title}</h3>
             <p>{item.body}</p>
             {'link' in item && item.link && (
@@ -135,23 +142,6 @@ const amenityIcons = ['arrow-up-down', 'trees', 'square-parking', 'shield-check'
     </div>
   </section>
 
-  <section class="fiche" data-fiche>
-    <div class="wrap">
-      <header class="fiche-head" data-reveal data-split>
-        <p class="kick">{L.fiche}</p>
-        <h2 class="display">{p.fiche.h2}</h2>
-      </header>
-      <dl class="fiche-table">
-        {p.fiche.rows.map(([k, v]) => (
-          <div data-fiche-row>
-            <dt>{k}</dt>
-            <dd>{v}</dd>
-          </div>
-        ))}
-      </dl>
-    </div>
-  </section>
-
   <section class="tranches">
     <div class="wrap tranches-grid">
       <div class="tranches-copy" data-reveal data-split>
@@ -164,7 +154,7 @@ const amenityIcons = ['arrow-up-down', 'trees', 'square-parking', 'shield-check'
     </div>
   </section>
 
-  <PageBand />
+  <PageBand image="/photos/allee-jardin.jpg" />
   <MoreLinks h2={p.more.h2} links={moreLinks} />
 </div>
 
@@ -173,33 +163,40 @@ const amenityIcons = ['arrow-up-down', 'trees', 'square-parking', 'shield-check'
 </script>
 
 <style>
-  /* Conception — four choices, numbered */
+  .promoteur {
+    padding: var(--sec) 0;
+    background: var(--cream);
+  }
+  .promoteur .display {
+    margin: 1rem 0 0.35rem;
+    max-width: none;
+  }
+  .promoteur .lead + .lead { margin-top: 0.85rem; }
+  .promoteur .text-link { margin-top: 1.25rem; }
+
   .chapters {
     padding: var(--sec) 0;
-    background: var(--bg);
+    background: var(--cream);
   }
   .chapters-head { margin-bottom: clamp(3rem, 6vw, 4.5rem); }
   .chapters-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    column-gap: clamp(2rem, 6vw, 6rem);
-    border-top: 1px solid var(--line);
+    gap: clamp(1.75rem, 4vw, 3rem) clamp(2rem, 6vw, 6rem);
   }
   .chapter {
     display: grid;
     grid-template-columns: 3rem 1fr;
     column-gap: 1rem;
     row-gap: 0.6rem;
-    padding: clamp(1.5rem, 3vw, 2.25rem) 0;
-    border-bottom: 1px solid var(--line);
   }
   .chapter-num {
     grid-row: 1 / span 2;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 600;
     letter-spacing: 0.18em;
-    color: var(--gold-deep);
-    padding-top: 0.45rem;
+    color: var(--gold);
+    padding-top: 0.4rem;
   }
   .chapter h3 {
     font-family: var(--display);
@@ -212,39 +209,31 @@ const amenityIcons = ['arrow-up-down', 'trees', 'square-parking', 'shield-check'
     line-height: 1.7;
   }
 
-  /* Courtyard — a statement, no picture */
   .cour-scene {
     padding: var(--sec) 0;
     background: var(--cream);
   }
 
-  /* Amenities */
   .amenity {
     padding: var(--sec) 0;
-    background: var(--cream);
+    background: var(--ink);
+    color: var(--cream);
   }
+  .amenity .kick { color: var(--gold-soft); }
   .amenity-head { margin-bottom: clamp(3rem, 6vw, 4.5rem); }
+  .amenity-head .lead { color: var(--muted-on-dark); }
   .amenity-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    border-top: 1px solid var(--line);
+    gap: clamp(1.75rem, 4vw, 2.75rem) clamp(1.5rem, 3vw, 2.5rem);
   }
   .amenity-item {
     display: grid;
     align-content: start;
     gap: 0.7rem;
-    padding: clamp(1.5rem, 3vw, 2.25rem) clamp(1rem, 2.5vw, 2rem) clamp(1.75rem, 3vw, 2.5rem) 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .amenity-item:not(:nth-child(3n + 1)) {
-    padding-inline-start: clamp(1rem, 2.5vw, 2rem);
-    border-inline-start: 1px solid var(--line);
   }
   .amenity-item span {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    color: var(--gold-deep);
+    color: color-mix(in srgb, var(--cream) 45%, transparent);
   }
   .amenity-item h3 {
     font-family: var(--display);
@@ -253,12 +242,15 @@ const amenityIcons = ['arrow-up-down', 'trees', 'square-parking', 'shield-check'
     line-height: 1.15;
   }
   .amenity-item p {
-    color: var(--muted);
+    color: var(--muted-on-dark);
     line-height: 1.65;
   }
-  .amenity-item .text-link { justify-self: start; }
+  .amenity-item .text-link {
+    justify-self: start;
+    color: var(--cream);
+    background-image: linear-gradient(var(--gold-soft), var(--gold-soft));
+  }
 
-  /* Syndic */
   .syndic {
     padding: var(--sec) 0;
     background: var(--cream);
@@ -266,30 +258,28 @@ const amenityIcons = ['arrow-up-down', 'trees', 'square-parking', 'shield-check'
   .syndic-grid {
     display: grid;
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: clamp(2.5rem, 7vw, 7rem);
+    gap: var(--gap);
     align-items: start;
   }
   .syndic-copy .display {
     margin: 1rem 0 0.25rem;
-    max-width: 14ch;
+    max-width: none;
   }
   .missions {
-    border-top: 1px solid var(--line);
+    display: grid;
+    gap: 0.9rem;
   }
   .missions li {
     display: grid;
-    grid-template-columns: 3rem 1fr;
-    padding: 1.15rem 0;
-    border-bottom: 1px solid var(--line);
+    grid-template-columns: 1.5rem 1fr;
+    gap: 0.75rem;
     font-size: 1.05rem;
     line-height: 1.5;
+    align-items: start;
   }
   .missions span {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    color: var(--gold-deep);
-    padding-top: 0.25rem;
+    color: color-mix(in srgb, var(--ink) 42%, transparent);
+    padding-top: 0.2rem;
   }
   .syndic-end {
     margin-top: 1.5rem;
@@ -298,40 +288,6 @@ const amenityIcons = ['arrow-up-down', 'trees', 'square-parking', 'shield-check'
     max-width: 30rem;
   }
 
-  /* Fiche — spec sheet in two columns */
-  .fiche {
-    padding: var(--sec) 0;
-    background: var(--bg);
-  }
-  .fiche-head { margin-bottom: clamp(2.5rem, 5vw, 3.5rem); }
-  .fiche-head .display { margin-top: 1rem; max-width: 16ch; }
-  .fiche-table {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: clamp(2rem, 5vw, 5rem);
-    border-top: 1px solid var(--line);
-  }
-  .fiche-table > div {
-    display: grid;
-    grid-template-columns: minmax(8rem, 0.8fr) 1.2fr;
-    gap: 1rem;
-    padding: 1.1rem 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .fiche-table dt {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding-top: 0.25rem;
-  }
-  .fiche-table dd {
-    font-size: 1.02rem;
-    font-weight: 500;
-  }
-
-  /* Tranches */
   .tranches {
     padding: var(--sec) 0;
     background: var(--cream);
@@ -339,24 +295,19 @@ const amenityIcons = ['arrow-up-down', 'trees', 'square-parking', 'shield-check'
   .tranches-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: clamp(2.5rem, 7vw, 7rem);
-    align-items: end;
+    gap: var(--gap);
+    align-items: start;
   }
-  .tranches-copy .display { margin-top: 1rem; max-width: 14ch; }
+  .tranches-copy .display { margin-top: 1rem; max-width: none; }
   .tranches-body .lead:first-child { margin-top: 0; }
   .tranches-body .lead + .lead { margin-top: 0.85rem; }
 
   @media (max-width: 900px) {
     .chapters-grid { grid-template-columns: 1fr; }
     .amenity-grid { grid-template-columns: 1fr; }
-    .amenity-item:not(:nth-child(3n + 1)) { padding-inline-start: 0; border-inline-start: 0; }
     .syndic-grid, .tranches-grid { grid-template-columns: 1fr; }
-    .fiche-table { grid-template-columns: 1fr; }
-    .fiche-table > div { grid-template-columns: 1fr; gap: 0.3rem; }
   }
   @media (min-width: 901px) and (max-width: 1100px) {
     .amenity-grid { grid-template-columns: 1fr 1fr; }
-    .amenity-item:not(:nth-child(3n + 1)) { padding-inline-start: 0; border-inline-start: 0; }
-    .amenity-item:nth-child(even) { padding-inline-start: 2rem; border-inline-start: 1px solid var(--line); }
   }
 </style>

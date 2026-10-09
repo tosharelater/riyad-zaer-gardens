@@ -1,8 +1,6 @@
 ---
 import PageHero from '../page/PageHero.astro';
-import Icon from '../Icon.astro';
 import PageBand from '../page/PageBand.astro';
-import MoreLinks from '../page/MoreLinks.astro';
 import FactTable from '../page/FactTable.astro';
 import { media } from '../../data/media';
 import { contactInfo } from '../../data/site';
@@ -24,10 +22,10 @@ const L =
         invest: 'الاستثمار',
         call: 'اطلب اتصالاً',
         wa: 'واتساب',
-        lots: 'محلات',
-        perM2: 'للمتر المربع، ابتداءً من',
-        dh: '15 000 درهم',
-        delivery: 'التسليم',
+        map: 'على الخريطة',
+        mapTitle: 'Km 25، شارع محمد السادس',
+        iframeTitle: 'خريطة — رياض زعير غاردنز',
+        mapsCta: 'فتح في Google Maps',
       }
     : {
         kick: 'Fonds de commerce',
@@ -36,29 +34,19 @@ const L =
         invest: 'Investissement',
         call: 'Être rappelé',
         wa: 'Écrire sur WhatsApp',
-        lots: 'locaux',
-        perM2: 'le m², à partir de',
-        dh: '15 000 DH',
-        delivery: 'livraison',
+        map: 'Sur la carte',
+        mapTitle: 'Km 25, Avenue Mohammed VI',
+        iframeTitle: 'Carte — Riyad Zaer Gardens',
+        mapsCta: 'Ouvrir dans Google Maps',
       };
-
-const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.href) }));
-/** Same order as the reasons in the data */
-const reasonIcons = ['users', 'signpost', 'trending-up', 'square-parking'];
 ---
 <div data-com-page class="com-page">
   <PageHero
     h1={p.h1}
     lead={p.lead}
     kicker={L.kick}
-    image="/photos/commerces-jour.jpg"
+    image="/photos/commerce-angle.jpg"
     alt={media.commerce.alt}
-    facts={[
-      { n: '49', l: L.lots, count: 49 },
-      { n: '13–30', l: 'm²' },
-      { n: L.dh, l: L.perM2 },
-      { n: '2028', l: L.delivery },
-    ]}
   />
 
   <section class="offer">
@@ -83,7 +71,7 @@ const reasonIcons = ['users', 'signpost', 'trending-up', 'square-parking'];
       <ol class="reasons-grid">
         {p.raisons.items.map((item, i) => (
           <li class="reason" data-reason>
-            <span class="reason-num"><Icon name={reasonIcons[i] ?? 'check'} size="1.5rem" /></span>
+            <span class="reason-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             <h3>{item.title}</h3>
             <p>{item.body}</p>
           </li>
@@ -100,7 +88,7 @@ const reasonIcons = ['users', 'signpost', 'trending-up', 'square-parking'];
         {p.invest.body.map((t) => <p class="lead">{t}</p>)}
       </div>
       <figure data-media>
-        <img src="/photos/facade-soir.jpg" alt={media.commerce.alt} loading="lazy" decoding="async" />
+        <img src="/photos/commerce-interieur.jpg" alt={media.commerceIn.alt} loading="lazy" decoding="async" />
       </figure>
     </div>
   </section>
@@ -111,8 +99,24 @@ const reasonIcons = ['users', 'signpost', 'trending-up', 'square-parking'];
     body={p.convert.body}
     primary={{ label: L.call, href: localePath(locale, '/contact') }}
     secondary={{ label: L.wa, href: contactInfo.whatsapp }}
+    image="/photos/commerce-angle.jpg"
   />
-  <MoreLinks h2={p.more.h2} links={moreLinks} />
+
+  <section class="map">
+    <div class="map-frame" data-map-frame>
+      <iframe
+        title={L.iframeTitle}
+        src={contactInfo.mapEmbed}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+    <div class="map-card" data-reveal>
+      <p class="kick">{L.map}</p>
+      <h2>{L.mapTitle}</h2>
+      <a class="btn btn-solid" href={contactInfo.mapsHref} target="_blank" rel="noopener">{L.mapsCta}</a>
+    </div>
+  </section>
 </div>
 
 <script>
@@ -122,44 +126,44 @@ const reasonIcons = ['users', 'signpost', 'trending-up', 'square-parking'];
 <style>
   .offer {
     padding: var(--sec) 0;
-    background: var(--bg);
+    background: var(--cream);
   }
   .offer-grid {
     display: grid;
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: clamp(2.5rem, 7vw, 7rem);
-    align-items: end;
+    gap: var(--gap);
+    align-items: start;
   }
-  .offer .display { margin: 1rem 0 0.25rem; max-width: 12ch; }
+  .offer .display { margin: 1rem 0 0.25rem; max-width: none; }
 
-  /* Reasons — 2 × 2, numbered */
   .reasons {
-    background: var(--cream);
+    background: var(--ink);
+    color: var(--cream);
     padding: var(--sec) 0;
   }
+  .reasons .kick { color: var(--gold-soft); }
+  .reasons .display { color: var(--cream); }
+  .reasons .lead { color: var(--muted-on-dark); }
   .reasons-head { margin-bottom: clamp(3rem, 6vw, 4.5rem); }
-  .reasons-head .display { margin-top: 1rem; max-width: 16ch; }
+  .reasons-head .display { margin-top: 1rem; max-width: none; }
   .reasons-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    column-gap: clamp(2rem, 6vw, 6rem);
-    border-top: 1px solid var(--line);
+    gap: clamp(1.75rem, 4vw, 3rem) clamp(2rem, 6vw, 6rem);
   }
   .reason {
     display: grid;
     grid-template-columns: 3rem 1fr;
     column-gap: 1rem;
     row-gap: 0.6rem;
-    padding: clamp(1.5rem, 3vw, 2.25rem) 0;
-    border-bottom: 1px solid var(--line);
   }
   .reason-num {
     grid-row: 1 / span 2;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 600;
     letter-spacing: 0.18em;
-    color: var(--gold-deep);
-    padding-top: 0.1rem;
+    color: var(--gold-soft);
+    padding-top: 0.35rem;
   }
   .reason h3 {
     font-family: var(--display);
@@ -168,17 +172,52 @@ const reasonIcons = ['users', 'signpost', 'trending-up', 'square-parking'];
     line-height: 1.2;
   }
   .reason p {
-    color: var(--muted);
+    color: var(--muted-on-dark);
     line-height: 1.7;
   }
 
   .invest {
     padding: var(--sec) 0;
-    background: var(--bg);
+    background: var(--cream);
   }
+
+  .map {
+    position: relative;
+    background: var(--ink);
+  }
+  .map-frame {
+    height: min(70svh, 38rem);
+    overflow: hidden;
+  }
+  .map-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    filter: grayscale(0.4) contrast(1.05) sepia(0.12);
+  }
+  .map-card {
+    position: absolute;
+    inset-inline-start: var(--pad);
+    bottom: var(--pad);
+    width: min(26rem, calc(100% - 2 * var(--pad)));
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    background: var(--cream);
+    display: grid;
+    gap: 0.85rem;
+  }
+  .map-card h2 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+    line-height: 1.1;
+  }
+  .map-card .btn { justify-self: start; margin-top: 0.5rem; }
 
   @media (max-width: 900px) {
     .offer-grid { grid-template-columns: 1fr; }
     .reasons-grid { grid-template-columns: 1fr; }
+    .map-frame { height: min(60svh, 32rem); }
+    .map-card { position: relative; inset: auto; width: auto; }
   }
 </style>

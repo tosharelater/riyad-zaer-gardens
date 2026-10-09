@@ -1,17 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import StatusShowcase from '../components/showcase/StatusShowcase.astro';
 import { notFoundPage as p } from '../data/pages';
-import { media } from '../data/media';
-import PageHero from '../components/page/PageHero.astro';
 ---
 <BaseLayout title="Page introuvable — Riyad Zaer Gardens">
-  <PageHero
+  <StatusShowcase
+    locale="fr"
+    kicker="404"
     h1={p.h1}
     lead={p.body}
-    kicker={'404'}
-    compact
-  >
-    <a class="btn btn-solid" href={p.primary.href}>{p.primary.label}</a>
-    <a class="btn btn-light" href={p.secondary.href}>{p.secondary.label}</a>
-  </PageHero>
+    image="/photos/facade-nuit.jpg"
+    primary={p.primary}
+    secondary={p.secondary}
+    more={p.more}
+  />
 </BaseLayout>

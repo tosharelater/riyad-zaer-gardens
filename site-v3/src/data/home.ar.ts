@@ -28,9 +28,9 @@ export const figures = {
   h2: 'الشطر الأول بالأرقام',
   lead: 'يتكون الشطر الأول من رياض زعير غاردنز من مربع كامل، كحي صغير بمساكنه ومساحاته الخضراء ومحلاته.',
   items: [
-    { n: '9', label: 'عمارات' },
-    { n: '120', label: 'شقة' },
-    { n: '49', label: 'محل تجاري' },
+    { n: '9', label: 'عمارات', icon: 'building-2' },
+    { n: '120', label: 'شقة', icon: 'home' },
+    { n: '49', label: 'محل تجاري', icon: 'store' },
   ],
 } as const;
 
@@ -41,22 +41,22 @@ export const reasons = {
     {
       title: 'فناء مركزي أخضر',
       body: 'تنتظم العمارات حول فناء مزروع هادئ مخصص للسكان. يمنح الضوء والهواء للشقق وانتعاشاً في الصيف.',
-      img: '/gen/rz-courtyard.jpg',
+      img: '/photos/allee-jardin.jpg',
     },
     {
       title: 'على بعد 20 دقيقة من الرباط',
       body: 'على شارع محمد السادس، مع وصول مباشر إلى الطريق السيار والمحاور نحو الرباط وتمارة وسلا.',
-      img: '/gen/rz-avenue.jpg',
+      img: '/photos/facade-street.jpg',
     },
     {
       title: 'شقق تُسلَّم جاهزة',
       body: 'تُسلَّم المساكن بتشطيباتها. لا أشغال قبل الانتقال.',
-      img: '/gen/rz-apartment.jpg',
+      img: '/photos/salon.jpg',
     },
     {
       title: 'سعر عادل',
       body: 'سكن متوسط المستوى بسعر في المتناول، يمكن تخفيضه أكثر عبر دعم السكن.',
-      img: '/gen/rz-terrace.jpg',
+      img: '/photos/facade-golden.jpg',
     },
   ],
 } as const;
@@ -74,7 +74,7 @@ export const projet = {
     'محلات في الطابق الأرضي',
   ],
   link: { label: 'اكتشفوا المشروع بالتفصيل', href: '/le-projet' },
-  img: '/gen/rz-aerial.jpg',
+  img: '/photos/aerial-ilot.jpg',
   alt: 'منظر جوي لمشروع رياض زعير غاردنز',
 } as const;
 
@@ -87,7 +87,7 @@ export const apartments = {
   price: 'ابتداءً من 420 000 درهم',
   priceAid: '350 000 درهم مع دعم السكن',
   cta: { label: 'اطلعوا على الشقق', href: '/appartements' },
-  img: '/gen/rz-apartment.jpg',
+  img: '/photos/salon.jpg',
 } as const;
 
 export const finishes = {
@@ -99,7 +99,7 @@ export const finishes = {
     { title: 'الحمّام', body: 'دوش إيطالي، صحيات Roca' },
     { title: 'الراحة', body: 'ستائر آلية Somfy' },
   ],
-  img: '/gen/rz-finish.jpg',
+  img: '/photos/cuisine.jpg',
 } as const;
 
 export const commerce = {
@@ -112,7 +112,7 @@ export const commerce = {
     ['السعر', 'ابتداءً من 15 000 درهم للم²'],
   ],
   cta: { label: 'اطلعوا على المحلات', href: '/fonds-de-commerce' },
-  img: '/gen/rz-commerce.jpg',
+  img: '/photos/commerce-angle.jpg',
 } as const;
 
 export const aid = {
@@ -153,15 +153,15 @@ export const lieu = {
   },
   mapEmbed:
     'https://maps.google.com/maps?q=Km+25,+Avenue+Mohammed+VI,+A%C3%AFn+Aouda&hl=ar&z=14&output=embed',
-  img: '/gen/rz-avenue.jpg',
+  img: '/photos/facade-street.jpg',
 } as const;
 
 export const contact = {
   h2: 'لنتحدث عن مشروعكم',
   body: 'اتركوا لنا بياناتكم. يتصل بكم مستشار للإجابة عن أسئلتكم وإرسال كتيّب المشروع.',
-  phone: '07 08 08 08 39',
-  phoneTel: '+212708080839',
-  whatsapp: 'https://wa.me/212708080839',
+  phone: '06 30 88 44 44',
+  phoneTel: '+212630884444',
+  whatsapp: 'https://wa.me/212630884444',
   primary: 'اطلبوا اتصالاً',
   secondary: 'راسلونا عبر واتساب',
 } as const;

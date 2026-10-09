@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
+import Proof from '../components/Proof.astro';
 import Figures from '../components/Figures.astro';
 import Cour from '../components/Cour.astro';
 import Projet from '../components/Projet.astro';
@@ -17,6 +18,7 @@ const { seo } = getHome(locale);
 ---
 <BaseLayout title={seo.title} description={seo.description} intro locale={locale}>
   <Hero />
+  <Proof />
   <Figures />
   <Cour />
   <Projet />

@@ -97,22 +97,42 @@ const copy =
     height: 100%;
     object-fit: cover;
   }
+  /* No image: cream band — never a yellow fill */
   .band-convert {
-    color: var(--cream);
+    background: var(--cream);
+    color: var(--ink);
   }
-  .band-convert { background: var(--ink); }
+  .band-convert .lead {
+    color: var(--muted);
+  }
+  .band-convert .btn-ghost {
+    color: var(--ink);
+    border-color: var(--ink);
+    --fill: var(--ink);
+    --on-fill: var(--cream);
+  }
+  /* With photo: ink veil over the image */
+  .band-convert:has(.band-bg) {
+    color: var(--cream);
+    background: var(--ink);
+  }
   .band-convert:has(.band-bg)::after {
     content: '';
     position: absolute;
     inset: 0;
     z-index: -1;
     background:
-      linear-gradient(to top, rgb(1 22 21 / 0.92), rgb(1 22 21 / 0.62) 60%, rgb(1 22 21 / 0.5));
+      linear-gradient(
+        to top,
+        color-mix(in srgb, var(--ink) 92%, transparent),
+        color-mix(in srgb, var(--ink) 58%, transparent) 55%,
+        color-mix(in srgb, var(--ink) 42%, transparent)
+      );
   }
-  .band-convert .lead { color: rgb(244 238 226 / 0.8); }
-  .band-convert .btn-ghost {
+  .band-convert:has(.band-bg) .lead { color: var(--muted-on-dark); }
+  .band-convert:has(.band-bg) .btn-ghost {
     color: var(--cream);
-    border-color: rgb(244 238 226 / 0.5);
+    border-color: color-mix(in srgb, var(--cream) 55%, transparent);
     --fill: var(--cream);
     --on-fill: var(--ink);
   }
@@ -123,10 +143,10 @@ const copy =
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     gap: clamp(2rem, 5vw, 5rem);
-    align-items: end;
+    align-items: start;
   }
   .band-inner .display {
-    max-width: 16ch;
+    max-width: none;
     margin-bottom: 0.5rem;
   }
   .band-actions {

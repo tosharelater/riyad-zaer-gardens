@@ -1,86 +1,109 @@
 ---
 import { getHome } from '../data/content';
-import { localePath, type Locale } from '../i18n/paths';
+import type { Locale } from '../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { proof } = getHome(locale);
 ---
 <section class="proof" id="proof" aria-label="Points clés">
-  <ul class="wrap proof-rail">
+  <figure class="proof-media" aria-hidden="true">
+    <img src="/photos/facade-golden.jpg" alt="" loading="lazy" decoding="async" />
+  </figure>
+  <div class="proof-shade" aria-hidden="true"></div>
+
+  <ul class="wrap proof-grid">
     {proof.map((item) => (
-      <li><span>{item}</span></li>
+      <li>
+        <p>{item}</p>
+      </li>
     ))}
   </ul>
 </section>
+
 <style>
   .proof {
-    padding: clamp(1.35rem, 3vw, 1.85rem) 0;
-    background: var(--cream);
-    border-bottom: 1px solid var(--line);
-  }
-
-  .proof-rail {
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 0;
-    list-style: none;
-    margin: 0 auto;
-    padding: 0;
-    align-items: center;
-    justify-items: center;
-    text-align: center;
-  }
-
-  .proof-rail li {
     position: relative;
+    isolation: isolate;
+    min-height: min(42svh, 22rem);
+    display: grid;
+    align-items: end;
+    overflow: hidden;
+    color: var(--cream);
+  }
+
+  .proof-media {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    z-index: -2;
+  }
+  .proof-media img {
     width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 0.25rem clamp(0.4rem, 1vw, 0.85rem);
-    min-width: 0;
-    box-sizing: border-box;
+    object-fit: cover;
+    object-position: center 40%;
   }
 
-  .proof-rail li:not(:last-child)::after {
-    content: '';
+  .proof-shade {
     position: absolute;
-    right: 0;
-    top: 50%;
-    width: 0.28rem;
-    height: 0.28rem;
-    border-radius: 50%;
-    background: var(--gold);
-    transform: translate(50%, -50%);
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(to top, color-mix(in srgb, var(--ink) 92%, transparent) 0%, color-mix(in srgb, var(--ink) 55%, transparent) 55%, color-mix(in srgb, var(--ink) 28%, transparent) 100%),
+      linear-gradient(90deg, color-mix(in srgb, var(--ink) 35%, transparent), transparent 50%);
   }
 
-  .proof-rail span {
-    display: block;
-    width: 100%;
-    max-width: 14ch;
+  .proof-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    width: min(var(--wrap), calc(100% - 2 * var(--pad)));
     margin-inline: auto;
-    text-align: center;
-    font-size: clamp(0.78rem, 1.05vw, 0.92rem);
+    padding: clamp(3rem, 7vw, 5rem) 0 clamp(2.25rem, 4.5vw, 3rem);
+    list-style: none;
+  }
+
+  .proof-grid li {
+    padding: 0 clamp(1.25rem, 2.5vw, 2rem);
+  }
+  .proof-grid li:first-child {
+    padding-inline-start: 0;
+  }
+  .proof-grid li:last-child {
+    padding-inline-end: 0;
+  }
+  .proof-grid li + li {
+    border-inline-start: 1px solid color-mix(in srgb, var(--cream) 18%, transparent);
+  }
+
+  .proof-grid p {
+    margin: 0;
+    max-width: 14ch;
+    font-family: var(--display);
     font-weight: 500;
-    letter-spacing: -0.01em;
-    line-height: 1.35;
-    color: var(--ink);
+    font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+    letter-spacing: -0.03em;
+    line-height: 1.25;
+    text-wrap: balance;
   }
 
-  @media (max-width: 900px) {
-    .proof-rail {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      row-gap: 0.85rem;
+  @media (max-width: 800px) {
+    .proof {
+      min-height: 0;
     }
-    .proof-rail li:nth-child(3)::after { display: none; }
-    .proof-rail span { max-width: none; }
-  }
-
-  @media (max-width: 560px) {
-    .proof-rail {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .proof-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+      padding-block: 2.5rem 2rem;
     }
-    .proof-rail li:nth-child(2n)::after { display: none; }
+    .proof-grid li {
+      padding: 1.15rem 0;
+    }
+    .proof-grid li + li {
+      border-inline-start: 0;
+      border-top: 1px solid color-mix(in srgb, var(--cream) 18%, transparent);
+    }
+    .proof-grid p {
+      max-width: none;
+    }
   }
 </style>

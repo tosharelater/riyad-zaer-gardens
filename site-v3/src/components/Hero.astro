@@ -1,14 +1,9 @@
 ---
 import { getHome } from '../data/content';
 import { localePath, type Locale } from '../i18n/paths';
-import Icon from './Icon.astro';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
-const { hero, proof } = getHome(locale);
+const { hero } = getHome(locale);
 const href = (h: string) => (h.startsWith('/') ? localePath(locale, h) : h);
-// The price already has its own block; the strip carries the other facts.
-const specs = proof.filter((p) => !/420/.test(p)).slice(0, 5);
-// Same order as the facts: typologies, surfaces, aid, parking, delivery
-const specIcons = ['building-2', 'ruler', 'badge-percent', 'square-parking', 'calendar-check-2'];
 const [priceLead, priceValue] = (() => {
   const m = hero.price.match(/^(.*?)(\d[\d\s  ]*\d.*)$/);
   return m ? [m[1].trim(), m[2].trim()] : ['', hero.price];
@@ -16,12 +11,12 @@ const [priceLead, priceValue] = (() => {
 ---
 <section class="hero" id="top" data-hero>
   <div class="hero-media" data-hero-media>
-    <img src="/photos/facade-nuit.jpg" alt={hero.alt} fetchpriority="high" />
+    <img src="/photos/facade-nuit.jpg" alt={hero.alt} fetchpriority="high" decoding="async" />
   </div>
   <div class="hero-shade" aria-hidden="true"></div>
+  <div class="hero-glow" aria-hidden="true"></div>
 
   <div class="hero-copy wrap" data-split>
-    <p class="hero-kicker" data-hero-in>{hero.h1}</p>
     <h1 class="hero-title">
       <span class="hero-brand" data-hero-brand>Riyad Zaer Gardens</span>
       <span class="hero-place" data-hero-in>{hero.kicker}</span>
@@ -29,20 +24,18 @@ const [priceLead, priceValue] = (() => {
 
     <div class="hero-foot">
       <p class="hero-sub" data-hero-in>{hero.sub}</p>
-      <p class="hero-price" data-hero-in>
-        {priceLead && <span>{priceLead}</span>}
-        <strong>{priceValue}</strong>
-      </p>
-      <div class="hero-actions" data-hero-in>
-        <a class="btn btn-solid" href={href(hero.primary.href)}>{hero.primary.label}</a>
-        <a class="btn btn-light" href={href(hero.secondary.href)}>{hero.secondary.label}</a>
+      <div class="hero-row" data-hero-in>
+        <p class="hero-price">
+          {priceLead && <span>{priceLead}</span>}
+          <strong>{priceValue}</strong>
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-solid" href={href(hero.primary.href)}>{hero.primary.label}</a>
+          <a class="btn btn-light" href={href(hero.secondary.href)}>{hero.secondary.label}</a>
+        </div>
       </div>
     </div>
   </div>
-
-  <ul class="hero-specs wrap" id="proof" aria-label="Points clés">
-    {specs.map((s, i) => <li data-hero-spec><Icon name={specIcons[i] ?? 'check'} />{s}</li>)}
-  </ul>
 </section>
 
 <style>
@@ -51,15 +44,14 @@ const [priceLead, priceValue] = (() => {
     min-height: min(100svh, 62rem);
     min-height: min(100dvh, 62rem);
     display: grid;
-    grid-template-rows: 1fr auto;
-    color: #fff;
+    align-items: end;
+    color: var(--cream);
     overflow: hidden;
     isolation: isolate;
   }
 
   .hero-media {
     position: absolute;
-    /* Bleed on top: the scroll parallax moves this frame down */
     inset: -12% -3% -3%;
     z-index: -2;
     overflow: hidden;
@@ -68,7 +60,7 @@ const [priceLead, priceValue] = (() => {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 40%;
+    object-position: center 48%;
     transform: scale(1.12);
   }
   :global(html:not(.intro-lock)) .hero-media {
@@ -84,88 +76,90 @@ const [priceLead, priceValue] = (() => {
     z-index: -1;
     pointer-events: none;
     background:
-      linear-gradient(to top, rgb(1 22 21 / 0.92) 0%, rgb(1 22 21 / 0.55) 38%, rgb(1 22 21 / 0.08) 70%),
-      linear-gradient(to bottom, rgb(1 22 21 / 0.5), transparent 22%);
+      linear-gradient(to top, color-mix(in srgb, var(--ink) 92%, transparent) 0%, color-mix(in srgb, var(--ink) 48%, transparent) 42%, color-mix(in srgb, var(--ink) 8%, transparent) 76%),
+      linear-gradient(to bottom, color-mix(in srgb, var(--ink) 44%, transparent), transparent 30%),
+      linear-gradient(118deg, color-mix(in srgb, var(--ink) 28%, transparent) 0%, transparent 50%);
+  }
+  .hero-glow {
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 52%;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(ellipse 70% 95% at 30% 100%, color-mix(in srgb, var(--gold) 26%, transparent), transparent 70%);
   }
 
   .hero-copy {
-    align-self: end;
-    padding-top: calc(var(--nav) + 3rem);
-    padding-bottom: clamp(2rem, 4vw, 3rem);
-  }
-
-  .hero-kicker {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.6rem 1rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: rgb(255 255 255 / 0.86);
-    text-shadow: 0 1px 12px rgb(1 22 21 / 0.45);
+    padding-top: calc(var(--nav) + 3.5rem);
+    padding-bottom: clamp(2.5rem, 5vw, 3.75rem);
   }
 
   .hero-title {
-    margin-top: clamp(1rem, 2vw, 1.5rem);
     display: grid;
-    gap: clamp(0.75rem, 1.6vw, 1.4rem);
+    gap: clamp(0.85rem, 1.8vw, 1.5rem);
     font-weight: 400;
   }
-  /* The one place Audrey lives on the home page */
   .hero-brand {
     font-family: var(--audrey);
-    font-size: clamp(3.4rem, 10.5vw, 10.5rem);
-    letter-spacing: -0.04em;
-    word-spacing: 0.06em;
-    line-height: 0.92;
-    color: #fff;
+    font-size: clamp(2.6rem, 7vw, 5.5rem);
+    letter-spacing: -0.03em;
+    word-spacing: 0.04em;
+    line-height: 0.95;
+    color: var(--cream);
+    text-shadow: 0 2px 40px color-mix(in srgb, var(--ink) 25%, transparent);
   }
   .hero-brand :global(.w > span) { transform: translateY(110%); }
   .hero-place {
     font-family: var(--font);
-    font-size: clamp(1.35rem, 3.2vw, 2.9rem);
-    font-weight: 300;
+    font-size: clamp(1.1rem, 2vw, 1.55rem);
+    font-weight: 400;
     letter-spacing: -0.01em;
-    line-height: 1.15;
-    color: rgb(255 255 255 / 0.9);
+    line-height: 1.35;
+    color: rgb(255 255 255 / 0.88);
+    max-width: 28rem;
   }
 
   .hero-foot {
-    margin-top: clamp(2rem, 4vw, 3.25rem);
-    padding-top: clamp(1.5rem, 3vw, 2rem);
-    border-top: 1px solid rgb(255 255 255 / 0.22);
+    margin-top: clamp(1.75rem, 3.5vw, 2.5rem);
+    padding-top: 1.35rem;
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) auto auto;
-    gap: clamp(1.5rem, 4vw, 4rem);
-    align-items: end;
+    gap: 1.35rem;
+    align-items: start;
+    border-top: 1px solid color-mix(in srgb, var(--cream) 12%, transparent);
   }
 
   .hero-sub {
-    max-width: 34rem;
-    font-size: clamp(1rem, 1.35vw, 1.125rem);
+    max-width: 36rem;
+    font-size: 1rem;
     line-height: 1.65;
-    color: rgb(255 255 255 / 0.84);
+    color: rgb(255 255 255 / 0.8);
     text-wrap: pretty;
+  }
+
+  .hero-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.75rem;
   }
 
   .hero-price {
     display: grid;
-    gap: 0.35rem;
+    gap: 0.25rem;
   }
   .hero-price span {
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     font-weight: 600;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: rgb(255 255 255 / 0.62);
+    color: var(--gold-soft);
   }
   .hero-price strong {
     font-family: var(--display);
     font-weight: 500;
-    font-size: clamp(1.7rem, 2.6vw, 2.3rem);
+    font-size: clamp(1.45rem, 2.2vw, 1.85rem);
     line-height: 1;
+    letter-spacing: -0.02em;
     color: var(--gold);
     white-space: nowrap;
   }
@@ -173,56 +167,23 @@ const [priceLead, priceValue] = (() => {
   .hero-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    gap: 0.65rem;
   }
 
-  .hero-specs {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem 2rem;
-    padding-block: 1.1rem 1.4rem;
-    border-top: 1px solid rgb(255 255 255 / 0.14);
-    font-size: 0.78rem;
-    letter-spacing: 0.04em;
-    color: rgb(255 255 255 / 0.7);
-  }
-  .hero-specs li {
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    white-space: nowrap;
-  }
-  .hero-specs li :global(.icon) { color: var(--gold); width: 1.15rem; height: 1.15rem; }
-
-  [data-hero-in],
-  [data-hero-spec] {
+  [data-hero-in] {
     opacity: 0;
     transform: translateY(1.2rem);
   }
-  :global(html:not(.intro-lock)) [data-hero-in],
-  :global(html:not(.intro-lock)) [data-hero-spec] {
+  :global(html:not(.intro-lock)) [data-hero-in] {
     animation: rise 1.1s var(--ease) both;
   }
-  :global(html:not(.intro-lock)) .hero-kicker { animation-delay: 0.35s; }
-  :global(html:not(.intro-lock)) .hero-place { animation-delay: 0.75s; }
-  :global(html:not(.intro-lock)) .hero-sub { animation-delay: 0.9s; }
-  :global(html:not(.intro-lock)) .hero-price { animation-delay: 0.95s; }
-  :global(html:not(.intro-lock)) .hero-actions { animation-delay: 1.05s; }
-  :global(html:not(.intro-lock)) [data-hero-spec]:nth-child(1) { animation-delay: 1.15s; }
-  :global(html:not(.intro-lock)) [data-hero-spec]:nth-child(2) { animation-delay: 1.22s; }
-  :global(html:not(.intro-lock)) [data-hero-spec]:nth-child(3) { animation-delay: 1.29s; }
-  :global(html:not(.intro-lock)) [data-hero-spec]:nth-child(4) { animation-delay: 1.36s; }
-  :global(html:not(.intro-lock)) [data-hero-spec]:nth-child(5) { animation-delay: 1.43s; }
-  :global(html:not(.intro-lock)) .hero-foot {
-    animation: rule 1.4s 0.7s var(--ease) both;
-  }
+  :global(html:not(.intro-lock)) .hero-place { animation-delay: 0.55s; }
+  :global(html:not(.intro-lock)) .hero-sub { animation-delay: 0.75s; }
+  :global(html:not(.intro-lock)) .hero-row { animation-delay: 0.9s; }
 
   @keyframes rise {
     from { opacity: 0; transform: translateY(1.2rem); }
     to { opacity: 1; transform: none; }
-  }
-  @keyframes rule {
-    from { border-top-color: transparent; }
   }
   @keyframes hero-curtain {
     from { clip-path: inset(0 0 100% 0); }
@@ -233,19 +194,8 @@ const [priceLead, priceValue] = (() => {
     to { transform: scale(1.02); }
   }
 
-  @media (max-width: 1100px) {
-    .hero-foot { grid-template-columns: 1fr auto; }
-    .hero-actions { grid-column: 1 / -1; }
-    .hero-specs { justify-content: flex-start; flex-wrap: wrap; }
-  }
   @media (max-width: 700px) {
-    .hero-foot { grid-template-columns: 1fr; }
-    .hero-specs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      font-size: 0.75rem;
-    }
-    .hero-specs li { white-space: normal; }
+    .hero-row { flex-direction: column; align-items: flex-start; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -256,7 +206,6 @@ const [priceLead, priceValue] = (() => {
       animation: none;
       transform: none;
     }
-    [data-hero-in],
-    [data-hero-spec] { opacity: 1; transform: none; }
+    [data-hero-in] { opacity: 1; transform: none; }
   }
 </style>

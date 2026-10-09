@@ -41,7 +41,7 @@
     height: min(52svh, 30rem);
     border: 1px solid var(--line);
     background:
-      linear-gradient(160deg, rgb(0 45 45 / 0.04), transparent 50%),
+      linear-gradient(160deg, color-mix(in srgb, var(--ink) 4%, transparent), transparent 50%),
       var(--cream);
   }
   .motif-3d canvas {
@@ -52,7 +52,7 @@
   .motif-ring {
     position: absolute;
     inset: 12% 14%;
-    border: 1px solid rgb(200 181 104 / 0.28);
+    border: 1px solid color-mix(in srgb, var(--gold) 28%, transparent);
     pointer-events: none;
     transform: rotate(2deg);
   }
