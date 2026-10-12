@@ -18,8 +18,10 @@ const { seo } = getHome(locale);
 ---
 <BaseLayout title={seo.title} description={seo.description} intro locale={locale}>
   <Hero />
-  <Proof />
-  <Figures />
+  <div class="home-soft">
+    <Proof />
+    <Figures />
+  </div>
   <Cour />
   <Projet />
   <Logements />

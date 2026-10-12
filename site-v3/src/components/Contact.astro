@@ -3,7 +3,6 @@ import { getHome } from '../data/content';
 import { contactPage as contactFr } from '../data/pages';
 import { contactPage as contactAr } from '../data/pages.ar';
 import { localePath, type Locale } from '../i18n/paths';
-import Icon from './Icon.astro';
 
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { contact } = getHome(locale);
@@ -17,8 +16,8 @@ const form = (locale === 'ar' ? contactAr : contactFr).form;
       <p class="lead">{contact.body}</p>
       <a class="phone" href={`tel:${contact.phoneTel}`} dir="ltr">{contact.phone}</a>
       <div class="contact-actions">
-        <a class="btn btn-solid" href={`tel:${contact.phoneTel}`}><Icon name="phone" />{contact.primary}</a>
-        <a class="btn btn-ghost wa" href={contact.whatsapp}><Icon name="message-circle" />{contact.secondary}</a>
+        <a class="btn btn-solid" href={`tel:${contact.phoneTel}`}>{contact.primary}</a>
+        <a class="btn btn-ghost wa" href={contact.whatsapp}>{contact.secondary}</a>
       </div>
     </div>
     <form class="form" method="get" action={localePath(locale, '/merci')} data-lead-form data-reveal>
@@ -103,8 +102,8 @@ const form = (locale === 'ar' ? contactAr : contactFr).form;
     position: relative;
     padding: clamp(1.85rem, 3.8vw, 2.65rem);
     background: var(--paper);
+    border: 1px solid var(--line);
     border-radius: var(--radius);
-    box-shadow: 0 4px 24px rgb(0 36 34 / 0.06);
   }
   .form label { display: grid; gap: 0.35rem; position: relative; }
   .form span {
@@ -121,7 +120,7 @@ const form = (locale === 'ar' ? contactAr : contactFr).form;
     min-height: 3.25rem;
     padding: 0.75rem 1rem;
     border: 1px solid rgb(0 36 34 / 0.16);
-    border-radius: 12px;
+    border-radius: var(--radius-sm);
     background: var(--paper);
     color: var(--ink);
     font-size: 1.0625rem;

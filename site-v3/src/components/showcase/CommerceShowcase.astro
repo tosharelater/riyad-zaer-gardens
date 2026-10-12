@@ -47,7 +47,10 @@ const L =
     kicker={L.kick}
     image="/photos/commerce-angle.jpg"
     alt={media.commerce.alt}
-  />
+  >
+    <a class="btn btn-solid" href={localePath(locale, '/contact')}>{L.call}</a>
+    <a class="btn btn-light" href={contactInfo.whatsapp} target="_blank" rel="noopener">{L.wa}</a>
+  </PageHero>
 
   <section class="offer">
     <div class="wrap offer-grid">
@@ -71,6 +74,7 @@ const L =
       <ol class="reasons-grid">
         {p.raisons.items.map((item, i) => (
           <li class="reason" data-reason>
+            <span class="reason-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             <h3>{item.title}</h3>
             <p>{item.body}</p>
           </li>
@@ -153,15 +157,14 @@ const L =
   .reason {
     display: grid;
     align-content: start;
-    row-gap: 0.6rem;
+    gap: 0.55rem;
   }
   .reason-num {
-    grid-row: 1 / span 2;
-    font-size: 0.875rem;
+    font-family: var(--display);
+    font-size: 0.75rem;
     font-weight: 600;
-    letter-spacing: -0.005em;
+    letter-spacing: 0.14em;
     color: var(--gold-soft);
-    padding-top: 0.35rem;
   }
   .reason h3 {
     font-family: var(--display);
@@ -200,11 +203,14 @@ const L =
     bottom: clamp(2rem, 4vw, 3rem);
     width: min(26rem, calc(100% - 2 * var(--pad)));
     padding: clamp(1.5rem, 3vw, 2.25rem);
-    background: var(--cream);
+    background: var(--paper);
     display: grid;
     gap: 0.85rem;
-    border-radius: var(--radius);
-    box-shadow: 0 10px 40px rgb(0 36 34 / 0.18);
+    border-radius: 16px;
+    border: 1px solid color-mix(in srgb, var(--gold-text) 22%, transparent);
+    box-shadow:
+      0 22px 48px rgb(0 0 0 / 0.28),
+      0 2px 8px rgb(0 0 0 / 0.08);
   }
   .map-card h2 {
     font-family: var(--display);

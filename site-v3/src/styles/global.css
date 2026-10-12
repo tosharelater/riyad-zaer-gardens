@@ -1,6 +1,6 @@
 /* Riyad Zaer Gardens — garden-calm system
-   Layout and type follow Apple's restraint; colour is the brand's own:
-   deep garden green, champagne gold, warm ivory. Photography carries the rest.
+   Colour is the brand's own: deep garden green, champagne gold, warm ivory.
+   Photography carries the rest. Type is Poppins; Audrey only for the hero wordmark.
 
    Palette (WCAG contrast):
    --ink    #002d2d  text & dark sections   14.6:1 on --paper, 13.1:1 on --cream
@@ -9,8 +9,7 @@
    --gold-soft #d9c987 eyebrows on dark       9.0:1 on --ink
    --gold-text #7a6628 eyebrows on light      4.9:1 on --cream, 5.5:1 on --paper
    --muted  #4a5e59  secondary text          6.1:1 on --cream, 6.8:1 on --paper
-   --paper  #fffdf8  warm white surface · --cream #f6f0e4 ivory surface
-   Type: Inter for everything · Audrey only for the home hero wordmark. */
+   --paper  #fffdf8  warm white surface · --cream #f6f0e4 ivory surface */
 
 :root {
   --ink: #002d2d;
@@ -32,14 +31,14 @@
   --line: rgb(0 45 45 / 0.1);
   --line-on-dark: rgb(246 240 228 / 0.14);
 
-  --font: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', 'Noto Sans Arabic', system-ui, sans-serif;
-  --display: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Noto Sans Arabic', system-ui, sans-serif;
-  --audrey: 'RZ Audrey', 'Inter Variable', Georgia, serif;
+  --font: 'Poppins', 'Noto Sans Arabic', system-ui, sans-serif;
+  --display: 'Poppins', 'Noto Sans Arabic', system-ui, sans-serif;
+  --audrey: 'RZ Audrey', Georgia, 'Times New Roman', serif;
   --wrap: 1180px;
   --pad: clamp(1.25rem, 4vw, 2.5rem);
-  --nav: 3.5rem;
-  --radius: 22px;
-  --radius-sm: 14px;
+  --nav: 4.25rem;
+  --radius: 6px;
+  --radius-sm: 4px;
   --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
   --ease-io: cubic-bezier(0.42, 0, 0.58, 1);
   --sec: clamp(5rem, 10vw, 8.5rem);
@@ -53,12 +52,11 @@ html { -webkit-text-size-adjust: 100%; }
 html.lenis, html.lenis body { height: auto; }
 body {
   font-family: var(--font);
-  font-feature-settings: 'cv11', 'ss01';
   background: var(--bg);
   color: var(--ink);
   font-size: 1.0625rem;
-  line-height: 1.5;
-  letter-spacing: -0.011em;
+  line-height: 1.55;
+  letter-spacing: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
@@ -92,14 +90,14 @@ ul, ol { list-style: none; padding: 0; }
 
 [id] { scroll-margin-top: calc(var(--nav) + 1rem); }
 
-/* Buttons — Apple-style pills, sentence case */
+/* Buttons — soft corners, sentence case */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
-  min-height: 2.75rem; padding: 0.6rem 1.35rem;
+  min-height: 2.75rem; padding: 0.65rem 1.4rem;
   max-width: 100%;
   border: 1px solid transparent;
-  border-radius: 980px;
-  font-size: 1rem; font-weight: 500; letter-spacing: -0.01em; line-height: 1.2;
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem; font-weight: 500; letter-spacing: 0.01em; line-height: 1.2;
   text-transform: none;
   white-space: nowrap;
   transition: background-color 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.2s var(--ease);
@@ -143,7 +141,7 @@ ul, ol { list-style: none; padding: 0; }
 .kick {
   display: inline-flex; align-items: center; gap: 0.5rem;
   font-family: var(--font);
-  font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; text-transform: none;
+  font-size: 0.9375rem; font-weight: 500; letter-spacing: 0.02em; text-transform: none;
   color: var(--gold-text);
 }
 
@@ -151,8 +149,8 @@ ul, ol { list-style: none; padding: 0; }
   font-family: var(--display);
   font-size: clamp(2rem, 4.6vw, 3.5rem);
   font-weight: 600;
-  letter-spacing: -0.028em;
-  line-height: 1.07;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
   text-wrap: balance;
 }
 
@@ -177,14 +175,13 @@ ul, ol { list-style: none; padding: 0; }
 .head-split > .display { margin: 0; max-width: none; }
 .head-split > .lead { margin: 0.4rem 0 0; max-width: none; }
 
-/* Rounded, clean image presentation */
+/* Image presentation — quiet corners, photos stay architectural */
 [data-media],
-.reasons-media, .homes-media, .projet-photo, .feat-item figure, .aside-media,
+.reasons-media, .homes-media, .commerce-media, .projet-photo, .feat-item figure, .aside-media,
 .partner-media, .entry-media, .post-media, .split-media, .finishes-media,
 .vision figure, .text-photo > figure {
   border-radius: var(--radius);
   overflow: hidden;
-  -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 
 .text-photo {
@@ -223,7 +220,7 @@ ul, ol { list-style: none; padding: 0; }
   position: fixed; inset: 0 0 auto; z-index: 100; height: 2px; pointer-events: none;
 }
 .progress i {
-  display: block; height: 100%; width: 100%; background: var(--canopy);
+  display: block; height: 100%; width: 100%; background: var(--gold);
   transform: scaleX(0); transform-origin: left center;
 }
 
@@ -364,7 +361,25 @@ body.is-rtl .mbar a {
 .tone-alt { background: var(--cream); }
 
 /* Links on deep-green surfaces */
-:where(.tone-dark, .reasons, .ways, .inclus, .amenity, .projet-scene) :is(.text-link, .projet-link) { color: var(--gold-soft); }
+:where(.tone-dark, .reasons, .inclus, .amenity, .projet-scene) :is(.text-link, .projet-link) { color: var(--gold-soft); }
 
 /* The wordmark stays in Audrey in both languages */
 body.is-rtl .hero-brand { font-family: var(--audrey); letter-spacing: -0.03em; }
+
+/* Shared light band: proof + tranche 1 */
+.home-soft {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(160deg, #faf6ec 0%, var(--cream) 48%, #f3ead8 100%);
+  overflow: clip;
+}
+.home-soft::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(42% 38% at 92% 52%, rgb(200 181 104 / 0.36), transparent 68%);
+  filter: blur(2px);
+}

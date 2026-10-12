@@ -1,13 +1,8 @@
 ---
 import { getHome } from '../data/content';
 import { localePath, type Locale } from '../i18n/paths';
-import Icon from './Icon.astro';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { projet } = getHome(locale);
-
-/** One icon per amenity, same order as the data */
-const amenityIcons = ['arrow-up-down', 'trees', 'square-parking', 'shield-check', 'paint-roller', 'store'];
-
 ---
 <section class="projet" id="projet">
   <div class="wrap">
@@ -25,9 +20,9 @@ const amenityIcons = ['arrow-up-down', 'trees', 'square-parking', 'shield-check'
     </div>
 
     <ul class="projet-amenities" data-reveal>
-      {projet.amenities.map((a, i) => (
+      {projet.amenities.map((a) => (
         <li>
-          <Icon name={amenityIcons[i]} size="1.15rem" />
+          <span class="amenity-mark" aria-hidden="true"></span>
           <span>{a}</span>
         </li>
       ))}
@@ -79,13 +74,19 @@ const amenityIcons = ['arrow-up-down', 'trees', 'square-parking', 'shield-check'
   }
   .projet-amenities li {
     display: grid;
-    grid-template-columns: 1.25rem 1fr;
-    gap: 0.75rem;
+    grid-template-columns: 0.65rem 1fr;
+    gap: 0.85rem;
     align-items: start;
     font-size: 0.98rem;
     line-height: 1.45;
   }
-  .projet-amenities :global(.icon) { color: var(--gold-text); }
+  .amenity-mark {
+    width: 0.4rem;
+    height: 0.4rem;
+    margin-top: 0.45rem;
+    border-radius: 1px;
+    background: var(--gold-text);
+  }
 
   @media (max-width: 900px) {
     .projet-grid { grid-template-columns: 1fr; }

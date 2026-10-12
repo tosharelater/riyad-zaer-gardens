@@ -1,7 +1,6 @@
 ---
 import { getHome } from '../data/content';
 import type { Locale } from '../i18n/paths';
-import Icon from './Icon.astro';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { lieu } = getHome(locale);
 ---
@@ -11,8 +10,8 @@ const { lieu } = getHome(locale);
       <p class="kick">{locale === 'ar' ? 'الموقع' : 'Localisation'}</p>
       <h2 class="display">{lieu.h2}</h2>
       <p class="lead">{lieu.body}</p>
-      <p class="lieu-address"><Icon name="map-pin" />{lieu.address}</p>
-      <a class="btn btn-ghost" href={lieu.cta.href} target="_blank" rel="noopener noreferrer">{lieu.cta.label}<Icon name="arrow-up-right" /></a>
+      <p class="lieu-address">{lieu.address}</p>
+      <a class="btn btn-ghost" href={lieu.cta.href} target="_blank" rel="noopener noreferrer">{lieu.cta.label}</a>
     </div>
     <div class="lieu-map" data-reveal>
       <iframe
@@ -44,11 +43,8 @@ const { lieu } = getHome(locale);
     margin: 1.25rem 0;
     padding: 0;
     font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
+    color: var(--ink);
   }
-  .lieu-address :global(.icon) { color: var(--gold-text); }
   .lieu-map {
     aspect-ratio: 4 / 3;
     background: var(--cream);

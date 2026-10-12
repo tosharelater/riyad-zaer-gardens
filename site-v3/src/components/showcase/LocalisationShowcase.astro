@@ -1,6 +1,5 @@
 ---
 import PageHero from '../page/PageHero.astro';
-import Icon from '../Icon.astro';
 import PageBand from '../page/PageBand.astro';
 import { media } from '../../data/media';
 import { contactInfo } from '../../data/site';
@@ -77,7 +76,7 @@ const quartierBody = typeof p.quartier.body === 'string' ? p.quartier.body.split
         <h2 class="display">{p.quartier.h2}</h2>
         {quartierBody.map((t) => <p class="lead">{t}</p>)}
         <ul class="near">
-          {p.quartier.already.map((item) => <li><span class="tick"><Icon name="check" size="1rem" /></span>{item}</li>)}
+          {p.quartier.already.map((item) => <li><span class="tick" aria-hidden="true"></span>{item}</li>)}
         </ul>
         <p class="near-end">{p.quartier.end}</p>
       </div>
@@ -139,7 +138,7 @@ const quartierBody = typeof p.quartier.body === 'string' ? p.quartier.body.split
     font-size: 0.875rem;
     font-weight: 600;
     letter-spacing: -0.005em;
-    color: var(--canopy);
+    color: var(--gold-text);
     padding-top: 0.4rem;
   }
   .stop h3 {
@@ -174,11 +173,14 @@ const quartierBody = typeof p.quartier.body === 'string' ? p.quartier.body.split
     bottom: clamp(2rem, 4vw, 3rem);
     width: min(26rem, calc(100% - 2 * var(--pad)));
     padding: clamp(1.5rem, 3vw, 2.25rem);
-    background: var(--cream);
+    background: var(--paper);
     display: grid;
     gap: 0.85rem;
-    border-radius: var(--radius);
-    box-shadow: 0 10px 40px rgb(0 36 34 / 0.18);
+    border-radius: 16px;
+    border: 1px solid color-mix(in srgb, var(--gold-text) 22%, transparent);
+    box-shadow:
+      0 22px 48px rgb(0 0 0 / 0.28),
+      0 2px 8px rgb(0 0 0 / 0.08);
   }
   .map-card h2 {
     font-family: var(--display);
@@ -199,19 +201,17 @@ const quartierBody = typeof p.quartier.body === 'string' ? p.quartier.body.split
   }
   .near li {
     display: grid;
-    grid-template-columns: 1.5rem 1fr;
-    gap: 0.75rem;
+    grid-template-columns: 0.65rem 1fr;
+    gap: 0.85rem;
     font-size: 1.05rem;
     align-items: start;
   }
-  .near span {
-    display: inline-grid;
-    place-items: center;
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--gold) 22%, transparent);
-    color: var(--gold-text);
+  .near .tick {
+    width: 0.4rem;
+    height: 0.4rem;
+    margin-top: 0.55rem;
+    border-radius: 1px;
+    background: var(--gold-text);
   }
   .near-end {
     margin-top: 1.25rem;

@@ -4,88 +4,273 @@ import type { Locale } from '../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { reasons } = getHome(locale);
 ---
-<section class="reasons" aria-labelledby="reasons-title">
+<section class="reasons" id="pourquoi" aria-labelledby="reasons-title" data-reasons>
+  <div class="reasons-glow" aria-hidden="true"></div>
   <div class="wrap">
-    <header class="head-split" data-reveal data-split>
+    <header class="reasons-head" data-reveal data-split>
       <p class="kick">{locale === 'ar' ? 'لماذا هنا' : 'Pourquoi ici'}</p>
       <h2 class="display" id="reasons-title">{reasons.h2}</h2>
+      <span class="reasons-title-rule" aria-hidden="true"></span>
       <p class="lead">{reasons.lead}</p>
     </header>
 
-    <ol class="reasons-grid">
+    <div class="reasons-stage" data-reasons-stage>
+      <ol class="reasons-orb">
+        {reasons.items.map((r, i) => (
+          <li class={`reasons-q reasons-q--${i + 1}`} data-reason-item style={`--i: ${i}`}>
+            <figure class="reasons-media">
+              <img src={r.img} alt="" loading="lazy" decoding="async" data-reason-img />
+            </figure>
+          </li>
+        ))}
+      </ol>
+
       {reasons.items.map((r, i) => (
-        <li data-reason-item>
-          <figure class="reasons-media">
-            <img src={r.img} alt="" loading="lazy" decoding="async" />
-          </figure>
+        <div class={`reasons-copy reasons-copy--${i + 1}`} data-reason-copy style={`--i: ${i}`}>
+          <span class="reasons-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
           <h3>{r.title}</h3>
+          <span class="reasons-rule" aria-hidden="true"></span>
           <p>{r.body}</p>
-        </li>
+        </div>
       ))}
-    </ol>
+    </div>
   </div>
 </section>
 
-<style>
-  .reasons {
-    padding: var(--sec) 0;
-    background:
-      var(--ink);
-    color: var(--cream);
-  }
-  .reasons .kick { color: var(--gold-soft); }
-  .reasons .lead { color: var(--muted-on-dark); }
-  .reasons-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: var(--gap);
-  }
-  .reasons-grid li {
-    display: grid;
-    align-content: start;
-    gap: 0.75rem;
-  }
-  .reasons-media {
-    margin: 0;
-    aspect-ratio: 3 / 4;
-    overflow: hidden;
+<style is:global>
+  #pourquoi.reasons {
     position: relative;
     isolation: isolate;
-    background: color-mix(in srgb, var(--cream) 6%, transparent);
+    padding: var(--sec) 0;
+    background:
+      radial-gradient(58% 70% at 92% 8%, rgb(200 181 104 / 0.2), transparent 55%),
+      radial-gradient(48% 55% at 6% 92%, rgb(200 181 104 / 0.1), transparent 52%),
+      linear-gradient(160deg, #faf6ec 0%, var(--cream) 48%, #f3ead8 100%);
+    color: var(--ink);
+    overflow: clip;
   }
-  .reasons-media img {
+  #pourquoi .reasons-glow {
+    position: absolute;
+    inset: -8% -4%;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(42% 48% at 50% 55%, rgb(255 253 248 / 0.65), transparent 60%);
+  }
+  #pourquoi > .wrap {
+    position: relative;
+    z-index: 1;
+  }
+
+  #pourquoi .reasons-head {
+    display: grid;
+    gap: 0.75rem;
+    max-width: 40rem;
+    margin-bottom: clamp(2.5rem, 5vw, 3.75rem);
+  }
+  #pourquoi .kick { color: var(--gold-text); }
+  #pourquoi .display {
+    margin: 0;
+    color: var(--ink);
+    font-size: clamp(2.05rem, 4.2vw, 3.15rem);
+  }
+  #pourquoi .reasons-title-rule {
+    display: block;
+    width: 2.75rem;
+    height: 1.5px;
+    background: var(--gold-text);
+  }
+  #pourquoi .lead {
+    margin: 0.1rem 0 0;
+    color: var(--muted);
+    max-width: 34rem;
+  }
+
+  /* Wide stage: 01–02 above the circle, 03–04 below — each facing its quarter */
+  #pourquoi .reasons-stage {
+    --orb-gap: clamp(1.1rem, 2.6vw, 1.7rem);
+    --orb-size: min(34rem, 56vw);
+    --copy-band: clamp(10.5rem, 20vw, 13.5rem);
+    position: relative;
+    width: 100%;
+    margin-inline: auto;
+    height: calc(var(--orb-size) + (2 * var(--copy-band)) + 2.75rem);
+    min-height: 0;
+  }
+
+  #pourquoi .reasons-orb {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    width: var(--orb-size);
+    aspect-ratio: 1 / 1;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: var(--orb-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: transparent;
+    overflow: visible;
+  }
+
+  #pourquoi .reasons-q {
+    position: relative;
+    overflow: hidden;
+    min-width: 0;
+    min-height: 0;
+    box-shadow:
+      0 16px 36px rgb(45 35 15 / 0.1),
+      0 0 0 1px color-mix(in srgb, var(--gold-text) 18%, transparent);
+    transition: transform 0.55s var(--ease), box-shadow 0.55s var(--ease);
+  }
+  #pourquoi .reasons-q--1 { border-radius: 100% 0 0 0; }
+  #pourquoi .reasons-q--2 { border-radius: 0 100% 0 0; }
+  #pourquoi .reasons-q--3 { border-radius: 0 0 0 100%; }
+  #pourquoi .reasons-q--4 { border-radius: 0 0 100% 0; }
+
+  #pourquoi .reasons-media {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    aspect-ratio: auto;
+    border-radius: inherit;
+    box-shadow: none;
+    background: var(--paper);
+  }
+  #pourquoi .reasons-media img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.8s var(--ease);
+    display: block;
+    transform: scale(1.04);
+    transition: transform 0.9s var(--ease);
+    will-change: transform;
   }
-  .reasons-grid li:hover .reasons-media img {
+  #pourquoi .reasons-q:hover {
     transform: scale(1.02);
+    box-shadow:
+      0 22px 44px rgb(45 35 15 / 0.14),
+      0 0 0 1px color-mix(in srgb, var(--gold-text) 35%, transparent);
   }
-  .reasons-n {
-    font-size: 0.875rem;
-    font-weight: 600;
-    letter-spacing: -0.005em;
-    color: var(--gold-soft);
-    margin-top: 0.15rem;
+  #pourquoi .reasons-q:hover .reasons-media img {
+    transform: scale(1.1);
   }
-  .reasons-grid h3 {
+
+  #pourquoi .reasons-copy {
+    position: absolute;
+    z-index: 2;
+    display: grid;
+    gap: 0.45rem;
+    width: min(34rem, 40%);
+    max-width: 34rem;
+  }
+  /* Top pair: above the circle, facing down into Q1 / Q2 */
+  #pourquoi .reasons-copy--1 {
+    top: 0;
+    left: 0;
+    text-align: start;
+  }
+  #pourquoi .reasons-copy--2 {
+    top: 0;
+    right: 0;
+    text-align: end;
+  }
+  /* Bottom pair: under the circle, facing up into Q3 / Q4 */
+  #pourquoi .reasons-copy--3 {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    text-align: start;
+  }
+  #pourquoi .reasons-copy--4 {
+    top: auto;
+    bottom: 0;
+    right: 0;
+    text-align: end;
+  }
+
+  #pourquoi .reasons-idx {
     font-family: var(--display);
     font-weight: 600;
-    font-size: clamp(1.12rem, 1.45vw, 1.32rem);
-    line-height: 1.2;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    color: var(--gold-text);
+  }
+  #pourquoi .reasons-copy h3 {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(1.08rem, 1.7vw, 1.35rem);
+    line-height: 1.15;
     text-wrap: balance;
+    color: var(--ink);
   }
-  .reasons-grid p {
-    color: var(--muted-on-dark);
-    line-height: 1.72;
-    font-size: 0.92rem;
+  #pourquoi .reasons-rule {
+    display: block;
+    width: 2rem;
+    height: 1.5px;
+    background: var(--gold-text);
   }
-  @media (max-width: 1000px) {
-    .reasons-grid { grid-template-columns: 1fr 1fr; }
+  #pourquoi .reasons-copy--2 .reasons-rule,
+  #pourquoi .reasons-copy--4 .reasons-rule {
+    margin-inline-start: auto;
   }
-  @media (max-width: 600px) {
-    .reasons-grid { grid-template-columns: 1fr; }
-    .reasons-media { aspect-ratio: 16 / 10; }
+  #pourquoi .reasons-copy p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+    font-size: clamp(0.88rem, 1.15vw, 1rem);
+  }
+  #pourquoi .reasons-copy--2 p,
+  #pourquoi .reasons-copy--4 p {
+    margin-inline-start: auto;
+  }
+
+  @media (max-width: 900px) {
+    #pourquoi .reasons-stage {
+      height: auto;
+      display: grid;
+      gap: 1.5rem;
+    }
+    #pourquoi .reasons-orb {
+      position: relative;
+      top: auto;
+      left: auto;
+      translate: none;
+      width: min(100%, 28rem);
+      margin-inline: auto;
+      order: 1;
+    }
+    #pourquoi .reasons-copy {
+      position: relative;
+      inset: auto;
+      width: 100%;
+      max-width: 34rem;
+      margin-inline: 0;
+      text-align: start;
+    }
+    #pourquoi .reasons-copy--1 { order: 2; }
+    #pourquoi .reasons-copy--2 { order: 3; }
+    #pourquoi .reasons-copy--3 { order: 4; }
+    #pourquoi .reasons-copy--4 { order: 5; }
+    #pourquoi .reasons-copy--2 .reasons-rule,
+    #pourquoi .reasons-copy--4 .reasons-rule,
+    #pourquoi .reasons-copy--2 p,
+    #pourquoi .reasons-copy--4 p {
+      margin-inline-start: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #pourquoi .reasons-media img,
+    #pourquoi .reasons-q {
+      transition: none;
+    }
+    #pourquoi .reasons-q:hover,
+    #pourquoi .reasons-q:hover .reasons-media img {
+      transform: none;
+    }
   }
 </style>

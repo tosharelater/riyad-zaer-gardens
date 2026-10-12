@@ -23,7 +23,7 @@ const dateFmt = (d: string) =>
     day: 'numeric',
   });
 ---
-<BaseLayout title={article.seoTitle} description={article.description} locale={locale} solidNav={true}>
+<BaseLayout title={article.seoTitle} description={article.description} locale={locale}>
   <article class="post">
     <header class="post-hero">
       <figure class="post-media" aria-hidden="true">
@@ -131,12 +131,11 @@ const dateFmt = (d: string) =>
     margin-bottom: 1rem;
   }
   .tags span {
-    font-size: 0.875rem;
-    letter-spacing: -0.005em;
-    color: color-mix(in srgb, var(--cream) 78%, transparent);
-    border: 1px solid rgb(246 240 228 / 0.3);
-    border-radius: 999px;
-    padding: 0.3rem 0.8rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
   }
   .post-intro .display {
     font-family: var(--display);

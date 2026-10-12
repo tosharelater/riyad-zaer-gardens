@@ -22,7 +22,7 @@ const { apartments } = getHome(locale);
       <a class="btn btn-ghost" href={apartments.cta.href.startsWith('/') ? localePath(locale, apartments.cta.href) : apartments.cta.href}>{apartments.cta.label}</a>
     </div>
     <figure class="homes-media" data-media data-reveal>
-      <img src="/photos/salon.jpg" alt="" loading="lazy" decoding="async" />
+      <img src={apartments.img} alt="" loading="lazy" decoding="async" />
     </figure>
   </div>
 </section>

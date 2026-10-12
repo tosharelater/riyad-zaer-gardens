@@ -110,9 +110,8 @@ const gallery = [
     display: grid;
     place-items: center;
     border: 1px solid color-mix(in srgb, var(--canopy) 28%, transparent);
-    border-radius: 50%;
+    border-radius: var(--radius-sm);
     background: var(--paper);
-    color: var(--canopy);
     color: var(--ink);
     cursor: pointer;
     transition: background 0.25s var(--ease), border-color 0.25s var(--ease), color 0.25s var(--ease);
@@ -260,7 +259,7 @@ const gallery = [
     width: 2.75rem;
     height: 2.75rem;
     border: 0;
-    border-radius: 999px;
+    border-radius: var(--radius-sm);
     background: color-mix(in srgb, var(--cream) 10%, transparent);
     color: var(--cream);
     font-size: 1.6rem;
@@ -276,7 +275,7 @@ const gallery = [
     display: grid;
     place-items: center;
     border: 1px solid color-mix(in srgb, var(--cream) 22%, transparent);
-    border-radius: 999px;
+    border-radius: var(--radius-sm);
     background: color-mix(in srgb, var(--ink) 55%, transparent);
     color: var(--cream);
     cursor: pointer;
