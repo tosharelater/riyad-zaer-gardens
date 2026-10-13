@@ -1,4 +1,10 @@
 ---
+/**
+ * COMPARE MODE — two full homepage stacks, same écriture (home.ts).
+ * A = GitHub / older visual + full GitHub section order
+ * B = Current visual + current section order
+ * Tell us which stack (or mix) to keep; then we remove the other.
+ */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HeroGithub from '../components/HeroGithub.astro';
 import Hero from '../components/Hero.astro';
@@ -6,11 +12,13 @@ import ProofGithub from '../components/ProofGithub.astro';
 import Proof from '../components/Proof.astro';
 import FiguresGithub from '../components/FiguresGithub.astro';
 import Figures from '../components/Figures.astro';
-import Logements from '../components/Logements.astro';
 import Cour from '../components/Cour.astro';
+import Projet from '../components/Projet.astro';
 import Cadre from '../components/Cadre.astro';
+import Logements from '../components/Logements.astro';
 import Finishes from '../components/Finishes.astro';
 import Commerce from '../components/Commerce.astro';
+import Vision from '../components/Vision.astro';
 import Aid from '../components/Aid.astro';
 import Ways from '../components/Ways.astro';
 import Lieu from '../components/Lieu.astro';
@@ -21,52 +29,48 @@ const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { seo } = getHome(locale);
 ---
 <BaseLayout title={seo.title} description={seo.description} intro solidNav locale={locale}>
-  {/*
-    COMPARE MODE — same écriture, two visuals side-by-side.
-    Tell us which letter to keep for each block (A = GitHub/older, B = current).
-  */}
-  <div class="style-banner" data-style="a">
-    <strong>A — GitHub / older visual</strong>
-    <span>Dark full-bleed hero · night photo · price + 2 CTAs</span>
-  </div>
-  <HeroGithub />
 
+  <!-- ========== STACK A — GitHub full content ========== -->
+  <div class="style-banner" data-style="a">
+    <strong>A — Full GitHub page</strong>
+    <span>Hero → Proof → Figures → Cour → Projet → Logements → Commerce → Vision → Ways → Lieu → Contact</span>
+  </div>
+  <div class="compare-stack" data-stack="a">
+    <HeroGithub />
+    <ProofGithub />
+    <FiguresGithub />
+    <Cour />
+    <Projet />
+    <Logements />
+    <Commerce />
+    <Vision />
+    <Ways />
+    <Lieu />
+    <Contact />
+  </div>
+
+  <!-- ========== STACK B — Current full content ========== -->
   <div class="style-banner" data-style="b">
-    <strong>B — Current visual</strong>
-    <span>Cream split hero · golden facade · single CTA</span>
+    <strong>B — Full current page</strong>
+    <span>Hero → Proof+Figures → Cour → Cadre → Logements → Finishes → Commerce → Aid → Ways → Lieu → Contact</span>
   </div>
-  <Hero />
+  <div class="compare-stack" data-stack="b">
+    <Hero />
+    <div class="home-soft">
+      <Proof />
+      <Figures />
+    </div>
+    <Cour />
+    <Cadre />
+    <Logements />
+    <Finishes />
+    <Commerce />
+    <Aid />
+    <Ways />
+    <Lieu />
+    <Contact />
+  </div>
 
-  <div class="style-banner" data-style="a">
-    <strong>A — GitHub Proof</strong>
-    <span>Photo band + cream type on dark veil</span>
-  </div>
-  <ProofGithub />
-
-  <div class="style-banner" data-style="b">
-    <strong>B — Current Proof + Figures band</strong>
-    <span>Light soft band · icons · ink ticket stats</span>
-  </div>
-  <div class="home-soft">
-    <Proof />
-    <Figures />
-  </div>
-
-  <div class="style-banner" data-style="a">
-    <strong>A — GitHub Figures</strong>
-    <span>Open type on paper (older layout)</span>
-  </div>
-  <FiguresGithub />
-
-  <Cour />
-  <Cadre />
-  <Logements />
-  <Finishes />
-  <Commerce />
-  <Aid />
-  <Ways />
-  <Lieu />
-  <Contact />
 </BaseLayout>
 
 <style is:global>
@@ -78,7 +82,7 @@ const { seo } = getHome(locale);
     flex-wrap: wrap;
     align-items: baseline;
     gap: 0.5rem 1.25rem;
-    padding: 0.65rem var(--pad);
+    padding: 0.75rem var(--pad);
     font-size: 0.8125rem;
     font-weight: 500;
     letter-spacing: 0.02em;
@@ -94,5 +98,10 @@ const { seo } = getHome(locale);
     color: var(--ink);
   }
   .style-banner[data-style='b'] strong { color: var(--gold-text); }
-  .style-banner span { opacity: 0.85; font-weight: 400; }
+  .style-banner span { opacity: 0.85; font-weight: 400; max-width: 72rem; }
+
+  /* Soft separator between the two full stacks */
+  .compare-stack[data-stack='a'] {
+    border-bottom: 4px solid var(--gold);
+  }
 </style>
