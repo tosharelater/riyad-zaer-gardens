@@ -1,7 +1,7 @@
 ---
 import PageHero from '../page/PageHero.astro';
 import PageBand from '../page/PageBand.astro';
-import FactTable from '../page/FactTable.astro';
+import Icon from '../Icon.astro';
 import { media } from '../../data/media';
 import { contactInfo } from '../../data/site';
 import { localePath, type Locale } from '../../i18n/paths';
@@ -39,6 +39,11 @@ const L =
         iframeTitle: 'Carte — Riyad Zaer Gardens',
         mapsCta: 'Ouvrir dans Google Maps',
       };
+
+const keep = (t: string) => t.replace(/(\d) (?=\d|DH|m)/g, '$1 ');
+const highlightIcons = ['store', 'ruler', 'badge-percent'] as const;
+const highlightRows = p.offre.rows.slice(0, 3);
+const detailRows = p.offre.rows.slice(3);
 ---
 <div data-com-page class="com-page">
   <PageHero
@@ -52,16 +57,36 @@ const L =
     <a class="btn btn-light" href={contactInfo.whatsapp} target="_blank" rel="noopener">{L.wa}</a>
   </PageHero>
 
-  <section class="offer">
-    <div class="wrap offer-grid">
-      <div data-reveal data-split>
+  <section class="offer soft-band">
+    <div class="wrap">
+      <header class="offer-head" data-reveal data-split>
         <p class="kick">{L.offer}</p>
         <h2 class="display">{p.offre.h2}</h2>
         <p class="lead">{p.offre.body}</p>
-      </div>
-      <div data-reveal>
-        <FactTable rows={p.offre.rows} />
-      </div>
+      </header>
+
+      <dl class="offer-cards" data-reveal>
+        {highlightRows.map(([k, v], i) => (
+          <div>
+            <span class="offer-card-icon" aria-hidden="true">
+              <Icon name={highlightIcons[i] ?? 'store'} size="1.4rem" />
+            </span>
+            <dt>{k}</dt>
+            <dd>{keep(v)}</dd>
+          </div>
+        ))}
+      </dl>
+
+      {detailRows.length > 0 && (
+        <dl class="offer-details" data-reveal>
+          {detailRows.map(([k, v]) => (
+            <div>
+              <dt>{k}</dt>
+              <dd>{keep(v)}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
     </div>
   </section>
 
@@ -114,7 +139,7 @@ const L =
         referrerpolicy="no-referrer-when-downgrade"
       ></iframe>
     </div>
-    <div class="map-card" data-reveal>
+    <div class="map-card map-panel" data-reveal>
       <p class="kick">{L.map}</p>
       <h2>{L.mapTitle}</h2>
       <a class="btn btn-solid" href={contactInfo.mapsHref} target="_blank" rel="noopener">{L.mapsCta}</a>
@@ -129,15 +154,78 @@ const L =
 <style>
   .offer {
     padding: var(--sec) 0;
-    background: var(--cream);
   }
-  .offer-grid {
+  .offer-head {
+    margin-bottom: clamp(2.25rem, 4.5vw, 3.5rem);
+    max-width: 42rem;
+  }
+  .offer-head .display { margin: 1rem 0 0.25rem; max-width: none; }
+  .offer-cards {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: var(--gap);
-    align-items: start;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.25rem, 3vw, 2rem);
   }
-  .offer .display { margin: 1rem 0 0.25rem; max-width: none; }
+  .offer-cards > div {
+    display: grid;
+    gap: 0.55rem;
+    align-content: start;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+  .offer-card-icon {
+    display: grid;
+    place-items: center;
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 50%;
+    color: var(--gold-text);
+    background: color-mix(in srgb, var(--gold) 16%, transparent);
+  }
+  .offer-cards dt {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-text);
+  }
+  .offer-cards dd {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .offer-details {
+    margin-top: clamp(1.75rem, 3.5vw, 2.5rem);
+    border-top: 1px solid var(--line);
+  }
+  .offer-details > div {
+    display: grid;
+    grid-template-columns: minmax(8rem, 0.7fr) 1.3fr;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .offer-details dt {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold-text);
+    padding-top: 0.2rem;
+  }
+  .offer-details dd {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
 
   .reasons {
     background: var(--ink);
@@ -168,7 +256,7 @@ const L =
   }
   .reason h3 {
     font-family: var(--display);
-    font-weight: 600;
+    font-weight: 500;
     font-size: clamp(1.25rem, 1.8vw, 1.5rem);
     line-height: 1.2;
   }
@@ -202,26 +290,11 @@ const L =
     inset-inline-start: max(var(--pad), calc((100% - var(--wrap)) / 2));
     bottom: clamp(2rem, 4vw, 3rem);
     width: min(26rem, calc(100% - 2 * var(--pad)));
-    padding: clamp(1.5rem, 3vw, 2.25rem);
-    background: var(--paper);
-    display: grid;
-    gap: 0.85rem;
-    border-radius: 16px;
-    border: 1px solid color-mix(in srgb, var(--gold-text) 22%, transparent);
-    box-shadow:
-      0 22px 48px rgb(0 0 0 / 0.28),
-      0 2px 8px rgb(0 0 0 / 0.08);
   }
-  .map-card h2 {
-    font-family: var(--display);
-    font-weight: 600;
-    font-size: clamp(1.6rem, 2.6vw, 2.2rem);
-    line-height: 1.1;
-  }
-  .map-card .btn { justify-self: start; margin-top: 0.5rem; }
 
   @media (max-width: 900px) {
-    .offer-grid { grid-template-columns: 1fr; }
+    .offer-cards { grid-template-columns: 1fr; }
+    .offer-details > div { grid-template-columns: 1fr; gap: 0.3rem; }
     .reasons-grid { grid-template-columns: 1fr; }
     .map-frame { height: min(60svh, 32rem); }
     .map-card { position: relative; inset: auto; width: auto; }

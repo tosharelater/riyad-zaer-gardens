@@ -1,92 +1,100 @@
 ---
 import { getHome } from '../data/content';
-import { localePath, type Locale } from '../i18n/paths';
+import type { Locale } from '../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { finishes } = getHome(locale);
 ---
 <section class="finishes" id="finitions">
-  <div class="finishes-stage">
-    <div class="finishes-copy wrap">
+  <div class="wrap finishes-grid">
+    <figure class="finishes-media" data-reveal>
+      <img src="/photos/cuisine-detail.jpg" alt="Finitions soignées" loading="lazy" decoding="async" />
+    </figure>
+
+    <div class="finishes-copy">
       <header data-reveal data-split>
-        <p class="kick">Finitions</p>
+        <p class="kick">{locale === 'ar' ? 'التشطيبات' : 'Finitions'}</p>
         <h2 class="display">{finishes.h2}</h2>
       </header>
-      <div data-reveal>
+      <div class="finishes-text" data-reveal>
         <p class="lead">{finishes.p1}</p>
         <p class="lead">{finishes.p2}</p>
       </div>
-      <ul class="finishes-points" data-reveal>
-        {finishes.points.map((p) => (
+      <ol class="finishes-points" data-reveal>
+        {finishes.points.map((p, i) => (
           <li>
+            <span class="finishes-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             <strong>{p.title}</strong>
             <span>{p.body}</span>
           </li>
         ))}
-      </ul>
+      </ol>
     </div>
-    <figure class="finishes-media" data-media data-reveal>
-      <img src={finishes.img} alt="Finitions soignées" loading="lazy" />
-    </figure>
   </div>
 </section>
+
 <style>
-  .finishes { background: var(--bg); }
-  .finishes-stage {
+  .finishes {
+    padding: var(--sec) 0;
+    background: var(--paper);
+  }
+  .finishes-grid {
     display: grid;
-    grid-template-columns: 0.95fr 1.05fr;
-    min-height: min(80svh, 46rem);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
   }
-  .finishes-copy {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1.75rem;
-    padding-block: clamp(3rem, 7vw, 5rem);
-    width: 100%;
-    max-width: none;
-    padding-inline: clamp(1.5rem, 5vw, 4rem);
-  }
-  .finishes-copy .display { max-width: none; }
-  .finishes-copy .lead:first-child { margin-top: 0; }
-  .finishes-copy .lead + .lead { margin-top: 0.85rem; }
-  .finishes-points {
-    display: grid;
-    gap: 0;
-    border-top: 1px solid var(--line);
-    max-width: 28rem;
-  }
-  .finishes-points li {
-    padding: 1.15rem 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .finishes-points strong {
-    display: block;
-    font-size: 1.1rem;
-    font-weight: 500;
-    margin-bottom: 0.3rem;
-  }
-  .finishes-points span { color: var(--muted); line-height: 1.55; }
   .finishes-media {
     margin: 0;
-    height: 100%;
-    min-height: 28rem;
-  }
-  .finishes-media img {
+    aspect-ratio: 4 / 5;
+    max-height: 36rem;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    overflow: hidden;
+    border-radius: clamp(6rem, 16vw, 12rem) 0 0 0;
   }
-  @media (max-width: 960px) {
-    .finishes-stage { grid-template-columns: 1fr; }
+  .finishes-media img { width: 100%; height: 100%; object-fit: cover; }
+  .finishes-copy { display: grid; gap: 1.1rem; max-width: 36rem; }
+  .finishes-copy .kick { margin: 0; }
+  .finishes-copy .display {
+    margin: 0.5rem 0 0;
+    max-width: none;
+    font-size: clamp(2rem, 3.8vw, 3rem);
+  }
+  .finishes-text { display: grid; gap: 0.7rem; }
+  .finishes-text .lead { margin: 0; font-size: 1rem; }
+  .finishes-points {
+    list-style: none;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+  .finishes-points li {
+    display: grid;
+    gap: 0.3rem;
+    align-content: start;
+    padding: 1.1rem;
+    border-radius: var(--radius);
+    background: var(--cream);
+  }
+  .finishes-idx {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    line-height: 1;
+    color: var(--gold-text);
+  }
+  .finishes-points strong { font-weight: 600; font-size: 0.95rem; }
+  .finishes-points li > span:last-child { font-size: 0.875rem; color: var(--muted); line-height: 1.45; }
+
+  @media (max-width: 900px) {
+    .finishes-grid { grid-template-columns: 1fr; }
     .finishes-media {
-      min-height: 0;
-      aspect-ratio: 16 / 10;
-      order: -1;
+      aspect-ratio: 16 / 11;
+      max-height: none;
+      border-radius: var(--radius) var(--radius) 0 0;
     }
-    .finishes-copy {
-      padding-inline: var(--pad);
-      width: min(var(--wrap), calc(100% - 2 * var(--pad)));
-      margin-inline: auto;
-    }
+    .finishes-copy { max-width: none; }
+    .finishes-points { grid-template-columns: 1fr; }
+    .finishes-copy .display { font-size: clamp(1.75rem, 7vw, 2.4rem); }
   }
 </style>

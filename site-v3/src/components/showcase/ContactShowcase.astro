@@ -164,10 +164,11 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.hr
     align-items: start;
   }
   .form-panel {
-    padding: clamp(1.85rem, 3.8vw, 2.85rem);
+    padding: clamp(1.5rem, 3vw, 2.25rem);
     background: var(--paper);
     border-radius: var(--radius);
-    box-shadow: 0 1px 0 rgb(0 45 45 / 0.04), 0 18px 44px rgb(0 45 45 / 0.08);
+    border: 1px solid var(--line);
+    box-shadow: none;
   }
   .form-panel .display {
     margin: 1rem 0 clamp(2rem, 4vw, 3rem);

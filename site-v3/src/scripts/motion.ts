@@ -155,52 +155,19 @@ function proofScene() {
   if (!section || !items.length) return;
 
   items.forEach((item, i) => {
-    const mark = item.querySelector<HTMLElement>('.proof-mark');
-    const text = item.querySelector<HTMLElement>('p');
-
     gsap.fromTo(
       item,
-      { autoAlpha: 0, y: 32 },
+      { autoAlpha: 0, y: 20 },
       {
         autoAlpha: 1,
         y: 0,
-        duration: 0.95,
-        delay: i * 0.12,
+        duration: 0.85,
+        delay: i * 0.08,
         ease: 'power3.out',
         clearProps: 'transform',
-        scrollTrigger: { trigger: section, start: 'top 85%', once: true },
+        scrollTrigger: { trigger: section, start: 'top 88%', once: true },
       },
     );
-
-    if (mark) {
-      gsap.fromTo(
-        mark,
-        { scaleX: 0 },
-        {
-          scaleX: 1,
-          duration: 0.7,
-          delay: 0.15 + i * 0.12,
-          ease: 'power2.out',
-          scrollTrigger: { trigger: section, start: 'top 85%', once: true },
-        },
-      );
-    }
-
-    if (text) {
-      gsap.fromTo(
-        text,
-        { autoAlpha: 0, y: 14 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.85,
-          delay: 0.22 + i * 0.12,
-          ease: 'power3.out',
-          clearProps: 'transform',
-          scrollTrigger: { trigger: section, start: 'top 85%', once: true },
-        },
-      );
-    }
   });
 }
 
@@ -212,19 +179,14 @@ function figuresScene() {
   items.forEach((item, i) => {
     const count = item.querySelector<HTMLElement>('[data-count]');
     const val = item.querySelector<HTMLElement>('[data-count-val]');
-    const label = item.querySelector<HTMLElement>('.fig-label');
-    const rule = item.querySelector<HTMLElement>('.fig-rule');
     const to = Number(count?.dataset.to || val?.textContent || '0');
     if (count) count.dataset.to = String(to);
 
     gsap.from(item, {
-      y: 64,
-      x: 28,
-      rotate: 2.5,
-      scale: 0.94,
+      y: 28,
       opacity: 0,
-      duration: 1.15,
-      delay: i * 0.16,
+      duration: 0.95,
+      delay: i * 0.1,
       ease: 'power3.out',
       clearProps: 'transform,opacity',
       immediateRender: false,
@@ -232,35 +194,8 @@ function figuresScene() {
         trigger: board,
         start: 'top 85%',
         once: true,
-        onEnter: () => {
-          window.setTimeout(() => item.classList.add('is-in'), 180 + i * 160);
-        },
       },
     });
-
-    if (rule) {
-      gsap.from(rule, {
-        scaleX: 0,
-        duration: 0.8,
-        delay: 0.4 + i * 0.16,
-        ease: 'power2.out',
-        immediateRender: false,
-        scrollTrigger: { trigger: board, start: 'top 85%', once: true },
-      });
-    }
-
-    if (label) {
-      gsap.from(label, {
-        y: 14,
-        opacity: 0,
-        duration: 0.85,
-        delay: 0.36 + i * 0.16,
-        ease: 'power3.out',
-        clearProps: 'transform,opacity',
-        immediateRender: false,
-        scrollTrigger: { trigger: board, start: 'top 85%', once: true },
-      });
-    }
 
     if (!val || !to) return;
     const obj = { v: 0 };

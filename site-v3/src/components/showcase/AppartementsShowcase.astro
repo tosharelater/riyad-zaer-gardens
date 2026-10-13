@@ -65,7 +65,7 @@ const figures = 'figures' in p ? p.figures : null;
   </PageHero>
 
   {figures && (
-    <section class="figures">
+    <section class="figures soft-band">
       <div class="wrap figures-grid">
         {figures.map((f) => (
           <div class="figure" data-reveal>
@@ -174,7 +174,7 @@ const figures = 'figures' in p ? p.figures : null;
         referrerpolicy="no-referrer-when-downgrade"
       ></iframe>
     </div>
-    <div class="map-card" data-reveal>
+    <div class="map-card map-panel" data-reveal>
       <p class="kick">{L.map}</p>
       <h2>{L.mapTitle}</h2>
       <a class="btn btn-solid" href={contactInfo.mapsHref} target="_blank" rel="noopener">{L.mapsCta}</a>
@@ -189,9 +189,6 @@ const figures = 'figures' in p ? p.figures : null;
 <style>
   .figures {
     padding: clamp(2.75rem, 5.5vw, 4.5rem) 0;
-    background:
-      radial-gradient(50% 60% at 90% 20%, rgb(200 181 104 / 0.18), transparent 55%),
-      linear-gradient(160deg, #faf6ec 0%, var(--cream) 55%, #f3ead8 100%);
   }
   .figures-grid {
     display: grid;
@@ -203,17 +200,15 @@ const figures = 'figures' in p ? p.figures : null;
     gap: 0.65rem;
     justify-items: start;
     align-content: start;
-    padding: 1.35rem 1.4rem 1.4rem;
-    background: var(--paper);
-    border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
-    border-radius: 16px;
-    box-shadow:
-      0 18px 40px rgb(45 35 15 / 0.08),
-      0 2px 8px rgb(45 35 15 / 0.04);
+    padding: 0.35rem 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
   }
   .figure strong {
     font-family: var(--display);
-    font-weight: 600;
+    font-weight: 300;
     font-size: clamp(1.75rem, 3vw, 2.4rem);
     line-height: 1;
     letter-spacing: -0.03em;
@@ -268,7 +263,7 @@ const figures = 'figures' in p ? p.figures : null;
   }
   .type-body h3 {
     font-family: var(--display);
-    font-weight: 600;
+    font-weight: 500;
     font-size: clamp(1.5rem, 2.4vw, 2rem);
     line-height: 1.1;
   }
@@ -331,9 +326,12 @@ const figures = 'figures' in p ? p.figures : null;
 
   .prix {
     padding: var(--sec) 0;
-    background: var(--cream);
-    color: var(--ink);
+    background: var(--ink);
+    color: var(--cream);
   }
+  .prix .kick { color: var(--gold-soft); }
+  .prix .display { color: var(--cream); }
+  .prix .lead { color: var(--muted-on-dark); }
   .prix-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -342,57 +340,59 @@ const figures = 'figures' in p ? p.figures : null;
   }
   .prix .display { margin: 1rem 0 0.25rem; max-width: none; }
   .prix .lead + .lead { margin-top: 0.75rem; }
-  .prix .btn { margin-top: 2rem; }
+  .prix .btn { margin-top: 2rem; background: var(--gold); color: var(--ink); }
+  .prix .btn:hover { background: var(--gold-soft); }
   .prix-ticket {
     display: grid;
-    gap: clamp(1.25rem, 2.5vw, 1.75rem);
-    padding: clamp(1.5rem, 3vw, 2rem);
-    background: var(--paper);
-    border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
-    border-radius: 16px;
-    box-shadow:
-      0 18px 40px rgb(45 35 15 / 0.08),
-      0 2px 8px rgb(45 35 15 / 0.04);
+    gap: 1rem;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
   }
   .prix-ticket > div {
-    padding: 0;
+    display: grid;
+    gap: 0.35rem;
+    justify-items: start;
+    padding: clamp(1.25rem, 3vw, 1.75rem) 1.25rem;
+    border-radius: var(--radius);
     position: relative;
   }
-  .prix-ticket > div::before {
-    content: '';
-    position: absolute;
-    top: -0.15rem;
-    inset-inline-start: 0;
-    width: 2rem;
-    height: 1.5px;
-    background: var(--gold-text);
+  .prix-ticket > div::before { display: none; }
+  .prix-ticket .is-before {
+    background: rgb(246 240 228 / 0.08);
+    color: var(--cream);
   }
-  .prix-ticket > div:first-child::before { display: none; }
+  .prix-ticket .is-aid {
+    background: var(--gold);
+    color: var(--ink);
+  }
   .prix-ticket span {
     display: block;
-    font-size: 0.875rem;
+    font-size: 0.72rem;
     font-weight: 600;
-    letter-spacing: -0.005em;
-    color: var(--gold-text);
-    margin-bottom: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
   }
+  .prix-ticket .is-before span { color: var(--gold-soft); }
+  .prix-ticket .is-aid span { color: var(--ink); opacity: 0.75; }
   .prix-ticket strong {
     display: block;
     font-family: var(--display);
-    font-weight: 600;
+    font-weight: 300;
     font-variant-numeric: tabular-nums;
-    line-height: 1.05;
+    line-height: 1.1;
   }
   .prix-ticket .is-before strong {
-    font-size: clamp(1.3rem, 2vw, 1.6rem);
-    color: color-mix(in srgb, var(--ink) 45%, transparent);
+    font-size: clamp(1.35rem, 2.2vw, 1.7rem);
     text-decoration: line-through;
     text-decoration-thickness: 1px;
+    opacity: 0.85;
   }
-  .prix-ticket .is-aid span { color: var(--gold-text); }
   .prix-ticket .is-aid strong {
-    font-size: clamp(2.2rem, 4.2vw, 3.6rem);
-    color: var(--ink);
+    font-size: clamp(1.85rem, 3.6vw, 2.75rem);
   }
 
   .map {
@@ -415,23 +415,7 @@ const figures = 'figures' in p ? p.figures : null;
     inset-inline-start: max(var(--pad), calc((100% - var(--wrap)) / 2));
     bottom: clamp(2rem, 4vw, 3rem);
     width: min(26rem, calc(100% - 2 * var(--pad)));
-    padding: clamp(1.5rem, 3vw, 2.25rem);
-    background: var(--paper);
-    display: grid;
-    gap: 0.85rem;
-    border-radius: 16px;
-    border: 1px solid color-mix(in srgb, var(--gold-text) 22%, transparent);
-    box-shadow:
-      0 22px 48px rgb(0 0 0 / 0.28),
-      0 2px 8px rgb(0 0 0 / 0.08);
   }
-  .map-card h2 {
-    font-family: var(--display);
-    font-weight: 600;
-    font-size: clamp(1.6rem, 2.6vw, 2.2rem);
-    line-height: 1.1;
-  }
-  .map-card .btn { justify-self: start; margin-top: 0.5rem; }
 
   @media (max-width: 900px) {
     .figures-grid { grid-template-columns: 1fr 1fr; }

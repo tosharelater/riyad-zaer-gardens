@@ -1,236 +1,197 @@
 ---
 import { getHome } from '../data/content';
+import { media } from '../data/media';
 import type { Locale } from '../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { figures } = getHome(locale);
 ---
 <section class="fig" id="chiffres" data-figures-board>
   <div class="wrap fig-shell">
-    <header class="fig-copy" data-reveal data-split>
-      <p class="kick">{locale === 'ar' ? 'المرحلة الأولى' : 'Tranche 1'}</p>
-      <h2 class="display">{figures.h2}</h2>
-      <span class="fig-title-rule" aria-hidden="true"></span>
-      <p class="lead">{figures.lead}</p>
-    </header>
+    <figure class="fig-media" data-reveal>
+      <img src={media.day.src} alt={media.day.alt} loading="lazy" decoding="async" />
+    </figure>
 
-    <div class="fig-stack">
-      {figures.items.map((f, i) => (
-        <article class="fig-card" data-figures-item style={`--i: ${i}`}>
-          <p class="fig-n" data-count data-to={f.n}>
-            <span data-count-val>{f.n}</span>
-          </p>
-          <div class="fig-meta">
+    <div class="fig-copy" data-reveal data-split>
+      <p class="kick">{locale === 'ar' ? 'المرحلة الأولى' : 'La première tranche'}</p>
+      <h2 class="display">{figures.h2}</h2>
+      <span class="fig-rule" aria-hidden="true"></span>
+      <p class="lead">{figures.lead}</p>
+
+      <div class="fig-stats" role="list">
+        {figures.items.map((f, i) => (
+          <div class="fig-stat" role="listitem" data-figures-item style={`--i: ${i}`}>
+            <p class="fig-n" data-count data-to={f.n}>
+              <span data-count-val>{f.n}</span>
+            </p>
             <span class="fig-label">{f.label}</span>
-            <span class="fig-rule" aria-hidden="true"></span>
           </div>
-        </article>
-      ))}
+        ))}
+      </div>
     </div>
   </div>
 </section>
 
-<style is:global>
-  #chiffres.fig {
+<style>
+  .fig {
     position: relative;
     z-index: 1;
-    padding: clamp(2.25rem, 4.5vw, 3.25rem) 0 var(--sec);
-    overflow: visible;
+    padding: clamp(3.5rem, 7vw, 6rem) 0;
     color: var(--ink);
-    background: transparent;
+    background: var(--cream);
   }
 
-  #chiffres .fig-shell {
-    position: relative;
-    z-index: 1;
-    display: grid !important;
-    grid-template-columns: minmax(0, 1.05fr) minmax(19rem, 0.95fr);
+  .fig-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.95fr);
     gap: clamp(2rem, 5vw, 4.5rem);
     align-items: center;
   }
 
-  #chiffres .fig-copy {
-    display: grid;
-    gap: 0.75rem;
-    max-width: 34rem;
-  }
-  #chiffres .fig-copy .kick {
-    margin: 0;
-    color: var(--gold-text);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-size: 0.8125rem;
-    font-weight: 600;
-  }
-  #chiffres .fig-copy .display {
-    margin: 0;
-    color: var(--ink);
-    font-size: clamp(2.1rem, 4.4vw, 3.35rem);
-  }
-  #chiffres .fig-title-rule {
-    display: block;
-    width: 2.75rem;
-    height: 1.5px;
-    background: var(--gold-text);
-  }
-  #chiffres .fig-copy .lead {
-    margin: 0.15rem 0 0;
-    max-width: 32rem;
-    color: var(--muted);
-    line-height: 1.55;
-  }
-
-  #chiffres .fig-stack {
-    display: grid;
-    gap: 0;
-    justify-items: end;
-    width: 100%;
-    padding-block: 0.25rem;
-  }
-
-  #chiffres .fig-card {
+  .fig-media {
     position: relative;
-    box-sizing: border-box;
-    width: min(100%, 21rem);
-    display: grid;
-    gap: 0.7rem;
-    padding: 1.45rem 1.6rem 1.35rem;
-    background: rgb(255 253 248 / 0.55);
-    border: 1px solid rgb(255 255 255 / 0.7);
-    border-radius: 16px;
-    -webkit-backdrop-filter: blur(18px) saturate(150%);
-    backdrop-filter: blur(18px) saturate(150%);
-    box-shadow:
-      0 20px 44px rgb(0 45 45 / 0.1),
-      0 2px 8px rgb(0 45 45 / 0.04),
-      inset 0 1px 0 rgb(255 255 255 / 0.85);
+    margin: 0;
+    aspect-ratio: 4 / 3;
     overflow: hidden;
-    transition:
-      transform 0.55s var(--ease),
-      box-shadow 0.55s var(--ease),
-      border-color 0.55s var(--ease);
-    will-change: transform;
+    border-radius: 0 0 0 clamp(2rem, 5vw, 3.5rem);
   }
-  #chiffres .fig-card::before {
+  .fig-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    display: block;
+  }
+  /* Soft fade into cream — matches the reference composition */
+  .fig-media::after {
     content: '';
     position: absolute;
     inset: 0;
-    pointer-events: none;
     background: linear-gradient(
-      115deg,
-      transparent 35%,
-      rgb(255 255 255 / 0.55) 48%,
-      transparent 62%
+      to right,
+      transparent 48%,
+      color-mix(in srgb, var(--cream) 40%, transparent) 70%,
+      color-mix(in srgb, var(--cream) 88%, transparent) 88%,
+      var(--cream)
     );
-    transform: translateX(-130%);
-    opacity: 0;
-  }
-  #chiffres .fig-card.is-in::before {
-    animation: fig-shine 1.15s var(--ease) both;
-  }
-  @keyframes fig-shine {
-    from { transform: translateX(-130%); opacity: 0; }
-    30% { opacity: 0.9; }
-    to { transform: translateX(130%); opacity: 0; }
-  }
-  #chiffres .fig-card:hover {
-    transform: translateY(-6px) scale(1.015);
-    border-color: color-mix(in srgb, var(--gold) 45%, white);
-    box-shadow:
-      0 28px 50px rgb(0 45 45 / 0.14),
-      0 4px 14px rgb(200 181 104 / 0.18),
-      inset 0 1px 0 rgb(255 255 255 / 0.9);
-  }
-  /* Diagonal: top furthest right → bottom steps left */
-  #chiffres .fig-card:nth-child(1) {
-    width: min(100%, 17rem);
-    margin-inline-end: 0;
-    z-index: 3;
-  }
-  #chiffres .fig-card:nth-child(2) {
-    width: min(100%, 19.5rem);
-    margin-top: -0.55rem;
-    margin-inline-end: clamp(1.5rem, 5vw, 3.25rem);
-    z-index: 2;
-  }
-  #chiffres .fig-card:nth-child(3) {
-    width: min(100%, 22rem);
-    margin-top: -0.55rem;
-    margin-inline-end: clamp(3rem, 10vw, 6.5rem);
-    z-index: 1;
+    pointer-events: none;
   }
 
-  #chiffres .fig-n {
+  .fig-copy {
+    display: grid;
+    gap: 0.85rem;
+    max-width: 34rem;
+    justify-items: start;
+  }
+  .fig-copy .kick {
     margin: 0;
-    font-family: var(--display);
-    font-weight: 600;
-    font-size: clamp(3.5rem, 7vw, 5.25rem);
-    line-height: 0.88;
-    letter-spacing: -0.055em;
-    font-variant-numeric: tabular-nums;
-    color: var(--ink);
-  }
-  #chiffres .fig-n [data-count-val] {
-    display: inline-block;
-    transform-origin: left bottom;
-  }
-
-  #chiffres .fig-meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.65rem 0.9rem;
-  }
-  #chiffres .fig-label {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
     color: var(--gold-text);
   }
-  #chiffres .fig-rule {
+  .fig-copy .display {
+    margin: 0;
+    color: var(--ink);
+    font-size: clamp(2rem, 3.6vw, 2.9rem);
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    max-width: 14ch;
+  }
+  .fig-rule {
     display: block;
-    width: 2.5rem;
+    width: 2.75rem;
     height: 1.5px;
-    background: var(--gold-text);
-    transform-origin: left center;
-    opacity: 0.9;
+    margin: 0.15rem 0 0.35rem;
+    background: var(--gold);
+  }
+  .fig-copy .lead {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.7;
+    font-size: clamp(0.98rem, 1.15vw, 1.08rem);
+    max-width: 36rem;
   }
 
-  @media (max-width: 800px) {
-    #chiffres .fig-shell {
+  .fig-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    margin-top: 1.35rem;
+    padding: clamp(1.35rem, 2.8vw, 1.9rem) clamp(1rem, 2.5vw, 1.75rem);
+    border-radius: var(--radius);
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .fig-stat {
+    display: grid;
+    gap: 0.45rem;
+    justify-items: start;
+    align-content: start;
+    padding-inline: clamp(0.65rem, 1.5vw, 1.15rem);
+  }
+  .fig-stat + .fig-stat {
+    border-inline-start: 1px solid var(--gold);
+  }
+  .fig-n {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(2.6rem, 4.4vw, 3.75rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--cream);
+  }
+  .fig-n [data-count-val] { display: inline-block; }
+  .fig-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+  }
+
+  @media (max-width: 900px) {
+    .fig-shell {
       grid-template-columns: 1fr;
-      gap: 2.5rem;
+      gap: 2rem;
     }
-    #chiffres .fig-stack {
-      justify-items: stretch;
-      max-width: 26rem;
+    .fig-media {
+      aspect-ratio: 16 / 11;
+      border-radius: 0 0 0 2.25rem;
     }
-    #chiffres .fig-card,
-    #chiffres .fig-card:nth-child(1),
-    #chiffres .fig-card:nth-child(2),
-    #chiffres .fig-card:nth-child(3) {
-      width: 100%;
-      margin-inline-end: 0;
-      margin-top: 0;
+    .fig-media::after {
+      background: linear-gradient(
+        to bottom,
+        transparent 62%,
+        color-mix(in srgb, var(--cream) 50%, transparent) 82%,
+        var(--cream)
+      );
     }
-    #chiffres .fig-stack {
-      gap: 0.85rem;
+    .fig-copy {
+      max-width: none;
+    }
+    .fig-copy .display {
+      max-width: none;
+      font-size: clamp(1.7rem, 7vw, 2.35rem);
     }
   }
 
-  @media (prefers-reduced-transparency: reduce) {
-    #chiffres .fig-card {
-      background: var(--paper);
-      -webkit-backdrop-filter: none;
-      backdrop-filter: none;
+  @media (max-width: 700px) {
+    .fig-stats {
+      grid-template-columns: 1fr;
+      gap: 1.1rem;
+      padding: 1.35rem 1.25rem;
     }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    #chiffres .fig-card::before { display: none; }
-    #chiffres .fig-card,
-    #chiffres .fig-card:hover {
-      transition: none;
-      transform: none;
+    .fig-stat {
+      padding-inline: 0;
+    }
+    .fig-stat + .fig-stat {
+      border-inline-start: 0;
+      border-top: 1px solid color-mix(in srgb, var(--gold) 45%, transparent);
+      padding-top: 1.1rem;
+    }
+    .fig-n { font-size: clamp(2.35rem, 10vw, 3rem); }
+    .fig-label {
+      letter-spacing: 0.1em;
+      font-size: 0.75rem;
     }
   }
 </style>

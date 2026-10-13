@@ -3,101 +3,141 @@ import { getHome } from '../data/content';
 import { localePath, type Locale } from '../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { apartments } = getHome(locale);
+const ctaHref = apartments.cta.href.startsWith('/')
+  ? localePath(locale, apartments.cta.href)
+  : apartments.cta.href;
 ---
 <section class="homes" id="appartements">
   <div class="wrap homes-grid">
     <div class="homes-block" data-reveal data-split>
-      <p class="kick">{locale === 'ar' ? 'الشقق' : 'Appartements'}</p>
+      <p class="kick">
+        <span>{locale === 'ar' ? 'الشقق' : 'Appartements'}</span>
+        <span class="kick-rule" aria-hidden="true"></span>
+      </p>
       <h2 class="display">{apartments.h2}</h2>
       <p class="lead">{apartments.p1}</p>
-
-      <p class="homes-types">{apartments.types.join(' · ')}</p>
       <p class="homes-note">{apartments.p2}</p>
-
-      <div class="homes-price">
-        <strong>{apartments.price}</strong>
-        <span>{apartments.priceAid}</span>
-      </div>
-
-      <a class="btn btn-ghost" href={apartments.cta.href.startsWith('/') ? localePath(locale, apartments.cta.href) : apartments.cta.href}>{apartments.cta.label}</a>
+      <a class="btn btn-solid" href={ctaHref}>
+        {apartments.cta.label}
+        <span aria-hidden="true">→</span>
+      </a>
     </div>
-    <figure class="homes-media" data-media data-reveal>
-      <img src={apartments.img} alt="" loading="lazy" decoding="async" />
-    </figure>
+
+    <div class="homes-collage" data-reveal>
+      <figure class="homes-main">
+        <img src="/photos/salon.jpg" alt="" loading="lazy" decoding="async" />
+      </figure>
+      <figure class="homes-side">
+        <img src="/photos/chambre.jpg" alt="" loading="lazy" decoding="async" />
+      </figure>
+      <figure class="homes-side">
+        <img src="/photos/cuisine.jpg" alt="" loading="lazy" decoding="async" />
+      </figure>
+    </div>
   </div>
 </section>
+
 <style>
   .homes {
-    background: var(--alt);
     padding: var(--sec) 0;
+    background: var(--paper);
   }
   .homes-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: var(--gap);
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr);
+    gap: clamp(2rem, 5vw, 4rem);
     align-items: center;
   }
-  .homes .kick { margin: 0; }
-  .homes .display {
-    margin: 0.65rem 0 0;
-    max-width: none;
+  .homes-block {
+    display: grid;
+    gap: 0.95rem;
+    max-width: 32rem;
   }
-  .homes .lead { margin-top: 0.85rem; }
-  .homes-types {
-    margin-top: 1.5rem;
-    font-family: var(--display);
+  .homes .kick {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.76rem;
     font-weight: 600;
-    font-size: clamp(1.25rem, 2vw, 1.55rem);
-    line-height: 1.2;
-    color: var(--ink);
   }
+  .homes .kick-rule {
+    display: block;
+    width: 2.5rem;
+    height: 1.5px;
+    background: var(--gold-text);
+  }
+  .homes .display {
+    margin: 0;
+    max-width: none;
+    font-size: clamp(2rem, 3.5vw, 2.75rem);
+  }
+  .homes .lead { margin: 0; }
   .homes-note {
-    margin-top: 0.65rem;
+    margin: 0;
     color: var(--muted);
     font-size: 1rem;
     line-height: 1.65;
-    max-width: 32rem;
-  }
-  .homes-price {
-    display: grid;
-    gap: 0.3rem;
-    margin-top: 1.35rem;
-  }
-  .homes-price strong {
-    font-family: var(--display);
-    font-weight: 600;
-    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
-    line-height: 1.1;
-    color: var(--canopy);
-  }
-  .homes-price span {
-    font-size: 0.92rem;
-    color: var(--muted);
   }
   .homes .btn {
-    margin-top: 1.35rem;
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-top: 0.5rem;
   }
-  .homes-media {
+
+  .homes-collage {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.85fr);
+    grid-template-rows: 1fr 1fr;
+    gap: 0.85rem;
+    min-height: clamp(22rem, 42vw, 30rem);
+  }
+  .homes-main {
+    grid-row: 1 / -1;
     margin: 0;
-    aspect-ratio: 4 / 5;
     overflow: hidden;
-    position: relative;
-    isolation: isolate;
+    height: 100%;
   }
-  .homes-media img {
+  .homes-side {
+    margin: 0;
+    overflow: hidden;
+    height: 100%;
+  }
+  .homes-collage img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.8s var(--ease);
+    display: block;
   }
-  .homes:hover .homes-media img {
-    transform: scale(1.02);
-  }
+
   @media (max-width: 900px) {
-    .homes-grid { grid-template-columns: 1fr; }
-    .homes-media {
+    .homes-grid {
+      grid-template-columns: 1fr;
+    }
+    .homes-block {
+      max-width: none;
+    }
+    .homes-block .display { font-size: clamp(1.7rem, 7vw, 2.4rem); }
+    .homes-collage {
+      min-height: 20rem;
       order: -1;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .homes-collage {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      min-height: 0;
+    }
+    .homes-main {
+      grid-column: 1 / -1;
+      grid-row: auto;
       aspect-ratio: 16 / 10;
+    }
+    .homes-side {
+      aspect-ratio: 4 / 3;
     }
   }
 </style>

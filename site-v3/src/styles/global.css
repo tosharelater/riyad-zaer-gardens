@@ -34,16 +34,24 @@
   --font: 'Poppins', 'Noto Sans Arabic', system-ui, sans-serif;
   --display: 'Poppins', 'Noto Sans Arabic', system-ui, sans-serif;
   --audrey: 'RZ Audrey', Georgia, 'Times New Roman', serif;
+  --serif: 'Poppins', 'Noto Sans Arabic', system-ui, sans-serif;
   --wrap: 1180px;
   --pad: clamp(1.25rem, 4vw, 2.5rem);
   --nav: 4.25rem;
-  --radius: 6px;
-  --radius-sm: 4px;
+  --radius: 14px;
+  --radius-sm: 8px;
   --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
   --ease-io: cubic-bezier(0.42, 0, 0.58, 1);
-  --sec: clamp(5rem, 10vw, 8.5rem);
+  --sec: clamp(3.5rem, 7vw, 6rem);
   --gap: clamp(1.5rem, 3.5vw, 2.75rem);
   --head-gap: clamp(2.25rem, 4.5vw, 3.5rem);
+}
+@media (max-width: 800px) {
+  :root {
+    --sec: clamp(2.75rem, 10vw, 4rem);
+    --pad: clamp(1.1rem, 5vw, 1.5rem);
+    --head-gap: clamp(1.5rem, 5vw, 2.25rem);
+  }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -79,7 +87,7 @@ ul, ol { list-style: none; padding: 0; }
   src: url('/fonts/audrey/Audrey-Normal.otf') format('opentype');
   font-weight: 400;
   font-display: swap;
-  unicode-range: U+0000-009F, U+00A1-0151, U+0154-2012, U+2015-2018, U+201A-202E, U+2030-FFFF;
+  unicode-range: U+0000-009F, U+00A1-00B1, U+00B4-0151, U+0154-2012, U+2015-2018, U+201A-202E, U+2030-FFFF;
 }
 
 .wrap {
@@ -92,34 +100,43 @@ ul, ol { list-style: none; padding: 0; }
 
 /* Buttons — soft corners, sentence case */
 .btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
-  min-height: 2.75rem; padding: 0.65rem 1.4rem;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  min-height: 2.9rem; padding: 0.65rem 1.5rem;
   max-width: 100%;
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
   font-size: 0.9375rem; font-weight: 500; letter-spacing: 0.01em; line-height: 1.2;
   text-transform: none;
   white-space: nowrap;
-  transition: background-color 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.2s var(--ease);
+  box-shadow: 0 2px 10px rgb(0 45 45 / 0.07);
+  transition: background-color 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.2s var(--ease), box-shadow 0.25s var(--ease);
+}
+@media (max-width: 480px) {
+  .btn {
+    white-space: normal;
+    text-align: center;
+    height: auto;
+    padding-block: 0.75rem;
+    line-height: 1.3;
+  }
 }
 .btn:active { transform: scale(0.98); }
 .btn-solid {
-  background: var(--canopy);
+  background: var(--ink);
   color: var(--paper);
 }
-.btn-solid:hover { background: var(--canopy-hover); }
-/* On photos and deep-green surfaces the primary action turns champagne */
+.btn-solid:hover { background: var(--canopy-hover); box-shadow: 0 8px 24px rgb(0 45 45 / 0.18); }/* On photos and deep-green surfaces the primary action turns champagne */
 :where(.hero, .ph:not(.is-plain), .tone-dark, .tone-canopy, .reasons, .ways, .inclus, .amenity,
-  .band-convert:has(.band-bg), .projet-scene, .foot, .top:not(.is-solid)) .btn-solid {
+  .prix, .map, .band-convert:has(.band-bg), .projet-scene, .foot, .top:not(.is-solid)) :is(.btn-solid, .top-cta) {
   background: var(--gold);
   color: var(--ink);
 }
 :where(.hero, .ph:not(.is-plain), .tone-dark, .tone-canopy, .reasons, .ways, .inclus, .amenity,
-  .band-convert:has(.band-bg), .projet-scene, .foot, .top:not(.is-solid)) .btn-solid:hover {
+  .prix, .map, .band-convert:has(.band-bg), .projet-scene, .foot, .top:not(.is-solid)) :is(.btn-solid, .top-cta):hover {
   background: var(--gold-soft);
 }
 :where(.hero, .ph:not(.is-plain), .tone-dark, .tone-canopy, .reasons, .ways, .inclus, .amenity,
-  .band-convert:has(.band-bg), .projet-scene, .foot) :focus-visible {
+  .prix, .map, .band-convert:has(.band-bg), .projet-scene, .foot) :focus-visible {
   outline-color: var(--gold-soft);
 }
 .btn-ghost {
@@ -135,31 +152,31 @@ ul, ol { list-style: none; padding: 0; }
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
 }
-.btn-light:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }
-
-/* Eyebrow: small, semibold, colour only — no ornaments */
+.btn-light:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }/* Eyebrow: small, semibold, colour only — no ornaments */
 .kick {
   display: inline-flex; align-items: center; gap: 0.5rem;
   font-family: var(--font);
-  font-size: 0.9375rem; font-weight: 500; letter-spacing: 0.02em; text-transform: none;
+  font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--gold-text);
 }
 
 .display {
-  font-family: var(--display);
-  font-size: clamp(2rem, 4.6vw, 3.5rem);
-  font-weight: 600;
+  font-family: var(--serif);
+  font-size: clamp(1.75rem, 2.6vw, 2.4rem);
+  font-weight: 300;
   letter-spacing: -0.02em;
-  line-height: 1.1;
+  word-spacing: 0;
+  line-height: 1.18;
   text-wrap: balance;
+  color: var(--ink);
 }
 
 .lead {
   margin-top: 1rem;
   max-width: 38rem;
   color: var(--muted);
-  font-size: clamp(1.0625rem, 1.4vw, 1.3125rem);
-  line-height: 1.45;
+  font-size: clamp(1.02rem, 1.3vw, 1.2rem);
+  line-height: 1.5;
   letter-spacing: -0.012em;
   text-wrap: pretty;
 }
@@ -382,4 +399,46 @@ body.is-rtl .hero-brand { font-family: var(--audrey); letter-spacing: -0.03em; }
   background:
     radial-gradient(42% 38% at 92% 52%, rgb(200 181 104 / 0.36), transparent 68%);
   filter: blur(2px);
+}
+
+/* Soft cream band for inner pages (same garden atmosphere as homepage) */
+.soft-band {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(50% 55% at 88% 12%, rgb(200 181 104 / 0.16), transparent 55%),
+    linear-gradient(160deg, #faf6ec 0%, var(--cream) 52%, #f3ead8 100%);
+}
+
+/* Map overlay panel — shared across localisation / appartements / commerce */
+.map-panel {
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  background: color-mix(in srgb, var(--paper) 94%, white);
+  display: grid;
+  gap: 0.85rem;
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in srgb, var(--gold-text) 28%, transparent);
+  box-shadow: 0 18px 40px rgb(0 45 45 / 0.18);
+}
+.map-panel h2 {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.map-panel .btn { justify-self: start; margin-top: 0.5rem; }
+
+/* No decorative rules next to eyebrows */
+.kick-rule { display: none !important; }
+
+.reasons-rule, .reasons-title-rule, .ways-rule, .ways-title-rule { display: none !important; }
+
+/* Mobile nav open: lock scroll and hide sticky action bar */
+html.nav-open,
+body.nav-open {
+  overflow: hidden;
+}
+body.nav-open .mbar {
+  display: none !important;
 }

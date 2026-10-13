@@ -1,9 +1,12 @@
 ---
 import { getHome } from '../data/content';
 import { localePath, type Locale } from '../i18n/paths';
+import Icon from './Icon.astro';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { commerce } = getHome(locale);
+const keep = (t: string) => t.replace(/(\d) (?=\d|DH|m)/g, '$1 ');
 const href = (h: string) => (h.startsWith('/') ? localePath(locale, h) : h);
+const factIcons = ['store', 'ruler', 'badge-percent'] as const;
 ---
 <section class="commerce" id="commerces">
   <div class="wrap commerce-grid">
@@ -14,17 +17,23 @@ const href = (h: string) => (h.startsWith('/') ? localePath(locale, h) : h);
       <p class="lead">{commerce.p2}</p>
 
       <dl class="commerce-facts">
-        {commerce.facts.map(([k, v]) => (
+        {commerce.facts.map(([k, v], i) => (
           <div>
+            <span class="commerce-fact-icon" aria-hidden="true">
+              <Icon name={factIcons[i] ?? 'store'} size="1.35rem" />
+            </span>
             <dt>{k}</dt>
-            <dd>{v}</dd>
+            <dd>{keep(v)}</dd>
           </div>
         ))}
       </dl>
-      <a class="btn btn-ghost" href={href(commerce.cta.href)}>{commerce.cta.label}</a>
+      <a class="btn btn-solid" href={href(commerce.cta.href)}>
+        {commerce.cta.label}
+        <span aria-hidden="true">→</span>
+      </a>
     </div>
 
-    <figure class="commerce-media" data-media data-reveal>
+    <figure class="commerce-media" data-reveal>
       <img src={commerce.img} alt="" loading="lazy" decoding="async" />
     </figure>
   </div>
@@ -33,65 +42,97 @@ const href = (h: string) => (h.startsWith('/') ? localePath(locale, h) : h);
 <style>
   .commerce {
     padding: var(--sec) 0;
-    background: var(--bg);
+    background: var(--cream);
   }
   .commerce-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: var(--gap);
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
     align-items: center;
   }
+  .commerce-copy {
+    display: grid;
+    gap: 0.9rem;
+    max-width: 38rem;
+  }
   .commerce-copy .kick { margin: 0; }
-  .commerce-copy .display { margin: 0.65rem 0 0; max-width: none; }
-  .commerce-copy .lead { margin-top: 0.85rem; }
-  .commerce-copy .lead + .lead { margin-top: 0.75rem; }
+  .commerce-copy .display {
+    margin: 0.35rem 0 0;
+    max-width: none;
+    font-size: clamp(2rem, 3.8vw, 3rem);
+  }
+  .commerce-copy .lead { margin: 0; font-size: 1rem; }
+
   .commerce-facts {
     display: grid;
-    gap: 0;
-    margin: 1.75rem 0 1.5rem;
-    border-top: 1px solid var(--line);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+    margin: 0.85rem 0 0.35rem;
   }
   .commerce-facts > div {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.9rem 0;
-    border-bottom: 1px solid var(--line);
+    position: relative;
+    display: grid;
+    gap: 0.55rem;
+    align-content: start;
+    min-width: 0;
+    padding: 1.2rem 1.1rem 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper);
+    transition: border-color 0.35s var(--ease), transform 0.45s var(--ease);
+  }
+  .commerce-facts > div:hover {
+    border-color: color-mix(in srgb, var(--gold) 55%, var(--line));
+    transform: translateY(-2px);
+  }
+  .commerce-fact-icon {
+    display: grid;
+    place-items: center;
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 999px;
+    color: var(--canopy);
+    background: color-mix(in srgb, var(--canopy) 8%, var(--paper));
   }
   .commerce-facts dt {
-    font-size: 0.875rem;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-    color: var(--muted);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-text);
   }
   .commerce-facts dd {
+    margin: 0;
     font-family: var(--display);
-    font-weight: 600;
-    font-size: 1.05rem;
-    text-align: end;
+    font-weight: 500;
+    font-size: clamp(1.15rem, 1.7vw, 1.45rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
     color: var(--ink);
+    text-wrap: balance;
   }
+  .commerce .btn { justify-self: start; margin-top: 0.35rem; }
   .commerce-media {
     margin: 0;
     aspect-ratio: 4 / 5;
-    overflow: hidden;
-    position: relative;
-    isolation: isolate;
-  }
-  .commerce-media img {
+    max-height: 36rem;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.8s var(--ease);
+    overflow: hidden;
+    border-radius: 0 clamp(6rem, 16vw, 12rem) 0 0;
   }
-  .commerce:hover .commerce-media img {
-    transform: scale(1.02);
-  }
+  .commerce-media img { width: 100%; height: 100%; object-fit: cover; }
+
   @media (max-width: 900px) {
     .commerce-grid { grid-template-columns: 1fr; }
     .commerce-media {
       order: -1;
-      aspect-ratio: 16 / 10;
+      aspect-ratio: 16 / 11;
+      max-height: none;
+      border-radius: var(--radius) var(--radius) 0 0;
     }
+    .commerce-copy { max-width: none; }
+    .commerce-copy .display { font-size: clamp(1.75rem, 7vw, 2.4rem); }
+    .commerce-facts { grid-template-columns: 1fr; }
+    .commerce .btn { justify-self: stretch; }
   }
 </style>
