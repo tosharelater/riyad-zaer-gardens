@@ -16,7 +16,12 @@ const ctaHref = apartments.cta.href.startsWith('/')
       </p>
       <h2 class="display">{apartments.h2}</h2>
       <p class="lead">{apartments.p1}</p>
+      <p class="homes-types">{apartments.types.join(' · ')} · {apartments.range}</p>
       <p class="homes-note">{apartments.p2}</p>
+      <div class="homes-price">
+        <strong>{apartments.price}</strong>
+        <span>{apartments.priceAid}</span>
+      </div>
       <a class="btn btn-solid" href={ctaHref}>
         {apartments.cta.label}
         <span aria-hidden="true">→</span>
@@ -72,11 +77,35 @@ const ctaHref = apartments.cta.href.startsWith('/')
     font-size: clamp(2rem, 3.5vw, 2.75rem);
   }
   .homes .lead { margin: 0; }
+  .homes-types {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--gold-text);
+  }
   .homes-note {
     margin: 0;
     color: var(--muted);
     font-size: 1rem;
     line-height: 1.65;
+  }
+  .homes-price {
+    display: grid;
+    gap: 0.25rem;
+    margin-top: 0.25rem;
+  }
+  .homes-price strong {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .homes-price span {
+    font-size: 0.95rem;
+    color: var(--muted);
   }
   .homes .btn {
     justify-self: start;
