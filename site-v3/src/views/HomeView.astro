@@ -1,7 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroGithub from '../components/HeroGithub.astro';
 import Hero from '../components/Hero.astro';
+import ProofGithub from '../components/ProofGithub.astro';
 import Proof from '../components/Proof.astro';
+import FiguresGithub from '../components/FiguresGithub.astro';
 import Figures from '../components/Figures.astro';
 import Logements from '../components/Logements.astro';
 import Cour from '../components/Cour.astro';
@@ -18,11 +21,43 @@ const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { seo } = getHome(locale);
 ---
 <BaseLayout title={seo.title} description={seo.description} intro solidNav locale={locale}>
+  {/*
+    COMPARE MODE — same écriture, two visuals side-by-side.
+    Tell us which letter to keep for each block (A = GitHub/older, B = current).
+  */}
+  <div class="style-banner" data-style="a">
+    <strong>A — GitHub / older visual</strong>
+    <span>Dark full-bleed hero · night photo · price + 2 CTAs</span>
+  </div>
+  <HeroGithub />
+
+  <div class="style-banner" data-style="b">
+    <strong>B — Current visual</strong>
+    <span>Cream split hero · golden facade · single CTA</span>
+  </div>
   <Hero />
+
+  <div class="style-banner" data-style="a">
+    <strong>A — GitHub Proof</strong>
+    <span>Photo band + cream type on dark veil</span>
+  </div>
+  <ProofGithub />
+
+  <div class="style-banner" data-style="b">
+    <strong>B — Current Proof + Figures band</strong>
+    <span>Light soft band · icons · ink ticket stats</span>
+  </div>
   <div class="home-soft">
     <Proof />
     <Figures />
   </div>
+
+  <div class="style-banner" data-style="a">
+    <strong>A — GitHub Figures</strong>
+    <span>Open type on paper (older layout)</span>
+  </div>
+  <FiguresGithub />
+
   <Cour />
   <Cadre />
   <Logements />
@@ -33,3 +68,31 @@ const { seo } = getHome(locale);
   <Lieu />
   <Contact />
 </BaseLayout>
+
+<style is:global>
+  .style-banner {
+    position: sticky;
+    top: var(--nav);
+    z-index: 40;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 1.25rem;
+    padding: 0.65rem var(--pad);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    border-bottom: 1px solid rgb(0 45 45 / 0.12);
+  }
+  .style-banner[data-style='a'] {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .style-banner[data-style='a'] strong { color: var(--gold-soft); }
+  .style-banner[data-style='b'] {
+    background: var(--cream);
+    color: var(--ink);
+  }
+  .style-banner[data-style='b'] strong { color: var(--gold-text); }
+  .style-banner span { opacity: 0.85; font-weight: 400; }
+</style>
