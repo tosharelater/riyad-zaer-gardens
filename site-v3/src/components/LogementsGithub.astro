@@ -2,22 +2,33 @@
 import { getHome } from '../data/content';
 import { localePath, type Locale } from '../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
-const { apartments } = getHome(locale);
+const { apartments, aid } = getHome(locale);
+const keep = (t: string) => t.replace(/(\d) (?=\d|DH|m)/g, '$1 ');
+const facts: [string, string][] = [
+  [locale === 'ar' ? 'النوع' : 'Typologies', apartments.types.join(' · ')],
+  [locale === 'ar' ? 'المساحة' : 'Surfaces', keep(apartments.range)],
+  [locale === 'ar' ? 'السعر' : 'Prix', keep(apartments.price.charAt(0).toLowerCase() + apartments.price.slice(1))],
+  [locale === 'ar' ? 'مع الدعم' : 'Avec l’aide au logement', keep(aid.withAid)],
+];
 ---
-<section class="homes-gh" id="appartements-a" data-compare="github">
+<section class="homes-gh" id="appartements">
   <div class="wrap homes-gh-grid">
     <div class="homes-gh-block" data-reveal data-split>
       <p class="kick">{locale === 'ar' ? 'الشقق' : 'Appartements'}</p>
       <h2 class="display">{apartments.h2}</h2>
       <p class="lead">{apartments.p1}</p>
 
-      <p class="homes-gh-types">{apartments.types.join(' · ')}</p>
       <p class="homes-gh-note">{apartments.p2}</p>
 
-      <div class="homes-gh-price">
-        <strong>{apartments.price}</strong>
-        <span>{apartments.priceAid}</span>
-      </div>
+      <dl class="facts">
+        {facts.map(([k, v]) => (
+          <div>
+            <dt>{k}</dt>
+            <dd>{v}</dd>
+          </div>
+        ))}
+      </dl>
+
 
       <a class="btn btn-ghost" href={apartments.cta.href.startsWith('/') ? localePath(locale, apartments.cta.href) : apartments.cta.href}>{apartments.cta.label}</a>
     </div>
@@ -28,7 +39,7 @@ const { apartments } = getHome(locale);
 </section>
 <style>
   .homes-gh {
-    background: var(--alt);
+    background: var(--paper);
     padding: var(--sec) 0;
   }
   .homes-gh-grid {
