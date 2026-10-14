@@ -1,28 +1,15 @@
 ---
 /**
- * COMPARE MODE — two FULL homepage stacks (official 01-accueil + home.ts).
- * Same écriture. A = GitHub visuals where they differ. B = current visuals.
- *
- * Full section order (both stacks):
- * 1 Hero · 2 Proof · 3 Figures · 4 Pourquoi (Cour) · 5 Projet · 6 Appartements
- * · 7 Finitions · 8 Commerce · 9 Aide · 10 Ways · 11 Galerie (Vision)
- * · 12 Lieu · 13 Contact
- *
- * Reply with: keep A | keep B | or a mix (e.g. Hero A + rest B).
+ * Homepage — full content (01-accueil.md), 13 sections.
+ * Merge of the two directions: GitHub colours + image selection (dark green,
+ * dusk photography) with the current typography and cleaner layouts.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
-import HeroGithub from '../components/HeroGithub.astro';
 import Hero from '../components/Hero.astro';
-import ProofGithub from '../components/ProofGithub.astro';
 import Proof from '../components/Proof.astro';
-import FiguresGithub from '../components/FiguresGithub.astro';
 import Figures from '../components/Figures.astro';
 import CourGithub from '../components/CourGithub.astro';
-import Cour from '../components/Cour.astro';
 import ProjetGithub from '../components/ProjetGithub.astro';
-import Projet from '../components/Projet.astro';
-import Cadre from '../components/Cadre.astro';
-import LogementsGithub from '../components/LogementsGithub.astro';
 import Logements from '../components/Logements.astro';
 import Finishes from '../components/Finishes.astro';
 import Commerce from '../components/Commerce.astro';
@@ -36,99 +23,18 @@ import type { Locale } from '../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { seo } = getHome(locale);
 ---
-<BaseLayout title={seo.title} description={seo.description} intro solidNav locale={locale}>
-
-  <!-- ========== A — GitHub visuals + FULL content ========== -->
-  <div class="style-banner" data-style="a">
-    <strong>A — Full content · GitHub visuals</strong>
-    <span>Hero → Proof → Figures → Pourquoi → Projet → Appartements → Finitions → Commerce → Aide → Ways → Galerie → Lieu → Contact</span>
-  </div>
-  <div class="compare-stack" data-stack="a">
-    <HeroGithub />
-    <ProofGithub />
-    <FiguresGithub />
-    <CourGithub />
-    <ProjetGithub />
-    <LogementsGithub />
-    <Finishes />
-    <Commerce />
-    <Aid />
-    <Ways />
-    <Vision />
-    <Lieu />
-    <Contact />
-  </div>
-
-  <!-- ========== B — Current visuals + FULL content ========== -->
-  <div class="style-banner" data-style="b">
-    <strong>B — Full content · current visuals</strong>
-    <span>Same 13 sections · cream hero · soft Proof/Figures · orb Pourquoi · Cadre alt for Projet</span>
-  </div>
-  <div class="compare-stack" data-stack="b">
-    <Hero />
-    <div class="home-soft">
-      <Proof />
-      <Figures />
-    </div>
-    <Cour />
-    <div class="style-banner is-sub" data-style="b">
-      <strong>B · Projet</strong>
-      <span>Classic Projet block (full copy + 6 amenities)</span>
-    </div>
-    <Projet />
-    <div class="style-banner is-sub" data-style="b">
-      <strong>B · Cadre (alt Projet visual)</strong>
-      <span>Photo card layout — same projet copy, 4 amenities</span>
-    </div>
-    <Cadre />
-    <Logements />
-    <Finishes />
-    <Commerce />
-    <Aid />
-    <Ways />
-    <Vision />
-    <Lieu />
-    <Contact />
-  </div>
-
+<BaseLayout title={seo.title} description={seo.description} intro locale={locale}>
+  <Hero />
+  <Proof />
+  <Figures />
+  <CourGithub />
+  <ProjetGithub />
+  <Logements />
+  <Finishes />
+  <Commerce />
+  <Aid />
+  <Ways />
+  <Vision />
+  <Lieu />
+  <Contact />
 </BaseLayout>
-
-<style is:global>
-  .style-banner {
-    position: sticky;
-    top: var(--nav);
-    z-index: 40;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.5rem 1.25rem;
-    padding: 0.75rem var(--pad);
-    font-size: 0.8125rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    border-bottom: 1px solid rgb(0 45 45 / 0.12);
-  }
-  .style-banner.is-sub {
-    position: static;
-    top: auto;
-    z-index: 1;
-    padding-block: 0.5rem;
-    font-size: 0.75rem;
-    opacity: 0.95;
-  }
-  .style-banner[data-style='a'] {
-    background: var(--ink);
-    color: var(--cream);
-  }
-  .style-banner[data-style='a'] strong { color: var(--gold-soft); }
-  .style-banner[data-style='b'] {
-    background: var(--cream);
-    color: var(--ink);
-  }
-  .style-banner[data-style='b'] strong { color: var(--gold-text); }
-  .style-banner span { opacity: 0.85; font-weight: 400; max-width: 78rem; }
-
-  .compare-stack[data-stack='a'] {
-    border-bottom: 4px solid var(--gold);
-  }
-</style>

@@ -4,7 +4,7 @@ import type { Locale } from '../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { reasons } = getHome(locale);
 ---
-<section class="reasons-gh" data-compare="github" aria-labelledby="reasons-title-a" id="pourquoi-a">
+<section class="reasons-gh" aria-labelledby="reasons-title-a" id="pourquoi">
   <div class="wrap">
     <header class="head-split" data-reveal data-split>
       <p class="kick">{locale === 'ar' ? 'لماذا هنا' : 'Pourquoi ici'}</p>
@@ -34,6 +34,7 @@ const { reasons } = getHome(locale);
     color: var(--cream);
   }
   .reasons-gh .kick { color: var(--gold-soft); }
+  .reasons-gh .display { color: var(--cream); }
   .reasons-gh .lead { color: var(--muted-on-dark); }
   .reasons-gh-grid {
     display: grid;
