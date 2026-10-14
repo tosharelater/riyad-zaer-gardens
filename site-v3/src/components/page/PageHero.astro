@@ -1,7 +1,7 @@
 ---
 /**
- * Shared hero for every inner page — photo, serif title anchored low,
- * then lead and optional key figures (no divider lines).
+ * Shared hero for every inner page — photo, Poppins title anchored low,
+ * gold kick, then lead and optional key figures.
  */
 interface Fact {
   n: string;
@@ -123,28 +123,30 @@ const plain = !image;
     flex-wrap: wrap;
     align-items: center;
     gap: 0.6rem 0.9rem;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     font-weight: 600;
-    letter-spacing: -0.01em;
-    color: rgb(255 252 244 / 0.85);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
   }
   .ph-index {
-    color: var(--paper);
+    color: var(--gold);
     font-variant-numeric: tabular-nums;
+    letter-spacing: 0.08em;
   }
   .ph-kick i {
     width: 0.25rem;
     height: 0.25rem;
     border-radius: 50%;
-    background: currentColor;
-    opacity: 0.6;
+    background: var(--gold);
+    opacity: 0.75;
   }
 
   .ph-title {
     margin-top: 0.85rem;
     font-family: var(--display);
     font-size: clamp(2.4rem, 5.6vw, 4.5rem);
-    font-weight: 600;
+    font-weight: 400;
     letter-spacing: -0.03em;
     line-height: 1.06;
     max-width: min(46rem, 100%);

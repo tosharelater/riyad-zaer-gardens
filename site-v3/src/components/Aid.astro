@@ -4,136 +4,122 @@ import { localePath, type Locale } from '../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { aid } = getHome(locale);
 // Never let a price break across lines
-const keep = (t: string) => t.replace(/(\d) (?=\d|DH|درهم)/g, '$1\u202f');
+const keep = (t: string) => t.replace(/(\d) (?=\d|DH|درهم)/g, '$1 ');
+// "à partir de 420 000 DH" -> small prefix + figure
+const split = (t: string) => {
+  const m = t.match(/^(à partir de|ابتداءً?\s*من|من)\s+(.*)$/u);
+  return m ? { pre: m[1], fig: keep(m[2]) } : { pre: '', fig: keep(t) };
+};
+const before = split(aid.without);
+const after = split(aid.withAid);
+
+// Savings, computed from the two prices
+const num = (t: string) => Number((t.match(/\d[\d\s  ]*\d/)?.[0] ?? '').replace(/\D/g, ''));
+const nb = num(before.fig);
+const na = num(after.fig);
+const saved = nb > na && na > 0 ? nb - na : 0;
+const savedFig = String(saved).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+const dh = locale === 'ar' ? 'درهم' : 'DH';
+const savedLabel = locale === 'ar' ? 'وفر يصل إلى' : 'Jusqu’à';
+const href = aid.cta.href.startsWith('/') ? localePath(locale, aid.cta.href) : aid.cta.href;
+const heads = locale === 'ar' ? ['الأهلية', 'سعر الدخول', 'المرافقة'] : ['Éligibilité', 'Votre prix', 'Accompagnement'];
+const points = [aid.p1, aid.p2, aid.p3];
 ---
 <section class="aid" id="aide">
-  <div class="wrap">
+  <div class="wrap aid-shell">
     <header class="aid-head" data-reveal data-split>
-      <p class="kick">Aide au logement</p>
+      <p class="kick">{locale === 'ar' ? 'دعم السكن' : 'Aide au logement'}</p>
       <h2 class="display">{aid.h2}</h2>
     </header>
 
-    <div class="aid-shell">
-      <div class="aid-copy" data-reveal>
-        <p class="lead">{aid.p1}</p>
-        <p class="lead">{aid.p2}</p>
-        <p class="lead">{aid.p3}</p>
-        <a class="btn btn-solid" href={aid.cta.href.startsWith('/') ? localePath(locale, aid.cta.href) : aid.cta.href}>{aid.cta.label}</a>
-      </div>
+    <aside class="aid-ticket" data-reveal aria-label="Comparaison de prix">
+      {saved > 0 && (
+        <p class="aid-save"><small>{savedLabel}</small><strong>−{savedFig} {dh}</strong></p>
+      )}
+      <p class="aid-compare">
+        <span class="aid-row is-before"><small>{locale === 'ar' ? 'بدون دعم' : 'Sans aide'}</small><s>{before.fig}</s></span>
+        <span class="aid-arrow" aria-hidden="true">→</span>
+        <span class="aid-row is-after"><small>{locale === 'ar' ? 'مع دعم السكن' : 'Avec l’aide'}</small><b>{after.fig}</b></span>
+      </p>
+    </aside>
 
-      <aside class="aid-ticket" data-reveal aria-label="Comparaison de prix">
-        <div class="aid-row is-before">
-          <span>Sans aide</span>
-          <strong>{keep(aid.without)}</strong>
-        </div>
-        <div class="aid-delta" aria-hidden="true">
-          <span></span>
-        </div>
-        <div class="aid-row is-after">
-          <span>Avec l’aide au logement</span>
-          <strong>{keep(aid.withAid)}</strong>
-        </div>
-      </aside>
-    </div>
+    <ol class="aid-steps" data-reveal>
+      {points.map((p, i) => (
+        <li>
+          <h3>{heads[i]}</h3>
+          <p>{p}</p>
+        </li>
+      ))}
+    </ol>
+
+    <a class="btn btn-solid aid-cta" href={href}>{aid.cta.label}</a>
   </div>
 </section>
+
 <style>
   .aid {
     padding: var(--sec) 0;
-    background: var(--cream);
+    background:
+      radial-gradient(50% 60% at 0% 100%, rgb(200 181 104 / 0.12), transparent 60%),
+      radial-gradient(45% 55% at 100% 0%, rgb(200 181 104 / 0.14), transparent 60%),
+      var(--canopy);
+    color: var(--cream);
   }
+  .aid-shell { display: grid; justify-items: center; gap: clamp(1.5rem, 3.5vw, 2.5rem); text-align: center; }
+  .aid-head { display: grid; justify-items: center; gap: 0.8rem; max-width: 40rem; }
+  .aid-head .kick { margin: 0; color: var(--gold-soft); }
+  .aid-head .display { margin: 0; max-width: none; color: var(--paper); }
 
-  .aid-head {
-    margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
-  }
-  .aid-head .display {
-    margin-top: 1rem;
-    max-width: none;
-  }
-
-  .aid-shell {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: var(--gap);
-    align-items: start;
-  }
-
-  .aid-copy {
-    max-width: 36rem;
-  }
-  .aid-copy .lead:first-child { margin-top: 0; }
-  .aid-copy .lead + .lead { margin-top: 0.85rem; }
-  .aid-copy .btn { margin-top: 1.75rem; }
-
-  .aid-ticket {
-    display: grid;
-    gap: 0;
-    background: var(--bg);
-    padding: clamp(1.5rem, 3vw, 2.25rem);
-  }
-
-  .aid-row span {
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 600;
-    letter-spacing: -0.005em;
-    margin-bottom: 0.65rem;
-  }
-
-  .aid-row strong {
-    display: block;
+  /* The saving is the hero of the section */
+  .aid-ticket { display: grid; justify-items: center; gap: 1rem; }
+  .aid-save { margin: 0; display: grid; gap: 0.15rem; justify-items: center; }
+  .aid-save small { font-size: 0.85rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-soft); font-weight: 600; }
+  .aid-save strong {
     font-family: var(--display);
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
-    line-height: 1.1;
+    font-weight: 300;
+    font-size: clamp(3rem, 9vw, 6rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--gold);
+    white-space: nowrap;
   }
+  .aid-compare { margin: 0; display: flex; align-items: center; justify-content: center; gap: clamp(0.75rem, 3vw, 1.75rem); flex-wrap: wrap; }
+  .aid-row { display: grid; gap: 0.15rem; justify-items: center; }
+  .aid-row small { font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-on-dark); }
+  .aid-row s { font-size: clamp(1.15rem, 2.4vw, 1.6rem); font-weight: 300; color: var(--muted-on-dark); text-decoration-thickness: 1.5px; white-space: nowrap; }
+  .aid-row b { font-size: clamp(1.5rem, 3.2vw, 2.2rem); font-weight: 600; color: var(--paper); white-space: nowrap; }
+  .aid-arrow { color: var(--gold); font-size: 1.5rem; }
 
-  .aid-row.is-before span {
-    color: var(--muted);
-  }
-  .aid-row.is-before strong {
-    font-size: clamp(1.15rem, 2vw, 1.45rem);
-    color: color-mix(in srgb, var(--ink) 45%, transparent);
-    text-decoration: line-through;
-    text-decoration-color: color-mix(in srgb, var(--ink) 28%, transparent);
-  }
-
-  .aid-delta {
+  .aid-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: min(100%, 64rem);
     display: grid;
-    place-items: center;
-    padding: 1.15rem 0;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(0.75rem, 1.6vw, 1.1rem);
+    text-align: start;
   }
-  .aid-delta span {
-    display: block;
-    width: 1px;
-    height: 2.25rem;
-    background: linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--ink) 18%, transparent),
-      var(--gold),
-      color-mix(in srgb, var(--ink) 18%, transparent)
-    );
+  .aid-steps li {
+    display: grid;
+    align-content: start;
+    gap: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgb(200 181 104 / 0.55);
+  }
+  .aid-steps h3 { margin: 0; font-family: var(--display); font-weight: 600; font-size: 1.1rem; color: var(--paper); }
+  .aid-steps p { margin: 0; color: var(--muted-on-dark); font-size: 0.95rem; line-height: 1.65; }
+
+  .aid .btn { background: var(--gold); color: var(--ink); }
+  .aid .btn:hover { background: var(--gold-soft); }
+
+  @media (max-width: 860px) {
+    .aid-steps { grid-template-columns: 1fr; }
+    .aid-steps li { padding-top: 0.9rem; }
+    .aid-head .display { font-size: clamp(1.7rem, 7vw, 2.35rem); }
+  }
+  @media (max-width: 560px) {
+    .aid .btn { width: 100%; }
   }
 
-  .aid-row.is-after {
-    background: var(--ink);
-    color: var(--cream);
-    margin: 0 calc(-1 * clamp(1.5rem, 3vw, 2.25rem)) calc(-1 * clamp(1.5rem, 3vw, 2.25rem));
-    padding: clamp(1.35rem, 2.8vw, 1.85rem) clamp(1.5rem, 3vw, 2.25rem);
-  }
-  .aid-row.is-after span {
-    color: var(--gold-soft);
-  }
-  .aid-row.is-after strong {
-    font-size: clamp(1.9rem, 3.2vw, 2.6rem);
-    color: var(--cream);
-  }
-
-  @media (max-width: 900px) {
-    .aid-shell {
-      grid-template-columns: 1fr;
-      align-items: start;
-      gap: 2.25rem;
-    }
-  }
 </style>

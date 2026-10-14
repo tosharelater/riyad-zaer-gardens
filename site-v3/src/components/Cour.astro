@@ -4,88 +4,215 @@ import type { Locale } from '../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { reasons } = getHome(locale);
 ---
-<section class="reasons" aria-labelledby="reasons-title">
+<section class="reasons" id="pourquoi" aria-labelledby="reasons-title" data-reasons>
   <div class="wrap">
-    <header class="head-split" data-reveal data-split>
+    <header class="why-head" data-reveal data-split>
       <p class="kick">{locale === 'ar' ? 'لماذا هنا' : 'Pourquoi ici'}</p>
       <h2 class="display" id="reasons-title">{reasons.h2}</h2>
       <p class="lead">{reasons.lead}</p>
     </header>
 
-    <ol class="reasons-grid">
+    <ol class="strips" data-strips>
       {reasons.items.map((r, i) => (
-        <li data-reason-item>
-          <figure class="reasons-media">
-            <img src={r.img} alt="" loading="lazy" decoding="async" />
-          </figure>
-          <h3>{r.title}</h3>
-          <p>{r.body}</p>
+        <li class:list={['strip', { 'is-on': i === 0 }]} data-strip tabindex="0" aria-expanded={i === 0 ? 'true' : 'false'}>
+          <img class="strip-img" src={r.img} alt="" loading="lazy" decoding="async" />
+          <span class="strip-v" aria-hidden="true">{r.title.replace('’', "'")}</span>
+          <div class="strip-body">
+            <h3>{r.title}</h3>
+            <div class="strip-text"><p>{r.body}</p></div>
+          </div>
         </li>
       ))}
     </ol>
   </div>
 </section>
 
-<style>
-  .reasons {
-    padding: var(--sec) 0;
-    background:
-      var(--ink);
-    color: var(--cream);
-  }
-  .reasons .kick { color: var(--gold-soft); }
-  .reasons .lead { color: var(--muted-on-dark); }
-  .reasons-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: var(--gap);
-  }
-  .reasons-grid li {
-    display: grid;
-    align-content: start;
-    gap: 0.75rem;
-  }
-  .reasons-media {
-    margin: 0;
-    aspect-ratio: 3 / 4;
-    overflow: hidden;
+<style is:global>
+  #pourquoi.reasons {
     position: relative;
     isolation: isolate;
-    background: color-mix(in srgb, var(--cream) 6%, transparent);
+    padding: var(--sec) 0;
+    background:
+      radial-gradient(60% 70% at 100% 0%, rgb(200 181 104 / 0.14), transparent 60%),
+      var(--canopy);
+    color: var(--paper);
+    overflow: clip;
   }
-  .reasons-media img {
+  #pourquoi .why-head {
+    display: grid;
+    gap: 0.75rem;
+    max-width: 40rem;
+    margin-bottom: clamp(1.75rem, 4vw, 3rem);
+  }
+  #pourquoi .kick { color: var(--gold-soft); }
+  #pourquoi .display { margin: 0; color: var(--paper); font-size: clamp(1.9rem, 4.2vw, 3.15rem); }
+  #pourquoi .lead { margin: 0; color: var(--muted-on-dark); max-width: 34rem; }
+
+  /* Fixed height: strips open and close without ever moving the page */
+  #pourquoi .strips {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 0.65rem;
+    height: clamp(26rem, 64vh, 36rem);
+  }
+  #pourquoi .strip {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    overflow: hidden;
+    isolation: isolate;
+    border-radius: 22px;
+    cursor: pointer;
+    background: rgb(246 240 228 / 0.06);
+    transition: flex-grow 0.75s var(--ease);
+    outline-offset: 3px;
+  }
+  #pourquoi .strip.is-on { flex-grow: 4.4; cursor: default; }
+
+  #pourquoi .strip-img {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.8s var(--ease);
+    transform: scale(1.12);
+    filter: brightness(0.62) saturate(0.85);
+    transition: transform 1.1s var(--ease), filter 0.75s var(--ease);
   }
-  .reasons-grid li:hover .reasons-media img {
-    transform: scale(1.02);
+  #pourquoi .strip.is-on .strip-img { transform: scale(1); filter: brightness(1) saturate(1); }
+  #pourquoi .strip:not(.is-on):hover .strip-img { filter: brightness(0.8) saturate(0.95); }
+  #pourquoi .strip::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(to top, rgb(5 38 33 / 0.94) 0%, rgb(5 38 33 / 0.55) 42%, transparent 75%);
   }
-  .reasons-n {
-    font-size: 0.875rem;
-    font-weight: 600;
-    letter-spacing: -0.005em;
-    color: var(--gold-soft);
-    margin-top: 0.15rem;
-  }
-  .reasons-grid h3 {
+
+  /* Collapsed (desktop): vertical title */
+  #pourquoi .strip-v {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    max-height: calc(100% - 5.5rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    writing-mode: vertical-rl;
+    transform: translateX(-50%) rotate(180deg);
     font-family: var(--display);
     font-weight: 600;
-    font-size: clamp(1.12rem, 1.45vw, 1.32rem);
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    color: var(--paper);
+    opacity: 1;
+    transition: opacity 0.3s var(--ease);
+  }
+  #pourquoi .strip.is-on .strip-v { opacity: 0; }
+
+  /* Covers the whole strip so the number can sit at the top while the text sits at the bottom */
+  #pourquoi .strip-body {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: clamp(1.1rem, 2.2vw, 1.75rem);
+  }
+  #pourquoi .strip-n {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: left 0.75s var(--ease), transform 0.75s var(--ease);
+    display: grid;
+    place-items: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding-inline: 0.5rem;
+    border-radius: 999px;
+    background: var(--paper);
+    color: var(--canopy);
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    box-shadow: 0 6px 16px rgb(0 0 0 / 0.25);
+  }
+  #pourquoi .strip-body h3 {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(1.15rem, 2vw, 1.6rem);
     line-height: 1.2;
+    color: var(--paper);
     text-wrap: balance;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s var(--ease), transform 0.5s var(--ease);
   }
-  .reasons-grid p {
-    color: var(--muted-on-dark);
-    line-height: 1.72;
-    font-size: 0.92rem;
+  #pourquoi .strip-text {
+    display: grid;
+    grid-template-rows: 0fr;
+    max-width: 32rem;
+    transition: grid-template-rows 0.6s var(--ease);
   }
-  @media (max-width: 1000px) {
-    .reasons-grid { grid-template-columns: 1fr 1fr; }
+  #pourquoi .strip-text p {
+    overflow: hidden;
+    min-height: 0;
+    margin: 0;
+    color: rgb(246 240 228 / 0.9);
+    font-size: 0.97rem;
+    line-height: 1.6;
+    opacity: 0;
+    transition: opacity 0.4s var(--ease);
   }
-  @media (max-width: 600px) {
-    .reasons-grid { grid-template-columns: 1fr; }
-    .reasons-media { aspect-ratio: 16 / 10; }
+  #pourquoi .strip.is-on .strip-n { left: clamp(1.1rem, 2.2vw, 1.75rem); transform: translateX(0); }
+  #pourquoi .strip.is-on .strip-body h3 { opacity: 1; transform: none; transition-delay: 0.25s; }
+  #pourquoi .strip.is-on .strip-text { grid-template-rows: 1fr; }
+  #pourquoi .strip.is-on .strip-text p { opacity: 1; transition-delay: 0.35s; }
+
+  #pourquoi .strips-prog { display: flex; gap: 0.5rem; margin-top: 1.1rem; }
+  #pourquoi .strips-prog button {
+    flex: 1;
+    height: 3px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: rgb(246 240 228 / 0.22);
+    cursor: pointer;
+    transition: background-color 0.4s var(--ease);
+  }
+  #pourquoi .strips-prog button.is-on { background: var(--paper); }
+
+  /* Phone: vertical accordion, fixed total height */
+  @media (max-width: 760px) {
+    #pourquoi .strips { flex-direction: column; gap: 0.5rem; height: min(48rem, 88svh); }
+    #pourquoi .strip { flex: 1 1 0; border-radius: 18px; }
+    #pourquoi .strip.is-on { flex-grow: 6.5; }
+    #pourquoi .strip-v { display: none; }
+    #pourquoi .strip-body {
+      inset: auto 0 0 0;
+      display: grid;
+      padding: 0.7rem 1rem;
+      justify-items: start;
+      grid-template-columns: 1fr;
+      align-items: center;
+    }
+    #pourquoi .strip.is-on .strip-body { padding-block: 1rem 1.25rem; row-gap: 0.6rem; }
+    #pourquoi .strip-n { position: static; transform: none !important; transition: none; min-width: 2.1rem; height: 2.1rem; font-size: 0.72rem; }
+    #pourquoi .strip-body h3 { opacity: 1; transform: none; font-size: 1.02rem; }
+    #pourquoi .strip.is-on .strip-body h3 { font-size: 1.2rem; }
+    #pourquoi .strip-text { max-width: none; }
+    #pourquoi .strip-text p { font-size: 0.92rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #pourquoi .strip, #pourquoi .strip-img, #pourquoi .strip-text, #pourquoi .strip-text p, #pourquoi .strip-body h3 { transition: none; }
   }
 </style>

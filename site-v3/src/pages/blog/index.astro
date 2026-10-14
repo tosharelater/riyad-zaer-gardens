@@ -7,6 +7,6 @@ import type { Locale } from '../../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const listing = blogListing[locale];
 ---
-<BaseLayout title={listing.seo.title} description={listing.seo.description} locale={locale} solidNav={true}>
+<BaseLayout title={listing.seo.title} description={listing.seo.description} locale={locale}>
   <BlogShowcase locale={locale} />
 </BaseLayout>

@@ -1,6 +1,5 @@
 ---
 import PageHero from '../page/PageHero.astro';
-import Icon from '../Icon.astro';
 import PageBand from '../page/PageBand.astro';
 import { media } from '../../data/media';
 import { contactInfo } from '../../data/site';
@@ -52,7 +51,7 @@ const quartierBody = typeof p.quartier.body === 'string' ? p.quartier.body.split
     alt={media.avenue.alt}
   />
 
-  <section class="access" data-access>
+  <section class="access soft-band" data-access>
     <div class="wrap">
       <header class="access-head" data-reveal data-split>
         <p class="kick">{L.access}</p>
@@ -77,7 +76,7 @@ const quartierBody = typeof p.quartier.body === 'string' ? p.quartier.body.split
         <h2 class="display">{p.quartier.h2}</h2>
         {quartierBody.map((t) => <p class="lead">{t}</p>)}
         <ul class="near">
-          {p.quartier.already.map((item) => <li><span class="tick"><Icon name="check" size="1rem" /></span>{item}</li>)}
+          {p.quartier.already.map((item) => <li><span class="tick" aria-hidden="true"></span>{item}</li>)}
         </ul>
         <p class="near-end">{p.quartier.end}</p>
       </div>
@@ -96,7 +95,7 @@ const quartierBody = typeof p.quartier.body === 'string' ? p.quartier.body.split
         referrerpolicy="no-referrer-when-downgrade"
       ></iframe>
     </div>
-    <div class="map-card" data-reveal>
+    <div class="map-card map-panel" data-reveal>
       <p class="kick">{L.map}</p>
       <h2>{mapTitle}</h2>
       <a class="btn btn-solid" href={contactInfo.mapsHref} target="_blank" rel="noopener">{mapsCta}</a>
@@ -119,7 +118,6 @@ const quartierBody = typeof p.quartier.body === 'string' ? p.quartier.body.split
 <style>
   .access {
     padding: var(--sec) 0;
-    background: var(--cream);
   }
   .access-head { margin-bottom: clamp(3rem, 6vw, 4.5rem); }
   .access-head .display { margin-top: 1rem; max-width: none; }
@@ -139,12 +137,12 @@ const quartierBody = typeof p.quartier.body === 'string' ? p.quartier.body.split
     font-size: 0.875rem;
     font-weight: 600;
     letter-spacing: -0.005em;
-    color: var(--canopy);
+    color: var(--gold-text);
     padding-top: 0.4rem;
   }
   .stop h3 {
     font-family: var(--display);
-    font-weight: 600;
+    font-weight: 500;
     font-size: clamp(1.25rem, 1.8vw, 1.5rem);
     line-height: 1.2;
   }
@@ -173,20 +171,7 @@ const quartierBody = typeof p.quartier.body === 'string' ? p.quartier.body.split
     inset-inline-start: max(var(--pad), calc((100% - var(--wrap)) / 2));
     bottom: clamp(2rem, 4vw, 3rem);
     width: min(26rem, calc(100% - 2 * var(--pad)));
-    padding: clamp(1.5rem, 3vw, 2.25rem);
-    background: var(--cream);
-    display: grid;
-    gap: 0.85rem;
-    border-radius: var(--radius);
-    box-shadow: 0 10px 40px rgb(0 36 34 / 0.18);
   }
-  .map-card h2 {
-    font-family: var(--display);
-    font-weight: 600;
-    font-size: clamp(1.6rem, 2.6vw, 2.2rem);
-    line-height: 1.1;
-  }
-  .map-card .btn { justify-self: start; margin-top: 0.5rem; }
 
   .quartier {
     padding: var(--sec) 0;
@@ -199,19 +184,17 @@ const quartierBody = typeof p.quartier.body === 'string' ? p.quartier.body.split
   }
   .near li {
     display: grid;
-    grid-template-columns: 1.5rem 1fr;
-    gap: 0.75rem;
+    grid-template-columns: 0.65rem 1fr;
+    gap: 0.85rem;
     font-size: 1.05rem;
     align-items: start;
   }
-  .near span {
-    display: inline-grid;
-    place-items: center;
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--gold) 22%, transparent);
-    color: var(--gold-text);
+  .near .tick {
+    width: 0.4rem;
+    height: 0.4rem;
+    margin-top: 0.55rem;
+    border-radius: 1px;
+    background: var(--gold-text);
   }
   .near-end {
     margin-top: 1.25rem;

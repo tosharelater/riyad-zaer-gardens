@@ -1,0 +1,123 @@
+---
+import { getHome } from '../data/content';
+import { localePath, type Locale } from '../i18n/paths';
+const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
+const { apartments } = getHome(locale);
+---
+<section class="homes" id="appartements">
+  <div class="wrap homes-grid">
+    <div class="homes-block" data-reveal data-split>
+      <p class="kick">{locale === 'ar' ? 'الشقق' : 'Appartements'}</p>
+      <h2 class="display">{apartments.h2}</h2>
+      <p class="lead">{apartments.p1}</p>
+
+      <p class="homes-types">{apartments.types.join(' · ')}</p>
+      <p class="homes-note">{apartments.p2}</p>
+
+      <div class="homes-price">
+        <strong>{apartments.price}</strong>
+        <span>{apartments.priceAid}</span>
+      </div>
+
+      <a class="btn btn-ghost" href={apartments.cta.href.startsWith('/') ? localePath(locale, apartments.cta.href) : apartments.cta.href}>{apartments.cta.label}</a>
+    </div>
+    <figure class="homes-media" data-media data-reveal>
+      <img src="/photos/salon.jpg" alt="" loading="lazy" decoding="async" />
+    </figure>
+  </div>
+</section>
+<style>
+  .homes {
+    background: var(--paper);
+    padding: var(--sec) 0;
+  }
+  .homes-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--gap);
+    align-items: center;
+  }
+  .homes .kick { margin: 0; }
+  .homes .display {
+    margin: 0.65rem 0 0;
+    max-width: none;
+  }
+  .homes .lead { margin-top: 0.85rem; }
+  .homes-types {
+    margin-top: 1.5rem;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(1.25rem, 2vw, 1.55rem);
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .homes-note {
+    margin-top: 0.65rem;
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.65;
+    max-width: 32rem;
+  }
+  .homes-price {
+    display: grid;
+    gap: 0.3rem;
+    margin-top: 1.35rem;
+  }
+  .homes-price strong {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+    line-height: 1.1;
+    color: var(--canopy);
+  }
+  .homes-price span {
+    font-size: 0.92rem;
+    color: var(--muted);
+  }
+  .homes .btn {
+    margin-top: 1.35rem;
+  }
+  .homes-media {
+    margin: 0;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    position: relative;
+    isolation: isolate;
+  }
+  .homes-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease);
+  }
+  .homes:hover .homes-media img {
+    transform: scale(1.02);
+  }
+  @media (max-width: 900px) {
+    .homes-grid { grid-template-columns: 1fr; }
+    .homes-media {
+      order: -1;
+      aspect-ratio: 16 / 10;
+    }
+  }
+
+  /* Photo as tall as the content beside it; two small corners (top right, bottom left) */
+  @media (min-width: 901px) {
+    .homes-grid { align-items: stretch; }
+    .homes-block { align-content: center; }
+    .homes-media {
+      position: relative;
+      aspect-ratio: auto;
+      max-height: none;
+      min-height: 24rem;
+      align-self: stretch;
+      border-radius: 0 2.25rem 0 2.25rem;
+    }
+    [dir='rtl'] .homes-media { border-radius: 2.25rem 0 2.25rem 0; }
+    .homes-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  }
+  @media (max-width: 900px) {
+    .homes-media { border-radius: 0 1.5rem 0 1.5rem; }
+    [dir='rtl'] .homes-media { border-radius: 1.5rem 0 1.5rem 0; }
+  }
+</style>

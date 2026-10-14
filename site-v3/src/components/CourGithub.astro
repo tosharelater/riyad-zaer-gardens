@@ -1,0 +1,92 @@
+---
+import { getHome } from '../data/content';
+import type { Locale } from '../i18n/paths';
+const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
+const { reasons } = getHome(locale);
+---
+<section class="reasons-gh" aria-labelledby="reasons-title-a" id="pourquoi">
+  <div class="wrap">
+    <header class="head-split" data-reveal data-split>
+      <p class="kick">{locale === 'ar' ? 'لماذا هنا' : 'Pourquoi ici'}</p>
+      <h2 class="display" id="reasons-title-a">{reasons.h2}</h2>
+      <p class="lead">{reasons.lead}</p>
+    </header>
+
+    <ol class="reasons-gh-grid">
+      {reasons.items.map((r, i) => (
+        <li data-reason-item>
+          <figure class="reasons-gh-media">
+            <img src={r.img} alt="" loading="lazy" decoding="async" />
+          </figure>
+          <h3>{r.title}</h3>
+          <p>{r.body}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .reasons-gh {
+    padding: var(--sec) 0;
+    background:
+      var(--ink);
+    color: var(--cream);
+  }
+  .reasons-gh .kick { color: var(--gold-soft); }
+  .reasons-gh .display { color: var(--cream); }
+  .reasons-gh .lead { color: var(--muted-on-dark); }
+  .reasons-gh-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--gap);
+  }
+  .reasons-gh-grid li {
+    display: grid;
+    align-content: start;
+    gap: 0.75rem;
+  }
+  .reasons-gh-media {
+    margin: 0;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    position: relative;
+    isolation: isolate;
+    background: color-mix(in srgb, var(--cream) 6%, transparent);
+  }
+  .reasons-gh-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease);
+  }
+  .reasons-gh-grid li:hover .reasons-gh-media img {
+    transform: scale(1.02);
+  }
+  .reasons-n {
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    color: var(--gold-soft);
+    margin-top: 0.15rem;
+  }
+  .reasons-gh-grid h3 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(1.12rem, 1.45vw, 1.32rem);
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+  .reasons-gh-grid p {
+    color: var(--muted-on-dark);
+    line-height: 1.72;
+    font-size: 0.92rem;
+  }
+  @media (max-width: 1000px) {
+    .reasons-gh-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .reasons-gh-grid { grid-template-columns: 1fr; }
+    .reasons-gh-media { aspect-ratio: 16 / 10; }
+  }
+</style>
