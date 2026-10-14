@@ -465,33 +465,6 @@ function aidScene() {
   const after = document.querySelector<HTMLElement>('.aid-row.is-after');
   if (!ticket || !after) return;
 
-  // The aided price counts down from the full price: the saving, made visible.
-  const target = after.querySelector<HTMLElement>('strong');
-  const fromN = toNum(document.querySelector('.aid-row.is-before strong')?.textContent);
-  const toN = toNum(target?.textContent);
-  if (target && fromN && toN && fromN > toN) {
-    const tpl = target.textContent ?? '';
-    const fmt = (n: number) => tpl.replace(NUM, group(n));
-    const obj = { v: fromN };
-    target.textContent = fmt(fromN);
-    ScrollTrigger.create({
-      trigger: ticket,
-      start: 'top 70%',
-      once: true,
-      onEnter: () =>
-        gsap.to(obj, {
-          v: toN,
-          duration: 2,
-          delay: 0.35,
-          ease: 'power2.inOut',
-          snap: { v: 1000 },
-          onUpdate: () => {
-            target.textContent = fmt(obj.v);
-          },
-        }),
-    });
-  }
-
   gsap.fromTo(
     ticket,
     { y: 36, autoAlpha: 0 },
