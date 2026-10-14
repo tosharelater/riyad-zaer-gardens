@@ -1,12 +1,10 @@
 ---
 import { getHome } from '../data/content';
 import { localePath, type Locale } from '../i18n/paths';
-import Icon from './Icon.astro';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { commerce } = getHome(locale);
 const keep = (t: string) => t.replace(/(\d) (?=\d|DH|m)/g, '$1 ');
 const href = (h: string) => (h.startsWith('/') ? localePath(locale, h) : h);
-const factIcons = ['store', 'ruler', 'badge-percent'] as const;
 ---
 <section class="commerce" id="commerces">
   <div class="wrap commerce-grid">
@@ -19,9 +17,6 @@ const factIcons = ['store', 'ruler', 'badge-percent'] as const;
       <dl class="commerce-facts">
         {commerce.facts.map(([k, v], i) => (
           <div>
-            <span class="commerce-fact-icon" aria-hidden="true">
-              <Icon name={factIcons[i] ?? 'store'} size="1.35rem" />
-            </span>
             <dt>{k}</dt>
             <dd>{keep(v)}</dd>
           </div>
@@ -65,51 +60,27 @@ const factIcons = ['store', 'ruler', 'badge-percent'] as const;
 
   .commerce-facts {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.85rem;
-    margin: 0.85rem 0 0.35rem;
+    grid-template-columns: repeat(3, auto);
+    justify-content: start;
+    gap: 0.5rem clamp(1.5rem, 4vw, 3rem);
+    margin: 0.75rem 0 0.35rem;
   }
-  .commerce-facts > div {
-    position: relative;
-    display: grid;
-    gap: 0.55rem;
-    align-content: start;
-    min-width: 0;
-    padding: 1.2rem 1.1rem 1.25rem;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: var(--paper);
-    transition: border-color 0.35s var(--ease), transform 0.45s var(--ease);
-  }
-  .commerce-facts > div:hover {
-    border-color: color-mix(in srgb, var(--gold) 55%, var(--line));
-    transform: translateY(-2px);
-  }
-  .commerce-fact-icon {
-    display: grid;
-    place-items: center;
-    width: 2.35rem;
-    height: 2.35rem;
-    border-radius: 999px;
-    color: var(--canopy);
-    background: color-mix(in srgb, var(--canopy) 8%, var(--paper));
-  }
+  .commerce-facts > div { display: grid; gap: 0.3rem; min-width: 0; }
   .commerce-facts dt {
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     font-weight: 600;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--gold-text);
   }
   .commerce-facts dd {
     margin: 0;
-    font-family: var(--display);
-    font-weight: 500;
-    font-size: clamp(1.15rem, 1.7vw, 1.45rem);
+    font-weight: 400;
+    font-size: clamp(1.15rem, 1.7vw, 1.4rem);
     line-height: 1.2;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
     color: var(--ink);
-    text-wrap: balance;
+    white-space: nowrap;
   }
   .commerce .btn { justify-self: start; margin-top: 0.35rem; }
   .commerce-media {
@@ -132,7 +103,8 @@ const factIcons = ['store', 'ruler', 'badge-percent'] as const;
     }
     .commerce-copy { max-width: none; }
     .commerce-copy .display { font-size: clamp(1.75rem, 7vw, 2.4rem); }
-    .commerce-facts { grid-template-columns: 1fr; }
+    .commerce-facts { grid-template-columns: 1fr 1fr; }
+    .commerce-facts dd { white-space: normal; }
     .commerce .btn { justify-self: stretch; }
   }
 </style>
