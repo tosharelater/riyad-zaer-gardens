@@ -1,6 +1,7 @@
 ---
 import { getHome } from '../data/content';
 import { media } from '../data/media';
+import Icon from './Icon.astro';
 import type { Locale } from '../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { figures } = getHome(locale);
@@ -17,16 +18,20 @@ const { figures } = getHome(locale);
       <span class="fig-rule" aria-hidden="true"></span>
       <p class="lead">{figures.lead}</p>
 
-      <div class="fig-stats" role="list">
-        {figures.items.map((f, i) => (
-          <div class="fig-stat" role="listitem" data-figures-item style={`--i: ${i}`}>
-            <p class="fig-n" data-count data-to={f.n}>
-              <span data-count-val>{f.n}</span>
-            </p>
-            <span class="fig-label">{f.label}</span>
-          </div>
-        ))}
-      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="fig-stats" role="list" data-reveal>
+      {figures.items.map((f, i) => (
+        <div class="fig-stat" role="listitem" data-figures-item style={`--i: ${i}`}>
+          <span class="fig-ico" aria-hidden="true"><Icon name={f.icon === 'home' ? 'house' : f.icon} size="1.6rem" /></span>
+          <p class="fig-n" data-count data-to={f.n}>
+            <span data-count-val>{f.n}</span>
+          </p>
+          <span class="fig-label">{f.label}</span>
+        </div>
+      ))}
     </div>
   </div>
 </section>
@@ -113,41 +118,51 @@ const { figures } = getHome(locale);
   .fig-stats {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    width: 100%;
-    margin-top: 1.35rem;
-    padding: clamp(1.35rem, 2.8vw, 1.9rem) clamp(1rem, 2.5vw, 1.75rem);
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    padding: clamp(2rem, 4.5vw, 3.25rem) clamp(1rem, 3vw, 2.5rem);
     border-radius: var(--radius);
     background: var(--ink);
     color: var(--cream);
+    text-align: center;
   }
   .fig-stat {
     display: grid;
-    gap: 0.45rem;
-    justify-items: start;
+    gap: 0.5rem;
+    justify-items: center;
     align-content: start;
-    padding-inline: clamp(0.65rem, 1.5vw, 1.15rem);
+    padding-inline: 1rem;
   }
-  .fig-stat + .fig-stat {
-    border-inline-start: 0;
+  .fig-ico {
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    margin-bottom: 0.5rem;
+    border: 1.25px solid var(--gold);
+    border-radius: 50%;
+    color: var(--gold-soft);
   }
   .fig-n {
     margin: 0;
     font-family: var(--display);
-    font-weight: 300;
-    font-size: clamp(2.6rem, 4.4vw, 3.75rem);
+    font-weight: 200;
+    font-size: clamp(3.5rem, 7vw, 5.5rem);
     line-height: 1;
-    letter-spacing: -0.03em;
-    color: var(--cream);
+    letter-spacing: -0.04em;
+    color: var(--paper);
   }
   .fig-n [data-count-val] { display: inline-block; }
   .fig-label {
-    font-size: 0.72rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--gold-soft);
   }
 
+  @media (max-width: 640px) {
+    .fig-stats { grid-template-columns: 1fr; gap: 2rem; }
+  }
   @media (max-width: 900px) {
     .fig-shell {
       grid-template-columns: 1fr;
