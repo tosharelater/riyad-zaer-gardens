@@ -1,0 +1,79 @@
+---
+import { getHome } from '../data/content';
+import type { Locale } from '../i18n/paths';
+import Icon from './Icon.astro';
+const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
+const { lieu } = getHome(locale);
+---
+<section class="lieu" id="lieu">
+  <div class="wrap lieu-grid">
+    <div class="lieu-copy" data-reveal data-split>
+      <p class="kick">{locale === 'ar' ? 'الموقع' : 'Localisation'}</p>
+      <h2 class="display">{lieu.h2}</h2>
+      <p class="lead">{lieu.body}</p>
+      <p class="lieu-address"><Icon name="map-pin" />{lieu.address}</p>
+      <a class="btn btn-ghost" href={lieu.cta.href} target="_blank" rel="noopener noreferrer">{lieu.cta.label}<Icon name="arrow-up-right" /></a>
+    </div>
+    <div class="lieu-map" data-reveal>
+      <iframe
+        title="Carte de situation de Riyad Zaer Gardens à Aïn Aouda"
+        src={lieu.mapEmbed}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+</section>
+
+<style>
+  .lieu {
+    padding: var(--sec) 0;
+    background: var(--paper);
+  }
+  .lieu-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--gap);
+    align-items: center;
+  }
+  .lieu-copy .kick { margin: 0; }
+  .lieu-copy .display { margin: 0.65rem 0 0; max-width: none; }
+  .lieu-copy .lead { margin-top: 0.85rem; }
+  .lieu-address {
+    margin: 1.25rem 0;
+    padding: 0;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+  .lieu-address :global(.icon) { color: var(--gold-text); }
+  .lieu-map {
+    aspect-ratio: 4 / 3;
+    background: var(--cream);
+    border-radius: var(--radius);
+    overflow: hidden;
+    isolation: isolate;
+    position: relative;
+  }
+  .lieu-map::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 8%, transparent);
+    z-index: 1;
+  }
+  .lieu-map iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    filter: grayscale(0.35) contrast(1.05) saturate(0.85);
+  }
+  @media (max-width: 900px) {
+    .lieu-grid { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LocalisationShowcase from '../components/showcase/LocalisationShowcase.astro';
+import { localisationPage as p } from '../data/pages';
+---
+<BaseLayout title={p.seo.title} description={p.seo.description}>
+  <LocalisationShowcase locale="fr" />
+</BaseLayout>

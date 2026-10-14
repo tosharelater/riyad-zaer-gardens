@@ -1,0 +1,302 @@
+---
+import PageHero from '../page/PageHero.astro';
+import PageBand from '../page/PageBand.astro';
+import Icon from '../Icon.astro';
+import { media } from '../../data/media';
+import { contactInfo } from '../../data/site';
+import { localePath, type Locale } from '../../i18n/paths';
+import { commercePage as comFr } from '../../data/pages';
+import { commercePage as comAr } from '../../data/pages.ar';
+
+interface Props {
+  locale?: Locale;
+}
+const { locale = 'fr' } = Astro.props;
+const p = locale === 'ar' ? comAr : comFr;
+const L =
+  locale === 'ar'
+    ? {
+        kick: 'المحلات التجارية',
+        offer: 'العرض',
+        reasons: 'لماذا هنا',
+        invest: 'الاستثمار',
+        call: 'اطلب اتصالاً',
+        wa: 'واتساب',
+        map: 'على الخريطة',
+        mapTitle: 'Km 25، شارع محمد السادس',
+        iframeTitle: 'خريطة — رياض زعير غاردنز',
+        mapsCta: 'فتح في Google Maps',
+      }
+    : {
+        kick: 'Fonds de commerce',
+        offer: 'L’offre',
+        reasons: 'Emplacement',
+        invest: 'Investissement',
+        call: 'Être rappelé',
+        wa: 'Écrire sur WhatsApp',
+        map: 'Sur la carte',
+        mapTitle: 'Km 25, Avenue Mohammed VI',
+        iframeTitle: 'Carte — Riyad Zaer Gardens',
+        mapsCta: 'Ouvrir dans Google Maps',
+      };
+
+const keep = (t: string) => t.replace(/(\d) (?=\d|DH|m)/g, '$1 ');
+const highlightIcons = ['store', 'ruler', 'badge-percent'] as const;
+const highlightRows = p.offre.rows.slice(0, 3);
+const detailRows = p.offre.rows.slice(3);
+---
+<div data-com-page class="com-page">
+  <PageHero
+    h1={p.h1}
+    lead={p.lead}
+    kicker={L.kick}
+    image="/photos/commerce-angle.jpg"
+    alt={media.commerce.alt}
+  >
+    <a class="btn btn-solid" href={localePath(locale, '/contact')}>{L.call}</a>
+    <a class="btn btn-light" href={contactInfo.whatsapp} target="_blank" rel="noopener">{L.wa}</a>
+  </PageHero>
+
+  <section class="offer soft-band">
+    <div class="wrap">
+      <header class="offer-head" data-reveal data-split>
+        <p class="kick">{L.offer}</p>
+        <h2 class="display">{p.offre.h2}</h2>
+        <p class="lead">{p.offre.body}</p>
+      </header>
+
+      <dl class="offer-cards" data-reveal>
+        {highlightRows.map(([k, v], i) => (
+          <div>
+            <span class="offer-card-icon" aria-hidden="true">
+              <Icon name={highlightIcons[i] ?? 'store'} size="1.4rem" />
+            </span>
+            <dt>{k}</dt>
+            <dd>{keep(v)}</dd>
+          </div>
+        ))}
+      </dl>
+
+      {detailRows.length > 0 && (
+        <dl class="offer-details" data-reveal>
+          {detailRows.map(([k, v]) => (
+            <div>
+              <dt>{k}</dt>
+              <dd>{keep(v)}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+    </div>
+  </section>
+
+  <section class="reasons">
+    <div class="wrap">
+      <header class="reasons-head" data-reveal data-split>
+        <p class="kick">{L.reasons}</p>
+        <h2 class="display">{p.raisons.h2}</h2>
+      </header>
+      <ol class="reasons-grid">
+        {p.raisons.items.map((item, i) => (
+          <li class="reason" data-reason>
+            <span class="reason-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="invest">
+    <div class="wrap text-photo">
+      <div data-reveal data-split>
+        <p class="kick">{L.invest}</p>
+        <h2 class="display">{p.invest.h2}</h2>
+        {p.invest.body.map((t) => <p class="lead">{t}</p>)}
+      </div>
+      <figure data-media>
+        <img src="/photos/commerce-interieur.jpg" alt={media.commerceIn.alt} loading="lazy" decoding="async" />
+      </figure>
+    </div>
+  </section>
+
+  <PageBand
+    mode="custom"
+    title={p.convert.h2}
+    body={p.convert.body}
+    primary={{ label: L.call, href: localePath(locale, '/contact') }}
+    secondary={{ label: L.wa, href: contactInfo.whatsapp }}
+    image="/photos/commerce-angle.jpg"
+  />
+
+  <section class="map">
+    <div class="map-frame" data-map-frame>
+      <iframe
+        title={L.iframeTitle}
+        src={contactInfo.mapEmbed}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+    <div class="map-card map-panel" data-reveal>
+      <p class="kick">{L.map}</p>
+      <h2>{L.mapTitle}</h2>
+      <a class="btn btn-solid" href={contactInfo.mapsHref} target="_blank" rel="noopener">{L.mapsCta}</a>
+    </div>
+  </section>
+</div>
+
+<script>
+  import '../../scripts/commerce-motion';
+</script>
+
+<style>
+  .offer {
+    padding: var(--sec) 0;
+  }
+  .offer-head {
+    margin-bottom: clamp(2.25rem, 4.5vw, 3.5rem);
+    max-width: 42rem;
+  }
+  .offer-head .display { margin: 1rem 0 0.25rem; max-width: none; }
+  .offer-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
+  .offer-cards > div {
+    display: grid;
+    gap: 0.55rem;
+    align-content: start;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+  .offer-card-icon {
+    display: grid;
+    place-items: center;
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 50%;
+    color: var(--gold-text);
+    background: color-mix(in srgb, var(--gold) 16%, transparent);
+  }
+  .offer-cards dt {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-text);
+  }
+  .offer-cards dd {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .offer-details {
+    margin-top: clamp(1.75rem, 3.5vw, 2.5rem);
+    border-top: 1px solid var(--line);
+  }
+  .offer-details > div {
+    display: grid;
+    grid-template-columns: minmax(8rem, 0.7fr) 1.3fr;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .offer-details dt {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold-text);
+    padding-top: 0.2rem;
+  }
+  .offer-details dd {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .reasons {
+    background: var(--ink);
+    color: var(--cream);
+    padding: var(--sec) 0;
+  }
+  .reasons .kick { color: var(--gold-soft); }
+  .reasons .display { color: var(--cream); }
+  .reasons .lead { color: var(--muted-on-dark); }
+  .reasons-head { margin-bottom: clamp(3rem, 6vw, 4.5rem); }
+  .reasons-head .display { margin-top: 1rem; max-width: none; }
+  .reasons-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.75rem, 4vw, 3rem) clamp(2rem, 6vw, 6rem);
+  }
+  .reason {
+    display: grid;
+    align-content: start;
+    gap: 0.55rem;
+  }
+  .reason-num {
+    font-family: var(--display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--gold-soft);
+  }
+  .reason h3 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+    line-height: 1.2;
+  }
+  .reason p {
+    color: var(--muted-on-dark);
+    line-height: 1.7;
+  }
+
+  .invest {
+    padding: var(--sec) 0;
+    background: var(--paper);
+  }
+
+  .map {
+    position: relative;
+    background: var(--ink);
+  }
+  .map-frame {
+    height: min(70svh, 38rem);
+    overflow: hidden;
+  }
+  .map-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    filter: grayscale(0.4) contrast(1.05) sepia(0.12);
+  }
+  .map-card {
+    position: absolute;
+    inset-inline-start: max(var(--pad), calc((100% - var(--wrap)) / 2));
+    bottom: clamp(2rem, 4vw, 3rem);
+    width: min(26rem, calc(100% - 2 * var(--pad)));
+  }
+
+  @media (max-width: 900px) {
+    .offer-cards { grid-template-columns: 1fr; }
+    .offer-details > div { grid-template-columns: 1fr; gap: 0.3rem; }
+    .reasons-grid { grid-template-columns: 1fr; }
+    .map-frame { height: min(60svh, 32rem); }
+    .map-card { position: relative; inset: auto; width: auto; }
+  }
+</style>

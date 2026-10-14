@@ -1,0 +1,179 @@
+---
+import { getHome } from '../data/content';
+import { localePath, type Locale } from '../i18n/paths';
+import Icon from './Icon.astro';
+const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
+const { projet } = getHome(locale);
+
+/** One icon per amenity, same order as the data */
+const amenityIcons = ['arrow-up-down', 'trees', 'square-parking', 'shield-check', 'paint-roller', 'store'];
+const href = projet.link.href.startsWith('/') ? localePath(locale, projet.link.href) : projet.link.href;
+---
+<section class="pano" id="projet">
+  <div class="wrap">
+    <div class="pano-grid">
+      <div class="pano-copy">
+        <header class="pano-head" data-reveal data-split>
+          <p class="kick">{locale === 'ar' ? 'المشروع' : 'Le projet'}</p>
+          <h2 class="display">{projet.h2}</h2>
+        </header>
+
+        <p class="pano-lead" data-reveal>{projet.p1}</p>
+        <p class="pano-note" data-reveal>{projet.p2}</p>
+
+        <a class="link-cta pano-link" href={href}>{projet.link.label}<Icon name="arrow-right" size="1.1em" /></a>
+      </div>
+
+      <figure class="pano-photo" data-reveal>
+        <img src="/photos/aerial-ilot.jpg" alt={projet.alt} loading="lazy" decoding="async" />
+      </figure>
+    </div>
+
+    <ul class="pano-bar" data-reveal>
+      {projet.amenities.map((a, i) => (
+        <li>
+          <span class="pano-ico" aria-hidden="true"><Icon name={amenityIcons[i]} size="1.4rem" /></span>
+          <span class="pano-label">{a}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .pano {
+    padding: var(--sec) 0;
+    background: var(--cream);
+  }
+
+  .pano-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(2rem, 6vw, 5.5rem);
+    align-items: center;
+  }
+  .pano-copy { display: grid; gap: clamp(1rem, 2vw, 1.4rem); justify-items: start; }
+  .pano-head { display: grid; gap: 0.75rem; }
+  .pano-head .kick { margin: 0; }
+  .pano-head .display { margin: 0; max-width: 18ch; }
+
+  /* The description in two voices: a large lead, then a quieter note */
+  .pano-lead {
+    margin: 0;
+    max-width: 34rem;
+    font-size: clamp(1.15rem, 1.7vw, 1.4rem);
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .pano-note {
+    margin: 0;
+    max-width: 32rem;
+    padding-inline-start: 1.1rem;
+    border-inline-start: 2px solid var(--canopy);
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+  .pano-link { margin-top: 0.5rem; }
+
+  .pano-photo {
+    margin: 0;
+    aspect-ratio: 4 / 4.6;
+    overflow: hidden;
+    border-radius: clamp(5rem, 12vw, 9rem) 0 0 0;
+    box-shadow: 0 28px 56px rgb(0 45 45 / 0.16);
+  }
+  [dir='rtl'] .pano-photo { border-radius: 0 clamp(5rem, 12vw, 9rem) 0 0; }
+  .pano-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 60%; display: block; }
+
+  /* amenities: one green band, six items */
+  .pano-bar {
+    margin: clamp(2rem, 4.5vw, 3.5rem) 0 0;
+    padding: clamp(1.25rem, 2.5vw, 1.75rem) clamp(1rem, 2.5vw, 2rem);
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 1.25rem 1rem;
+    border-radius: 24px;
+    background: var(--paper);
+    box-shadow: 0 14px 34px rgb(0 45 45 / 0.08);
+  }
+  .pano-bar li {
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    gap: 0.7rem;
+    text-align: center;
+  }
+  .pano-ico {
+    display: grid;
+    place-items: center;
+    width: 3.1rem;
+    height: 3.1rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--canopy) 8%, var(--cream));
+    color: var(--ink);
+  }
+  .pano-label { font-size: 0.85rem; font-weight: 500; line-height: 1.35; color: var(--ink); text-wrap: balance; }
+
+  @media (max-width: 900px) {
+    .pano-grid { grid-template-columns: 1fr; gap: 1.75rem; }
+    .pano-photo {
+      order: -1;
+      aspect-ratio: 4 / 3;
+      border-radius: 3.5rem 0 0 0;
+      box-shadow: 0 18px 36px rgb(0 45 45 / 0.14);
+    }
+    [dir='rtl'] .pano-photo { border-radius: 0 3.5rem 0 0; }
+    .pano-head .display { max-width: none; font-size: clamp(1.7rem, 7vw, 2.35rem); }
+    .pano-bar { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  /* Phone: two columns of horizontal tiles, easy to read */
+  @media (max-width: 560px) {
+    .pano-link { justify-self: center; }
+    .pano-bar {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem;
+      padding: 0.75rem;
+      background: none;
+      box-shadow: none;
+    }
+    .pano-bar li {
+      grid-template-columns: auto minmax(0, 1fr);
+      justify-items: start;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.8rem 0.85rem;
+      border-radius: 16px;
+      background: var(--paper);
+      text-align: start;
+    }
+    .pano-ico { width: 2.5rem; height: 2.5rem; }
+    .pano-label { font-size: 0.8rem; }
+  }
+
+  /* Photo as tall as the content beside it; two small corners (top right, bottom left) */
+  @media (min-width: 901px) {
+    .pano-grid { align-items: stretch; }
+    .pano-copy { align-content: center; }
+    .pano-photo {
+      position: relative;
+      aspect-ratio: auto;
+      max-height: none;
+      min-height: 24rem;
+      align-self: stretch;
+      border-radius: 0 2.25rem 0 2.25rem;
+    }
+    [dir='rtl'] .pano-photo { border-radius: 2.25rem 0 2.25rem 0; }
+    .pano-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  }
+  @media (max-width: 900px) {
+    .pano-photo { border-radius: 0 1.5rem 0 1.5rem; }
+    [dir='rtl'] .pano-photo { border-radius: 1.5rem 0 1.5rem 0; }
+  }
+
+  @media (min-width: 901px) {
+    .pano-bar { position: relative; z-index: 2; margin-top: -3.25rem; }
+  }
+</style>

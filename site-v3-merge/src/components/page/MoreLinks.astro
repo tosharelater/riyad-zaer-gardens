@@ -1,0 +1,134 @@
+---
+import { media } from '../../data/media';
+import { stripLocale } from '../../i18n/paths';
+
+interface Link {
+  title: string;
+  body: string;
+  href: string;
+  image?: string;
+}
+interface Props {
+  h2: string;
+  links: readonly Link[];
+}
+const { h2, links } = Astro.props;
+
+const defaults: Record<string, string> = {
+  '/le-projet': media.aerial.src,
+  '/appartements': media.apartment.src,
+  '/fonds-de-commerce': media.commerce.src,
+  '/localisation': media.avenue.src,
+  '/contact': media.hero.src,
+  '/blog': media.terrace.src,
+  '/faq': media.courtyard.src,
+  '/': media.hero.src,
+};
+---
+<section class="more">
+  <div class="wrap">
+    <p class="kick more-kick" data-reveal>{h2}</p>
+    <ul class="more-list">
+      {links.map((l) => (
+        <li data-reveal>
+          <a class="more-item" href={l.href}>
+            <strong>{l.title}</strong>
+            <span>{l.body}</span>
+            <i aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                <path d="M4 12h15m-6-6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </i>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .more {
+    padding: clamp(3.5rem, 7vw, 5.5rem) 0;
+    background: var(--cream);
+  }
+  .more-kick {
+    margin-bottom: 1.5rem;
+  }
+  .more-list {
+    display: grid;
+    gap: 0;
+  }
+  .more-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 2.5rem;
+    gap: clamp(1rem, 3vw, 2.5rem);
+    align-items: center;
+    padding: clamp(1.1rem, 2.2vw, 1.6rem) 0;
+    border-top: 1px solid var(--line);
+  }
+  .more-list > li:last-child .more-item { border-bottom: 1px solid var(--line); }
+  .more-item strong {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    line-height: 1.05;
+    letter-spacing: -0.028em;
+    transition: transform 0.4s var(--ease), color 0.25s ease;
+  }
+  .more-item:hover strong { transform: translateX(0.4rem); color: var(--gold-text); }
+  .more-item span {
+    color: var(--muted);
+    font-size: 0.98rem;
+    line-height: 1.55;
+    max-width: 26rem;
+  }
+  .more-item figure {
+    margin: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    clip-path: inset(0 0 0 100%);
+    transition: clip-path 0.8s var(--ease);
+  }
+  .more-item:hover figure,
+  .more-item:focus-visible figure { clip-path: inset(0 0 0 0); }
+  .more-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    scale: 1.15;
+    transition: scale 1s var(--ease);
+  }
+  .more-item:hover img { scale: 1; }
+  .more-item i {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid color-mix(in srgb, var(--gold-text) 35%, transparent);
+    border-radius: 50%;
+    color: var(--gold-text);
+    transition: background 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease);
+  }
+  .more-item i svg { width: 1rem; height: 1rem; }
+  .more-item:hover i {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--cream);
+  }
+  :global([dir='rtl']) .more-item i svg { transform: scaleX(-1); }
+  :global([dir='rtl']) .more-item:hover strong { transform: translateX(-0.6rem); }
+
+  @media (max-width: 800px) {
+    .more-item {
+      grid-template-columns: 1fr 2.5rem;
+      row-gap: 0.5rem;
+    }
+    .more-item span { grid-column: 1; grid-row: 2; }
+    .more-item figure { display: none; }
+    .more-item i { grid-column: 2; grid-row: 1 / span 2; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .more-item:hover strong { transform: none; }
+  }
+</style>

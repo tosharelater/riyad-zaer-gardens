@@ -1,0 +1,180 @@
+---
+import type { Locale } from '../i18n/paths';
+import { getLocaleFromPath, localePath, switchLocalePath } from '../i18n/paths';
+import { ui } from '../i18n/ui';
+
+interface Props {
+  solid?: boolean;
+  locale?: Locale;
+}
+const { solid = false, locale: localeProp } = Astro.props;
+const locale: Locale =
+  localeProp ?? (Astro.currentLocale === 'ar' ? 'ar' : getLocaleFromPath(Astro.url.pathname));
+const t = ui(locale);
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const frPath = switchLocalePath(path, 'fr');
+const arPath = switchLocalePath(path, 'ar');
+---
+<header class:list={['top', { 'is-solid': solid }]} data-top data-always-solid={solid ? '' : undefined}>
+  <a class="top-logo" href={localePath(locale, '/')} aria-label={t.brand.name}>
+    <img class="on-dark" src="/brand/logo-light.png" alt="" width="160" height="104" />
+    <img class="on-light" src="/brand/logo-green.png" alt="" width="160" height="104" />
+  </a>
+  <nav class="top-nav" aria-label="Navigation">
+    {t.nav.map((l) => {
+      const href = localePath(locale, l.path);
+      const active = path === href || (l.path !== '/' && path.endsWith(l.path));
+      return (
+        <a href={href} aria-current={active ? 'page' : undefined}>
+          {l.label}
+        </a>
+      );
+    })}
+  </nav>
+  <div class="top-end">
+    <div class="lang" aria-label="Language">
+      <a href={frPath} class:list={{ active: locale === 'fr' }} hreflang="fr" lang="fr">{t.lang.fr}</a>
+      <span aria-hidden="true">/</span>
+      <a href={arPath} class:list={{ active: locale === 'ar' }} hreflang="ar" lang="ar">{t.lang.ar}</a>
+    </div>
+    <a class="btn btn-solid top-cta" href={localePath(locale, '/contact')}>{t.cta}</a>
+  </div>
+  <button class="top-menu" type="button" data-menu aria-expanded="false" aria-label={t.menu}>
+    <span></span><span></span>
+  </button>
+  <div class="top-drawer" data-drawer hidden>
+    {t.nav.map((l) => <a href={localePath(locale, l.path)}>{l.label}</a>)}
+    <div class="lang drawer-lang">
+      <a href={frPath} class:list={{ active: locale === 'fr' }} hreflang="fr" lang="fr">{t.lang.fr}</a>
+      <span aria-hidden="true">/</span>
+      <a href={arPath} class:list={{ active: locale === 'ar' }} hreflang="ar" lang="ar">{t.lang.ar}</a>
+    </div>
+    <a class="btn btn-solid" href={localePath(locale, '/contact')}>{t.cta}</a>
+  </div>
+</header>
+
+<script>
+  const menu = document.querySelector<HTMLButtonElement>('[data-menu]');
+  const drawer = document.querySelector<HTMLElement>('[data-drawer]');
+  const lockScroll = (lock: boolean) => {
+    document.documentElement.classList.toggle('nav-open', lock);
+    document.body.classList.toggle('nav-open', lock);
+  };
+  const closeDrawer = () => {
+    menu?.setAttribute('aria-expanded', 'false');
+    drawer?.setAttribute('hidden', '');
+    lockScroll(false);
+  };
+  menu?.addEventListener('click', () => {
+    const open = menu.getAttribute('aria-expanded') === 'true';
+    menu.setAttribute('aria-expanded', String(!open));
+    drawer?.toggleAttribute('hidden', open);
+    lockScroll(!open);
+  });
+  drawer?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeDrawer));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu?.getAttribute('aria-expanded') === 'true') closeDrawer();
+  });
+</script>
+
+<style>
+  .top {
+    position: fixed; inset: 0 0 auto; z-index: 60;
+    display: flex; align-items: center; gap: 1.25rem;
+    height: var(--nav);
+    padding: 0 max(var(--pad), calc((100% - var(--wrap)) / 2));
+    transition: background-color 0.3s var(--ease), box-shadow 0.3s var(--ease), color 0.3s var(--ease), transform 0.4s var(--ease);
+    color: var(--paper);
+  }
+  .top.is-hidden { transform: translateY(-100%); }
+  .top.is-solid {
+    background: rgb(255 252 244 / 0.78);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+    box-shadow: 0 1px 0 rgb(0 36 34 / 0.08);
+    color: var(--ink);
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .top.is-solid { background: var(--paper); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  }
+  .top:has(.top-menu[aria-expanded='true']) { background: var(--paper); color: var(--ink); }
+  .top:has(.top-menu[aria-expanded='true']) .on-light { display: block; }
+  .top:has(.top-menu[aria-expanded='true']) .on-dark { display: none; }
+  .top-logo { display: flex; align-items: center; }
+  .top-logo img { height: 3.5rem; width: auto; }
+  .top-logo .on-light { display: none; }
+  .top.is-solid .on-light { display: block; }
+  .top.is-solid .on-dark { display: none; }
+  .top-nav {
+    display: flex; gap: clamp(0.9rem, 1.8vw, 1.75rem);
+    margin-inline-start: auto;
+    flex-wrap: nowrap;
+  }
+  .top-nav a {
+    position: relative;
+    padding-block: 0.5rem;
+    font-size: 0.875rem; font-weight: 400; letter-spacing: 0.01em;
+    opacity: 0.8; white-space: nowrap;
+    transition: opacity 0.2s ease;
+  }
+  .top-nav a:hover,
+  .top-nav a[aria-current='page'] { opacity: 1; }
+  .top-nav a[aria-current='page'] { font-weight: 600; }
+  .top-nav a[aria-current='page']::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0.1rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--gold);
+  }
+  .top-end {
+    display: flex; align-items: center; gap: 1rem;
+    margin-inline-start: clamp(0.5rem, 1.5vw, 1.25rem);
+  }
+  .lang {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-size: 0.875rem;
+  }
+  .lang a { opacity: 0.7; padding-block: 0.5rem; transition: opacity 0.2s ease; }
+  .lang a.active { opacity: 1; font-weight: 600; }
+  .lang a:hover { opacity: 1; }
+  .lang span { opacity: 0.4; }
+  .top-cta { min-height: 2.25rem; padding: 0.35rem 1rem; font-size: 0.875rem; }
+  .top-menu {
+    display: none; width: 2.75rem; height: 2.75rem;
+    flex-direction: column; justify-content: center; align-items: center; gap: 6px; margin-inline-start: auto;
+  }
+  .top-menu span { display: block; width: 1.1rem; height: 1.5px; border-radius: 1px; background: currentColor; transition: transform 0.3s var(--ease); }
+  .top-menu[aria-expanded='true'] span:first-child { transform: translateY(3.75px) rotate(45deg); }
+  .top-menu[aria-expanded='true'] span:last-child { transform: translateY(-3.75px) rotate(-45deg); }
+  .top-drawer {
+    position: absolute; inset: 100% 0 auto;
+    display: flex; flex-direction: column; align-items: stretch; gap: 0;
+    padding: 0.75rem var(--pad) 2rem;
+    max-height: calc(100dvh - var(--nav));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: rgb(255 252 244 / 0.96);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+    color: var(--ink);
+    animation: drawer-in 0.3s var(--ease) both;
+  }
+  @keyframes drawer-in {
+    from { opacity: 0; transform: translateY(-0.5rem); }
+    to { opacity: 1; transform: none; }
+  }
+  .top-drawer[hidden] { display: none; }
+  .top-drawer a:not(.btn) {
+    font-family: var(--display); font-size: clamp(1.45rem, 6vw, 1.75rem); font-weight: 600; letter-spacing: -0.02em;
+    padding: 0.65rem 0;
+  }
+  .drawer-lang { margin: 1.25rem 0 1rem; }
+  .top-drawer .drawer-lang a { font-size: 1rem; font-weight: 400; }
+  .top-drawer .btn { align-self: stretch; }
+  @media (max-width: 1100px) {
+    .top-nav, .top-end { display: none; }
+    .top-menu { display: flex; }
+  }
+</style>

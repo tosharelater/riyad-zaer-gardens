@@ -1,0 +1,125 @@
+---
+import { getHome } from '../data/content';
+import { localePath, type Locale } from '../i18n/paths';
+const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
+const { aid } = getHome(locale);
+// Never let a price break across lines
+const keep = (t: string) => t.replace(/(\d) (?=\d|DH|درهم)/g, '$1 ');
+// "à partir de 420 000 DH" -> small prefix + figure
+const split = (t: string) => {
+  const m = t.match(/^(à partir de|ابتداءً?\s*من|من)\s+(.*)$/u);
+  return m ? { pre: m[1], fig: keep(m[2]) } : { pre: '', fig: keep(t) };
+};
+const before = split(aid.without);
+const after = split(aid.withAid);
+
+// Savings, computed from the two prices
+const num = (t: string) => Number((t.match(/\d[\d\s  ]*\d/)?.[0] ?? '').replace(/\D/g, ''));
+const nb = num(before.fig);
+const na = num(after.fig);
+const saved = nb > na && na > 0 ? nb - na : 0;
+const savedFig = String(saved).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+const dh = locale === 'ar' ? 'درهم' : 'DH';
+const savedLabel = locale === 'ar' ? 'وفر يصل إلى' : 'Jusqu’à';
+const href = aid.cta.href.startsWith('/') ? localePath(locale, aid.cta.href) : aid.cta.href;
+const heads = locale === 'ar' ? ['الأهلية', 'سعر الدخول', 'المرافقة'] : ['Éligibilité', 'Votre prix', 'Accompagnement'];
+const points = [aid.p1, aid.p2, aid.p3];
+---
+<section class="aid" id="aide">
+  <div class="wrap aid-shell">
+    <header class="aid-head" data-reveal data-split>
+      <p class="kick">{locale === 'ar' ? 'دعم السكن' : 'Aide au logement'}</p>
+      <h2 class="display">{aid.h2}</h2>
+    </header>
+
+    <aside class="aid-ticket" data-reveal aria-label="Comparaison de prix">
+      {saved > 0 && (
+        <p class="aid-save"><small>{savedLabel}</small><strong>−{savedFig} {dh}</strong></p>
+      )}
+      <p class="aid-compare">
+        <span class="aid-row is-before"><small>{locale === 'ar' ? 'بدون دعم' : 'Sans aide'}</small><s>{before.fig}</s></span>
+        <span class="aid-arrow" aria-hidden="true">→</span>
+        <span class="aid-row is-after"><small>{locale === 'ar' ? 'مع دعم السكن' : 'Avec l’aide'}</small><b>{after.fig}</b></span>
+      </p>
+    </aside>
+
+    <ol class="aid-steps" data-reveal>
+      {points.map((p, i) => (
+        <li>
+          <h3>{heads[i]}</h3>
+          <p>{p}</p>
+        </li>
+      ))}
+    </ol>
+
+    <a class="btn btn-solid aid-cta" href={href}>{aid.cta.label}</a>
+  </div>
+</section>
+
+<style>
+  .aid {
+    padding: var(--sec) 0;
+    background:
+      radial-gradient(50% 60% at 0% 100%, rgb(200 181 104 / 0.12), transparent 60%),
+      radial-gradient(45% 55% at 100% 0%, rgb(200 181 104 / 0.14), transparent 60%),
+      var(--canopy);
+    color: var(--cream);
+  }
+  .aid-shell { display: grid; justify-items: center; gap: clamp(1.5rem, 3.5vw, 2.5rem); text-align: center; }
+  .aid-head { display: grid; justify-items: center; gap: 0.8rem; max-width: 40rem; }
+  .aid-head .kick { margin: 0; color: var(--gold-soft); }
+  .aid-head .display { margin: 0; max-width: none; color: var(--paper); }
+
+  /* The saving is the hero of the section */
+  .aid-ticket { display: grid; justify-items: center; gap: 1rem; }
+  .aid-save { margin: 0; display: grid; gap: 0.15rem; justify-items: center; }
+  .aid-save small { font-size: 0.85rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-soft); font-weight: 600; }
+  .aid-save strong {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(3rem, 9vw, 6rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+  .aid-compare { margin: 0; display: flex; align-items: center; justify-content: center; gap: clamp(0.75rem, 3vw, 1.75rem); flex-wrap: wrap; }
+  .aid-row { display: grid; gap: 0.15rem; justify-items: center; }
+  .aid-row small { font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-on-dark); }
+  .aid-row s { font-size: clamp(1.15rem, 2.4vw, 1.6rem); font-weight: 300; color: var(--muted-on-dark); text-decoration-thickness: 1.5px; white-space: nowrap; }
+  .aid-row b { font-size: clamp(1.5rem, 3.2vw, 2.2rem); font-weight: 600; color: var(--paper); white-space: nowrap; }
+  .aid-arrow { color: var(--gold); font-size: 1.5rem; }
+
+  .aid-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: min(100%, 64rem);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(0.75rem, 1.6vw, 1.1rem);
+    text-align: start;
+  }
+  .aid-steps li {
+    display: grid;
+    align-content: start;
+    gap: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgb(200 181 104 / 0.55);
+  }
+  .aid-steps h3 { margin: 0; font-family: var(--display); font-weight: 600; font-size: 1.1rem; color: var(--paper); }
+  .aid-steps p { margin: 0; color: var(--muted-on-dark); font-size: 0.95rem; line-height: 1.65; }
+
+  .aid .btn { background: var(--gold); color: var(--ink); }
+  .aid .btn:hover { background: var(--gold-soft); }
+
+  @media (max-width: 860px) {
+    .aid-steps { grid-template-columns: 1fr; }
+    .aid-steps li { padding-top: 0.9rem; }
+    .aid-head .display { font-size: clamp(1.7rem, 7vw, 2.35rem); }
+  }
+  @media (max-width: 560px) {
+    .aid .btn { width: 100%; }
+  }
+
+</style>

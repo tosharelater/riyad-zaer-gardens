@@ -1,0 +1,289 @@
+---
+import type { Locale } from '../i18n/paths';
+const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
+const ar = locale === 'ar';
+/** Project renders — the gallery is the one place they appear together */
+const gallery = [
+  { src: '/photos/facade-nuit.jpg', alt: ar ? 'الواجهة عند الغروب' : 'Façade au coucher du soleil', wide: true },
+  { src: '/photos/salon.jpg', alt: ar ? 'صالة المعيشة' : 'Salon' },
+  { src: '/photos/allee-jardin.jpg', alt: ar ? 'قلب الحي المزروع' : 'Cœur d’îlot végétalisé' },
+  { src: '/photos/commerce-angle.jpg', alt: ar ? 'المحلات في الطابق الأرضي' : 'Commerces en rez-de-chaussée' },
+  { src: '/photos/facade-golden.jpg', alt: ar ? 'الواجهة والنخيل' : 'Façade plantée', wide: true },
+  { src: '/photos/salon-balcon.jpg', alt: ar ? 'صالة مع شرفة' : 'Salon avec balcon' },
+  { src: '/photos/aerial-ilot.jpg', alt: ar ? 'منظر جوي للمجمّع' : 'Vue d’ensemble de l’îlot', wide: true },
+  { src: '/photos/cuisine.jpg', alt: ar ? 'المطبخ' : 'Cuisine' },
+  { src: '/photos/commerce-interieur.jpg', alt: ar ? 'داخل محل تجاري' : 'Local commercial' },
+  { src: '/photos/salon-coin.jpg', alt: ar ? 'زاوية الصالة' : 'Coin salon' },
+  { src: '/photos/facade-street.jpg', alt: ar ? 'الواجهة على الشارع' : 'Façade sur rue', wide: true },
+  { src: '/photos/chambre-enfants.jpg', alt: ar ? 'غرفة أطفال' : 'Chambre d’enfants' },
+  { src: '/photos/commerce-trottoir.jpg', alt: ar ? 'واجهة المحلات' : 'Vitrine commerciale' },
+  { src: '/photos/facade-corner.jpg', alt: ar ? 'زاوية المشروع' : 'Angle du projet' },
+];
+---
+<section class="vision" aria-label="Galerie du projet">
+  <div class="wrap vision-top">
+    <div class="vision-head" data-reveal data-split>
+      <p class="kick">{ar ? 'المشروع بالصور' : 'Le projet en images'}</p>
+      <h2 class="display">{ar ? 'شاهدوا الحي وهو يتشكّل' : 'Regarder le quartier prendre forme'}</h2>
+    </div>
+    <div class="vision-nav" data-reveal>
+      <button type="button" class="vision-btn" data-vision-prev aria-label="Image précédente">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M15 5 8 12l7 7" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <button type="button" class="vision-btn" data-vision-next aria-label="Image suivante">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="m9 5 7 7-7 7" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="vision-rail" data-vision-rail>
+    {gallery.map((g, i) => (
+      <button
+        type="button"
+        class:list={['vision-card', { 'is-wide': g.wide }]}
+        data-gallery-open
+        data-index={i}
+        aria-label={`Agrandir : ${g.alt}`}
+        data-caption={g.alt}
+      >
+        <img src={g.src} alt={g.alt} loading="lazy" draggable="false" />
+      </button>
+    ))}
+  </div>
+</section>
+
+<dialog class="gallery-lightbox" data-gallery-lightbox aria-label="Aperçu de la galerie">
+  <button type="button" class="gallery-close" data-gallery-close aria-label="Fermer">×</button>
+  <button type="button" class="gallery-nav is-prev" data-gallery-prev aria-label="Précédente">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+      <path d="M15 5 8 12l7 7" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </button>
+  <figure>
+    <img data-gallery-img alt="" />
+    <figcaption data-gallery-caption></figcaption>
+  </figure>
+  <button type="button" class="gallery-nav is-next" data-gallery-next aria-label="Suivante">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+      <path d="m9 5 7 7-7 7" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </button>
+</dialog>
+
+<style>
+  .vision {
+    padding: var(--sec) 0;
+    background: var(--cream);
+    color: var(--ink);
+  }
+
+  .vision-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--gap);
+    margin-bottom: var(--head-gap);
+  }
+
+  .vision-head {
+    display: grid;
+    gap: 0.65rem;
+    max-width: 28rem;
+  }
+  .vision-head .kick { margin: 0; }
+  .vision-head .display { margin: 0; max-width: none; }
+
+  .vision-nav {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    margin-top: 1.7rem;
+  }
+
+  .vision-btn {
+    width: 2.75rem;
+    height: 2.75rem;
+    display: grid;
+    place-items: center;
+    border: 1px solid color-mix(in srgb, var(--canopy) 28%, transparent);
+    border-radius: var(--radius-sm);
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+    transition: background 0.25s var(--ease), border-color 0.25s var(--ease), color 0.25s var(--ease);
+  }
+  .vision-btn:hover {
+    background: var(--canopy);
+    border-color: var(--canopy);
+    color: var(--paper);
+  }
+  .vision-btn svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  .vision-rail {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding: 0 max(var(--pad), calc((100% - var(--wrap)) / 2)) 0.75rem;
+    scroll-padding-inline: max(var(--pad), calc((100% - var(--wrap)) / 2));
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    cursor: grab;
+    user-select: none;
+  }
+  .vision-rail::-webkit-scrollbar { display: none; }
+  .vision-rail.is-dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+  }
+
+  .vision-card {
+    flex: 0 0 min(70vw, 20rem);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    scroll-snap-align: start;
+    border-radius: var(--radius);
+    background: #ebe3d2;
+    cursor: pointer;
+    position: relative;
+  }
+  .vision-card.is-wide {
+    flex-basis: min(84vw, 30rem);
+    aspect-ratio: 16 / 10;
+  }
+
+  .vision-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    transition: transform 0.8s var(--ease);
+  }
+  .vision-card:hover img,
+  .vision-card:focus-visible img {
+    transform: scale(1.02);
+  }
+  .vision-card::after {
+    content: attr(data-caption);
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 3rem 1.1rem 1rem;
+    font-size: 0.875rem;
+    letter-spacing: 0.04em;
+    text-align: start;
+    color: var(--cream);
+    background: linear-gradient(to top, color-mix(in srgb, var(--ink) 78%, transparent), transparent);
+    opacity: 0;
+    transform: translateY(0.4rem);
+    transition: opacity 0.45s ease, transform 0.55s var(--ease);
+  }
+  .vision-card:hover::after,
+  .vision-card:focus-visible::after {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (min-width: 901px) {
+    .vision-card {
+      flex-basis: min(26vw, 19rem);
+    }
+    .vision-card.is-wide {
+      flex-basis: min(42vw, 32rem);
+    }
+  }
+
+  @media (max-width: 700px) {
+    .vision-top {
+      align-items: start;
+      flex-direction: column;
+    }
+  }
+</style>
+
+<style is:global>
+  .gallery-lightbox {
+    border: 0;
+    padding: 0;
+    max-width: none;
+    max-height: none;
+    width: 100vw;
+    height: 100vh;
+    background: color-mix(in srgb, var(--ink) 94%, transparent);
+    color: var(--cream);
+  }
+  .gallery-lightbox::backdrop {
+    background: color-mix(in srgb, var(--ink) 72%, transparent);
+  }
+  .gallery-lightbox[open] {
+    display: grid;
+    place-items: center;
+  }
+  .gallery-lightbox figure {
+    margin: 0;
+    width: min(92vw, 72rem);
+    max-height: 84vh;
+    display: grid;
+    gap: 0.85rem;
+    justify-items: center;
+  }
+  .gallery-lightbox img {
+    max-width: 100%;
+    max-height: 76vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+  .gallery-lightbox figcaption {
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    color: color-mix(in srgb, var(--cream) 70%, transparent);
+    text-align: center;
+  }
+  .gallery-close {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--cream) 10%, transparent);
+    color: var(--cream);
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .gallery-nav {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.75rem;
+    height: 2.75rem;
+    display: grid;
+    place-items: center;
+    border: 1px solid color-mix(in srgb, var(--cream) 22%, transparent);
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--ink) 55%, transparent);
+    color: var(--cream);
+    cursor: pointer;
+  }
+  .gallery-nav.is-prev { left: 1.25rem; }
+  .gallery-nav.is-next { right: 1.25rem; }
+  .gallery-nav svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+</style>

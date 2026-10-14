@@ -1,0 +1,114 @@
+---
+import { getHome } from '../data/content';
+import { localePath, type Locale } from '../i18n/paths';
+const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
+const { apartments, aid } = getHome(locale);
+const keep = (t: string) => t.replace(/(\d) (?=\d|DH|m)/g, '$1 ');
+const facts: [string, string][] = [
+  [locale === 'ar' ? 'النوع' : 'Typologies', apartments.types.join(' · ')],
+  [locale === 'ar' ? 'المساحة' : 'Surfaces', keep(apartments.range)],
+  [locale === 'ar' ? 'السعر' : 'Prix', keep(apartments.price.charAt(0).toLowerCase() + apartments.price.slice(1))],
+  [locale === 'ar' ? 'مع الدعم' : 'Avec l’aide au logement', keep(aid.withAid)],
+];
+---
+<section class="homes-gh" id="appartements">
+  <div class="wrap homes-gh-grid">
+    <div class="homes-gh-block" data-reveal data-split>
+      <p class="kick">{locale === 'ar' ? 'الشقق' : 'Appartements'}</p>
+      <h2 class="display">{apartments.h2}</h2>
+      <p class="lead">{apartments.p1}</p>
+
+      <p class="homes-gh-note">{apartments.p2}</p>
+
+      <dl class="facts">
+        {facts.map(([k, v]) => (
+          <div>
+            <dt>{k}</dt>
+            <dd>{v}</dd>
+          </div>
+        ))}
+      </dl>
+
+
+      <a class="btn btn-ghost" href={apartments.cta.href.startsWith('/') ? localePath(locale, apartments.cta.href) : apartments.cta.href}>{apartments.cta.label}</a>
+    </div>
+    <figure class="homes-gh-media" data-media data-reveal>
+      <img src="/photos/salon.jpg" alt="" loading="lazy" decoding="async" />
+    </figure>
+  </div>
+</section>
+<style>
+  .homes-gh {
+    background: var(--paper);
+    padding: var(--sec) 0;
+  }
+  .homes-gh-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--gap);
+    align-items: center;
+  }
+  .homes-gh .kick { margin: 0; }
+  .homes-gh .display {
+    margin: 0.65rem 0 0;
+    max-width: none;
+  }
+  .homes-gh .lead { margin-top: 0.85rem; }
+  .homes-gh-types {
+    margin-top: 1.5rem;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(1.25rem, 2vw, 1.55rem);
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .homes-gh-note {
+    margin-top: 0.65rem;
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.65;
+    max-width: 32rem;
+  }
+  .homes-gh-price {
+    display: grid;
+    gap: 0.3rem;
+    margin-top: 1.35rem;
+  }
+  .homes-gh-price strong {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+    line-height: 1.1;
+    color: var(--canopy);
+  }
+  .homes-gh-price span {
+    font-size: 0.92rem;
+    color: var(--muted);
+  }
+  .homes-gh .btn {
+    margin-top: 1.35rem;
+  }
+  .homes-gh-media {
+    margin: 0;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    position: relative;
+    isolation: isolate;
+  }
+  .homes-gh-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease);
+  }
+  .homes:hover .homes-gh-media img {
+    transform: scale(1.02);
+  }
+  @media (max-width: 900px) {
+    .homes-gh-grid { grid-template-columns: 1fr; }
+    .homes-gh-media {
+      order: -1;
+      aspect-ratio: 16 / 10;
+    }
+  }
+</style>

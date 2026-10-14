@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactShowcase from '../../components/showcase/ContactShowcase.astro';
+import { contactPage as p } from '../../data/pages.ar';
+---
+<BaseLayout locale="ar" title={p.seo.title} description={p.seo.description}>
+  <ContactShowcase locale="ar" />
+</BaseLayout>

@@ -1,0 +1,166 @@
+---
+/**
+ * COMPARE A — GitHub / older visual (dark full-bleed hero).
+ * Same écriture (home.ts). Keep for side-by-side choice vs Hero.astro.
+ */
+import { getHome } from '../data/content';
+import { localePath, type Locale } from '../i18n/paths';
+const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
+const { hero } = getHome(locale);
+const href = (h: string) => (h.startsWith('/') ? localePath(locale, h) : h);
+const [priceLead, priceValue] = (() => {
+  const m = hero.price.match(/^(.*?)(\d[\d\s\u202F\u00A0]*\d.*)$/);
+  return m ? [m[1].trim(), m[2].trim()] : ['', hero.price];
+})();
+---
+<section class="hero-gh" id="hero-a" data-compare="github">
+  <div class="hero-gh-media">
+    <img src="/photos/facade-nuit.jpg" alt={hero.alt} loading="lazy" decoding="async" />
+  </div>
+  <div class="hero-gh-shade" aria-hidden="true"></div>
+
+  <div class="hero-gh-copy wrap">
+    <h2 class="hero-gh-title">
+      <span class="hero-gh-brand">Riyad Zaer Gardens</span>
+      <span class="hero-gh-place">{hero.kicker}</span>
+    </h2>
+
+    <div class="hero-gh-foot">
+      <p class="hero-gh-sub">{hero.sub}</p>
+      <div class="hero-gh-row">
+        <p class="hero-gh-price">
+          {priceLead && <span>{priceLead}</span>}
+          <strong>{priceValue}</strong>
+        </p>
+        <div class="hero-gh-actions">
+          <a class="btn btn-solid" href={href(hero.primary.href)}>{hero.primary.label}</a>
+          <a class="btn btn-light" href={href(hero.secondary.href)}>{hero.secondary.label}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-gh {
+    position: relative;
+    min-height: min(100svh, 62rem);
+    min-height: min(100dvh, 62rem);
+    display: grid;
+    align-items: end;
+    color: var(--cream);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .hero-gh-media {
+    position: absolute;
+    inset: -12% -3% -3%;
+    z-index: -2;
+    overflow: hidden;
+    margin: 0;
+  }
+  .hero-gh-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 48%;
+  }
+  .hero-gh-shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      linear-gradient(to top, rgb(0 36 34 / 0.84) 0%, rgb(0 36 34 / 0.5) 38%, rgb(0 36 34 / 0) 72%),
+      linear-gradient(90deg, rgb(0 36 34 / 0.42) 0%, rgb(0 36 34 / 0) 62%),
+      linear-gradient(to bottom, rgb(0 36 34 / 0.4), transparent 22%);
+  }
+  .hero-gh-copy {
+    padding-top: calc(var(--nav) + 3.5rem);
+    padding-bottom: clamp(3rem, 7vw, 5rem);
+  }
+  .hero-gh-title {
+    display: grid;
+    gap: clamp(0.85rem, 1.8vw, 1.5rem);
+    font-weight: 400;
+    margin: 0;
+  }
+  .hero-gh-brand {
+    font-family: var(--audrey);
+    font-size: clamp(2.6rem, 7vw, 5.5rem);
+    letter-spacing: -0.03em;
+    word-spacing: 0.04em;
+    line-height: 0.95;
+    color: var(--paper);
+  }
+  :global([dir='rtl']) .hero-gh-brand {
+    direction: ltr;
+    unicode-bidi: isolate;
+    text-align: right;
+  }
+  .hero-gh-place {
+    font-family: var(--font);
+    font-size: clamp(1.35rem, 2.6vw, 2.1rem);
+    font-weight: 600;
+    letter-spacing: -0.022em;
+    line-height: 1.15;
+    color: var(--paper);
+    max-width: 34rem;
+    text-wrap: balance;
+  }
+  .hero-gh-foot {
+    margin-top: clamp(1rem, 2vw, 1.4rem);
+    display: grid;
+    gap: clamp(1.5rem, 3vw, 2rem);
+  }
+  .hero-gh-sub {
+    margin: 0;
+    max-width: 34rem;
+    font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+    line-height: 1.45;
+    color: rgb(255 252 244 / 0.86);
+    text-wrap: pretty;
+  }
+  .hero-gh-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.75rem;
+  }
+  .hero-gh-price {
+    display: grid;
+    gap: 0.25rem;
+    margin: 0;
+  }
+  .hero-gh-price span {
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    color: var(--gold-soft);
+  }
+  .hero-gh-price strong {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(1.45rem, 2.2vw, 1.85rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    white-space: nowrap;
+  }
+  .hero-gh-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+  .hero-gh .btn-solid {
+    background: var(--gold);
+    color: var(--ink);
+  }
+  .hero-gh .btn-solid:hover { background: var(--gold-soft); }
+  @media (max-width: 700px) {
+    .hero-gh-row { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 800px) {
+    .hero-gh-copy { padding-bottom: 6.5rem; }
+  }
+</style>

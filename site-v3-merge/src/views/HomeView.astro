@@ -1,0 +1,40 @@
+---
+/**
+ * Homepage — full content (01-accueil.md), 13 sections.
+ * Merge of the two directions: GitHub colours + image selection (dark green,
+ * dusk photography) with the current typography and cleaner layouts.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Proof from '../components/Proof.astro';
+import Figures from '../components/Figures.astro';
+import Cour from '../components/Cour.astro';
+import ProjetPanorama from '../components/ProjetPanorama.astro';
+import Logements from '../components/LogementsClassic.astro';
+import Finishes from '../components/Finishes.astro';
+import Commerce from '../components/Commerce.astro';
+import Aid from '../components/Aid.astro';
+import Ways from '../components/Ways.astro';
+import Vision from '../components/Vision.astro';
+import Lieu from '../components/Lieu.astro';
+import Contact from '../components/Contact.astro';
+import { getHome } from '../data/content';
+import type { Locale } from '../i18n/paths';
+const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
+const { seo } = getHome(locale);
+---
+<BaseLayout title={seo.title} description={seo.description} intro locale={locale}>
+  <Hero />
+  <Proof />
+  <Figures />
+  <Cour />
+  <ProjetPanorama />
+  <Logements />
+  <Finishes />
+  <Commerce />
+  <Aid />
+  <Ways />
+  <Vision />
+  <Lieu />
+  <Contact />
+</BaseLayout>

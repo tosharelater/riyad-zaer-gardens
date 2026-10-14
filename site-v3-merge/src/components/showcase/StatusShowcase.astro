@@ -1,0 +1,59 @@
+---
+/**
+ * Merci / 404 — full photo hero + quiet “continuer” links.
+ */
+import PageHero from '../page/PageHero.astro';
+import MoreLinks from '../page/MoreLinks.astro';
+import { media } from '../../data/media';
+import { localePath, type Locale } from '../../i18n/paths';
+
+interface Link {
+  title: string;
+  body: string;
+  href: string;
+}
+interface Props {
+  locale?: Locale;
+  kicker: string;
+  h1: string;
+  lead: string | readonly string[];
+  image: string;
+  alt?: string;
+  position?: string;
+  primary: { label: string; href: string };
+  secondary: { label: string; href: string };
+  more: { h2: string; links: readonly Link[] };
+}
+const {
+  locale = 'fr',
+  kicker,
+  h1,
+  lead,
+  image,
+  alt = media.hero.alt,
+  position = 'center 40%',
+  primary,
+  secondary,
+  more,
+} = Astro.props;
+
+const moreLinks = more.links.map((l) => ({
+  ...l,
+  href: l.href.startsWith('tel:') || l.href.startsWith('http') ? l.href : localePath(locale, l.href),
+}));
+const primaryHref =
+  primary.href.startsWith('tel:') || primary.href.startsWith('http')
+    ? primary.href
+    : localePath(locale, primary.href);
+const secondaryHref =
+  secondary.href.startsWith('tel:') || secondary.href.startsWith('http')
+    ? secondary.href
+    : localePath(locale, secondary.href);
+---
+<div data-status-page>
+  <PageHero h1={h1} lead={lead} kicker={kicker} image={image} alt={alt} position={position}>
+    <a class="btn btn-solid" href={primaryHref}>{primary.label}</a>
+    <a class="btn btn-light" href={secondaryHref}>{secondary.label}</a>
+  </PageHero>
+  <MoreLinks h2={more.h2} links={moreLinks} />
+</div>

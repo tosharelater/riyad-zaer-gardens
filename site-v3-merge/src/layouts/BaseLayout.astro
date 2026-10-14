@@ -1,0 +1,103 @@
+---
+import '@fontsource/poppins/200.css';
+import '@fontsource/poppins/300.css';
+import '@fontsource/poppins/400.css';
+import '@fontsource/poppins/500.css';
+import '@fontsource/poppins/600.css';
+import '@fontsource/poppins/700.css';
+import '@fontsource/noto-sans-arabic/400.css';
+import '@fontsource/noto-sans-arabic/500.css';
+import '../styles/global.css';
+import Intro from '../components/Intro.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import type { Locale } from '../i18n/paths';
+import { getLocaleFromPath, switchLocalePath } from '../i18n/paths';
+import { contactInfo } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  intro?: boolean;
+  solidNav?: boolean;
+  noindex?: boolean;
+  locale?: Locale;
+  ogImage?: string;
+}
+const {
+  title = 'Riyad Zaer Gardens — Appartements neufs à Aïn Aouda',
+  description = "Appartements F3 et F4 de 65 à 86 m² et fonds de commerce à Aïn Aouda, à 20 min de Rabat. À partir de 420 000 DH, éligibles à l'aide au logement.",
+  intro = false,
+  solidNav = false,
+  noindex = false,
+  locale: localeProp,
+  ogImage = '/photos/facade-nuit.jpg',
+} = Astro.props;
+
+const locale: Locale =
+  localeProp ?? (Astro.currentLocale === 'ar' ? 'ar' : getLocaleFromPath(Astro.url.pathname));
+const dir = locale === 'ar' ? 'rtl' : 'ltr';
+const path = Astro.url.pathname;
+const frHref = new URL(switchLocalePath(path, 'fr'), Astro.site ?? 'https://riyadzaergardens.com').href;
+const arHref = new URL(switchLocalePath(path, 'ar'), Astro.site ?? 'https://riyadzaergardens.com').href;
+const canonical = new URL(path, Astro.site ?? 'https://riyadzaergardens.com').href;
+const ogAbs = new URL(ogImage, Astro.site ?? 'https://riyadzaergardens.com').href;
+---
+<!doctype html>
+<html lang={locale} dir={dir}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="fr" href={frHref} />
+    <link rel="alternate" hreflang="ar" href={arHref} />
+    <link rel="alternate" hreflang="x-default" href={frHref} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={locale === 'ar' ? 'ar_MA' : 'fr_MA'} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogAbs} />
+    <meta property="og:image:alt" content="Riyad Zaer Gardens" />
+    <meta property="og:site_name" content="Riyad Zaer Gardens" />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogAbs} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#002d2d" />
+    <meta name="msapplication-TileColor" content="#002d2d" />
+    <meta name="msapplication-TileImage" content="/brand/icon-192.png" />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'RealEstateAgent',
+      name: 'Riyad Zaer Gardens',
+      url: Astro.site?.href ?? 'https://riyadzaergardens.com',
+      logo: new URL('/brand/logo-green.png', Astro.site ?? 'https://riyadzaergardens.com').href,
+      image: ogAbs,
+      description,
+      telephone: contactInfo.phoneTel,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: contactInfo.address,
+        addressLocality: 'Rabat',
+        addressCountry: 'MA',
+      },
+    })} />
+  </head>
+  <body class:list={[{ 'is-page': solidNav, 'is-rtl': locale === 'ar' }]}>
+    {intro && <Intro />}
+    <div class="progress" aria-hidden="true"><i data-progress></i></div>
+    <Nav solid={solidNav} locale={locale} />
+    <main><slot /></main>
+    <Footer locale={locale} />
+    <script>import '../scripts/motion';</script>
+  </body>
+</html>

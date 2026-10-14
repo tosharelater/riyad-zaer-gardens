@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjetShowcase from '../components/showcase/ProjetShowcase.astro';
+import { projetPage as p } from '../data/pages';
+---
+<BaseLayout title={p.seo.title} description={p.seo.description}>
+  <ProjetShowcase locale="fr" />
+</BaseLayout>

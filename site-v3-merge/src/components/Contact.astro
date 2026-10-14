@@ -1,0 +1,150 @@
+---
+import { getHome } from '../data/content';
+import { contactPage as contactFr } from '../data/pages';
+import { contactPage as contactAr } from '../data/pages.ar';
+import { localePath, type Locale } from '../i18n/paths';
+import Icon from './Icon.astro';
+
+const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
+const { contact } = getHome(locale);
+const form = (locale === 'ar' ? contactAr : contactFr).form;
+---
+<section class="contact" id="contact">
+  <div class="wrap contact-shell">
+    <div class="contact-copy" data-reveal data-split>
+      <p class="kick">Contact</p>
+      <h2 class="display">{contact.h2}</h2>
+      <p class="lead">{contact.body}</p>
+      <a class="phone" href={`tel:${contact.phoneTel}`} dir="ltr">{contact.phone}</a>
+      <div class="contact-actions">
+        <a class="btn btn-solid" href={`tel:${contact.phoneTel}`}><Icon name="phone" />{contact.primary}</a>
+        <a class="btn btn-ghost wa" href={contact.whatsapp}><Icon name="message-circle" />{contact.secondary}</a>
+      </div>
+    </div>
+    <form class="form" method="get" action={localePath(locale, '/merci')} data-lead-form data-reveal>
+      <label>
+        <span>{form.fields.name}</span>
+        <input name="nom" required autocomplete="name" />
+      </label>
+      <label>
+        <span>{form.fields.phone}</span>
+        <input
+          name="telephone"
+          type="tel"
+          required
+          autocomplete="tel"
+          dir="ltr"
+          inputmode="tel"
+          data-invalid-msg={form.fields.phoneInvalid}
+        />
+      </label>
+      <label>
+        <span>{form.fields.interest}</span>
+        <select name="interet" required>
+          <option value="" disabled selected>{form.fields.interestPlaceholder}</option>
+          {form.interests.map((opt) => <option value={opt}>{opt}</option>)}
+        </select>
+      </label>
+      <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <button class="btn btn-solid" type="submit">{form.submit}</button>
+    </form>
+  </div>
+</section>
+
+<script>
+  import '../scripts/form';
+</script>
+
+<style>
+  /* Cream after Lieu — Footer ink closes the page alone */
+  .contact {
+    padding: var(--sec) 0;
+    background: var(--alt);
+    color: var(--ink);
+  }
+  .contact .kick { color: var(--gold-text); }
+  .contact .lead { color: var(--muted); }
+  .contact-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--gap);
+    align-items: start;
+  }
+  .contact-copy,
+  .form { min-width: 0; }
+  .contact .kick { margin: 0; }
+  .contact .display { margin: 0.65rem 0 0; max-width: none; }
+  .contact .lead { margin-top: 0.85rem; }
+  .phone {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    display: block;
+    margin-top: 1.35rem;
+    width: fit-content;
+    max-width: 100%;
+    font-family: var(--display);
+    font-size: clamp(1.55rem, 4vw, 2.35rem);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    background: linear-gradient(var(--canopy), var(--canopy)) no-repeat 0 100% / 0 1.5px;
+    transition: background-size 0.7s var(--ease);
+  }
+  .phone:hover { background-size: 100% 1.5px; }
+  .contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-top: 1.25rem;
+  }
+  .form {
+    display: grid;
+    gap: 1.25rem;
+    position: relative;
+    padding: clamp(1.85rem, 3.8vw, 2.65rem);
+    background: var(--paper);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 24px rgb(0 36 34 / 0.06);
+  }
+  .form label { display: grid; gap: 0.35rem; position: relative; }
+  .form span {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    transition: color 0.3s ease;
+  }
+  .form label:focus-within span { color: var(--canopy); }
+  .form input, .form select {
+    width: 100%;
+    min-width: 0;
+    min-height: 3.25rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgb(0 36 34 / 0.16);
+    border-radius: 12px;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 1.0625rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .form input:focus, .form select:focus, .form textarea:focus {
+    border-color: var(--canopy);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--canopy) 18%, transparent);
+  }
+  .form select option { color: var(--ink); background: var(--cream); }
+  .form .btn { margin-top: 0.5rem; justify-self: start; min-width: 12rem; }
+  .form .btn[aria-busy='true'] { opacity: 0.7; }
+  .hp {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    opacity: 0;
+    pointer-events: none;
+  }
+  @media (max-width: 800px) {
+    .contact-shell { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

@@ -1,0 +1,86 @@
+---
+---
+<script is:inline>
+  (function () {
+    var seen = false;
+    try { seen = sessionStorage.getItem('rz-intro') === '1'; } catch (e) {}
+    if (!seen && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('intro-lock', 'intro-on');
+    }
+  })();
+</script>
+<div class="intro" data-intro aria-hidden="true">
+  <div class="intro-mark">
+    <img src="/brand/logo-light.png" alt="" width="280" height="182" />
+    <span class="intro-line"></span>
+  </div>
+</div>
+
+<script>
+  const el = document.querySelector<HTMLElement>('[data-intro]');
+  const root = document.documentElement;
+  if (el) {
+    if (!root.classList.contains('intro-on')) {
+      el.remove();
+    } else {
+      try { sessionStorage.setItem('rz-intro', '1'); } catch { /* private mode */ }
+      window.setTimeout(() => {
+        el.classList.add('is-out');
+        root.classList.remove('intro-lock');
+        window.dispatchEvent(new Event('rz:ready'));
+        window.setTimeout(() => {
+          el.remove();
+          root.classList.remove('intro-on');
+        }, 1100);
+      }, 1500);
+    }
+  }
+</script>
+
+<style is:global>
+  html.intro-lock, html.intro-lock body { overflow: hidden; height: 100%; }
+  .intro { display: none; }
+  html.intro-on .intro {
+    position: fixed; inset: 0; z-index: 200;
+    display: grid; place-items: center;
+    background: var(--ink);
+    clip-path: inset(0 0 0 0);
+    transition: clip-path 1s var(--ease-io);
+  }
+  html.intro-on .intro.is-out { clip-path: inset(0 0 100% 0); pointer-events: none; }
+  .intro-mark {
+    display: grid;
+    place-items: center;
+    gap: 1.4rem;
+    transition: opacity 0.5s ease, transform 1s var(--ease-io);
+  }
+  .intro.is-out .intro-mark { opacity: 0; transform: translateY(-3rem); }
+  .intro img {
+    width: min(10rem, 38vw); height: auto;
+    animation: intro-up 1s var(--ease) both;
+  }
+  .intro-line {
+    display: block;
+    width: 5rem;
+    height: 1px;
+    background: rgb(255 252 244 / 0.18);
+    overflow: hidden;
+    position: relative;
+  }
+  .intro-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--paper);
+    transform-origin: left;
+    animation: intro-load 1.3s 0.15s var(--ease-io) both;
+  }
+  @keyframes intro-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes intro-load {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+</style>

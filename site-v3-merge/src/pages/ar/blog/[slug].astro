@@ -1,0 +1,242 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageBand from '../../../components/page/PageBand.astro';
+import { getArticle, getArticles } from '../../../data/blog';
+import { ui } from '../../../i18n/ui';
+import { localePath } from '../../../i18n/paths';
+
+export function getStaticPaths() {
+  return getArticles('ar').map((a) => ({ params: { slug: a.slug } }));
+}
+
+const locale = 'ar' as const;
+const { slug } = Astro.params;
+const article = getArticle(slug!, 'ar');
+if (!article) return Astro.redirect('/ar/blog');
+
+const t = ui('ar');
+const others = getArticles('ar').filter((a) => a.slug !== article.slug).slice(0, 3);
+const dateFmt = (d: string) =>
+  new Date(d).toLocaleDateString('ar-MA', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+---
+<BaseLayout title={article.seoTitle} description={article.description} locale={locale}>
+  <article class="post">
+    <header class="post-hero">
+      <figure class="post-media" aria-hidden="true">
+        <img src={article.image} alt="" fetchpriority="high" decoding="async" />
+      </figure>
+      <div class="post-shade" aria-hidden="true"></div>
+      <div class="wrap post-intro">
+        <a class="back" href={localePath(locale, '/blog')}>{t.blog.back}</a>
+        <div class="tags">
+          {article.tags.map((tag) => <span>{tag}</span>)}
+        </div>
+        <h1 class="display">{article.title}</h1>
+        <p class="dates">
+          <span>{t.blog.published} {dateFmt(article.date)}</span>
+        </p>
+      </div>
+    </header>
+
+    <div class="wrap post-body">
+      <p class="deck">{article.excerpt}</p>
+      {article.sections.map((s) => (
+        <section>
+          <h2>{s.h2}</h2>
+          {s.paragraphs.map((p) => <p>{p}</p>)}
+          {s.list && (
+            <ul>
+              {s.list.map((item) => <li>{item}</li>)}
+            </ul>
+          )}
+        </section>
+      ))}
+      {article.cta && (
+        <div class="post-cta">
+          <a class="btn btn-solid" href={localePath(locale, article.cta.href)}>{article.cta.label}</a>
+        </div>
+      )}
+      {!article.cta && (
+        <div class="post-cta">
+          <a class="btn btn-solid" href={localePath(locale, '/contact')}>{t.cta}</a>
+        </div>
+      )}
+    </div>
+
+    <section class="more wrap">
+      <h2 class="display">{t.blog.more}</h2>
+      <div class="more-grid">
+        {others.map((a) => (
+          <a href={localePath(locale, `/blog/${a.slug}`)}>
+            <img src={a.image} alt="" loading="lazy" decoding="async" />
+            <strong>{a.title}</strong>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <PageBand image="/photos/facade-golden.jpg" />
+  </article>
+</BaseLayout>
+
+<style>
+  .post-hero {
+    position: relative;
+    isolation: isolate;
+    min-height: min(68svh, 40rem);
+    display: grid;
+    align-items: end;
+    color: var(--cream);
+    overflow: hidden;
+  }
+  .post-media {
+    position: absolute;
+    inset: -8% -2% -2%;
+    z-index: -2;
+    margin: 0;
+  }
+  .post-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 45%;
+  }
+  .post-shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(to top, color-mix(in srgb, var(--ink) 92%, transparent) 0%, color-mix(in srgb, var(--ink) 72%, transparent) 45%, color-mix(in srgb, var(--ink) 48%, transparent) 100%);
+  }
+  .post-intro {
+    padding: calc(var(--nav) + clamp(3rem, 8vw, 5rem)) 0 clamp(2.5rem, 5vw, 3.75rem);
+    max-width: 44rem;
+  }
+  .back {
+    display: inline-block;
+    font-size: 0.875rem;
+    letter-spacing: -0.005em;
+    color: var(--gold-soft);
+    font-weight: 500;
+    margin-bottom: 1.25rem;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .tags span {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+  }
+  .post-intro .display {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(2.15rem, 4.5vw, 3.65rem);
+    max-width: 18ch;
+    letter-spacing: -0.035em;
+  }
+  .dates {
+    margin-top: 1.1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+    font-size: 0.85rem;
+    color: var(--muted-on-dark);
+  }
+  .post-body {
+    padding: var(--sec) 0 3rem;
+    max-width: 44rem;
+  }
+  .deck {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+    line-height: 1.35;
+    color: var(--ink);
+    margin-bottom: 3rem;
+    padding-bottom: 0.5rem;
+  }
+  .post-body section { margin-bottom: 2.25rem; }
+  .post-body h2 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+    line-height: 1.15;
+    margin: 3rem 0 1rem;
+  }
+  .post-body p {
+    color: color-mix(in srgb, var(--ink) 86%, transparent);
+    font-size: 1.125rem;
+    line-height: 1.8;
+    margin-bottom: 1.1rem;
+  }
+  .post-body ul {
+    margin: 1rem 0 1.5rem;
+    display: grid;
+    gap: 0.65rem;
+  }
+  .post-body li {
+    position: relative;
+    padding: 0;
+    padding-inline-start: 1.75rem;
+    color: color-mix(in srgb, var(--ink) 86%, transparent);
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+  .post-body li::before {
+    content: '—';
+    position: absolute;
+    inset-inline-start: 0;
+    color: var(--gold-deep);
+  }
+  .post-body .btn { margin-top: 1rem; }
+  .post-cta {
+    margin-top: 2.5rem;
+    padding-top: 0.5rem;
+  }
+  .more { padding: 2rem 0 var(--sec); }
+  .more .display {
+    font-size: clamp(1.5rem, 2.8vw, 2rem);
+    margin-bottom: 1.75rem;
+  }
+  .more-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
+  .more-grid a {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 0.85rem;
+    overflow: hidden;
+  }
+  .more-grid img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius);
+    transition: transform 0.8s var(--ease);
+  }
+  .more-grid a:hover img { transform: scale(1.02); }
+  .more-grid strong {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 1.35rem;
+    line-height: 1.2;
+  }
+  @media (max-width: 800px) {
+    .more-grid { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .more-grid img { transition: none; }
+  }
+</style>

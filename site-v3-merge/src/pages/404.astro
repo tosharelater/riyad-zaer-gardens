@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StatusShowcase from '../components/showcase/StatusShowcase.astro';
+import { notFoundPage as p } from '../data/pages';
+---
+<BaseLayout title="Page introuvable — Riyad Zaer Gardens">
+  <StatusShowcase
+    locale="fr"
+    kicker="404"
+    h1={p.h1}
+    lead={p.body}
+    image="/photos/facade-nuit.jpg"
+    primary={p.primary}
+    secondary={p.secondary}
+    more={p.more}
+  />
+</BaseLayout>

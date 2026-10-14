@@ -1,0 +1,5 @@
+.tmp/
+build-out.txt
+dist/
+node_modules/
+.DS_Store
