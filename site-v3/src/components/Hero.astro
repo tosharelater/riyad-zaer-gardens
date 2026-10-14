@@ -18,8 +18,7 @@ const [priceLead, priceValue] = (() => {
 
   <div class="hero-copy wrap" data-split>
     <h1 class="hero-title">
-      <span class="hero-brand" data-hero-brand>Riyad Zaer Gardens</span>
-      <span class="hero-place" data-hero-in>{hero.kicker}</span>
+      <span class="hero-brand" data-hero-brand>{hero.kicker}</span>
     </h1>
     <p class="hero-sub" data-hero-in>{hero.sub}</p>
     <div class="hero-foot" data-hero-in>
@@ -93,16 +92,17 @@ const [priceLead, priceValue] = (() => {
     display: grid;
     gap: 0.9rem;
     margin: 0;
-    max-width: 44rem;
+    max-width: 50rem;
     font-weight: 400;
   }
   #top .hero-brand {
     font-family: var(--audrey);
-    font-size: clamp(2.5rem, 5.8vw, 4.8rem);
-    letter-spacing: 0.06em;
+    font-size: clamp(2.4rem, 5.4vw, 4.6rem);
+    letter-spacing: 0.01em;
     word-spacing: 0.04em;
-    line-height: 1.05;
-    text-transform: uppercase;
+    line-height: 1.1;
+    text-transform: none;
+    text-wrap: balance;
     color: var(--paper);
     font-weight: 400;
   }
@@ -172,7 +172,6 @@ const [priceLead, priceValue] = (() => {
   html:not(.intro-lock) #top [data-hero-in] {
     animation: rise 1s var(--ease) both;
   }
-  html:not(.intro-lock) #top .hero-place { animation-delay: 0.35s; }
   html:not(.intro-lock) #top .hero-sub { animation-delay: 0.5s; }
   html:not(.intro-lock) #top .hero-foot { animation-delay: 0.65s; }
 
