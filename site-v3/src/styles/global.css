@@ -442,3 +442,12 @@ body.nav-open {
 body.nav-open .mbar {
   display: none !important;
 }
+
+/* One heading size for every homepage section (desktop) */
+@media (min-width: 901px) {
+  body > main section .display,
+  main > section .display {
+    font-size: clamp(2rem, 3.8vw, 3rem) !important;
+    line-height: 1.12;
+  }
+}
