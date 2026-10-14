@@ -384,75 +384,44 @@ function reasonsScene() {
   const stage = document.querySelector<HTMLElement>('[data-reasons-stage]');
   const items = gsap.utils.toArray<HTMLElement>('[data-reason-item]');
   const copies = gsap.utils.toArray<HTMLElement>('[data-reason-copy]');
-  if (!section || !items.length) return;
+  if (!section || !items.length || reduce) return;
 
   const trigger = stage ?? section;
+  // Each quarter grows out of the circle's centre point (clip-path), like an iris opening.
+  const origin = ['100% 100%', '0% 100%', '100% 0%', '0% 0%'];
 
-  ScrollTrigger.create({
-    trigger,
-    start: 'top 82%',
-    once: true,
-    onEnter: () => {
-      if (stage) {
-        gsap.fromTo(
-          stage,
-          { scale: 0.94, autoAlpha: 0.75 },
-          {
-            scale: 1,
-            autoAlpha: 1,
-            duration: 1.1,
-            ease: 'power3.out',
-            clearProps: 'transform',
-          },
-        );
-      }
+  const tl = gsap.timeline({
+    defaults: { ease: 'power2.out' },
+    scrollTrigger: { trigger, start: 'top 80%', end: 'top 30%', scrub: 0.6 },
+  });
 
-      items.forEach((item, i) => {
-        const img = item.querySelector<HTMLElement>('[data-reason-img]');
-        const delay = 0.1 + i * 0.08;
+  items.forEach((item, i) => {
+    const img = item.querySelector<HTMLElement>('[data-reason-img]');
+    tl.fromTo(
+      item,
+      { clipPath: `circle(0% at ${origin[i]})`, autoAlpha: 1 },
+      { clipPath: `circle(150% at ${origin[i]})`, duration: 1.2, ease: 'power3.inOut' },
+      i * 0.15,
+    );
+    if (img) tl.fromTo(img, { scale: 1.3 }, { scale: 1.04, duration: 1.4 }, i * 0.15);
+  });
 
-        gsap.fromTo(
-          item,
-          { autoAlpha: 0, scale: 0.92 },
-          {
-            autoAlpha: 1,
-            scale: 1,
-            duration: 0.95,
-            delay,
-            ease: 'power3.out',
-            clearProps: 'transform',
-          },
-        );
+  copies.forEach((copy, i) => {
+    const rule = copy.querySelector('.reasons-rule');
+    const at = 0.7 + i * 0.15;
+    tl.fromTo(copy, { autoAlpha: 0, x: i % 2 === 0 ? -30 : 30 }, { autoAlpha: 1, x: 0, duration: 0.8 }, at);
+    if (rule) tl.fromTo(rule, { scaleX: 0, transformOrigin: i % 2 === 0 ? 'left' : 'right' }, { scaleX: 1, duration: 0.5 }, at + 0.3);
+  });
 
-        if (img) {
-          gsap.fromTo(
-            img,
-            { scale: 1.18 },
-            {
-              scale: 1.04,
-              duration: 1.4,
-              delay,
-              ease: 'power2.out',
-            },
-          );
-        }
-      });
-
-      copies.forEach((copy, i) => {
-        gsap.fromTo(
-          copy,
-          { autoAlpha: 0, y: 16 },
-          {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.85,
-            delay: 0.28 + i * 0.08,
-            ease: 'power3.out',
-            clearProps: 'transform',
-          },
-        );
-      });
-    },
+  // Hover a quarter: its text lights up, the rest recede.
+  const setActive = (n: number | null) => {
+    items.forEach((el, i) => gsap.to(el, { filter: n === null || n === i ? 'saturate(1) brightness(1)' : 'saturate(0.2) brightness(1.08)', duration: 0.35 }));
+    copies.forEach((el, i) => gsap.to(el, { filter: n === null || n === i ? 'opacity(1)' : 'opacity(0.35)', duration: 0.35 }));
+  };
+  [...items, ...copies].forEach((el, k) => {
+    const i = k % items.length;
+    el.addEventListener('mouseenter', () => setActive(i));
+    el.addEventListener('mouseleave', () => setActive(null));
   });
 }
 

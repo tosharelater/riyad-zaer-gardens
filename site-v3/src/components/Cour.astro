@@ -198,9 +198,10 @@ const { reasons } = getHome(locale);
 
   #pourquoi .reasons-idx {
     font-family: var(--display);
-    font-weight: 600;
-    font-size: 0.72rem;
-    letter-spacing: 0.14em;
+    font-weight: 300;
+    font-size: clamp(2rem, 3.2vw, 2.8rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
     color: var(--gold-text);
   }
   #pourquoi .reasons-copy h3 {
