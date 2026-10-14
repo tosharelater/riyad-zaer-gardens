@@ -84,8 +84,7 @@ const paras = body == null ? [] : Array.isArray(body) ? [...body] : [body];
 
   .tone-light .split-panel { background: var(--bg); }
   .tone-cream .split-panel { background: var(--cream); }
-  .tone-ink .split-panel {
-    background: var(--ink);
+  var(--canopy);
     color: var(--cream);
   }
   .tone-ink .kick { color: var(--gold-soft); }
@@ -135,4 +134,7 @@ const paras = body == null ? [] : Array.isArray(body) ? [...body] : [body];
     }
     .split-media { min-height: 0; aspect-ratio: 16 / 10; }
   }
+
+  .split-media { border-radius: 0 1.5rem 0 1.5rem; }
+  [dir='rtl'] .split-media { border-radius: 1.5rem 0 1.5rem 0; }
 </style>

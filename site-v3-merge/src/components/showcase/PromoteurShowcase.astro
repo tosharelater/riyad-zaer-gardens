@@ -116,7 +116,7 @@ const projectImages = ['/photos/aerial-ilot.jpg', '/photos/facade-golden.jpg'] a
 
   .projet-scene {
     padding: var(--sec) 0;
-    background: var(--ink);
+    background: var(--canopy);
     color: var(--cream);
   }
   .projet-scene .kick { color: var(--gold-soft); }
@@ -201,4 +201,7 @@ const projectImages = ['/photos/aerial-ilot.jpg', '/photos/facade-golden.jpg'] a
   @media (prefers-reduced-motion: reduce) {
     .partner-media img { transition: none; }
   }
+
+  .partner-media { border-radius: 0 1.5rem 0 1.5rem; }
+  [dir='rtl'] .partner-media { border-radius: 1.5rem 0 1.5rem 0; }
 </style>

@@ -46,8 +46,7 @@ const withImages = items.some((i) => i.image);
     padding: clamp(3.75rem, 8vw, 6.25rem) 0;
   }
   .tone-cream { background: var(--cream); }
-  .tone-ink {
-    background: var(--ink);
+  var(--canopy);
     color: var(--cream);
   }
   .tone-ink .kick { color: var(--gold-soft); }
@@ -127,4 +126,7 @@ const withImages = items.some((i) => i.image);
   @media (max-width: 600px) {
     .cols-2, .cols-3, .cols-4 { grid-template-columns: 1fr; }
   }
+
+  .feat-item figure { border-radius: 0 1.5rem 0 1.5rem; }
+  [dir='rtl'] .feat-item figure { border-radius: 1.5rem 0 1.5rem 0; }
 </style>

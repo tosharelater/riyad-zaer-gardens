@@ -18,6 +18,7 @@ interface Props {
   compact?: boolean;
   facts?: readonly Fact[];
   position?: string;
+  accent?: boolean;
 }
 const {
   h1,
@@ -29,10 +30,21 @@ const {
   compact = false,
   facts = [],
   position = 'center 40%',
+  accent = true,
 } = Astro.props;
 const leads = lead == null ? [] : Array.isArray(lead) ? [...lead] : [lead];
 const hasExtras = Astro.slots.has('default');
 const plain = !image;
+// Split the title where both lines are closest in length; the second line is accented
+const words = h1.trim().split(/\s+/);
+let accentFrom = -1;
+if (accent && words.length >= 3) {
+  let best = Infinity;
+  for (let i = 1; i < words.length; i++) {
+    const d = Math.abs(words.slice(0, i).join(' ').length - words.slice(i).join(' ').length);
+    if (d < best) { best = d; accentFrom = i; }
+  }
+}
 ---
 <header class:list={['ph', { 'is-compact': compact, 'is-plain': plain }]} data-page-hero>
   {!plain && (
@@ -48,7 +60,7 @@ const plain = !image;
       {index && <i aria-hidden="true"></i>}
       <span>{kicker}</span>
     </p>
-    <h1 class="ph-title" data-ph-title>{h1}</h1>
+    <h1 class="ph-title" data-ph-title data-accent-from={accentFrom > 0 ? accentFrom : undefined}>{h1}</h1>
 
     {(leads.length > 0 || hasExtras) && (
       <div class="ph-foot">
@@ -262,4 +274,6 @@ const plain = !image;
     }
     .ph-title :global(.w > span) { transform: none; }
   }
+
+  .ph-title :global(.w.is-accent) { color: var(--gold-soft); }
 </style>

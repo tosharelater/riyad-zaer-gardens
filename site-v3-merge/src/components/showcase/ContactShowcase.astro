@@ -180,7 +180,7 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.hr
     position: relative;
   }
   .map {
-    background: var(--ink);
+    background: var(--canopy);
   }
   .map-frame {
     height: min(70svh, 38rem);
@@ -313,4 +313,7 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.hr
     .form-row { grid-template-columns: 1fr; }
     .aside { position: static; }
   }
+
+  .aside-media { border-radius: 0 1.5rem 0 1.5rem; }
+  [dir='rtl'] .aside-media { border-radius: 1.5rem 0 1.5rem 0; }
 </style>

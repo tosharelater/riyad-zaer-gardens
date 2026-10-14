@@ -88,7 +88,7 @@ const arPath = switchLocalePath(path, 'ar');
   }
   .top.is-hidden { transform: translateY(-100%); }
   .top.is-solid {
-    background: rgb(255 252 244 / 0.78);
+    background: rgb(255 252 244 / 0.94);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
     backdrop-filter: saturate(180%) blur(20px);
     box-shadow: 0 1px 0 rgb(0 36 34 / 0.08);
@@ -101,7 +101,8 @@ const arPath = switchLocalePath(path, 'ar');
   .top:has(.top-menu[aria-expanded='true']) .on-light { display: block; }
   .top:has(.top-menu[aria-expanded='true']) .on-dark { display: none; }
   .top-logo { display: flex; align-items: center; }
-  .top-logo img { height: 3.5rem; width: auto; }
+  .top-logo img { height: 3.5rem; width: auto; transition: transform 0.4s var(--ease), opacity 0.3s var(--ease); }
+  .top-logo:hover img { transform: scale(1.05); }
   .top-logo .on-light { display: none; }
   .top.is-solid .on-light { display: block; }
   .top.is-solid .on-dark { display: none; }
