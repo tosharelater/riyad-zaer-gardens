@@ -29,17 +29,11 @@ const after = split(aid.withAid);
     <aside class="aid-ticket" data-reveal aria-label="Comparaison de prix">
       <div class="aid-row is-before">
         <div class="aid-lab">
-          <span class="aid-tag">Prix standard (sans aide)</span>
+          <span class="aid-tag">Sans aide</span>
           {before.pre && <small>{before.pre}</small>}
         </div>
         <strong>{before.fig}</strong>
       </div>
-
-      <svg class="aid-flow" viewBox="0 0 600 48" preserveAspectRatio="none" aria-hidden="true">
-        <path class="aid-flow-a" d="M0 8 H270 C310 8 290 40 330 40 H586" vector-effect="non-scaling-stroke" />
-        <path class="aid-flow-head" d="M578 33 L588 40 L578 47" vector-effect="non-scaling-stroke" />
-        <circle class="aid-flow-dot" cx="150" cy="8" r="5" />
-      </svg>
 
       <div class="aid-row is-after">
         <div class="aid-lab">
@@ -78,68 +72,50 @@ const after = split(aid.withAid);
   .aid-copy { display: grid; gap: 0.8rem; max-width: 40rem; }
   .aid-copy .lead { margin: 0; color: var(--muted-on-dark); font-size: 1rem; }
 
-  /* price flow: standard price steps down to the aided price */
+  /* two price lines: without and with the housing aid */
   .aid-ticket {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto 3rem auto;
-    column-gap: clamp(1rem, 4vw, 3rem);
-    width: min(100%, 52rem);
-    margin-block: 0.75rem;
-    align-items: end;
+    gap: 0.75rem;
+    width: min(100%, 36rem);
+    margin-block: 0.5rem;
   }
-  .aid-row { display: contents; }
-  .aid-row .aid-lab { display: grid; gap: 0.1rem; align-content: end; padding-bottom: 0.5rem; }
-  .aid-row.is-before .aid-lab { grid-area: 1 / 1; justify-items: start; text-align: start; }
-  .aid-row.is-before strong { grid-area: 3 / 1; justify-self: start; }
-  .aid-row.is-after .aid-lab { grid-area: 1 / 2; justify-items: end; text-align: end; }
-  .aid-row.is-after strong { grid-area: 3 / 2; justify-self: end; }
-  .aid-flow { grid-area: 2 / 1 / 3 / 3; width: 100%; height: 100%; overflow: visible; }
-
+  .aid-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.15rem 1.5rem;
+    border-radius: var(--radius);
+    text-align: start;
+  }
+  .aid-row .aid-lab { display: grid; gap: 0.1rem; }
   .aid-tag {
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
   .aid-row small { font-size: 0.85rem; opacity: 0.8; }
   .aid-row strong {
     font-family: var(--font);
     font-weight: 300;
-    font-size: clamp(2rem, 4.4vw, 3.4rem);
+    font-size: clamp(1.7rem, 3.4vw, 2.5rem);
     line-height: 1.1;
     letter-spacing: -0.02em;
     white-space: nowrap;
   }
+  .aid-row.is-before { background: rgb(246 240 228 / 0.08); }
   .aid-row.is-before .aid-tag, .aid-row.is-before small { color: var(--muted-on-dark); }
   .aid-row.is-before strong { color: var(--cream); }
-  .aid-row.is-after .aid-tag, .aid-row.is-after small { color: var(--gold-soft); }
-  .aid-row.is-after strong { color: var(--gold); }
-
-  .aid-flow path { fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-  .aid-flow-a { stroke: var(--gold); }
-  .aid-flow-head { stroke: var(--gold); }
-  .aid-flow-dot { fill: var(--cream); }
+  .aid-row.is-after { background: var(--gold); }
+  .aid-row.is-after .aid-tag, .aid-row.is-after small { color: var(--ink); }
+  .aid-row.is-after strong { color: var(--ink); }
 
   .aid .btn { background: var(--gold); color: var(--ink); }
   .aid .btn:hover { background: var(--gold-soft); }
 
   @media (max-width: 640px) {
-    .aid-ticket {
-      grid-template-columns: 1fr;
-      grid-template-rows: none;
-      row-gap: 0.25rem;
-      justify-items: center;
-    }
-    .aid-row { display: grid; justify-items: center; gap: 0.25rem; }
-    .aid-row .aid-lab, .aid-row strong { grid-area: auto !important; justify-self: center !important; justify-items: center !important; text-align: center !important; }
-    .aid-flow { display: none; }
-    .aid-row.is-after::before {
-      content: '↓';
-      color: var(--gold);
-      font-size: 1.6rem;
-      line-height: 1;
-      margin-block: 0.5rem;
-    }
+    .aid-row { flex-direction: column; align-items: flex-start; gap: 0.35rem; }
     .aid-head .display { font-size: clamp(1.7rem, 7vw, 2.35rem); }
     .aid .btn { width: min(100%, 22rem); }
   }

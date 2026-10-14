@@ -40,7 +40,6 @@ const t = ui(locale);
     <p>{t.legal.aidNote}</p>
     <a href={localePath(locale, '/mentions-legales')}>{t.legal.mentions}</a>
     <a href={`${localePath(locale, '/mentions-legales')}#confidentialite`}>{t.legal.privacy}</a>
-    <p class="right" style="font-style: italic;">Vivre mieux, à Rabat.</p>
   </div>
 </footer>
 
@@ -64,7 +63,6 @@ const t = ui(locale);
     align-items: start;
   }
   .foot img { height: 3.75rem; width: auto; margin-bottom: 1rem; }
-  .foot-copy .right { margin-inline-start: auto; }
   .foot .by {
     color: var(--gold-soft);
     font-weight: 600;
@@ -99,8 +97,8 @@ const t = ui(locale);
     grid-template-columns: 1fr 1fr 1.25fr;
     gap: 0.35rem;
     padding: 0.35rem;
-    border-radius: var(--radius);
-    background: rgb(0 45 45 / 0.92);
+    border-radius: 999px;
+    background: rgb(0 45 45 / 0.9);
     -webkit-backdrop-filter: saturate(160%) blur(20px);
     backdrop-filter: saturate(160%) blur(20px);
     box-shadow: 0 10px 30px rgb(0 36 34 / 0.28), 0 0 0 1px rgb(217 201 135 / 0.18);
@@ -113,7 +111,7 @@ const t = ui(locale);
     place-items: center;
     min-height: 2.75rem;
     padding: 0.5rem 0.5rem;
-    border-radius: var(--radius-sm);
+    border-radius: 999px;
     text-align: center;
     font-size: 0.875rem;
     font-weight: 500;
@@ -125,17 +123,5 @@ const t = ui(locale);
     .foot-grid > div:first-child { grid-column: 1 / -1; }
     .foot { padding-bottom: 6.5rem; }
     .mbar { display: grid; }
-  }
-  @media (max-width: 480px) {
-    .foot-grid { grid-template-columns: 1fr; gap: 1.75rem; }
-    .mbar {
-      inset-inline: 0.5rem;
-      grid-template-columns: 1fr 1fr 1.15fr;
-      gap: 0.25rem;
-    }
-    .mbar a {
-      font-size: 0.8rem;
-      padding-inline: 0.35rem;
-    }
   }
 </style>

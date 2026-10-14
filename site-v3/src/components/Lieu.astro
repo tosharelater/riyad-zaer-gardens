@@ -1,39 +1,27 @@
 ---
 import { getHome } from '../data/content';
 import type { Locale } from '../i18n/paths';
+import Icon from './Icon.astro';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { lieu } = getHome(locale);
 ---
 <section class="lieu" id="lieu">
   <div class="wrap lieu-grid">
+    <div class="lieu-copy" data-reveal data-split>
+      <p class="kick">{locale === 'ar' ? 'الموقع' : 'Localisation'}</p>
+      <h2 class="display">{lieu.h2}</h2>
+      <p class="lead">{lieu.body}</p>
+      <p class="lieu-address"><Icon name="map-pin" />{lieu.address}</p>
+      <a class="btn btn-ghost" href={lieu.cta.href} target="_blank" rel="noopener noreferrer">{lieu.cta.label}<Icon name="arrow-up-right" /></a>
+    </div>
     <div class="lieu-map" data-reveal>
       <iframe
-        title="Carte de situation de Riyad Zaer Gardens"
+        title="Carte de situation de Riyad Zaer Gardens à Aïn Aouda"
         src={lieu.mapEmbed}
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
         allowfullscreen
       ></iframe>
-      <p class="lieu-badge">{locale === 'ar' ? 'على بعد 20 دقيقة من الرباط' : 'À 25 min de Rabat'}</p>
-    </div>
-
-    <div class="lieu-side">
-      <div class="lieu-copy" data-reveal data-split>
-        <p class="kick">
-          <span>{locale === 'ar' ? 'الموقع' : 'Localisation'}</span>
-          <span class="kick-rule" aria-hidden="true"></span>
-        </p>
-        <h2 class="display">{lieu.h2}</h2>
-        <p class="lead">{lieu.body}</p>
-        <p class="lieu-address">{lieu.address}</p>
-        <a class="btn btn-solid" href={lieu.cta.href} target="_blank" rel="noopener noreferrer">
-          {lieu.cta.label}
-          <span aria-hidden="true">→</span>
-        </a>
-      </div>
-      <figure class="lieu-photo" data-reveal>
-        <img src="/photos/facade-street.jpg" alt="" loading="lazy" decoding="async" />
-      </figure>
     </div>
   </div>
 </section>
@@ -41,130 +29,51 @@ const { lieu } = getHome(locale);
 <style>
   .lieu {
     padding: var(--sec) 0;
-    background: var(--cream);
+    background: var(--paper);
   }
   .lieu-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr) minmax(0, 1fr);
-    gap: clamp(1.25rem, 3vw, 2.25rem);
-    align-items: stretch;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--gap);
+    align-items: center;
   }
-
+  .lieu-copy .kick { margin: 0; }
+  .lieu-copy .display { margin: 0.65rem 0 0; max-width: none; }
+  .lieu-copy .lead { margin-top: 0.85rem; }
+  .lieu-address {
+    margin: 1.25rem 0;
+    padding: 0;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+  .lieu-address :global(.icon) { color: var(--gold-text); }
   .lieu-map {
-    position: relative;
-    min-height: 24rem;
-    background: var(--paper);
+    aspect-ratio: 4 / 3;
+    background: var(--cream);
+    border-radius: var(--radius);
     overflow: hidden;
     isolation: isolate;
-    border-radius: var(--radius);
+    position: relative;
+  }
+  .lieu-map::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 8%, transparent);
+    z-index: 1;
   }
   .lieu-map iframe {
     width: 100%;
     height: 100%;
     border: 0;
     display: block;
-    filter: grayscale(0.7) contrast(0.95) brightness(1.04) sepia(0.12);
-    min-height: 24rem;
-  }
-  .lieu-badge {
-    position: absolute;
-    left: 1rem;
-    bottom: 1rem;
-    z-index: 2;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.55rem;
-    margin: 0;
-    padding: 0.65rem 1rem;
-    background: rgb(255 253 248 / 0.9);
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
-    color: var(--ink);
-    border-radius: 999px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    box-shadow: 0 10px 30px rgb(0 45 45 / 0.18);
-  }
-  .lieu-badge::before {
-    content: '';
-    width: 0.55rem;
-    height: 0.55rem;
-    border-radius: 50%;
-    background: var(--gold-text);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--gold) 30%, transparent);
-  }
-
-  .lieu-side { display: contents; }
-  .lieu-copy {
-    display: grid;
-    gap: 0.9rem;
-    align-content: center;
-    order: 0;
-  }
-  .lieu-map { order: -1; }
-  .lieu-copy .kick {
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    font-size: 0.76rem;
-    font-weight: 600;
-  }
-  .lieu-copy .kick-rule {
-    display: block;
-    width: 2.5rem;
-    height: 1.5px;
-    background: var(--gold-text);
-  }
-  .lieu-copy .display { margin: 0; max-width: none; }
-  .lieu-copy .lead { margin: 0; }
-  .lieu-address {
-    margin: 0;
-    font-weight: 500;
-    color: var(--ink);
-  }
-  .lieu-copy .btn {
-    justify-self: start;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.55rem;
-  }
-
-  .lieu-photo {
-    margin: 0;
-    min-height: 24rem;
-    overflow: hidden;
-    border-radius: var(--radius);
-  }
-  .lieu-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  @media (max-width: 1080px) {
-    .lieu-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-    .lieu-photo { grid-column: 1 / -1; min-height: 0; aspect-ratio: 16 / 7; }
+    filter: grayscale(0.35) contrast(1.05) saturate(0.85);
   }
   @media (max-width: 900px) {
-    .lieu-grid {
-      grid-template-columns: 1fr;
-    }
-    .lieu-photo { aspect-ratio: 16 / 9; }
-    .lieu-map {
-      min-height: 18rem;
-      order: 1;
-    }
-    .lieu-map iframe {
-      min-height: 18rem;
-    }
-    .lieu-copy .display { font-size: clamp(1.7rem, 7vw, 2.35rem); }
-    .lieu-copy .btn { justify-self: stretch; }
-    .lieu-badge {
-      max-width: calc(100% - 1.5rem);
-      text-wrap: balance;
-      white-space: normal;
-    }
+    .lieu-grid { grid-template-columns: 1fr; }
   }
 </style>

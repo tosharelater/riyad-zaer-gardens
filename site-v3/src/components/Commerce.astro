@@ -14,7 +14,7 @@ const href = (h: string) => (h.startsWith('/') ? localePath(locale, h) : h);
       <p class="lead">{commerce.p1}</p>
       <p class="lead">{commerce.p2}</p>
 
-      <dl class="commerce-facts">
+      <dl class="facts">
         {commerce.facts.map(([k, v], i) => (
           <div>
             <dt>{k}</dt>
@@ -58,30 +58,6 @@ const href = (h: string) => (h.startsWith('/') ? localePath(locale, h) : h);
   }
   .commerce-copy .lead { margin: 0; font-size: 1rem; }
 
-  .commerce-facts {
-    display: grid;
-    grid-template-columns: repeat(3, auto);
-    justify-content: start;
-    gap: 0.5rem clamp(1.5rem, 4vw, 3rem);
-    margin: 0.75rem 0 0.35rem;
-  }
-  .commerce-facts > div { display: grid; gap: 0.3rem; min-width: 0; }
-  .commerce-facts dt {
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gold-text);
-  }
-  .commerce-facts dd {
-    margin: 0;
-    font-weight: 400;
-    font-size: clamp(1.15rem, 1.7vw, 1.4rem);
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-    color: var(--ink);
-    white-space: nowrap;
-  }
   .commerce .btn { justify-self: start; margin-top: 0.35rem; }
   .commerce-media {
     margin: 0;
@@ -103,8 +79,6 @@ const href = (h: string) => (h.startsWith('/') ? localePath(locale, h) : h);
     }
     .commerce-copy { max-width: none; }
     .commerce-copy .display { font-size: clamp(1.75rem, 7vw, 2.4rem); }
-    .commerce-facts { grid-template-columns: 1fr 1fr; }
-    .commerce-facts dd { white-space: normal; }
     .commerce .btn { justify-self: stretch; }
   }
 </style>

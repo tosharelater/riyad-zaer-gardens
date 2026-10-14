@@ -451,3 +451,34 @@ body.nav-open .mbar {
     line-height: 1.12;
   }
 }
+
+/* Key facts, one per line: label then value */
+.facts {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0.5rem 0 0.25rem;
+  padding: 0;
+}
+.facts > div {
+  display: grid;
+  grid-template-columns: minmax(7.5rem, 10rem) 1fr;
+  align-items: baseline;
+  gap: 1rem;
+}
+.facts dt {
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+}
+.facts dd {
+  margin: 0;
+  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+@media (max-width: 480px) {
+  .facts > div { grid-template-columns: 1fr; gap: 0.15rem; }
+}

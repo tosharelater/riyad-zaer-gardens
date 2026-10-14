@@ -30,7 +30,7 @@ const icons = ['house', 'trending-up', 'key-round'];
 <style is:global>
   #presence.ways {
     padding: var(--sec) 0;
-    background: var(--cream);
+    background: var(--paper);
     color: var(--ink);
   }
 
@@ -54,6 +54,7 @@ const icons = ['house', 'trending-up', 'key-round'];
     display: grid !important;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--gap);
+    align-items: stretch;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -63,22 +64,27 @@ const icons = ['house', 'trending-up', 'key-round'];
     align-content: start;
     justify-items: center;
     gap: 0.9rem;
-    min-height: 100%;
-    padding: clamp(1.75rem, 3vw, 2.5rem);
+    margin-top: 2.75rem;
+    padding: calc(4.75rem / 2 + 1.5rem) clamp(1.75rem, 3vw, 2.5rem) clamp(1.75rem, 3vw, 2.5rem);
     border-radius: var(--radius);
-    background: var(--paper);
+    background: var(--cream);
     text-align: center;
   }
   #presence .ways-node {
+    position: absolute;
+    top: 0;
+    inset-inline-start: 50%;
+    transform: translate(-50%, -50%);
     display: grid;
     place-items: center;
     width: 4.75rem;
     height: 4.75rem;
-    margin-bottom: 0.8rem;
     border: 1.25px solid var(--ink);
     border-radius: 50%;
+    background: var(--paper);
     color: var(--ink);
   }
+  [dir='rtl'] #presence .ways-node { transform: translate(50%, -50%); }
   #presence .ways-card h3 {
     margin: 0;
     font-family: var(--serif);
