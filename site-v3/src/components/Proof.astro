@@ -6,6 +6,10 @@ const { proof } = getHome(locale);
 const items = locale === 'ar' ? proof.slice(0, 3) : proof;
 ---
 <section class="proof" id="proof" aria-label="Points clés" data-proof>
+  <figure class="proof-bg" aria-hidden="true">
+    <img src="/photos/facade-golden.jpg" alt="" loading="lazy" decoding="async" />
+  </figure>
+  <div class="proof-shade" aria-hidden="true"></div>
   <ul class="wrap proof-bar">
     {items.map((item, i) => (
       <li data-proof-item>
@@ -45,9 +49,14 @@ const items = locale === 'ar' ? proof.slice(0, 3) : proof;
     position: relative;
     z-index: 1;
     padding: 0;
-    color: var(--ink);
-    background: transparent;
+    color: var(--cream);
+    background: var(--ink);
+    isolation: isolate;
+    overflow: hidden;
   }
+  #proof .proof-bg { position: absolute; inset: 0; z-index: -2; margin: 0; }
+  #proof .proof-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center 62%; }
+  #proof .proof-shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgb(0 36 36 / 0.78), rgb(0 36 36 / 0.62)); }
 
   #proof .proof-bar {
     display: grid;
@@ -59,7 +68,7 @@ const items = locale === 'ar' ? proof.slice(0, 3) : proof;
     max-width: none;
     margin: 0;
     padding-inline: var(--pad);
-    background: var(--cream);
+    background: transparent;
   }
 
   #proof .proof-bar li {
@@ -70,7 +79,7 @@ const items = locale === 'ar' ? proof.slice(0, 3) : proof;
     gap: 1rem;
     justify-items: start;
     justify-content: center;
-    min-height: 6.25rem;
+    min-height: 7.5rem;
     padding: 1.6rem clamp(1rem, 2.5vw, 2rem);
     text-align: start;
   }
@@ -81,8 +90,8 @@ const items = locale === 'ar' ? proof.slice(0, 3) : proof;
     width: 2.4rem;
     height: 2.4rem;
     border-radius: 50%;
-    background: color-mix(in srgb, var(--gold) 14%, transparent);
-    color: var(--ink);
+    background: rgb(246 240 228 / 0.14);
+    color: var(--gold-soft);
   }
   #proof .proof-ico svg {
     width: 1.3rem;
@@ -96,7 +105,7 @@ const items = locale === 'ar' ? proof.slice(0, 3) : proof;
     font-weight: 600;
     letter-spacing: -0.01em;
     line-height: 1.4;
-    color: var(--ink);
+    color: var(--paper);
     text-wrap: balance;
   }
 
