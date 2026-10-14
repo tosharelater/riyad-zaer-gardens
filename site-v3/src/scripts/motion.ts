@@ -452,6 +452,39 @@ function reasonsScene() {
   );
 }
 
+function polishScene() {
+  if (reduce) return;
+
+  // Photos settle (slow zoom-out) while they cross the screen
+  gsap.utils
+    .toArray<HTMLElement>('.finishes-media, .commerce-media, .homes-media, .pano-photo, .fig-media')
+    .forEach((fig) => {
+      const img = fig.querySelector<HTMLElement>('img');
+      if (!img) return;
+      gsap.fromTo(
+        img,
+        { scale: 1.18 },
+        { scale: 1, ease: 'none', scrollTrigger: { trigger: fig, start: 'top bottom', end: 'bottom 35%', scrub: 0.6 } },
+      );
+    });
+
+  // Lists rise in one after another
+  ['.finishes-points li', '.pano-bar li', '.commerce .facts > div', '.aid-steps li', '.homes-price > *'].forEach((sel) => {
+    const items = gsap.utils.toArray<HTMLElement>(sel);
+    if (!items.length) return;
+    gsap.from(items, {
+      autoAlpha: 0,
+      y: 26,
+      duration: 0.75,
+      stagger: 0.1,
+      ease: 'power3.out',
+      clearProps: 'transform,opacity,visibility',
+      immediateRender: false,
+      scrollTrigger: { trigger: items[0].parentElement ?? items[0], start: 'top 88%', once: true },
+    });
+  });
+}
+
 const NUM = /\d[\d\s\u202f\u00a0]*\d/;
 const toNum = (t: string | null | undefined) => Number((t?.match(NUM)?.[0] ?? '').replace(/\D/g, ''));
 const group = (n: number) => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\u202f');
@@ -775,6 +808,7 @@ function boot() {
   figuresScene();
   visionHorizontal();
   reasonsScene();
+  polishScene();
   aidScene();
   waysScene();
   lieuScene();
