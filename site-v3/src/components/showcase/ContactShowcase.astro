@@ -1,6 +1,7 @@
 ---
 import PageHero from '../page/PageHero.astro';
 import MoreLinks from '../page/MoreLinks.astro';
+import Icon from '../Icon.astro';
 import { contactInfo } from '../../data/site';
 import { media } from '../../data/media';
 import { localePath, type Locale } from '../../i18n/paths';
@@ -103,16 +104,16 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.hr
           <h2 class="display aside-title">{p.direct.h2}</h2>
         </div>
         <div class="aside-block">
-          <h3>{p.direct.phone.title}</h3>
+          <h3><Icon name="phone" />{p.direct.phone.title}</h3>
           <a class="big" href={`tel:${contactInfo.phoneTel}`} dir="ltr">{p.direct.phone.label}</a>
         </div>
         <div class="aside-block">
-          <h3>{p.direct.whatsapp.title}</h3>
+          <h3><Icon name="message-circle" />{p.direct.whatsapp.title}</h3>
           <p>{p.direct.whatsapp.body}</p>
           <a href={contactInfo.whatsapp} target="_blank" rel="noopener">{p.direct.whatsappCta}</a>
         </div>
         <div class="aside-block">
-          <h3>{p.direct.place.title}</h3>
+          <h3><Icon name="map-pin" />{p.direct.place.title}</h3>
           <p>{p.direct.place.body}</p>
         </div>
         <div class="aside-block soft">
@@ -164,11 +165,10 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.hr
     align-items: start;
   }
   .form-panel {
-    padding: clamp(1.5rem, 3vw, 2.25rem);
+    padding: clamp(1.85rem, 3.8vw, 2.85rem);
     background: var(--paper);
     border-radius: var(--radius);
-    border: 1px solid var(--line);
-    box-shadow: none;
+    box-shadow: 0 1px 0 rgb(0 45 45 / 0.04), 0 18px 44px rgb(0 45 45 / 0.08);
   }
   .form-panel .display {
     margin: 1rem 0 clamp(2rem, 4vw, 3rem);
@@ -191,7 +191,7 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.hr
     height: 100%;
     border: 0;
     display: block;
-    filter: grayscale(0.4) contrast(1.05) sepia(0.12);
+    filter: none;
   }
   .form-row {
     display: grid;
@@ -219,7 +219,7 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.hr
     min-height: 3.25rem;
     padding: 0.75rem 1rem;
     border: 1px solid rgb(0 36 34 / 0.16);
-    border-radius: var(--radius-sm);
+    border-radius: 12px;
     background: var(--paper);
     color: var(--ink);
     font-size: 1.0625rem;
@@ -227,11 +227,11 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.hr
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
   .form input:focus, .form select:focus, .form textarea:focus {
-    border-color: var(--gold-text);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--gold) 22%, transparent);
+    border-color: var(--canopy);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--canopy) 18%, transparent);
   }
   .form textarea { resize: vertical; min-height: 6rem; }
-  .form input:user-invalid { border-bottom-color: var(--gold-text); }
+  .form input:user-invalid { border-bottom-color: var(--canopy); }
   .form .btn { justify-self: start; min-width: 14rem; margin-top: 0.5rem; }
   .form .btn[aria-busy='true'] { opacity: 0.7; }
   .form-note {
@@ -275,12 +275,12 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.hr
     padding: 0;
   }
   .aside .kick { color: var(--gold-text); }
+  .aside h3 :global(.icon) { margin-inline-end: 0.5rem; color: var(--gold-text); }
   .aside h3 {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--gold-text);
+    letter-spacing: -0.005em;
+    color: var(--muted);
     margin-bottom: 0.45rem;
   }
   .aside .big {
@@ -288,12 +288,12 @@ const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.hr
     font-family: var(--display);
     font-size: clamp(2rem, 3.2vw, 2.8rem);
     line-height: 1.05;
-    background: linear-gradient(var(--gold-text), var(--gold-text)) no-repeat 0 100% / 0 1px;
+    background: linear-gradient(var(--canopy), var(--canopy)) no-repeat 0 100% / 0 1px;
     transition: background-size 0.7s var(--ease);
   }
   .aside .big:hover { background-size: 100% 1px; }
   .aside a { font-weight: 500; display: inline-block; padding-block: 0.35rem; }
-  .aside a:not(.big):not(.text-link):hover { color: var(--gold-text); }
+  .aside a:not(.big):not(.text-link):hover { color: var(--canopy); }
   .aside p { color: var(--muted); line-height: 1.6; }
   .aside-block.soft {
     margin-top: 0.75rem;

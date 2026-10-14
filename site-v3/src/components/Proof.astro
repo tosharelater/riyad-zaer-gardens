@@ -3,119 +3,106 @@ import { getHome } from '../data/content';
 import type { Locale } from '../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { proof } = getHome(locale);
-const items = locale === 'ar' ? proof.slice(0, 3) : proof;
 ---
-<section class="proof" id="proof" aria-label="Points clés" data-proof>
-  <ul class="wrap proof-bar">
-    {items.map((item, i) => (
-      <li data-proof-item>
-        <span class="proof-ico" aria-hidden="true">
-          {i % 3 === 0 && (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 12h18v5H3z" />
-              <path d="M5 12V9h5v3" />
-              <path d="M14 12V9h5v3" />
-              <path d="M3 17v2" />
-              <path d="M21 17v2" />
-            </svg>
-          )}
-          {i % 3 === 1 && (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z" />
-              <path d="M9 20v-6h6v6" />
-            </svg>
-          )}
-          {i % 3 === 2 && (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="5" y="6" width="14" height="14" rx="1" />
-              <path d="M8 4v3" />
-              <path d="M16 4v3" />
-              <path d="M5 10h14" />
-            </svg>
-          )}
-        </span>
+<section class="proof" id="proof" aria-label="Points clés">
+  <figure class="proof-media" aria-hidden="true">
+    <img src="/photos/facade-golden.jpg" alt="" loading="lazy" decoding="async" />
+  </figure>
+  <div class="proof-shade" aria-hidden="true"></div>
+
+  <ul class="wrap proof-grid">
+    {proof.map((item) => (
+      <li>
         <p>{item}</p>
       </li>
     ))}
   </ul>
 </section>
 
-<style is:global>
-  #proof.proof {
+<style>
+  .proof {
     position: relative;
-    z-index: 1;
-    padding: 0;
-    color: var(--ink);
-    background: var(--paper);
+    isolation: isolate;
+    min-height: min(42svh, 22rem);
+    display: grid;
+    align-items: end;
+    overflow: hidden;
+    color: var(--cream);
   }
 
-  #proof .proof-bar {
+  .proof-media {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    z-index: -2;
+  }
+  .proof-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+  }
+
+  .proof-shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(to top, color-mix(in srgb, var(--ink) 92%, transparent) 0%, color-mix(in srgb, var(--ink) 55%, transparent) 55%, color-mix(in srgb, var(--ink) 28%, transparent) 100%),
+      linear-gradient(90deg, color-mix(in srgb, var(--ink) 35%, transparent), transparent 50%);
+  }
+
+  .proof-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    width: min(var(--wrap), calc(100% - 2 * var(--pad)));
+    margin-inline: auto;
+    padding: clamp(3rem, 7vw, 5rem) 0 clamp(2.25rem, 4.5vw, 3rem);
     list-style: none;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    max-width: none;
-    margin: 0;
-    padding-inline: var(--pad);
   }
 
-  #proof .proof-bar li {
-    display: grid !important;
-    grid-template-columns: auto auto;
-    align-items: center;
-    align-content: center;
-    gap: 1rem;
-    justify-items: start;
-    justify-content: center;
-    min-height: 7.5rem;
-    padding: 1.6rem clamp(1rem, 2.5vw, 2rem);
-    text-align: start;
+  .proof-grid li {
+    padding: 0 clamp(1.25rem, 2.5vw, 2rem);
+  }
+  .proof-grid li:first-child {
+    padding-inline-start: 0;
+  }
+  .proof-grid li:last-child {
+    padding-inline-end: 0;
+  }
+  .proof-grid li + li {
+    border-inline-start: 1px solid color-mix(in srgb, var(--cream) 18%, transparent);
   }
 
-  #proof .proof-ico {
-    display: grid;
-    place-items: center;
-    width: 2.4rem;
-    height: 2.4rem;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--gold) 18%, transparent);
-    color: var(--ink);
-  }
-  #proof .proof-ico svg {
-    width: 1.3rem;
-    height: 1.3rem;
-  }
-
-  #proof .proof-bar p {
+  .proof-grid p {
     margin: 0;
-    max-width: 15rem;
-    font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+    max-width: 14ch;
+    font-family: var(--display);
     font-weight: 600;
-    letter-spacing: -0.01em;
-    line-height: 1.4;
-    color: var(--ink);
+    font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+    letter-spacing: -0.03em;
+    line-height: 1.25;
     text-wrap: balance;
   }
 
   @media (max-width: 800px) {
-    #proof .proof-bar {
-      grid-template-columns: 1fr;
-    }
-    #proof .proof-bar li {
-      grid-template-columns: auto 1fr;
-      justify-items: start;
-      text-align: start;
-      gap: 0.9rem;
+    .proof {
       min-height: 0;
-      justify-content: start;
-      padding: 0.95rem 0;
     }
-    #proof .proof-bar li + li {
-      border-top: 0;
+    .proof-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+      padding-block: 2.5rem 2rem;
     }
-    #proof .proof-bar p {
+    .proof-grid li {
+      padding: 1.15rem 0;
+    }
+    .proof-grid li + li {
+      border-inline-start: 0;
+      border-top: 1px solid color-mix(in srgb, var(--cream) 18%, transparent);
+    }
+    .proof-grid p {
       max-width: none;
     }
   }

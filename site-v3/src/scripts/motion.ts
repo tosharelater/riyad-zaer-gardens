@@ -149,96 +149,51 @@ function mediaDepth() {
   });
 }
 
-function proofScene() {
-  const section = document.querySelector<HTMLElement>('[data-proof]');
-  const items = gsap.utils.toArray<HTMLElement>('[data-proof-item]');
-  if (!section || !items.length) return;
-
-  items.forEach((item, i) => {
-    gsap.fromTo(
-      item,
-      { autoAlpha: 0, y: 20 },
-      {
-        autoAlpha: 1,
-        y: 0,
-        duration: 0.85,
-        delay: i * 0.08,
-        ease: 'power3.out',
-        clearProps: 'transform',
-        scrollTrigger: { trigger: section, start: 'top 88%', once: true },
-      },
-    );
-  });
-}
-
 function figuresScene() {
   const board = document.querySelector<HTMLElement>('[data-figures-board]');
-  const items = gsap.utils.toArray<HTMLElement>('[data-figures-item]');
+  const items = gsap.utils.toArray<HTMLElement>('.figures-item');
   if (!board || !items.length) return;
 
   items.forEach((item, i) => {
-    const count = item.querySelector<HTMLElement>('[data-count]');
-    const val = item.querySelector<HTMLElement>('[data-count-val]');
-    const to = Number(count?.dataset.to || val?.textContent || '0');
-    if (count) count.dataset.to = String(to);
+    const dt = item.querySelector<HTMLElement>('[data-count]');
+    const to = Number(dt?.dataset.to || dt?.textContent || '0');
+    if (dt) dt.dataset.to = String(to);
 
-    gsap.from(item, {
-      y: 28,
-      opacity: 0,
-      duration: 0.95,
-      delay: i * 0.1,
-      ease: 'power3.out',
-      clearProps: 'transform,opacity',
-      immediateRender: false,
-      scrollTrigger: {
-        trigger: board,
-        start: 'top 85%',
-        once: true,
+    gsap.fromTo(
+      item,
+      { autoAlpha: 0, y: 28 },
+      {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.9,
+        delay: i * 0.08,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: board,
+          start: 'top 82%',
+          once: true,
+        },
       },
-    });
+    );
 
-    if (!val || !to) return;
+    if (!dt || !to) return;
     const obj = { v: 0 };
     ScrollTrigger.create({
       trigger: board,
-      start: 'top 82%',
+      start: 'top 80%',
       once: true,
       onEnter: () => {
-        val.textContent = '0';
-        gsap.fromTo(
-          val,
-          { scale: 0.82, filter: 'blur(10px)', opacity: 0.35 },
-          {
-            scale: 1,
-            filter: 'blur(0px)',
-            opacity: 1,
-            duration: 1.35,
-            delay: 0.18 + i * 0.14,
-            ease: 'power3.out',
-            clearProps: 'transform,filter,opacity',
-          },
-        );
+        dt.textContent = '0';
         gsap.to(obj, {
           v: to,
-          duration: 2,
-          delay: 0.18 + i * 0.14,
+          duration: 1.6,
+          delay: 0.1 + i * 0.1,
           ease: 'power3.out',
           onUpdate: () => {
-            val.textContent = String(Math.round(obj.v));
+            dt.textContent = String(Math.round(obj.v));
           },
           onComplete: () => {
-            val.textContent = String(to);
-            gsap.fromTo(
-              val,
-              { textShadow: '0 0 0 transparent' },
-              {
-                textShadow: '0 0 28px rgb(200 181 104 / 0.35)',
-                duration: 0.35,
-                yoyo: true,
-                repeat: 1,
-                clearProps: 'textShadow',
-              },
-            );
+            dt.textContent = String(to);
           },
         });
       },
@@ -380,48 +335,51 @@ function visionHorizontal() {
 }
 
 function reasonsScene() {
-  const section = document.querySelector<HTMLElement>('[data-reasons]');
-  const stage = document.querySelector<HTMLElement>('[data-reasons-stage]');
-  const items = gsap.utils.toArray<HTMLElement>('[data-reason-item]');
-  const copies = gsap.utils.toArray<HTMLElement>('[data-reason-copy]');
-  if (!section || !items.length || reduce) return;
+  const qs = gsap.utils.toArray<HTMLElement>('[data-reasons-q]');
+  const copies = gsap.utils.toArray<HTMLElement>('[data-reasons-copy]');
+  if (!qs.length) return;
 
-  const trigger = stage ?? section;
-  // Each quarter grows out of the circle's centre point (clip-path), like an iris opening.
-  const origin = ['100% 100%', '0% 100%', '100% 0%', '0% 0%'];
-
-  const tl = gsap.timeline({
-    defaults: { ease: 'power2.out' },
-    scrollTrigger: { trigger, start: 'top 80%', end: 'top 30%', scrub: 0.6 },
-  });
-
-  items.forEach((item, i) => {
-    const img = item.querySelector<HTMLElement>('[data-reason-img]');
-    tl.fromTo(
-      item,
-      { clipPath: `circle(0% at ${origin[i]})`, autoAlpha: 1 },
-      { clipPath: `circle(150% at ${origin[i]})`, duration: 1.2, ease: 'power3.inOut' },
-      i * 0.15,
+  qs.forEach((q, i) => {
+    const fromX = i % 2 === 0 ? -28 : 28;
+    const fromY = i < 2 ? -28 : 28;
+    gsap.fromTo(
+      q,
+      { autoAlpha: 0, x: fromX, y: fromY, scale: 0.86 },
+      {
+        autoAlpha: 1,
+        x: 0,
+        y: 0,
+        scale: 1,
+        duration: 1,
+        delay: i * 0.08,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '[data-reasons-orbit]',
+          start: 'top 78%',
+          once: true,
+        },
+      },
     );
-    if (img) tl.fromTo(img, { scale: 1.3 }, { scale: 1.04, duration: 1.4 }, i * 0.15);
   });
 
   copies.forEach((copy, i) => {
-    const rule = copy.querySelector('.reasons-rule');
-    const at = 0.7 + i * 0.15;
-    tl.fromTo(copy, { autoAlpha: 0, x: i % 2 === 0 ? -30 : 30 }, { autoAlpha: 1, x: 0, duration: 0.8 }, at);
-    if (rule) tl.fromTo(rule, { scaleX: 0, transformOrigin: i % 2 === 0 ? 'left' : 'right' }, { scaleX: 1, duration: 0.5 }, at + 0.3);
-  });
-
-  // Hover a quarter: its text lights up, the rest recede.
-  const setActive = (n: number | null) => {
-    items.forEach((el, i) => gsap.to(el, { filter: n === null || n === i ? 'saturate(1) brightness(1)' : 'saturate(0.2) brightness(1.08)', duration: 0.35 }));
-    copies.forEach((el, i) => gsap.to(el, { filter: n === null || n === i ? 'opacity(1)' : 'opacity(0.35)', duration: 0.35 }));
-  };
-  [...items, ...copies].forEach((el, k) => {
-    const i = k % items.length;
-    el.addEventListener('mouseenter', () => setActive(i));
-    el.addEventListener('mouseleave', () => setActive(null));
+    const fromX = i % 2 === 0 ? -24 : 24;
+    gsap.fromTo(
+      copy,
+      { autoAlpha: 0, x: fromX },
+      {
+        autoAlpha: 1,
+        x: 0,
+        duration: 0.9,
+        delay: 0.18 + i * 0.07,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '[data-reasons-orbit]',
+          start: 'top 78%',
+          once: true,
+        },
+      },
+    );
   });
 }
 
@@ -433,6 +391,33 @@ function aidScene() {
   const ticket = document.querySelector<HTMLElement>('.aid-ticket');
   const after = document.querySelector<HTMLElement>('.aid-row.is-after');
   if (!ticket || !after) return;
+
+  // The aided price counts down from the full price: the saving, made visible.
+  const target = after.querySelector<HTMLElement>('strong');
+  const fromN = toNum(document.querySelector('.aid-row.is-before strong')?.textContent);
+  const toN = toNum(target?.textContent);
+  if (target && fromN && toN && fromN > toN) {
+    const tpl = target.textContent ?? '';
+    const fmt = (n: number) => tpl.replace(NUM, group(n));
+    const obj = { v: fromN };
+    target.textContent = fmt(fromN);
+    ScrollTrigger.create({
+      trigger: ticket,
+      start: 'top 70%',
+      once: true,
+      onEnter: () =>
+        gsap.to(obj, {
+          v: toN,
+          duration: 2,
+          delay: 0.35,
+          ease: 'power2.inOut',
+          snap: { v: 1000 },
+          onUpdate: () => {
+            target.textContent = fmt(obj.v);
+          },
+        }),
+    });
+  }
 
   gsap.fromTo(
     ticket,
@@ -467,83 +452,20 @@ function aidScene() {
 }
 
 function waysScene() {
-  const section = document.querySelector<HTMLElement>('[data-ways]');
-  const items = gsap.utils.toArray<HTMLElement>('[data-ways-item]');
-  if (!section || !items.length) return;
-
-  items.forEach((li, i) => {
-    const idx = li.querySelector<HTMLElement>('.ways-idx');
-    const title = li.querySelector('h3');
-    const body = li.querySelector('p');
-    const rule = li.querySelector<HTMLElement>('.ways-rule');
-
-    gsap.from(li, {
-      y: 48,
-      opacity: 0,
-      duration: 1.05,
-      delay: i * 0.14,
-      ease: 'power3.out',
-      clearProps: 'opacity',
-      immediateRender: false,
-      scrollTrigger: {
-        trigger: section,
-        start: 'top 82%',
-        once: true,
-        onEnter: () => {
-          window.setTimeout(() => li.classList.add('is-in'), 200 + i * 140);
-        },
+  gsap.utils.toArray<HTMLElement>('.ways-list li').forEach((li) => {
+    gsap.fromTo(
+      li.children,
+      { y: 36, autoAlpha: 0 },
+      {
+        y: 0,
+        autoAlpha: 1,
+        duration: 1,
+        stagger: 0.08,
+        ease: 'power3.out',
+        clearProps: 'transform',
+        scrollTrigger: { trigger: li, start: 'top 88%', once: true },
       },
-    });
-
-    if (idx) {
-      gsap.from(idx, {
-        y: 12,
-        opacity: 0,
-        duration: 0.7,
-        delay: 0.1 + i * 0.14,
-        ease: 'power3.out',
-        clearProps: 'transform,opacity',
-        immediateRender: false,
-        scrollTrigger: { trigger: section, start: 'top 82%', once: true },
-      });
-    }
-
-    if (title) {
-      gsap.from(title, {
-        y: 24,
-        opacity: 0,
-        duration: 0.9,
-        delay: 0.18 + i * 0.14,
-        ease: 'power3.out',
-        clearProps: 'transform,opacity',
-        immediateRender: false,
-        scrollTrigger: { trigger: section, start: 'top 82%', once: true },
-      });
-    }
-
-    if (rule) {
-      gsap.from(rule, {
-        scaleX: 0,
-        duration: 0.75,
-        delay: 0.32 + i * 0.14,
-        ease: 'power2.out',
-        immediateRender: false,
-        scrollTrigger: { trigger: section, start: 'top 82%', once: true },
-      });
-    }
-
-    if (body) {
-      gsap.from(body, {
-        y: 16,
-        opacity: 0,
-        duration: 0.85,
-        delay: 0.28 + i * 0.14,
-        ease: 'power3.out',
-        clearProps: 'transform,opacity',
-        immediateRender: false,
-        scrollTrigger: { trigger: section, start: 'top 82%', once: true },
-      });
-    }
+    );
   });
 }
 
@@ -733,7 +655,6 @@ function boot() {
   pageHeroScene();
   enterOnce();
   mediaDepth();
-  proofScene();
   figuresScene();
   visionHorizontal();
   reasonsScene();

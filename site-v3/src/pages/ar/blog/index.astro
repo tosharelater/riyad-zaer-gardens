@@ -3,6 +3,6 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import BlogShowcase from '../../../components/showcase/BlogShowcase.astro';
 import { blogListing } from '../../../data/blog';
 ---
-<BaseLayout title={blogListing.ar.seo.title} description={blogListing.ar.seo.description} locale="ar">
+<BaseLayout title={blogListing.ar.seo.title} description={blogListing.ar.seo.description} locale="ar" solidNav={true}>
   <BlogShowcase locale="ar" />
 </BaseLayout>

@@ -3,7 +3,6 @@ import { getHome } from '../data/content';
 import { localePath, type Locale } from '../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { commerce } = getHome(locale);
-const keep = (t: string) => t.replace(/(\d) (?=\d|DH|m)/g, '$1 ');
 const href = (h: string) => (h.startsWith('/') ? localePath(locale, h) : h);
 ---
 <section class="commerce" id="commerces">
@@ -13,72 +12,64 @@ const href = (h: string) => (h.startsWith('/') ? localePath(locale, h) : h);
       <h2 class="display">{commerce.h2}</h2>
       <p class="lead">{commerce.p1}</p>
       <p class="lead">{commerce.p2}</p>
+    </div>
 
-      <dl class="facts">
-        {commerce.facts.map(([k, v], i) => (
+    <div class="commerce-side" data-reveal>
+      <dl class="commerce-facts">
+        {commerce.facts.map(([k, v]) => (
           <div>
             <dt>{k}</dt>
-            <dd>{keep(v)}</dd>
+            <dd>{v}</dd>
           </div>
         ))}
       </dl>
-      <a class="btn btn-solid" href={href(commerce.cta.href)}>
-        {commerce.cta.label}
-        <span aria-hidden="true">→</span>
-      </a>
+      <a class="btn btn-ghost" href={href(commerce.cta.href)}>{commerce.cta.label}</a>
     </div>
-
-    <figure class="commerce-media" data-reveal>
-      <img src={commerce.img} alt="" loading="lazy" decoding="async" />
-    </figure>
   </div>
 </section>
 
 <style>
   .commerce {
     padding: var(--sec) 0;
-    background: var(--paper);
+    background: var(--bg);
   }
   .commerce-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-    gap: clamp(2rem, 5vw, 4.5rem);
-    align-items: center;
-  }
-  .commerce-copy {
-    display: grid;
-    gap: 0.9rem;
-    max-width: 38rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--gap);
+    align-items: start;
   }
   .commerce-copy .kick { margin: 0; }
-  .commerce-copy .display {
-    margin: 0.35rem 0 0;
-    max-width: none;
-    font-size: clamp(2rem, 3.8vw, 3rem);
+  .commerce-copy .display { margin: 0.65rem 0 0; max-width: none; }
+  .commerce-copy .lead { margin-top: 0.85rem; }
+  .commerce-copy .lead + .lead { margin-top: 0.75rem; }
+  .commerce-facts {
+    display: grid;
+    gap: 0.15rem;
+    margin-bottom: 2rem;
   }
-  .commerce-copy .lead { margin: 0; font-size: 1rem; }
-
-  .commerce .btn { justify-self: start; margin-top: 0.35rem; }
-  .commerce-media {
-    margin: 0;
-    aspect-ratio: 4 / 5;
-    max-height: 36rem;
-    width: 100%;
-    overflow: hidden;
-    border-radius: 0 clamp(6rem, 16vw, 12rem) 0 0;
+  .commerce-facts > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--line);
   }
-  .commerce-media img { width: 100%; height: 100%; object-fit: cover; }
-
+  .commerce-facts > div:last-child { border-bottom: 0; }
+  .commerce-facts dt {
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    color: var(--muted);
+  }
+  .commerce-facts dd {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.05rem;
+    text-align: end;
+    color: var(--ink);
+  }
   @media (max-width: 900px) {
     .commerce-grid { grid-template-columns: 1fr; }
-    .commerce-media {
-      order: -1;
-      aspect-ratio: 16 / 11;
-      max-height: none;
-      border-radius: var(--radius) var(--radius) 0 0;
-    }
-    .commerce-copy { max-width: none; }
-    .commerce-copy .display { font-size: clamp(1.75rem, 7vw, 2.4rem); }
-    .commerce .btn { justify-self: stretch; }
   }
 </style>

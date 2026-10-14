@@ -1,6 +1,6 @@
 /* Riyad Zaer Gardens — garden-calm system
-   Colour is the brand's own: deep garden green, champagne gold, warm ivory.
-   Photography carries the rest. Type is Poppins; Audrey only for the hero wordmark.
+   Layout and type follow Apple's restraint; colour is the brand's own:
+   deep garden green, champagne gold, warm ivory. Photography carries the rest.
 
    Palette (WCAG contrast):
    --ink    #002d2d  text & dark sections   14.6:1 on --paper, 13.1:1 on --cream
@@ -9,7 +9,8 @@
    --gold-soft #d9c987 eyebrows on dark       9.0:1 on --ink
    --gold-text #7a6628 eyebrows on light      4.9:1 on --cream, 5.5:1 on --paper
    --muted  #4a5e59  secondary text          6.1:1 on --cream, 6.8:1 on --paper
-   --paper  #fffdf8  warm white surface · --cream #f6f0e4 ivory surface */
+   --paper  #fffdf8  warm white surface · --cream #f6f0e4 ivory surface
+   Type: Inter for everything · Audrey only for the home hero wordmark. */
 
 :root {
   --ink: #002d2d;
@@ -31,27 +32,19 @@
   --line: rgb(0 45 45 / 0.1);
   --line-on-dark: rgb(246 240 228 / 0.14);
 
-  --font: 'Poppins', 'Noto Sans Arabic', system-ui, sans-serif;
-  --display: 'Poppins', 'Noto Sans Arabic', system-ui, sans-serif;
-  --audrey: 'RZ Audrey', Georgia, 'Times New Roman', serif;
-  --serif: 'Poppins', 'Noto Sans Arabic', system-ui, sans-serif;
+  --font: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', 'Noto Sans Arabic', system-ui, sans-serif;
+  --display: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Noto Sans Arabic', system-ui, sans-serif;
+  --audrey: 'RZ Audrey', 'Inter Variable', Georgia, serif;
   --wrap: 1180px;
   --pad: clamp(1.25rem, 4vw, 2.5rem);
-  --nav: 4.25rem;
-  --radius: 14px;
-  --radius-sm: 8px;
+  --nav: 3.5rem;
+  --radius: 22px;
+  --radius-sm: 14px;
   --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
   --ease-io: cubic-bezier(0.42, 0, 0.58, 1);
-  --sec: clamp(3.5rem, 7vw, 6rem);
+  --sec: clamp(5rem, 10vw, 8.5rem);
   --gap: clamp(1.5rem, 3.5vw, 2.75rem);
   --head-gap: clamp(2.25rem, 4.5vw, 3.5rem);
-}
-@media (max-width: 800px) {
-  :root {
-    --sec: clamp(2.75rem, 10vw, 4rem);
-    --pad: clamp(1.1rem, 5vw, 1.5rem);
-    --head-gap: clamp(1.5rem, 5vw, 2.25rem);
-  }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -60,11 +53,12 @@ html { -webkit-text-size-adjust: 100%; }
 html.lenis, html.lenis body { height: auto; }
 body {
   font-family: var(--font);
+  font-feature-settings: 'cv11', 'ss01';
   background: var(--bg);
   color: var(--ink);
   font-size: 1.0625rem;
-  line-height: 1.55;
-  letter-spacing: 0;
+  line-height: 1.5;
+  letter-spacing: -0.011em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
@@ -87,7 +81,7 @@ ul, ol { list-style: none; padding: 0; }
   src: url('/fonts/audrey/Audrey-Normal.otf') format('opentype');
   font-weight: 400;
   font-display: swap;
-  unicode-range: U+0000-009F, U+00A1-00B1, U+00B4-0151, U+0154-2012, U+2015-2018, U+201A-202E, U+2030-FFFF;
+  unicode-range: U+0000-009F, U+00A1-0151, U+0154-2012, U+2015-2018, U+201A-202E, U+2030-FFFF;
 }
 
 .wrap {
@@ -98,45 +92,36 @@ ul, ol { list-style: none; padding: 0; }
 
 [id] { scroll-margin-top: calc(var(--nav) + 1rem); }
 
-/* Buttons — soft corners, sentence case */
+/* Buttons — Apple-style pills, sentence case */
 .btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-  min-height: 2.9rem; padding: 0.65rem 1.5rem;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+  min-height: 2.75rem; padding: 0.6rem 1.35rem;
   max-width: 100%;
   border: 1px solid transparent;
-  border-radius: var(--radius-sm);
-  font-size: 0.9375rem; font-weight: 500; letter-spacing: 0.01em; line-height: 1.2;
+  border-radius: 980px;
+  font-size: 1rem; font-weight: 500; letter-spacing: -0.01em; line-height: 1.2;
   text-transform: none;
   white-space: nowrap;
-  box-shadow: 0 2px 10px rgb(0 45 45 / 0.07);
-  transition: background-color 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.2s var(--ease), box-shadow 0.25s var(--ease);
-}
-@media (max-width: 480px) {
-  .btn {
-    white-space: normal;
-    text-align: center;
-    height: auto;
-    padding-block: 0.75rem;
-    line-height: 1.3;
-  }
+  transition: background-color 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.2s var(--ease);
 }
 .btn:active { transform: scale(0.98); }
 .btn-solid {
-  background: var(--ink);
+  background: var(--canopy);
   color: var(--paper);
 }
-.btn-solid:hover { background: var(--canopy-hover); box-shadow: 0 8px 24px rgb(0 45 45 / 0.18); }/* On photos and deep-green surfaces the primary action turns champagne */
+.btn-solid:hover { background: var(--canopy-hover); }
+/* On photos and deep-green surfaces the primary action turns champagne */
 :where(.hero, .ph:not(.is-plain), .tone-dark, .tone-canopy, .reasons, .ways, .inclus, .amenity,
-  .prix, .map, .band-convert:has(.band-bg), .projet-scene, .foot, .top:not(.is-solid)) :is(.btn-solid, .top-cta) {
+  .band-convert:has(.band-bg), .projet-scene, .foot, .top:not(.is-solid)) .btn-solid {
   background: var(--gold);
   color: var(--ink);
 }
 :where(.hero, .ph:not(.is-plain), .tone-dark, .tone-canopy, .reasons, .ways, .inclus, .amenity,
-  .prix, .map, .band-convert:has(.band-bg), .projet-scene, .foot, .top:not(.is-solid)) :is(.btn-solid, .top-cta):hover {
+  .band-convert:has(.band-bg), .projet-scene, .foot, .top:not(.is-solid)) .btn-solid:hover {
   background: var(--gold-soft);
 }
 :where(.hero, .ph:not(.is-plain), .tone-dark, .tone-canopy, .reasons, .ways, .inclus, .amenity,
-  .prix, .map, .band-convert:has(.band-bg), .projet-scene, .foot) :focus-visible {
+  .band-convert:has(.band-bg), .projet-scene, .foot) :focus-visible {
   outline-color: var(--gold-soft);
 }
 .btn-ghost {
@@ -152,31 +137,31 @@ ul, ol { list-style: none; padding: 0; }
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
 }
-.btn-light:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }/* Eyebrow: small, semibold, colour only — no ornaments */
+.btn-light:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+
+/* Eyebrow: small, semibold, colour only — no ornaments */
 .kick {
   display: inline-flex; align-items: center; gap: 0.5rem;
   font-family: var(--font);
-  font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; text-transform: none;
   color: var(--gold-text);
 }
 
 .display {
-  font-family: var(--serif);
-  font-size: clamp(1.75rem, 2.6vw, 2.4rem);
-  font-weight: 300;
-  letter-spacing: -0.02em;
-  word-spacing: 0;
-  line-height: 1.18;
+  font-family: var(--display);
+  font-size: clamp(2rem, 4.6vw, 3.5rem);
+  font-weight: 600;
+  letter-spacing: -0.028em;
+  line-height: 1.07;
   text-wrap: balance;
-  color: var(--ink);
 }
 
 .lead {
   margin-top: 1rem;
   max-width: 38rem;
   color: var(--muted);
-  font-size: clamp(1.02rem, 1.3vw, 1.2rem);
-  line-height: 1.5;
+  font-size: clamp(1.0625rem, 1.4vw, 1.3125rem);
+  line-height: 1.45;
   letter-spacing: -0.012em;
   text-wrap: pretty;
 }
@@ -192,13 +177,14 @@ ul, ol { list-style: none; padding: 0; }
 .head-split > .display { margin: 0; max-width: none; }
 .head-split > .lead { margin: 0.4rem 0 0; max-width: none; }
 
-/* Image presentation — quiet corners, photos stay architectural */
+/* Rounded, clean image presentation */
 [data-media],
-.reasons-media, .homes-media, .commerce-media, .projet-photo, .feat-item figure, .aside-media,
+.reasons-media, .homes-media, .projet-photo, .feat-item figure, .aside-media,
 .partner-media, .entry-media, .post-media, .split-media, .finishes-media,
 .vision figure, .text-photo > figure {
   border-radius: var(--radius);
   overflow: hidden;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 
 .text-photo {
@@ -237,7 +223,7 @@ ul, ol { list-style: none; padding: 0; }
   position: fixed; inset: 0 0 auto; z-index: 100; height: 2px; pointer-events: none;
 }
 .progress i {
-  display: block; height: 100%; width: 100%; background: var(--gold);
+  display: block; height: 100%; width: 100%; background: var(--canopy);
   transform: scaleX(0); transform-origin: left center;
 }
 
@@ -295,20 +281,6 @@ figure { overflow: hidden; }
 .icon.draw.is-drawn :is(path, circle, rect, line, polyline, polygon, ellipse) {
   stroke-dashoffset: 0;
 }
-/* Every call-to-action ends with the same arrow (unless it already carries a trailing icon) */
-.btn:not(.top-cta):not(:has(> .icon:last-child))::after {
-  content: '';
-  flex: none;
-  width: 1.05em;
-  height: 1.05em;
-  background: currentColor;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 5l7 7-7 7'/%3E%3C/svg%3E") center / contain no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 5l7 7-7 7'/%3E%3C/svg%3E") center / contain no-repeat;
-  transition: transform 0.25s var(--ease);
-}
-.btn:hover::after { transform: translateX(3px); }
-[dir='rtl'] .btn::after { transform: scaleX(-1); }
-[dir='rtl'] .btn:hover::after { transform: scaleX(-1) translateX(3px); }
 .btn .icon { transition: transform 0.25s var(--ease); }
 .btn:hover .icon { transform: translateX(2px); }
 [dir='rtl'] .btn:hover .icon { transform: translateX(-2px); }
@@ -392,107 +364,7 @@ body.is-rtl .mbar a {
 .tone-alt { background: var(--cream); }
 
 /* Links on deep-green surfaces */
-:where(.tone-dark, .reasons, .inclus, .amenity, .projet-scene) :is(.text-link, .projet-link) { color: var(--gold-soft); }
+:where(.tone-dark, .reasons, .ways, .inclus, .amenity, .projet-scene) :is(.text-link, .projet-link) { color: var(--gold-soft); }
 
 /* The wordmark stays in Audrey in both languages */
 body.is-rtl .hero-brand { font-family: var(--audrey); letter-spacing: -0.03em; }
-
-/* Shared light band: proof + tranche 1 */
-.home-soft {
-  position: relative;
-  isolation: isolate;
-  background: linear-gradient(160deg, #faf6ec 0%, var(--cream) 48%, #f3ead8 100%);
-  overflow: clip;
-}
-.home-soft::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(42% 38% at 92% 52%, rgb(200 181 104 / 0.36), transparent 68%);
-  filter: blur(2px);
-}
-
-/* Soft cream band for inner pages (same garden atmosphere as homepage) */
-.soft-band {
-  position: relative;
-  isolation: isolate;
-  background:
-    radial-gradient(50% 55% at 88% 12%, rgb(200 181 104 / 0.16), transparent 55%),
-    linear-gradient(160deg, #faf6ec 0%, var(--cream) 52%, #f3ead8 100%);
-}
-
-/* Map overlay panel — shared across localisation / appartements / commerce */
-.map-panel {
-  padding: clamp(1.5rem, 3vw, 2.25rem);
-  background: color-mix(in srgb, var(--paper) 94%, white);
-  display: grid;
-  gap: 0.85rem;
-  border-radius: var(--radius);
-  border: 1px solid color-mix(in srgb, var(--gold-text) 28%, transparent);
-  box-shadow: 0 18px 40px rgb(0 45 45 / 0.18);
-}
-.map-panel h2 {
-  font-family: var(--display);
-  font-weight: 500;
-  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-}
-.map-panel .btn { justify-self: start; margin-top: 0.5rem; }
-
-/* No decorative rules next to eyebrows */
-.kick-rule { display: none !important; }
-
-.reasons-rule, .reasons-title-rule, .ways-rule, .ways-title-rule { display: none !important; }
-
-/* Mobile nav open: lock scroll and hide sticky action bar */
-html.nav-open,
-body.nav-open {
-  overflow: hidden;
-}
-body.nav-open .mbar {
-  display: none !important;
-}
-
-/* One heading size for every homepage section (desktop) */
-@media (min-width: 901px) {
-  body > main section .display,
-  main > section .display {
-    font-size: clamp(2rem, 3.8vw, 3rem) !important;
-    line-height: 1.12;
-  }
-}
-
-/* Key facts, one per line: label then value */
-.facts {
-  display: grid;
-  gap: 0.7rem;
-  margin: 0.5rem 0 0.25rem;
-  padding: 0;
-}
-.facts > div {
-  display: grid;
-  grid-template-columns: minmax(7.5rem, 10rem) 1fr;
-  align-items: baseline;
-  gap: 1rem;
-}
-.facts dt {
-  font-size: 0.74rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--gold-text);
-}
-.facts dd {
-  margin: 0;
-  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  color: var(--ink);
-}
-@media (max-width: 480px) {
-  .facts > div { grid-template-columns: 1fr; gap: 0.15rem; }
-}

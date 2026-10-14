@@ -17,8 +17,8 @@ const form = (locale === 'ar' ? contactAr : contactFr).form;
       <p class="lead">{contact.body}</p>
       <a class="phone" href={`tel:${contact.phoneTel}`} dir="ltr">{contact.phone}</a>
       <div class="contact-actions">
-        <a class="btn btn-solid" href={`tel:${contact.phoneTel}`}><Icon name="phone" />{contact.primary}<Icon name="arrow-right" /></a>
-        <a class="btn btn-ghost wa" href={contact.whatsapp}><Icon name="message-circle" />{contact.secondary}<Icon name="arrow-right" /></a>
+        <a class="btn btn-solid" href={`tel:${contact.phoneTel}`}><Icon name="phone" />{contact.primary}</a>
+        <a class="btn btn-ghost wa" href={contact.whatsapp}><Icon name="message-circle" />{contact.secondary}</a>
       </div>
     </div>
     <form class="form" method="get" action={localePath(locale, '/merci')} data-lead-form data-reveal>

@@ -1,19 +1,12 @@
 ---
-/**
- * Homepage — full content (01-accueil.md), 13 sections.
- * Merge of the two directions: GitHub colours + image selection (dark green,
- * dusk photography) with the current typography and cleaner layouts.
- */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Proof from '../components/Proof.astro';
 import Figures from '../components/Figures.astro';
 import Cour from '../components/Cour.astro';
-import ProjetPanorama from '../components/ProjetPanorama.astro';
-import Logements from '../components/LogementsGithub.astro';
-import Finishes from '../components/Finishes.astro';
+import Projet from '../components/Projet.astro';
+import Logements from '../components/Logements.astro';
 import Commerce from '../components/Commerce.astro';
-import Aid from '../components/Aid.astro';
 import Ways from '../components/Ways.astro';
 import Vision from '../components/Vision.astro';
 import Lieu from '../components/Lieu.astro';
@@ -28,13 +21,11 @@ const { seo } = getHome(locale);
   <Proof />
   <Figures />
   <Cour />
-  <ProjetPanorama />
+  <Projet />
   <Logements />
-  <Finishes />
   <Commerce />
-  <Aid />
-  <Ways />
   <Vision />
+  <Ways />
   <Lieu />
   <Contact />
 </BaseLayout>

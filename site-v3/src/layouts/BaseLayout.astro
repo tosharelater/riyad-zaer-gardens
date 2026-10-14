@@ -1,10 +1,6 @@
 ---
-import '@fontsource/poppins/200.css';
-import '@fontsource/poppins/300.css';
-import '@fontsource/poppins/400.css';
-import '@fontsource/poppins/500.css';
-import '@fontsource/poppins/600.css';
-import '@fontsource/poppins/700.css';
+import '@fontsource-variable/inter';
+
 import '@fontsource/noto-sans-arabic/400.css';
 import '@fontsource/noto-sans-arabic/500.css';
 import '../styles/global.css';
@@ -13,7 +9,6 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import type { Locale } from '../i18n/paths';
 import { getLocaleFromPath, switchLocalePath } from '../i18n/paths';
-import { contactInfo } from '../data/site';
 
 interface Props {
   title?: string;
@@ -60,37 +55,13 @@ const ogAbs = new URL(ogImage, Astro.site ?? 'https://riyadzaergardens.com').hre
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogAbs} />
-    <meta property="og:image:alt" content="Riyad Zaer Gardens" />
-    <meta property="og:site_name" content="Riyad Zaer Gardens" />
     <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogAbs} />
-    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#002d2d" />
-    <meta name="msapplication-TileColor" content="#002d2d" />
-    <meta name="msapplication-TileImage" content="/brand/icon-192.png" />
-    <script type="application/ld+json" set:html={JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'RealEstateAgent',
-      name: 'Riyad Zaer Gardens',
-      url: Astro.site?.href ?? 'https://riyadzaergardens.com',
-      logo: new URL('/brand/logo-green.png', Astro.site ?? 'https://riyadzaergardens.com').href,
-      image: ogAbs,
-      description,
-      telephone: contactInfo.phoneTel,
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: contactInfo.address,
-        addressLocality: 'Rabat',
-        addressCountry: 'MA',
-      },
-    })} />
   </head>
   <body class:list={[{ 'is-page': solidNav, 'is-rtl': locale === 'ar' }]}>
     {intro && <Intro />}

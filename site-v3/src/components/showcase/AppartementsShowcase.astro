@@ -1,5 +1,6 @@
 ---
 import PageHero from '../page/PageHero.astro';
+import Icon from '../Icon.astro';
 import PageBand from '../page/PageBand.astro';
 import FactTable from '../page/FactTable.astro';
 import { media } from '../../data/media';
@@ -59,18 +60,15 @@ const figures = 'figures' in p ? p.figures : null;
     image="/photos/salon.jpg"
     alt={media.apartment.alt}
     position="center 45%"
-  >
-    <a class="btn btn-solid" href={localePath(locale, '/contact')}>{locale === 'ar' ? 'احصلوا على الكتيّب' : 'Recevoir la brochure'}</a>
-    <a class="btn btn-light" href={localePath(locale, '/contact')}>{locale === 'ar' ? 'اطلب اتصالاً' : 'Être rappelé'}</a>
-  </PageHero>
+    compact
+  />
 
   {figures && (
-    <section class="figures soft-band">
+    <section class="figures">
       <div class="wrap figures-grid">
         {figures.map((f) => (
           <div class="figure" data-reveal>
             <strong>{f.n}</strong>
-            <span class="figure-rule" aria-hidden="true"></span>
             <span>{f.label}</span>
           </div>
         ))}
@@ -110,7 +108,7 @@ const figures = 'figures' in p ? p.figures : null;
         <h2 class="display">{p.inclus.h2}</h2>
         <p class="lead">{p.inclus.body}</p>
         <ul class="ruled" data-ruled>
-          {p.inclus.list.map((item) => <li><span class="tick" aria-hidden="true"></span>{item}</li>)}
+          {p.inclus.list.map((item) => <li><span class="tick"><Icon name="check" size="1rem" /></span>{item}</li>)}
         </ul>
       </div>
       <div class="inclus-photos">
@@ -174,7 +172,7 @@ const figures = 'figures' in p ? p.figures : null;
         referrerpolicy="no-referrer-when-downgrade"
       ></iframe>
     </div>
-    <div class="map-card map-panel" data-reveal>
+    <div class="map-card" data-reveal>
       <p class="kick">{L.map}</p>
       <h2>{L.mapTitle}</h2>
       <a class="btn btn-solid" href={contactInfo.mapsHref} target="_blank" rel="noopener">{L.mapsCta}</a>
@@ -189,6 +187,7 @@ const figures = 'figures' in p ? p.figures : null;
 <style>
   .figures {
     padding: clamp(2.75rem, 5.5vw, 4.5rem) 0;
+    background: var(--cream);
   }
   .figures-grid {
     display: grid;
@@ -197,36 +196,23 @@ const figures = 'figures' in p ? p.figures : null;
   }
   .figure {
     display: grid;
-    gap: 0.65rem;
+    gap: 0.5rem;
     justify-items: start;
     align-content: start;
-    padding: 0.35rem 0;
-    background: transparent;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
   }
   .figure strong {
     font-family: var(--display);
-    font-weight: 300;
+    font-weight: 600;
     font-size: clamp(1.75rem, 3vw, 2.4rem);
     line-height: 1;
     letter-spacing: -0.03em;
     font-variant-numeric: tabular-nums;
-    color: var(--ink);
-  }
-  .figure-rule {
-    display: block;
-    width: 2rem;
-    height: 1.5px;
-    background: var(--gold-text);
   }
   .figure > span:last-child {
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--gold-text);
+    letter-spacing: -0.005em;
+    color: var(--muted);
   }
   @media (max-width: 800px) {
     .figures-grid { grid-template-columns: 1fr 1fr; }
@@ -254,7 +240,7 @@ const figures = 'figures' in p ? p.figures : null;
     color: var(--gold-text);
     transition: color 0.3s ease;
   }
-  .type:hover .type-mark { color: var(--gold-text); }
+  .type:hover .type-mark { color: var(--canopy); }
   .type-body {
     display: grid;
     gap: 0.75rem;
@@ -263,7 +249,7 @@ const figures = 'figures' in p ? p.figures : null;
   }
   .type-body h3 {
     font-family: var(--display);
-    font-weight: 500;
+    font-weight: 600;
     font-size: clamp(1.5rem, 2.4vw, 2rem);
     line-height: 1.1;
   }
@@ -292,17 +278,19 @@ const figures = 'figures' in p ? p.figures : null;
   }
   .ruled li {
     display: grid;
-    grid-template-columns: 0.65rem 1fr;
-    gap: 0.85rem;
+    grid-template-columns: 1.5rem 1fr;
+    gap: 0.75rem;
     line-height: 1.5;
     align-items: start;
   }
-  .ruled .tick {
-    width: 0.4rem;
-    height: 0.4rem;
-    margin-top: 0.55rem;
-    border-radius: 1px;
-    background: var(--gold-soft);
+  .ruled span {
+    display: inline-grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: rgb(217 201 135 / 0.16);
+    color: var(--gold-soft);
   }
 
   .finish {
@@ -326,12 +314,9 @@ const figures = 'figures' in p ? p.figures : null;
 
   .prix {
     padding: var(--sec) 0;
-    background: var(--ink);
-    color: var(--cream);
+    background: var(--cream);
+    color: var(--ink);
   }
-  .prix .kick { color: var(--gold-soft); }
-  .prix .display { color: var(--cream); }
-  .prix .lead { color: var(--muted-on-dark); }
   .prix-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -340,59 +325,39 @@ const figures = 'figures' in p ? p.figures : null;
   }
   .prix .display { margin: 1rem 0 0.25rem; max-width: none; }
   .prix .lead + .lead { margin-top: 0.75rem; }
-  .prix .btn { margin-top: 2rem; background: var(--gold); color: var(--ink); }
-  .prix .btn:hover { background: var(--gold-soft); }
+  .prix .btn { margin-top: 2rem; }
   .prix-ticket {
     display: grid;
-    gap: 1rem;
-    padding: 0;
-    background: transparent;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
+    gap: clamp(1.25rem, 2.5vw, 1.75rem);
   }
   .prix-ticket > div {
-    display: grid;
-    gap: 0.35rem;
-    justify-items: start;
-    padding: clamp(1.25rem, 3vw, 1.75rem) 1.25rem;
-    border-radius: var(--radius);
-    position: relative;
-  }
-  .prix-ticket > div::before { display: none; }
-  .prix-ticket .is-before {
-    background: rgb(246 240 228 / 0.08);
-    color: var(--cream);
-  }
-  .prix-ticket .is-aid {
-    background: var(--gold);
-    color: var(--ink);
+    padding: 0;
   }
   .prix-ticket span {
     display: block;
-    font-size: 0.72rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 0.35rem;
+    letter-spacing: -0.005em;
+    color: var(--canopy);
+    margin-bottom: 0.6rem;
   }
-  .prix-ticket .is-before span { color: var(--gold-soft); }
-  .prix-ticket .is-aid span { color: var(--ink); opacity: 0.75; }
   .prix-ticket strong {
     display: block;
     font-family: var(--display);
-    font-weight: 300;
+    font-weight: 600;
     font-variant-numeric: tabular-nums;
-    line-height: 1.1;
+    line-height: 1.05;
   }
   .prix-ticket .is-before strong {
-    font-size: clamp(1.35rem, 2.2vw, 1.7rem);
+    font-size: clamp(1.3rem, 2vw, 1.6rem);
+    color: color-mix(in srgb, var(--ink) 45%, transparent);
     text-decoration: line-through;
     text-decoration-thickness: 1px;
-    opacity: 0.85;
   }
+  .prix-ticket .is-aid span { color: var(--canopy); }
   .prix-ticket .is-aid strong {
-    font-size: clamp(1.85rem, 3.6vw, 2.75rem);
+    font-size: clamp(2.2rem, 4.2vw, 3.6rem);
+    color: var(--ink);
   }
 
   .map {
@@ -415,7 +380,20 @@ const figures = 'figures' in p ? p.figures : null;
     inset-inline-start: max(var(--pad), calc((100% - var(--wrap)) / 2));
     bottom: clamp(2rem, 4vw, 3rem);
     width: min(26rem, calc(100% - 2 * var(--pad)));
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    background: var(--cream);
+    display: grid;
+    gap: 0.85rem;
+    border-radius: var(--radius);
+    box-shadow: 0 10px 40px rgb(0 36 34 / 0.18);
   }
+  .map-card h2 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+    line-height: 1.1;
+  }
+  .map-card .btn { justify-self: start; margin-top: 0.5rem; }
 
   @media (max-width: 900px) {
     .figures-grid { grid-template-columns: 1fr 1fr; }
