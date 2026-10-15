@@ -39,22 +39,22 @@ export const reasons = {
     {
       title: "Un cœur d’îlot végétalisé",
       body: "Les immeubles s’organisent autour d’une cour centrale plantée, calme et réservée aux résidents. Elle apporte de la lumière et de l’air aux appartements, et de la fraîcheur en été.",
-      img: '/photos/allee-jardin.jpg',
+      img: '/photos/allee-jardin.webp',
     },
     {
       title: 'À 25 minutes de Rabat',
       body: "Sur l’Avenue Mohammed VI, avec un accès direct à l’autoroute et aux axes qui mènent à Rabat, Témara et Salé.",
-      img: '/photos/facade-street.jpg',
+      img: '/photos/facade-street.webp',
     },
     {
       title: 'Des finitions comprises dans le prix',
       body: "Sols, menuiseries, salle de bain équipée, faux plafonds et éclairage font partie des prestations prévues. Vous n'achetez pas un logement brut.",
-      img: '/photos/salon.jpg',
+      img: '/photos/salon.webp',
     },
     {
       title: 'Un prix juste',
       body: "Un logement de moyen standing à un prix accessible, encore réduit par l’aide au logement.",
-      img: '/photos/facade-golden.jpg',
+      img: '/photos/facade-golden.webp',
     },
   ],
 } as const;
@@ -72,7 +72,7 @@ export const projet = {
     'Commerces en rez-de-chaussée',
   ],
   link: { label: 'Découvrir le projet en détail', href: '/le-projet' },
-  img: '/photos/aerial-ilot.jpg',
+  img: '/photos/aerial-ilot.webp',
   alt: 'Vue de la résidence Riyad Zaer Gardens',
 } as const;
 
@@ -85,7 +85,7 @@ export const apartments = {
   price: 'À partir de 420 000 DH',
   priceAid: '350 000 DH avec l’aide au logement',
   cta: { label: 'Voir les appartements', href: '/appartements' },
-  img: '/photos/salon.jpg',
+  img: '/photos/salon.webp',
 } as const;
 
 export const finishes = {
@@ -97,7 +97,7 @@ export const finishes = {
     { title: 'Salle de bain', body: 'douche à l’italienne, sanitaires Roca' },
     { title: 'Confort', body: 'volets roulants motorisés Somfy' },
   ],
-  img: '/photos/cuisine.jpg',
+  img: '/photos/cuisine.webp',
 } as const;
 
 export const commerce = {
@@ -110,7 +110,7 @@ export const commerce = {
     ['Prix', 'à partir de 200 000 DH'],
   ],
   cta: { label: 'Voir les fonds de commerce', href: '/fonds-de-commerce' },
-  img: '/photos/commerce-angle.jpg',
+  img: '/photos/commerce-angle.webp',
 } as const;
 
 export const aid = {
@@ -151,18 +151,18 @@ export const lieu = {
   },
   mapEmbed:
     'https://maps.google.com/maps?q=Km+25,+Avenue+Mohammed+VI,+Rabat&hl=fr&z=14&output=embed',
-  img: '/photos/facade-street.jpg',
+  img: '/photos/facade-street.webp',
 } as const;
 
 export const gallery = [
-  { src: '/photos/facade-nuit.jpg', alt: 'Vue du projet Riyad Zaer Gardens' },
-  { src: '/photos/allee-jardin.jpg', alt: 'Cœur d’îlot végétalisé' },
-  { src: '/photos/salon.jpg', alt: 'Salon d’un appartement' },
-  { src: '/photos/facade-golden.jpg', alt: 'Façade au coucher du soleil' },
-  { src: '/photos/commerce-angle.jpg', alt: 'Commerces en rez-de-chaussée' },
-  { src: '/photos/salon-balcon.jpg', alt: 'Salon avec balcon' },
-  { src: '/photos/aerial-ilot.jpg', alt: 'Vue d’ensemble de l’îlot' },
-  { src: '/photos/cuisine.jpg', alt: 'Finitions' },
+  { src: '/photos/facade-nuit.webp', alt: 'Vue du projet Riyad Zaer Gardens' },
+  { src: '/photos/allee-jardin.webp', alt: 'Cœur d’îlot végétalisé' },
+  { src: '/photos/salon.webp', alt: 'Salon d’un appartement' },
+  { src: '/photos/facade-golden.webp', alt: 'Façade au coucher du soleil' },
+  { src: '/photos/commerce-angle.webp', alt: 'Commerces en rez-de-chaussée' },
+  { src: '/photos/salon-balcon.webp', alt: 'Salon avec balcon' },
+  { src: '/photos/aerial-ilot.webp', alt: 'Vue d’ensemble de l’îlot' },
+  { src: '/photos/cuisine.webp', alt: 'Finitions' },
 ] as const;
 
 export const contact = {

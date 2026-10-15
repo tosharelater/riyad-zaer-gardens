@@ -56,7 +56,7 @@ const figures = 'figures' in p ? p.figures : null;
     h1={p.h1}
     lead={p.lead}
     kicker={L.kick}
-    image="/photos/salon.jpg"
+    image="/photos/salon.webp"
     alt={media.apartment.alt}
     position="center 45%"
   >
@@ -114,9 +114,9 @@ const figures = 'figures' in p ? p.figures : null;
         </ul>
       </div>
       <div class="inclus-photos">
-        <figure data-media><img src="/photos/salon-balcon.jpg" alt="Salon" loading="lazy" decoding="async" /></figure>
-        <figure data-media><img src="/photos/salon-coin.jpg" alt="Coin salon" loading="lazy" decoding="async" /></figure>
-        <figure data-media class="is-wide"><img src="/photos/cuisine.jpg" alt="Cuisine" loading="lazy" decoding="async" /></figure>
+        <figure data-media><img src="/photos/salon-balcon.webp" alt="Salon" loading="lazy" decoding="async" /></figure>
+        <figure data-media><img src="/photos/salon-coin.webp" alt="Coin salon" loading="lazy" decoding="async" /></figure>
+        <figure data-media class="is-wide"><img src="/photos/cuisine.webp" alt="Cuisine" loading="lazy" decoding="async" /></figure>
       </div>
     </div>
   </section>
@@ -162,7 +162,7 @@ const figures = 'figures' in p ? p.figures : null;
     title={L.leadTitle}
     body={L.leadBody}
     primary={{ label: p.prix.cta.label, href: localePath(locale, '/contact') }}
-    image="/photos/chambre-enfants.jpg"
+    image="/photos/chambre-enfants.webp"
   />
 
   <section class="map">
@@ -280,12 +280,11 @@ const figures = 'figures' in p ? p.figures : null;
 
   .inclus {
     padding: var(--sec) 0;
-    background: var(--ink);
-    color: var(--cream);
+    background: var(--cream);
+    color: var(--ink);
   }
-  .inclus .kick { color: var(--gold-soft); }
-  .inclus .lead { color: var(--muted-on-dark); }
-  .inclus .display { color: var(--cream); margin: 1rem 0 0.25rem; max-width: none; }
+  .inclus .kick { color: var(--gold-text); }
+  .inclus .display { margin: 1rem 0 0.25rem; max-width: none; }
   .ruled {
     display: grid;
     gap: 0.85rem;
@@ -302,7 +301,7 @@ const figures = 'figures' in p ? p.figures : null;
     height: 0.4rem;
     margin-top: 0.55rem;
     border-radius: 1px;
-    background: var(--gold-soft);
+    background: var(--gold-text);
   }
 
   .finish {
