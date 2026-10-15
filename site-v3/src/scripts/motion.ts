@@ -71,16 +71,6 @@ function heroScene() {
     { yPercent: 0, y: 0, duration: 1.3, stagger: 0.08, ease: 'power4.out', delay: 0.45 },
   );
 
-  if (isDesktop() && window.matchMedia('(pointer: fine)').matches) {
-    const px = gsap.quickTo(img, 'x', { duration: 1.6, ease: 'power3.out' });
-    const py = gsap.quickTo(img, 'y', { duration: 1.6, ease: 'power3.out' });
-    hero.addEventListener('pointermove', (e) => {
-      const r = hero.getBoundingClientRect();
-      px(((e.clientX - r.left) / r.width - 0.5) * -22);
-      py(((e.clientY - r.top) / r.height - 0.5) * -14);
-    });
-  }
-
   gsap
     .timeline({
       scrollTrigger: {
