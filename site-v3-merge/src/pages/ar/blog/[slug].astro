@@ -26,7 +26,7 @@ const dateFmt = (d: string) =>
 <BaseLayout title={article.seoTitle} description={article.description} locale={locale}>
   <article class="post">
     <header class="post-hero">
-      <figure class="post-media" aria-hidden="true">
+      <figure class="post-media">
         <img src={article.image} alt="" fetchpriority="high" decoding="async" />
       </figure>
       <div class="post-shade" aria-hidden="true"></div>
@@ -79,7 +79,7 @@ const dateFmt = (d: string) =>
       </div>
     </section>
 
-    <PageBand image="/photos/facade-golden.jpg" />
+    <PageBand image="/photos/facade-golden.webp" />
   </article>
 </BaseLayout>
 
@@ -87,15 +87,16 @@ const dateFmt = (d: string) =>
   .post-hero {
     position: relative;
     isolation: isolate;
-    min-height: min(68svh, 40rem);
+    min-height: min(78svh, 46rem);
     display: grid;
     align-items: end;
     color: var(--cream);
     overflow: hidden;
+    background: var(--ink);
   }
   .post-media {
     position: absolute;
-    inset: -8% -2% -2%;
+    inset: 0;
     z-index: -2;
     margin: 0;
   }
@@ -110,7 +111,8 @@ const dateFmt = (d: string) =>
     inset: 0;
     z-index: -1;
     background:
-      linear-gradient(to top, color-mix(in srgb, var(--ink) 92%, transparent) 0%, color-mix(in srgb, var(--ink) 72%, transparent) 45%, color-mix(in srgb, var(--ink) 48%, transparent) 100%);
+      linear-gradient(to top, rgb(0 36 36 / 0.9) 0%, rgb(0 36 36 / 0.5) 42%, transparent 70%),
+      linear-gradient(100deg, rgb(0 36 36 / 0.55) 0%, transparent 55%);
   }
   .post-intro {
     padding: calc(var(--nav) + clamp(3rem, 8vw, 5rem)) 0 clamp(2.5rem, 5vw, 3.75rem);
@@ -118,17 +120,18 @@ const dateFmt = (d: string) =>
   }
   .back {
     display: inline-block;
-    font-size: 0.875rem;
-    letter-spacing: -0.005em;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: var(--gold-soft);
-    font-weight: 500;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
   }
   .tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.85rem;
   }
   .tags span {
     font-size: 0.75rem;
@@ -138,11 +141,13 @@ const dateFmt = (d: string) =>
     color: var(--gold-soft);
   }
   .post-intro .display {
-    font-family: var(--display);
-    font-weight: 400;
+    font-family: var(--font);
+    font-weight: 300;
     font-size: clamp(2.15rem, 4.5vw, 3.65rem);
-    max-width: 18ch;
+    line-height: 1.05;
     letter-spacing: -0.035em;
+    max-width: 18ch;
+    color: var(--paper);
   }
   .dates {
     margin-top: 1.1rem;

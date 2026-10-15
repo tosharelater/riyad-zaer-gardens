@@ -3,10 +3,12 @@ import { getHome } from '../data/content';
 import { media } from '../data/media';
 import { localePath, type Locale } from '../i18n/paths';
 import Icon from './Icon.astro';
+import MotifMark from './MotifMark.astro';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { figures } = getHome(locale);
 ---
 <section class="fig" id="chiffres" data-figures-board>
+  <MotifMark side="end" edge="bottom" size="xl" opacity={0.05} />
   <div class="wrap">
    <div class="fig-card" data-reveal>
     <div class="fig-shell">
@@ -43,6 +45,11 @@ const { figures } = getHome(locale);
     padding: clamp(3.5rem, 7vw, 6rem) 0;
     color: var(--ink);
     background: var(--paper);
+    overflow: clip;
+  }
+  .fig > .wrap {
+    position: relative;
+    z-index: 1;
   }
 
   /* One single panel: photo + copy + figures */

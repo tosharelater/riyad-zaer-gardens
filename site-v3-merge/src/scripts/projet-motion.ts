@@ -21,19 +21,36 @@ function bootProjet(root: HTMLElement) {
     },
   );
 
-  // Courtyard statement surfaces line by line
+  // Courtyard: settle into the hollow, then reveal the line
   const cour = root.querySelector<HTMLElement>('[data-cour-scene]');
   if (cour) {
+    const media = cour.querySelector<HTMLElement>('[data-cour-media] img');
+    if (media) {
+      gsap.fromTo(
+        media,
+        { scale: 1.16 },
+        {
+          scale: 1.08,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: cour,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 0.8,
+          },
+        },
+      );
+    }
     gsap.fromTo(
       cour.querySelectorAll('[data-cour-line]'),
-      { autoAlpha: 0, y: 40 },
+      { autoAlpha: 0, y: 36 },
       {
         autoAlpha: 1,
         y: 0,
-        duration: 1.1,
-        stagger: 0.1,
+        duration: 1,
+        stagger: 0.12,
         ease: 'power3.out',
-        scrollTrigger: { trigger: cour, start: 'top 70%', once: true },
+        scrollTrigger: { trigger: cour, start: 'top 68%', once: true },
       },
     );
   }

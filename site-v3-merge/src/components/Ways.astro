@@ -1,12 +1,14 @@
 ---
 import { getHome } from '../data/content';
 import Icon from './Icon.astro';
+import MotifMark from './MotifMark.astro';
 import type { Locale } from '../i18n/paths';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { ways } = getHome(locale);
 const icons = ['house', 'trending-up', 'key-round'];
 ---
 <section class="ways" id="presence" aria-labelledby="ways-title" data-ways>
+  <MotifMark side="start" edge="top" size="xl" opacity={0.055} />
   <div class="wrap ways-shell">
     <header class="ways-head" data-reveal data-split>
       <p class="kick">{locale === 'ar' ? 'الحضور' : 'Présence'}</p>
@@ -29,9 +31,16 @@ const icons = ['house', 'trending-up', 'key-round'];
 
 <style is:global>
   #presence.ways {
+    position: relative;
     padding: var(--sec) 0;
     background: var(--paper);
     color: var(--ink);
+    overflow: clip;
+  }
+
+  #presence .ways-shell {
+    position: relative;
+    z-index: 1;
   }
 
   #presence .ways-head {

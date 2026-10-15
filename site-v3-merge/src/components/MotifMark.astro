@@ -1,0 +1,78 @@
+---
+/**
+ * Ghost brand mark — very faded logo texture for light cream/paper sections.
+ * Parent must be position: relative (and ideally overflow: clip).
+ */
+interface Props {
+  /** Horizontal bias */
+  side?: 'start' | 'end';
+  /** Vertical bias */
+  edge?: 'top' | 'bottom' | 'middle';
+  /** Approximate mark width */
+  size?: 'md' | 'lg' | 'xl';
+  /** Opacity in the 0.04–0.08 texture range */
+  opacity?: number;
+  class?: string;
+}
+
+const {
+  side = 'end',
+  edge = 'middle',
+  size = 'lg',
+  opacity = 0.055,
+  class: className,
+} = Astro.props;
+---
+<span
+  class:list={['motif-mark', `is-${side}`, `is-${edge}`, `is-${size}`, className]}
+  style={`--mm-o: ${opacity}`}
+  aria-hidden="true"
+>
+  <img src="/brand/logo-green.png" alt="" width="480" height="312" loading="lazy" decoding="async" />
+</span>
+
+<style>
+  .motif-mark {
+    position: absolute;
+    z-index: 0;
+    display: block;
+    width: var(--mm-w, 28rem);
+    max-width: min(52vw, 36rem);
+    pointer-events: none;
+    user-select: none;
+    opacity: var(--mm-o, 0.055);
+    /* Soften hard logo edges into paper */
+    filter: blur(0.4px);
+  }
+  .motif-mark img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .motif-mark.is-md { --mm-w: 22rem; }
+  .motif-mark.is-lg { --mm-w: 30rem; }
+  .motif-mark.is-xl { --mm-w: 40rem; }
+
+  .motif-mark.is-start { inset-inline-start: clamp(-4%, -2vw, 0%); }
+  .motif-mark.is-end { inset-inline-end: clamp(-4%, -2vw, 0%); }
+
+  .motif-mark.is-top { top: clamp(0%, 2vw, 8%); }
+  .motif-mark.is-middle { top: 50%; transform: translateY(-50%); }
+  .motif-mark.is-bottom { bottom: clamp(0%, 2vw, 8%); }
+
+  /* Slight rotation so it reads as texture, not a second logo lockup */
+  .motif-mark.is-end.is-middle { transform: translateY(-50%) rotate(-8deg); }
+  .motif-mark.is-start.is-middle { transform: translateY(-50%) rotate(8deg); }
+  .motif-mark.is-end.is-top,
+  .motif-mark.is-end.is-bottom { transform: rotate(-6deg); }
+  .motif-mark.is-start.is-top,
+  .motif-mark.is-start.is-bottom { transform: rotate(6deg); }
+
+  @media (max-width: 700px) {
+    .motif-mark {
+      max-width: min(70vw, 18rem);
+      opacity: calc(var(--mm-o, 0.055) * 0.85);
+    }
+  }
+</style>

@@ -211,10 +211,18 @@ ul, ol { list-style: none; padding: 0; }
 }
 .text-photo > figure {
   margin: 0;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
   position: relative;
   isolation: isolate;
+  border-radius: clamp(4.5rem, 10vw, 8rem) 0 0 0;
+}
+[dir='rtl'] .text-photo > figure,
+.text-photo.is-flip > figure {
+  border-radius: 0 clamp(4.5rem, 10vw, 8rem) 0 0;
+}
+[dir='rtl'] .text-photo.is-flip > figure {
+  border-radius: clamp(4.5rem, 10vw, 8rem) 0 0 0;
 }
 .text-photo > figure img {
   width: 100%;
@@ -230,7 +238,16 @@ ul, ol { list-style: none; padding: 0; }
 .text-photo .lead + .lead { margin-top: 0.75rem; }
 @media (max-width: 900px) {
   .text-photo { grid-template-columns: 1fr; gap: 1.75rem; }
-  .text-photo > figure { aspect-ratio: 16 / 10; order: -1; }
+  .text-photo > figure {
+    aspect-ratio: 16 / 10;
+    order: -1;
+    border-radius: clamp(2.5rem, 8vw, 4rem) 0 0 0;
+  }
+  [dir='rtl'] .text-photo > figure,
+  .text-photo.is-flip > figure,
+  [dir='rtl'] .text-photo.is-flip > figure {
+    border-radius: clamp(2.5rem, 8vw, 4rem) 0 0 0;
+  }
 }
 
 .progress {
@@ -458,10 +475,9 @@ body.nav-open .mbar {
   display: none !important;
 }
 
-/* One heading size for every homepage section (desktop) */
+/* One heading size for homepage and inner-page sections (desktop) */
 @media (min-width: 901px) {
-  body > main section .display,
-  main > section .display {
+  main section .display {
     font-size: clamp(2rem, 3.8vw, 3rem) !important;
     line-height: 1.12;
   }

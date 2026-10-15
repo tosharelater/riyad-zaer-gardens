@@ -41,22 +41,22 @@ export const reasons = {
     {
       title: 'فناء مركزي أخضر',
       body: 'تنتظم العمارات حول فناء مزروع هادئ مخصص للسكان. يمنح الضوء والهواء للشقق وانتعاشاً في الصيف.',
-      img: '/photos/allee-jardin.jpg',
+      img: '/photos/allee-jardin.webp',
     },
     {
       title: 'على بعد 20 دقيقة من الرباط',
       body: 'على شارع محمد السادس، مع وصول مباشر إلى الطريق السيار والمحاور نحو الرباط وتمارة وسلا.',
-      img: '/photos/facade-street.jpg',
+      img: '/photos/facade-street.webp',
     },
     {
       title: 'شقق تُسلَّم جاهزة',
       body: 'تُسلَّم المساكن بتشطيباتها. لا أشغال قبل الانتقال.',
-      img: '/photos/salon.jpg',
+      img: '/photos/salon.webp',
     },
     {
       title: 'سعر عادل',
       body: 'سكن متوسط المستوى بسعر في المتناول، يمكن تخفيضه أكثر عبر دعم السكن.',
-      img: '/photos/facade-golden.jpg',
+      img: '/photos/facade-golden.webp',
     },
   ],
 } as const;
@@ -74,7 +74,7 @@ export const projet = {
     'محلات في الطابق الأرضي',
   ],
   link: { label: 'اكتشفوا المشروع بالتفصيل', href: '/le-projet' },
-  img: '/photos/aerial-ilot.jpg',
+  img: '/photos/aerial-ilot.webp',
   alt: 'منظر جوي لمشروع رياض زعير غاردنز',
 } as const;
 
@@ -87,7 +87,7 @@ export const apartments = {
   price: 'ابتداءً من 420 000 درهم',
   priceAid: '350 000 درهم مع دعم السكن',
   cta: { label: 'اطلعوا على الشقق', href: '/appartements' },
-  img: '/photos/salon.jpg',
+  img: '/photos/salon.webp',
 } as const;
 
 export const finishes = {
@@ -99,7 +99,7 @@ export const finishes = {
     { title: 'الحمّام', body: 'دوش إيطالي، صحيات Roca' },
     { title: 'الراحة', body: 'ستائر آلية Somfy' },
   ],
-  img: '/photos/cuisine.jpg',
+  img: '/photos/cuisine.webp',
 } as const;
 
 export const commerce = {
@@ -112,7 +112,7 @@ export const commerce = {
     ['السعر', 'ابتداءً من 15 000 درهم للم²'],
   ],
   cta: { label: 'اطلعوا على المحلات', href: '/fonds-de-commerce' },
-  img: '/photos/commerce-angle.jpg',
+  img: '/photos/commerce-angle.webp',
 } as const;
 
 export const aid = {
@@ -153,7 +153,7 @@ export const lieu = {
   },
   mapEmbed:
     'https://maps.google.com/maps?q=Km+25,+Avenue+Mohammed+VI,+A%C3%AFn+Aouda&hl=ar&z=14&output=embed',
-  img: '/photos/facade-street.jpg',
+  img: '/photos/facade-street.webp',
 } as const;
 
 export const contact = {

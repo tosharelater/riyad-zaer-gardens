@@ -78,15 +78,8 @@ function heroScene() {
     { yPercent: 0, y: 0, duration: 1.3, stagger: 0.08, ease: 'power4.out', delay: 0.45 },
   );
 
-  if (isDesktop() && window.matchMedia('(pointer: fine)').matches) {
-    const px = gsap.quickTo(img, 'x', { duration: 1.6, ease: 'power3.out' });
-    const py = gsap.quickTo(img, 'y', { duration: 1.6, ease: 'power3.out' });
-    hero.addEventListener('pointermove', (e) => {
-      const r = hero.getBoundingClientRect();
-      px(((e.clientX - r.left) / r.width - 0.5) * -22);
-      py(((e.clientY - r.top) / r.height - 0.5) * -14);
-    });
-  }
+  // Clear any leftover pointer-parallax translate; background stays fixed under the cursor.
+  gsap.set(img, { x: 0, y: 0 });
 
   gsap
     .timeline({
@@ -774,11 +767,13 @@ function pageHeroScene() {
     { yPercent: 0, y: 0, duration: 1.25, stagger: 0.07, ease: 'power4.out', delay: 0.4 },
   );
 
-  gsap
-    .timeline({
-      scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.8 },
-    })
-    .to(frame, { yPercent: 8, ease: 'none' }, 0);
+  if (frame) {
+    gsap
+      .timeline({
+        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.8 },
+      })
+      .to(frame, { yPercent: 8, ease: 'none' }, 0);
+  }
 
   hero.querySelectorAll<HTMLElement>('dt[data-count]').forEach((dt, i) => {
     const to = Number(dt.dataset.count);
