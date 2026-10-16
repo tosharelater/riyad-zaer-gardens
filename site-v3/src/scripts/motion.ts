@@ -381,13 +381,18 @@ function reasonsScene() {
   const scrollDeg = new WeakMap<HTMLElement, number>();
   let held: HTMLElement | null = null;
 
-  // Each card owns an equal slice of the scroll: turn up to the back, then turn back to the photo.
-  const angle = (progress: number, i: number) => {
-    const local = progress * n - i;
-    if (local <= 0 || local >= 1) return 0;
-    return local < 0.5 ? local * 360 : (1 - local) * 360;
+  // One card's slice of scroll: rest on the photo, turn to the back, stay there a while,
+  // turn back, rest again before the next card starts.
+  const ease = (t: number) => t * t * (3 - 2 * t);
+  const turn = (p: number) => {
+    if (p <= 0.12 || p >= 0.88) return 0;
+    if (p < 0.34) return ease((p - 0.12) / 0.22) * 180;
+    if (p <= 0.66) return 180;
+    return ease((0.88 - p) / 0.22) * 180;
   };
-  const turn = (p: number) => (p <= 0 || p >= 1 ? 0 : p < 0.5 ? p * 360 : (1 - p) * 360);
+  // Each card owns an equal slice of the scroll, after a short lead-in once the row is centred.
+  const lead = 0.06;
+  const angle = (progress: number, i: number) => turn(((progress - lead) / (1 - 2 * lead)) * n - i);
 
   const sync = () => {
     let active = -1;
@@ -457,10 +462,11 @@ function reasonsScene() {
   const stage = section.querySelector<HTMLElement>('.why-stage') ?? section;
   const wide = window.matchMedia('(min-width: 901px)').matches;
   if (wide) {
+    // Pin only once the cards sit in the middle of the screen.
     ScrollTrigger.create({
-      trigger: stage,
-      start: 'top 8%',
-      end: '+=160%',
+      trigger: wrap,
+      start: 'center center',
+      end: `+=${n * 90}%`,
       pin: stage,
       pinSpacing: true,
       anticipatePin: 1,
@@ -471,12 +477,12 @@ function reasonsScene() {
     return;
   }
 
-  // On a phone the row is a stack. Each card turns while it crosses the screen.
+  // On a phone the row is a stack. Each card turns while it passes the middle of the screen.
   cards.forEach((el) => {
     ScrollTrigger.create({
       trigger: el,
-      start: 'top 78%',
-      end: 'bottom 28%',
+      start: 'center 72%',
+      end: 'center 28%',
       onUpdate: (self) => remember(el, turn(self.progress)),
     });
   });
