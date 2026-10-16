@@ -74,7 +74,7 @@ const copy =
     <div class="band-actions">
       <a class="btn btn-solid" href={copy.primary.href}>
         {copy.primary.label}
-        {canopy && <Icon name="phone" size="1rem" />}
+        {canopy && (mode === 'convert' || copy.primary.href.startsWith('tel:')) && <Icon name="phone" size="1rem" />}
       </a>
       {copy.secondary && (
         <a
@@ -84,7 +84,7 @@ const copy =
           rel={copy.secondary.href.startsWith('http') ? 'noopener' : undefined}
         >
           {copy.secondary.label}
-          {canopy && <Icon name="message-circle" size="1rem" />}
+          {canopy && (mode === 'convert' || /whatsapp|wa\.me/i.test(copy.secondary.href)) && <Icon name="message-circle" size="1rem" />}
         </a>
       )}
     </div>

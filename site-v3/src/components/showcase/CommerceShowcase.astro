@@ -1,6 +1,7 @@
 ---
 import PageHero from '../page/PageHero.astro';
 import PageBand from '../page/PageBand.astro';
+import MoreLinks from '../page/MoreLinks.astro';
 import Icon from '../Icon.astro';
 import { media } from '../../data/media';
 import { contactInfo } from '../../data/site';
@@ -44,6 +45,7 @@ const keep = (t: string) => t.replace(/(\d) (?=\d|DH|m)/g, '$1 ');
 // Icons follow the order of offre.rows and raisons.items in data/pages(.ar).ts
 const factIcons = ['store', 'maximize-2', 'coins', 'map-pin', 'calendar-days'];
 const reasonIcons = ['users', 'signpost', 'chart-column-increasing', 'car-front'];
+const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.href) }));
 ---
 <div data-com-page class="com-page">
   <PageHero
@@ -119,15 +121,6 @@ const reasonIcons = ['users', 'signpost', 'chart-column-increasing', 'car-front'
     </div>
   </section>
 
-  <PageBand
-    mode="custom"
-    title={p.convert.h2}
-    body={p.convert.body}
-    primary={{ label: L.call, href: localePath(locale, '/contact') }}
-    secondary={{ label: L.wa, href: contactInfo.whatsapp }}
-    image="/photos/commerce-angle.webp"
-  />
-
   <section class="map">
     <div class="wrap map-grid">
       <div class="map-copy" data-reveal>
@@ -148,6 +141,16 @@ const reasonIcons = ['users', 'signpost', 'chart-column-increasing', 'car-front'
       </div>
     </div>
   </section>
+
+  <PageBand
+    mode="custom"
+    tone="canopy"
+    title={p.convert.h2}
+    body={p.convert.body}
+    primary={{ label: L.call, href: localePath(locale, '/contact') }}
+    secondary={{ label: L.wa, href: contactInfo.whatsapp }}
+  />
+  <MoreLinks h2={p.more.h2} links={moreLinks} variant="cards" />
 </div>
 
 <script>

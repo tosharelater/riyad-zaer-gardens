@@ -1,6 +1,7 @@
 ---
 import PageHero from '../page/PageHero.astro';
 import PageBand from '../page/PageBand.astro';
+import MoreLinks from '../page/MoreLinks.astro';
 import Icon from '../Icon.astro';
 import { media } from '../../data/media';
 import { contactInfo } from '../../data/site';
@@ -55,6 +56,7 @@ const figureIcons: Record<string, string> = { home: 'house', calendar: 'calendar
 const typePhotos = ['/photos/chambre.webp', '/photos/chambre-enfants-2.webp'];
 const inclusIcons = ['lamp-ceiling', 'app-window', 'arrow-up-down', 'shield-check', 'trees', 'circle-parking'];
 const finishIcons = ['grid-2x2', 'bath', 'app-window', 'blinds', 'door-open', 'lamp-ceiling', 'cooking-pot', 'lightbulb'];
+const moreLinks = p.more.links.map((l) => ({ ...l, href: localePath(locale, l.href) }));
 ---
 <div data-apt-page class="apt-page">
   <PageHero
@@ -194,14 +196,6 @@ const finishIcons = ['grid-2x2', 'bath', 'app-window', 'blinds', 'door-open', 'l
     </div>
   </section>
 
-  <PageBand
-    mode="custom"
-    title={L.leadTitle}
-    body={L.leadBody}
-    primary={{ label: p.prix.cta.label, href: localePath(locale, '/contact') }}
-    image="/photos/chambre-enfants.webp"
-  />
-
   <section class="map">
     <div class="wrap map-grid">
       <div class="map-copy" data-reveal>
@@ -226,6 +220,15 @@ const finishIcons = ['grid-2x2', 'bath', 'app-window', 'blinds', 'door-open', 'l
       </div>
     </div>
   </section>
+
+  <PageBand
+    mode="custom"
+    tone="canopy"
+    title={L.leadTitle}
+    body={L.leadBody}
+    primary={{ label: p.prix.cta.label, href: localePath(locale, '/contact') }}
+  />
+  <MoreLinks h2={p.more.h2} links={moreLinks} variant="cards" />
 </div>
 
 <script>

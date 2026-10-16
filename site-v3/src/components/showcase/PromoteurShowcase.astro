@@ -83,14 +83,14 @@ const projectImages = ['/photos/aerial-ilot.webp', '/photos/facade-golden.webp']
   {'band' in p && p.band && (
     <PageBand
       mode="custom"
+      tone="canopy"
       title={p.band.title}
       body={p.band.body}
       primary={{ label: p.band.primary, href: localePath(locale, '/contact') }}
       secondary={{ label: p.band.secondary, href: `tel:${contactInfo.phoneTel}` }}
-      image="/photos/facade-golden.webp"
     />
   )}
-  <MoreLinks h2={p.more.h2} links={moreLinks} />
+  <MoreLinks h2={p.more.h2} links={moreLinks} variant="cards" />
 </div>
 
 <style>
