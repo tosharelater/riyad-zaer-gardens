@@ -36,7 +36,7 @@ function bootApt(root: HTMLElement) {
   );
 
   gsap.fromTo(
-    root.querySelectorAll('.finish .facts > div'),
+    root.querySelectorAll('.finish .fin-rows > div'),
     { autoAlpha: 0, y: 16 },
     {
       autoAlpha: 1,
@@ -44,7 +44,7 @@ function bootApt(root: HTMLElement) {
       stagger: 0.05,
       duration: 0.6,
       ease: 'power2.out',
-      scrollTrigger: { trigger: root.querySelector('.finish .facts'), start: 'top 80%', once: true },
+      scrollTrigger: { trigger: root.querySelector('.finish .fin-rows'), start: 'top 80%', once: true },
     },
   );
 
