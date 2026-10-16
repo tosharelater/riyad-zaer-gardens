@@ -385,13 +385,13 @@ function reasonsScene() {
   // turn back, rest again before the next card starts.
   const ease = (t: number) => t * t * (3 - 2 * t);
   const turn = (p: number) => {
-    if (p <= 0.12 || p >= 0.88) return 0;
-    if (p < 0.34) return ease((p - 0.12) / 0.22) * 180;
-    if (p <= 0.66) return 180;
-    return ease((0.88 - p) / 0.22) * 180;
+    if (p <= 0.1 || p >= 0.9) return 0;
+    if (p < 0.24) return ease((p - 0.1) / 0.14) * 180;
+    if (p <= 0.76) return 180;
+    return ease((0.9 - p) / 0.14) * 180;
   };
-  // Each card owns an equal slice of the scroll, after a short lead-in once the row is centred.
-  const lead = 0.06;
+  // Each card owns an equal slice of the scroll, after a lead-in once the row is centred.
+  const lead = 0.08;
   const angle = (progress: number, i: number) => turn(((progress - lead) / (1 - 2 * lead)) * n - i);
 
   const sync = () => {
@@ -410,11 +410,14 @@ function reasonsScene() {
     ticks.forEach((tick, i) => tick.classList.toggle('is-on', i === active));
   };
 
+  // Hover and tap turn the card over 0.9s; scroll eases in behind the wheel so a card never snaps.
   const setFlip = (el: HTMLElement, deg: number, animate: boolean) => {
     const inner = innerOf(el);
     if (!inner) return;
     const pop = deg > 46 && deg < 314 ? 32 : 0;
-    inner.style.transition = animate && !reduce ? 'transform 0.9s cubic-bezier(0.22, 1, 0.36, 1)' : 'none';
+    inner.style.transition = reduce
+      ? 'none'
+      : `transform ${animate ? 0.9 : 0.7}s cubic-bezier(0.22, 1, 0.36, 1)`;
     inner.style.transform = `rotateX(${deg}deg) translateZ(${pop}px)`;
     el.setAttribute('aria-expanded', String(deg > 70 && deg < 290));
     sync();
@@ -466,7 +469,7 @@ function reasonsScene() {
     ScrollTrigger.create({
       trigger: wrap,
       start: 'center center',
-      end: `+=${n * 90}%`,
+      end: `+=${n * 130}%`,
       pin: stage,
       pinSpacing: true,
       anticipatePin: 1,
@@ -481,8 +484,8 @@ function reasonsScene() {
   cards.forEach((el) => {
     ScrollTrigger.create({
       trigger: el,
-      start: 'center 72%',
-      end: 'center 28%',
+      start: 'center 85%',
+      end: 'center 15%',
       onUpdate: (self) => remember(el, turn(self.progress)),
     });
   });
