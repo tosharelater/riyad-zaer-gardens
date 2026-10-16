@@ -403,6 +403,11 @@ const promoteur = 'promoteur' in p ? p.promoteur : null;
   .tranches-copy .display { margin: 1rem 0 0.35rem; max-width: none; }
   .tranches-copy .lead + .lead { margin-top: 0.85rem; }
 
+  @media (max-width: 600px) {
+    .chapter { gap: 0.9rem; }
+    .chapter-icon { width: 3.25rem; height: 3.25rem; }
+    .chapter-icon :global(svg) { width: 1.55rem; height: 1.55rem; }
+  }
   @media (max-width: 900px) {
     .chapters-grid { grid-template-columns: 1fr; }
     .amenity-grid { grid-template-columns: 1fr; }
