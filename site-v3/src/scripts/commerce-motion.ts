@@ -24,7 +24,7 @@ function bootCommerce(root: HTMLElement) {
   );
 
   gsap.fromTo(
-    root.querySelectorAll('.offer .facts > div'),
+    root.querySelectorAll('.offer .com-facts > div'),
     { autoAlpha: 0, y: 16 },
     {
       autoAlpha: 1,
@@ -32,7 +32,7 @@ function bootCommerce(root: HTMLElement) {
       stagger: 0.06,
       duration: 0.6,
       ease: 'power2.out',
-      scrollTrigger: { trigger: root.querySelector('.offer .facts'), start: 'top 80%', once: true },
+      scrollTrigger: { trigger: root.querySelector('.offer .com-facts'), start: 'top 80%', once: true },
     },
   );
 
