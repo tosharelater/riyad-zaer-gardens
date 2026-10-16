@@ -1,6 +1,7 @@
 ---
 import { getHome } from '../data/content';
 import { localePath, type Locale } from '../i18n/paths';
+import Icon from './Icon.astro';
 const locale = (Astro.currentLocale === 'ar' ? 'ar' : 'fr') as Locale;
 const { aid } = getHome(locale);
 // Never let a price break across lines
@@ -23,6 +24,7 @@ const dh = locale === 'ar' ? 'درهم' : 'DH';
 const savedLabel = locale === 'ar' ? 'وفر يصل إلى' : 'Jusqu’à';
 const href = aid.cta.href.startsWith('/') ? localePath(locale, aid.cta.href) : aid.cta.href;
 const heads = locale === 'ar' ? ['الأهلية', 'سعر الدخول', 'المرافقة'] : ['Éligibilité', 'Votre prix', 'Accompagnement'];
+const icons = ['badge-check', 'badge-dollar-sign', 'handshake'];
 const points = [aid.p1, aid.p2, aid.p3];
 ---
 <section class="aid" id="aide">
@@ -46,6 +48,7 @@ const points = [aid.p1, aid.p2, aid.p3];
     <ol class="aid-steps" data-reveal>
       {points.map((p, i) => (
         <li>
+          <span class="aid-ico" aria-hidden="true"><Icon name={icons[i]} size="1.35rem" /></span>
           <h3>{heads[i]}</h3>
           <p>{p}</p>
         </li>
@@ -102,10 +105,23 @@ const points = [aid.p1, aid.p2, aid.p3];
   }
   .aid-steps li {
     display: grid;
+    justify-items: center;
     align-content: start;
-    gap: 0.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgb(200 181 104 / 0.55);
+    gap: 0.65rem;
+    padding: clamp(1.25rem, 2vw, 1.6rem) clamp(1rem, 1.6vw, 1.35rem) clamp(1.35rem, 2vw, 1.75rem);
+    border-radius: 20px;
+    background: rgb(255 253 248 / 0.06);
+    border: 1px solid rgb(200 181 104 / 0.28);
+    text-align: center;
+  }
+  .aid-ico {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: rgb(200 181 104 / 0.16);
+    color: var(--gold);
   }
   .aid-steps h3 { margin: 0; font-family: var(--display); font-weight: 600; font-size: 1.1rem; color: var(--paper); }
   .aid-steps p { margin: 0; color: var(--muted-on-dark); font-size: 0.95rem; line-height: 1.65; }
@@ -115,7 +131,7 @@ const points = [aid.p1, aid.p2, aid.p3];
 
   @media (max-width: 860px) {
     .aid-steps { grid-template-columns: 1fr; }
-    .aid-steps li { padding-top: 0.9rem; }
+    .aid-steps li { text-align: start; justify-items: start; }
     .aid-head .display { font-size: clamp(1.7rem, 7vw, 2.35rem); }
   }
   @media (max-width: 560px) {

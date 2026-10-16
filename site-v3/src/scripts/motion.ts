@@ -370,76 +370,116 @@ function visionHorizontal() {
 }
 
 function reasonsScene() {
+  const section = document.querySelector<HTMLElement>('#pourquoi');
   const wrap = document.querySelector<HTMLElement>('[data-strips]');
-  const strips = gsap.utils.toArray<HTMLElement>('[data-strip]');
-  if (!wrap || !strips.length) return;
+  const cards = gsap.utils.toArray<HTMLElement>('[data-strip]');
+  if (!section || !wrap || !cards.length) return;
 
-  const n = strips.length;
-  let current = 0;
-  let lastAuto = 0;
-  let manual = false;
+  const n = cards.length;
+  const ticks = gsap.utils.toArray<HTMLElement>('[data-why-meter] span');
+  const innerOf = (el: HTMLElement) => el.querySelector<HTMLElement>('.flip-inner');
+  const scrollDeg = new WeakMap<HTMLElement, number>();
+  let held: HTMLElement | null = null;
 
-  const show = (i: number) => {
-    if (i === current) return;
-    current = i;
-    strips.forEach((el, k) => {
-      el.classList.toggle('is-on', k === i);
-      el.setAttribute('aria-expanded', String(k === i));
-    });
+  // Each card owns an equal slice of the scroll: turn up to the back, then turn back to the photo.
+  const angle = (progress: number, i: number) => {
+    const local = progress * n - i;
+    if (local <= 0 || local >= 1) return 0;
+    return local < 0.5 ? local * 360 : (1 - local) * 360;
   };
+  const turn = (p: number) => (p <= 0 || p >= 1 ? 0 : p < 0.5 ? p * 360 : (1 - p) * 360);
 
-  // Hover (mouse), tap or keyboard opens a strip and takes over until scrolling moves on.
-  const pick = (i: number) => {
-    manual = true;
-    show(i);
-  };
-  strips.forEach((el, i) => {
-    el.addEventListener('click', () => pick(i));
-    el.addEventListener('focus', () => pick(i));
-    el.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        pick(i);
+  const sync = () => {
+    let active = -1;
+    let best = 36;
+    cards.forEach((el, i) => {
+      const deg = el === held ? 180 : (scrollDeg.get(el) ?? 0);
+      const near = deg > 180 ? 360 - deg : deg;
+      if (near > best) {
+        best = near;
+        active = i;
       }
     });
-  });
-  wrap.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-      e.preventDefault();
-      pick(Math.min(n - 1, current + 1));
-      strips[current].focus({ preventScroll: true });
-    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      pick(Math.max(0, current - 1));
-      strips[current].focus({ preventScroll: true });
+    cards.forEach((el, i) => el.classList.toggle('is-open', i === active));
+    wrap.classList.toggle('is-playing', active >= 0);
+    ticks.forEach((tick, i) => tick.classList.toggle('is-on', i === active));
+  };
+
+  const setFlip = (el: HTMLElement, deg: number, animate: boolean) => {
+    const inner = innerOf(el);
+    if (!inner) return;
+    const pop = deg > 46 && deg < 314 ? 32 : 0;
+    inner.style.transition = animate && !reduce ? 'transform 0.9s cubic-bezier(0.22, 1, 0.36, 1)' : 'none';
+    inner.style.transform = `rotateX(${deg}deg) translateZ(${pop}px)`;
+    el.setAttribute('aria-expanded', String(deg > 70 && deg < 290));
+    sync();
+  };
+
+  const remember = (el: HTMLElement, deg: number) => {
+    scrollDeg.set(el, deg);
+    if (el !== held) setFlip(el, deg, false);
+    else sync();
+  };
+
+  const restore = () => {
+    held = null;
+    cards.forEach((el) => setFlip(el, scrollDeg.get(el) ?? 0, true));
+  };
+
+  const hold = (el: HTMLElement, open: boolean) => {
+    if (open) {
+      held = el;
+      cards.forEach((other) => {
+        if (other !== el) setFlip(other, 0, true);
+      });
+      setFlip(el, 180, true);
+      return;
     }
-  });
-  if (window.matchMedia('(hover: hover)').matches) {
-    strips.forEach((el, i) => el.addEventListener('mouseenter', () => pick(i)));
+    if (held === el) restore();
+  };
+
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (fine) {
+    cards.forEach((el) => {
+      el.addEventListener('mouseenter', () => hold(el, true));
+      el.addEventListener('mouseleave', () => hold(el, false));
+      el.addEventListener('focus', () => hold(el, true));
+      el.addEventListener('blur', () => hold(el, false));
+    });
+  } else {
+    cards.forEach((el) => {
+      el.addEventListener('click', () => hold(el, el.getAttribute('aria-expanded') !== 'true'));
+    });
   }
 
   if (reduce) return;
 
-  // While you scroll past, the strips open one after another.
-  ScrollTrigger.create({
-    trigger: wrap,
-    start: 'top 78%',
-    end: 'top 8%',
-    onUpdate: (self) => {
-      const idx = Math.min(n - 1, Math.floor(self.progress * n));
-      if (idx !== lastAuto) {
-        lastAuto = idx;
-        manual = false;
-      }
-      if (!manual) show(idx);
-    },
-  });
+  const stage = section.querySelector<HTMLElement>('.why-stage') ?? section;
+  const wide = window.matchMedia('(min-width: 901px)').matches;
+  if (wide) {
+    ScrollTrigger.create({
+      trigger: stage,
+      start: 'top 8%',
+      end: '+=160%',
+      pin: stage,
+      pinSpacing: true,
+      anticipatePin: 1,
+      onUpdate: (self) => {
+        cards.forEach((el, i) => remember(el, angle(self.progress, i)));
+      },
+    });
+    return;
+  }
 
-  gsap.fromTo(
-    strips,
-    { autoAlpha: 0, y: 40 },
-    { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out', clearProps: 'transform', scrollTrigger: { trigger: wrap, start: 'top 88%', once: true } },
-  );
+  // On a phone the row is a stack. Each card turns while it crosses the screen.
+  cards.forEach((el) => {
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 78%',
+      end: 'bottom 28%',
+      onUpdate: (self) => remember(el, turn(self.progress)),
+    });
+  });
 }
 
 function polishScene() {
@@ -708,24 +748,7 @@ function lieuScene() {
 }
 
 function commerceScene() {
-  const media = document.querySelector<HTMLElement>('.commerce-media img');
   const panel = document.querySelector<HTMLElement>('.commerce-panel');
-  if (media) {
-    gsap.fromTo(
-      media,
-      { scale: 1.12 },
-      {
-        scale: 1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.commerce',
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      },
-    );
-  }
   if (panel) {
     gsap.fromTo(
       panel,
