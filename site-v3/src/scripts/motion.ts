@@ -385,13 +385,13 @@ function reasonsScene() {
   // turn back, rest again before the next card starts.
   const ease = (t: number) => t * t * (3 - 2 * t);
   const turn = (p: number) => {
-    if (p <= 0.1 || p >= 0.9) return 0;
-    if (p < 0.24) return ease((p - 0.1) / 0.14) * 180;
-    if (p <= 0.76) return 180;
-    return ease((0.9 - p) / 0.14) * 180;
+    if (p <= 0.08 || p >= 0.92) return 0;
+    if (p < 0.2) return ease((p - 0.08) / 0.12) * 180;
+    if (p <= 0.8) return 180;
+    return ease((0.92 - p) / 0.12) * 180;
   };
   // Each card owns an equal slice of the scroll, after a lead-in once the row is centred.
-  const lead = 0.08;
+  const lead = 0.1;
   const angle = (progress: number, i: number) => turn(((progress - lead) / (1 - 2 * lead)) * n - i);
 
   const sync = () => {
@@ -417,7 +417,7 @@ function reasonsScene() {
     const pop = deg > 46 && deg < 314 ? 32 : 0;
     inner.style.transition = reduce
       ? 'none'
-      : `transform ${animate ? 0.9 : 0.7}s cubic-bezier(0.22, 1, 0.36, 1)`;
+      : 'transform 0.9s cubic-bezier(0.22, 1, 0.36, 1)';
     inner.style.transform = `rotateX(${deg}deg) translateZ(${pop}px)`;
     el.setAttribute('aria-expanded', String(deg > 70 && deg < 290));
     sync();
@@ -469,7 +469,7 @@ function reasonsScene() {
     ScrollTrigger.create({
       trigger: wrap,
       start: 'center center',
-      end: `+=${n * 130}%`,
+      end: `+=${n * 180}%`,
       pin: stage,
       pinSpacing: true,
       anticipatePin: 1,
@@ -484,8 +484,8 @@ function reasonsScene() {
   cards.forEach((el) => {
     ScrollTrigger.create({
       trigger: el,
-      start: 'center 85%',
-      end: 'center 15%',
+      start: 'center 92%',
+      end: 'center 8%',
       onUpdate: (self) => remember(el, turn(self.progress)),
     });
   });

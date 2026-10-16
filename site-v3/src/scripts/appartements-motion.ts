@@ -5,11 +5,13 @@ gsap.registerPlugin(ScrollTrigger);
 
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const root = document.querySelector<HTMLElement>('[data-apt-page]');
-if (root && !reduce) bootApt(root);
 
 const NUM = /\d[\d\s  ]*\d/;
 const toNum = (t: string | null | undefined) => Number((t?.match(NUM)?.[0] ?? '').replace(/\D/g, ''));
 const group = (n: number) => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
+// Boot after the helpers above exist: they are consts, not hoisted
+if (root && !reduce) bootApt(root);
 
 function bootApt(root: HTMLElement) {
   // Typologies: the big letter rises, then the text.
