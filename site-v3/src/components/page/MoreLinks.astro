@@ -11,8 +11,10 @@ interface Link {
 interface Props {
   h2: string;
   links: readonly Link[];
+  /** 'cards': each link in its own card with a photo thumbnail (le-projet) */
+  variant?: 'list' | 'cards';
 }
-const { h2, links } = Astro.props;
+const { h2, links, variant = 'list' } = Astro.props;
 
 const defaults: Record<string, string> = {
   '/le-projet': media.aerial.src,
@@ -25,13 +27,16 @@ const defaults: Record<string, string> = {
   '/': media.hero.src,
 };
 ---
-<section class="more">
+<section class:list={['more', variant === 'cards' && 'is-cards']}>
   <div class="wrap">
     <p class="kick more-kick" data-reveal>{h2}</p>
     <ul class="more-list">
       {links.map((l) => (
         <li data-reveal>
           <a class="more-item" href={l.href}>
+            {variant === 'cards' && (
+              <img class="more-thumb" src={l.image ?? defaults[stripLocale(l.href)] ?? media.hero.src} alt="" loading="lazy" decoding="async" />
+            )}
             <strong>{l.title}</strong>
             <span>{l.body}</span>
             <i aria-hidden="true">
@@ -119,6 +124,42 @@ const defaults: Record<string, string> = {
   :global([dir='rtl']) .more-item i svg { transform: scaleX(-1); }
   :global([dir='rtl']) .more-item:hover strong { transform: translateX(-0.6rem); }
 
+  /* Cards: photo, title, detail, arrow — one bordered row per link */
+  .is-cards .more-list { gap: 0.75rem; }
+  .is-cards .more-item {
+    grid-template-columns: 7.5rem minmax(0, 1fr) minmax(0, 1fr) 2.5rem;
+    padding: 0.6rem clamp(0.75rem, 2vw, 1.25rem) 0.6rem 0.6rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper);
+    transition: box-shadow 0.3s var(--ease), border-color 0.3s var(--ease);
+  }
+  .is-cards .more-list > li:last-child .more-item { border-bottom: 1px solid var(--line); }
+  .is-cards .more-item:hover {
+    border-color: rgb(200 181 104 / 0.5);
+    box-shadow: 0 14px 36px rgb(0 45 45 / 0.08);
+  }
+  .is-cards .more-thumb {
+    width: 7.5rem;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: calc(var(--radius) - 6px);
+  }
+  .is-cards .more-item strong { font-size: clamp(1.25rem, 2vw, 1.6rem); }
+  :global([dir='rtl']) .is-cards .more-item {
+    padding: 0.6rem 0.6rem 0.6rem clamp(0.75rem, 2vw, 1.25rem);
+  }
+
+  @media (max-width: 800px) {
+    .is-cards .more-item {
+      grid-template-columns: 5.5rem minmax(0, 1fr) 2.5rem;
+      column-gap: 1rem;
+    }
+    .is-cards .more-thumb { width: 5.5rem; grid-row: 1 / span 2; }
+    .is-cards .more-item strong { grid-column: 2; grid-row: 1; }
+    .is-cards .more-item span { grid-column: 2; grid-row: 2; }
+    .is-cards .more-item i { grid-column: 3; }
+  }
   @media (max-width: 800px) {
     .more-item {
       grid-template-columns: 1fr 2.5rem;

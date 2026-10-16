@@ -2,6 +2,7 @@
 import { contactInfo } from '../../data/site';
 import { ui } from '../../i18n/ui';
 import { getLocaleFromPath, localePath, type Locale } from '../../i18n/paths';
+import Icon from '../Icon.astro';
 
 const locale: Locale =
   Astro.currentLocale === 'ar' ? 'ar' : getLocaleFromPath(Astro.url.pathname);
@@ -25,6 +26,8 @@ interface Props {
   primary?: { label: string; href: string };
   secondary?: { label: string; href: string };
   image?: string;
+  /** 'canopy': deep-green band with gold actions, no photo (le-projet) */
+  tone?: 'photo' | 'canopy';
 }
 const {
   title,
@@ -33,7 +36,9 @@ const {
   primary,
   secondary,
   image,
+  tone = 'photo',
 } = Astro.props;
+const canopy = tone === 'canopy' && mode !== 'aid';
 
 const copy =
   mode === 'aid'
@@ -52,8 +57,11 @@ const copy =
           secondary: secondary,
         };
 ---
-<section class:list={['band', mode === 'aid' ? 'band-aid' : 'band-convert']}>
-  {mode !== 'aid' && image && (
+<section class:list={['band', mode === 'aid' ? 'band-aid' : canopy ? 'band-canopy' : 'band-convert']}>
+  {canopy && (
+    <Icon name="leaf" size="22rem" strokeWidth={0.5} class="band-leaf" />
+  )}
+  {!canopy && mode !== 'aid' && image && (
     <figure class="band-bg" aria-hidden="true" data-band-bg>
       <img src={image} alt="" loading="lazy" />
     </figure>
@@ -64,7 +72,10 @@ const copy =
       <p class="lead">{copy.body}</p>
     </div>
     <div class="band-actions">
-      <a class="btn btn-solid" href={copy.primary.href}>{copy.primary.label}</a>
+      <a class="btn btn-solid" href={copy.primary.href}>
+        {copy.primary.label}
+        {canopy && <Icon name="phone" size="1rem" />}
+      </a>
       {copy.secondary && (
         <a
           class="btn btn-ghost"
@@ -73,6 +84,7 @@ const copy =
           rel={copy.secondary.href.startsWith('http') ? 'noopener' : undefined}
         >
           {copy.secondary.label}
+          {canopy && <Icon name="message-circle" size="1rem" />}
         </a>
       )}
     </div>
@@ -129,6 +141,34 @@ const copy =
     border-color: rgb(255 252 244 / 0.6);
   }
   .band-convert:has(.band-bg) .btn-ghost:hover { background: var(--paper); color: var(--ink); }
+  /* Canopy: deep green, a faint leaf in the corner, actions as gold and outline pills */
+  .band-canopy {
+    padding: clamp(2.75rem, 5vw, 3.75rem) 0;
+    color: var(--cream);
+    background:
+      radial-gradient(45% 90% at 100% 50%, rgb(200 181 104 / 0.14), transparent 70%),
+      var(--canopy);
+  }
+  .band-canopy :global(.band-leaf) {
+    position: absolute;
+    z-index: -1;
+    inset-inline-start: -5rem;
+    bottom: -9rem;
+    color: rgb(217 201 135 / 0.12);
+    transform: rotate(-24deg);
+    pointer-events: none;
+  }
+  .band-canopy .band-inner { align-items: center; }
+  .band-canopy .display { color: var(--paper); }
+  .band-canopy .lead { color: var(--muted-on-dark); max-width: 36rem; }
+  .band-canopy .btn { border-radius: 99px; }
+  .band-canopy .btn-solid { background: var(--gold); color: var(--ink); }
+  .band-canopy .btn-solid:hover { background: var(--gold-soft); }
+  .band-canopy .btn-ghost {
+    color: var(--paper);
+    border-color: rgb(255 252 244 / 0.6);
+  }
+  .band-canopy .btn-ghost:hover { background: var(--paper); color: var(--ink); }
   .band-aid {
     background: var(--cream);
   }
