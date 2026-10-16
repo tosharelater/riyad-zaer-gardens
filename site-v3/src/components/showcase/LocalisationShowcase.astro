@@ -1,6 +1,7 @@
 ---
 import PageHero from '../page/PageHero.astro';
 import PageBand from '../page/PageBand.astro';
+import Icon from '../Icon.astro';
 import { media } from '../../data/media';
 import { contactInfo } from '../../data/site';
 import { localePath, type Locale } from '../../i18n/paths';
@@ -40,6 +41,9 @@ const iframeTitle =
   'map' in p && p.map && 'iframeTitle' in p.map ? (p.map as { iframeTitle: string }).iframeTitle : L.iframeTitle;
 const mapsCta =
   'map' in p && p.map && 'mapsCta' in p.map ? (p.map as { mapsCta: string }).mapsCta : L.mapsCta;
+// Icons follow the order of acces.items and quartier.already in data/pages(.ar).ts
+const accessIcons = ['car', 'map', 'map-pin', 'signpost'];
+const nearIcons = ['cross', 'paw-print', 'graduation-cap', 'moon-star', 'shopping-cart', 'leaf'];
 const quartierBody = typeof p.quartier.body === 'string' ? p.quartier.body.split('\n\n') : p.quartier.body;
 ---
 <div data-loc-page class="loc-page">
@@ -57,12 +61,15 @@ const quartierBody = typeof p.quartier.body === 'string' ? p.quartier.body.split
         <p class="kick">{L.access}</p>
         <h2 class="display">{p.acces.h2}</h2>
       </header>
-      <ol class="access-grid">
+      <ol class="access-grid" style={`--cols: ${p.acces.items.length}`}>
         {p.acces.items.map((item, i) => (
           <li class="stop" data-stop>
             <span class="stop-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-            <h3>{item.title}</h3>
-            <p>{item.body}</p>
+            <div class="stop-copy">
+              <Icon name={accessIcons[i] ?? 'map-pin'} size="2.1rem" strokeWidth={1.3} class="stop-icon" />
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </div>
           </li>
         ))}
       </ol>
@@ -70,35 +77,52 @@ const quartierBody = typeof p.quartier.body === 'string' ? p.quartier.body.split
   </section>
 
   <section class="quartier">
-    <div class="wrap text-photo is-flip">
+    <div class="wrap text-photo">
+      <figure data-media>
+        <img src="/photos/facade-golden.webp" alt={media.facade.alt} loading="lazy" decoding="async" />
+      </figure>
       <div data-reveal data-split>
         <p class="kick">{L.area}</p>
         <h2 class="display">{p.quartier.h2}</h2>
         {quartierBody.map((t) => <p class="lead">{t}</p>)}
         <ul class="near">
-          {p.quartier.already.map((item) => <li><span class="tick" aria-hidden="true"></span>{item}</li>)}
+          {p.quartier.already.map((item, i) => (
+            <li>
+              <Icon name={nearIcons[i] ?? 'store'} size="1.5rem" strokeWidth={1.4} class="near-icon" />
+              {item}
+            </li>
+          ))}
         </ul>
-        <p class="near-end">{p.quartier.end}</p>
+        <p class="near-end">
+          <span class="near-end-icon" aria-hidden="true"><Icon name="store" size="1.6rem" strokeWidth={1.3} /></span>
+          {p.quartier.end}
+        </p>
       </div>
-      <figure data-media>
-        <img src="/photos/facade-golden.webp" alt={media.facade.alt} loading="lazy" decoding="async" />
-      </figure>
     </div>
   </section>
 
   <section class="map">
-    <div class="map-frame" data-map-frame>
-      <iframe
-        title={iframeTitle}
-        src={contactInfo.mapEmbed}
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-      ></iframe>
-    </div>
-    <div class="map-card map-panel" data-reveal>
-      <p class="kick">{L.map}</p>
-      <h2>{mapTitle}</h2>
-      <a class="btn btn-solid" href={contactInfo.mapsHref} target="_blank" rel="noopener">{mapsCta}</a>
+    <div class="wrap map-grid">
+      <div class="map-copy" data-reveal>
+        <p class="kick">{L.map}</p>
+        <h2 class="display">{mapTitle}</h2>
+        <p class="map-addr">
+          <Icon name="map-pin" size="1.35rem" strokeWidth={1.5} class="map-pin" />
+          {contactInfo.address}
+        </p>
+        <a class="btn btn-solid map-cta" href={contactInfo.mapsHref} target="_blank" rel="noopener">
+          {mapsCta}
+          <Icon name="arrow-right" size="1rem" class="map-arrow" />
+        </a>
+      </div>
+      <div class="map-frame" data-map-frame>
+        <iframe
+          title={iframeTitle}
+          src={contactInfo.mapEmbed}
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
     </div>
   </section>
 
@@ -116,95 +140,145 @@ const quartierBody = typeof p.quartier.body === 'string' ? p.quartier.body.split
 </script>
 
 <style>
+  /* Accès: three routes side by side, numbered, with a gold icon */
   .access {
     padding: var(--sec) 0;
   }
-  .access-head { margin-bottom: clamp(3rem, 6vw, 4.5rem); }
+  .access-head { margin-bottom: var(--head-gap); }
   .access-head .display { margin-top: 1rem; max-width: none; }
   .access-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(1.75rem, 4vw, 3rem) clamp(2rem, 6vw, 6rem);
+    grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
   }
   .stop {
     display: grid;
-    grid-template-columns: 3rem 1fr;
-    column-gap: 1rem;
-    row-gap: 0.6rem;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: start;
+    padding: 0.25rem clamp(1rem, 2.5vw, 2rem);
   }
+  .stop:first-child { padding-inline-start: 0; }
+  .stop + .stop { border-inline-start: 1px solid var(--line); }
   .stop-n {
-    grid-row: 1 / span 2;
-    font-size: 0.875rem;
+    display: grid;
+    place-items: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    margin-top: 0.2rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--gold) 22%, var(--cream));
+    color: var(--ink);
+    font-size: 0.75rem;
     font-weight: 600;
-    letter-spacing: -0.005em;
+  }
+  .stop-copy {
+    display: grid;
+    gap: 0.45rem;
+  }
+  .stop-copy :global(.stop-icon) {
     color: var(--gold-text);
-    padding-top: 0.4rem;
+    margin-bottom: 0.4rem;
   }
   .stop h3 {
     font-family: var(--display);
     font-weight: 500;
-    font-size: clamp(1.25rem, 1.8vw, 1.5rem);
-    line-height: 1.2;
+    font-size: clamp(1.1rem, 1.5vw, 1.25rem);
+    line-height: 1.25;
   }
   .stop p {
     color: var(--muted);
-    line-height: 1.7;
+    line-height: 1.6;
   }
 
-  .map {
-    position: relative;
-    background: var(--ink);
+  /* Le quartier: photo, copy, nearby services in two columns, then the 49 shops */
+  .quartier {
+    padding: var(--sec) 0;
+    background: var(--paper);
   }
+  .quartier .display { margin: 1rem 0 0.35rem; max-width: none; }
+  .near {
+    margin-top: 1.75rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 1.5rem;
+  }
+  .near li {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-size: 0.975rem;
+    color: var(--ink);
+  }
+  .near li:nth-child(odd) { padding-inline-end: 1rem; border-inline-end: 1px solid var(--line); }
+  .near li :global(.near-icon) { color: var(--gold-text); }
+  .near-end {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.75rem;
+    padding: 0.85rem 1.1rem;
+    border-radius: var(--radius-sm);
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .near-end-icon {
+    display: grid;
+    place-items: center;
+    padding-inline-end: 1rem;
+    border-inline-end: 1px solid var(--line);
+    color: var(--gold-text);
+  }
+
+  /* Sur la carte: address and link beside a rounded map */
+  .map {
+    padding: var(--sec) 0;
+    background: var(--cream);
+  }
+  .map-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr);
+    gap: var(--gap);
+    align-items: center;
+  }
+  .map-copy .display { margin: 1rem 0 1.25rem; max-width: none; }
+  .map-addr {
+    display: flex;
+    align-items: start;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .map-addr :global(.map-pin) { color: var(--gold-text); }
+  .map-cta { border-radius: 99px; }
+  :global([dir='rtl']) .map-copy :global(.map-arrow) { transform: scaleX(-1); }
   .map-frame {
-    height: min(70svh, 38rem);
+    height: clamp(18rem, 32vw, 24rem);
     overflow: hidden;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
   }
   .map-frame iframe {
     width: 100%;
     height: 100%;
     border: 0;
     display: block;
-    filter: grayscale(0.4) contrast(1.05) sepia(0.12);
-  }
-  .map-card {
-    position: absolute;
-    inset-inline-start: max(var(--pad), calc((100% - var(--wrap)) / 2));
-    bottom: clamp(2rem, 4vw, 3rem);
-    width: min(26rem, calc(100% - 2 * var(--pad)));
+    filter: grayscale(0.25) sepia(0.08);
   }
 
-  .quartier {
-    padding: var(--sec) 0;
-    background: var(--paper);
+  @media (max-width: 1100px) {
+    .access-grid { grid-template-columns: 1fr 1fr; row-gap: 2rem; }
+    .stop:nth-child(odd) { padding-inline-start: 0; border-inline-start: 0; }
   }
-  .near {
-    margin-top: 1.75rem;
-    display: grid;
-    gap: 0.85rem;
-  }
-  .near li {
-    display: grid;
-    grid-template-columns: 0.65rem 1fr;
-    gap: 0.85rem;
-    font-size: 1.05rem;
-    align-items: start;
-  }
-  .near .tick {
-    width: 0.4rem;
-    height: 0.4rem;
-    margin-top: 0.55rem;
-    border-radius: 1px;
-    background: var(--gold-text);
-  }
-  .near-end {
-    margin-top: 1.25rem;
-    color: var(--muted);
-    line-height: 1.65;
-  }
-
   @media (max-width: 900px) {
-    .access-grid { grid-template-columns: 1fr; }
-    .map-frame { height: min(60svh, 32rem); }
-    .map-card { position: relative; inset: auto; width: auto; }
+    .access-grid { grid-template-columns: 1fr; gap: 1.75rem; }
+    .stop, .stop:first-child { padding: 0; }
+    .stop + .stop { border-inline-start: 0; }
+    .map-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .near { grid-template-columns: 1fr; }
+    .near li:nth-child(odd) { padding-inline-end: 0; border-inline-end: 0; }
   }
 </style>
