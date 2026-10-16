@@ -42,15 +42,22 @@ const href = projet.link.href.startsWith('/') ? localePath(locale, projet.link.h
 
 <style>
   .pano {
-    padding: var(--sec) 0;
     background: var(--cream);
+  }
+  .pano > .wrap {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: clamp(0.65rem, 1.8vh, 1.25rem);
+    height: 100%;
   }
 
   .pano-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-    gap: clamp(2rem, 6vw, 5.5rem);
+    gap: clamp(1.25rem, 4vw, 3.5rem);
     align-items: center;
+    min-height: 0;
+    height: 100%;
   }
   .pano-copy { display: grid; gap: clamp(1rem, 2vw, 1.4rem); justify-items: start; }
   .pano-head { display: grid; gap: 0.75rem; }
@@ -61,7 +68,7 @@ const href = projet.link.href.startsWith('/') ? localePath(locale, projet.link.h
   .pano-lead {
     margin: 0;
     max-width: 34rem;
-    font-size: clamp(1.15rem, 1.7vw, 1.4rem);
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
     line-height: 1.55;
     color: var(--ink);
   }
@@ -88,7 +95,7 @@ const href = projet.link.href.startsWith('/') ? localePath(locale, projet.link.h
 
   /* amenities: one green band, six items */
   .pano-bar {
-    margin: clamp(2rem, 4.5vw, 3.5rem) 0 0;
+    margin: 0;
     padding: clamp(1.25rem, 2.5vw, 1.75rem) clamp(1rem, 2.5vw, 2rem);
     list-style: none;
     display: grid;
@@ -161,7 +168,8 @@ const href = projet.link.href.startsWith('/') ? localePath(locale, projet.link.h
       position: relative;
       aspect-ratio: auto;
       max-height: none;
-      min-height: 24rem;
+      min-height: 0;
+      height: 100%;
       align-self: stretch;
       border-radius: 0 2.25rem 0 2.25rem;
     }
@@ -174,6 +182,15 @@ const href = projet.link.href.startsWith('/') ? localePath(locale, projet.link.h
   }
 
   @media (min-width: 901px) {
-    .pano-bar { position: relative; z-index: 2; margin-top: 1.75rem; }
+    .pano-bar { position: relative; z-index: 2; }
+  }
+  @media (max-width: 900px) {
+    .pano > .wrap { height: auto; grid-template-rows: auto auto; gap: clamp(1.25rem, 4vw, 2rem); }
+    .pano-grid { height: auto; grid-template-rows: auto; align-items: start; gap: 1.25rem; }
+    .pano-copy { gap: 0.9rem; align-content: start; }
+    .pano-photo { position: relative; height: auto; aspect-ratio: 4 / 3; }
+    .pano-photo img { position: static; height: 100%; }
+    .pano-lead { font-size: 1.02rem; line-height: 1.55; }
+    .pano-note { font-size: 0.98rem; line-height: 1.6; }
   }
 </style>

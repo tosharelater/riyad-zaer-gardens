@@ -813,6 +813,25 @@ function pageHeroScene() {
   });
 }
 
+function stackScene() {
+  const sections = ['#projet', '#appartements', '#finitions', '#commerces']
+    .map((id) => document.querySelector<HTMLElement>(id))
+    .filter((el): el is HTMLElement => !!el);
+  if (sections.length < 4) return;
+
+  // On a wide screen, stick each block when its bottom meets the screen.
+  // On a phone the block is taller than the screen, so it just scrolls.
+  const place = () => {
+    const wide = window.matchMedia('(min-width: 901px)').matches;
+    sections.forEach((section) => {
+      section.style.top = wide ? `${window.innerHeight - section.offsetHeight}px` : '';
+    });
+  };
+  place();
+  window.addEventListener('resize', place);
+  ScrollTrigger.addEventListener('refresh', place);
+}
+
 function boot() {
   if (reduce) {
     document.querySelectorAll<HTMLElement>('[data-hero-brand] .w > span, h1[data-ph-title] .w > span').forEach((s) => {
@@ -830,6 +849,7 @@ function boot() {
   figuresScene();
   visionHorizontal();
   reasonsScene();
+  stackScene();
   polishScene();
   aidScene();
   waysScene();
