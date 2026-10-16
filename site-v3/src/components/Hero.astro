@@ -20,6 +20,7 @@ const [priceLead, priceValue] = (() => {
   <div class="hero-shade" aria-hidden="true"></div>
 
   <div class="hero-copy wrap" data-split>
+    <p class="hero-kick" data-hero-in>Riyad Zaer Gardens<i aria-hidden="true"></i></p>
     <h1 class="hero-title">
       <span class="hero-brand" data-hero-brand>{titleA}</span>
       {titleB && <span class="hero-brand is-accent" data-hero-brand>{titleB}</span>}
@@ -114,8 +115,7 @@ const [priceLead, priceValue] = (() => {
     transform: translateY(110%);
   }
   [dir='rtl'] #top .hero-brand {
-    direction: ltr;
-    unicode-bidi: isolate;
+    direction: rtl;
     text-align: right;
   }
   #top .hero-place {
@@ -131,8 +131,8 @@ const [priceLead, priceValue] = (() => {
 
   #top .hero-sub {
     margin: 0;
-    max-width: 32rem;
-    font-size: clamp(0.98rem, 1.2vw, 1.08rem);
+    max-width: 38rem;
+    font-size: clamp(0.98rem, 1.35vw, 1.22rem);
     line-height: 1.6;
     color: rgb(246 240 228 / 0.88);
     text-wrap: pretty;
@@ -169,20 +169,38 @@ const [priceLead, priceValue] = (() => {
     gap: 0.65rem;
   }
 
-  /* Primary action reads as a plain white text link */
-  #top .hero-actions { align-items: center; gap: 0.65rem 1.5rem; }
-  #top .hero-actions .btn-solid,
-  #top .hero-actions .btn-solid:hover {
-    min-height: 0;
-    padding: 0.4rem 0.1rem;
-    border: 0;
-    border-bottom: 1.5px solid rgb(255 255 255 / 0.55);
-    border-radius: 0;
-    background: none;
-    box-shadow: none;
-    color: #fff;
+  /* Gold primary, outlined secondary */
+  #top .hero-actions { align-items: center; gap: 0.75rem; }
+  #top .hero-actions .btn {
+    min-height: 3.25rem;
+    padding-inline: 1.6rem;
+    border-radius: 10px;
+    font-weight: 600;
   }
-  #top .hero-actions .btn-solid:hover { border-bottom-color: #fff; }
+  #top .hero-actions .btn-light {
+    background: rgb(0 36 36 / 0.25);
+    border-color: rgb(255 252 244 / 0.75);
+  }
+  #top .hero-actions .btn-light:hover { background: var(--paper); color: var(--ink); }
+
+  #top .hero-kick {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0 0 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+  }
+  #top .hero-kick i {
+    display: block;
+    width: clamp(4rem, 14vw, 13rem);
+    height: 1px;
+    background: linear-gradient(to right, rgb(217 201 135 / 0.7), transparent);
+  }
+  [dir='rtl'] #top .hero-kick i { background: linear-gradient(to left, rgb(217 201 135 / 0.7), transparent); }
 
   #top [data-hero-in] {
     opacity: 0;
@@ -191,6 +209,7 @@ const [priceLead, priceValue] = (() => {
   html:not(.intro-lock) #top [data-hero-in] {
     animation: rise 1s var(--ease) both;
   }
+  html:not(.intro-lock) #top .hero-kick { animation-delay: 0.2s; }
   html:not(.intro-lock) #top .hero-sub { animation-delay: 0.5s; }
   html:not(.intro-lock) #top .hero-foot { animation-delay: 0.65s; }
 
