@@ -20,7 +20,6 @@ const [priceLead, priceValue] = (() => {
   <div class="hero-shade" aria-hidden="true"></div>
 
   <div class="hero-copy wrap" data-split>
-    <p class="hero-kick" data-hero-in>Riyad Zaer Gardens<i aria-hidden="true"></i></p>
     <h1 class="hero-title">
       <span class="hero-brand" data-hero-brand>{titleA}</span>
       {titleB && <span class="hero-brand is-accent" data-hero-brand>{titleB}</span>}
@@ -183,25 +182,6 @@ const [priceLead, priceValue] = (() => {
   }
   #top .hero-actions .btn-light:hover { background: var(--paper); color: var(--ink); }
 
-  #top .hero-kick {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin: 0 0 0.35rem;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--gold-soft);
-  }
-  #top .hero-kick i {
-    display: block;
-    width: clamp(4rem, 14vw, 13rem);
-    height: 1px;
-    background: linear-gradient(to right, rgb(217 201 135 / 0.7), transparent);
-  }
-  [dir='rtl'] #top .hero-kick i { background: linear-gradient(to left, rgb(217 201 135 / 0.7), transparent); }
-
   #top [data-hero-in] {
     opacity: 0;
     transform: translateY(1rem);
@@ -209,8 +189,7 @@ const [priceLead, priceValue] = (() => {
   html:not(.intro-lock) #top [data-hero-in] {
     animation: rise 1s var(--ease) both;
   }
-  html:not(.intro-lock) #top .hero-kick { animation-delay: 0.2s; }
-  html:not(.intro-lock) #top .hero-sub { animation-delay: 0.5s; }
+  html:not(.intro-lock) #top .hero-sub { animation-delay: 0.35s; }
   html:not(.intro-lock) #top .hero-foot { animation-delay: 0.65s; }
 
   @keyframes rise {

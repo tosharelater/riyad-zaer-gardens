@@ -22,7 +22,7 @@ interface Props {
 const {
   h1,
   lead,
-  kicker = 'Riyad Zaer Gardens',
+  kicker,
   index,
   image,
   alt = '',
@@ -43,11 +43,13 @@ const plain = !image;
   {!plain && <div class="ph-shade" aria-hidden="true"></div>}
 
   <div class="ph-copy wrap">
-    <p class="ph-kick" data-ph-in>
-      {index && <span class="ph-index">{index}</span>}
-      {index && <i aria-hidden="true"></i>}
-      <span>{kicker}</span>
-    </p>
+    {(kicker || index) && (
+      <p class="ph-kick" data-ph-in>
+        {index && <span class="ph-index">{index}</span>}
+        {index && kicker && <i aria-hidden="true"></i>}
+        {kicker && <span>{kicker}</span>}
+      </p>
+    )}
     <h1 class="ph-title" data-ph-title>{h1}</h1>
 
     {(leads.length > 0 || hasExtras) && (
