@@ -17,25 +17,15 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
         </div>
       </header>
 
-      <ol class="flips" data-strips>
+      <ol class="why-cards" data-strips>
         {reasons.items.map((r, i) => (
-          <li class="flip" data-strip tabindex="0" aria-expanded="false">
-            <div class="flip-inner">
-              <div class="flip-face flip-front">
-                <img src={r.img} alt="" loading="lazy" decoding="async" />
-                <span class="flip-tag" aria-hidden="true">
-                  <i>{num(i)}</i>
-                  <b>{r.title}</b>
-                </span>
-              </div>
-              <div class="flip-face flip-back">
-                <span class="flip-ghost" aria-hidden="true">{num(i)}</span>
-                <div class="flip-copy">
-                  <span class="flip-n" aria-hidden="true">{num(i)}</span>
-                  <h3>{r.title}</h3>
-                  <p>{r.body}</p>
-                </div>
-              </div>
+          <li class="why-card" data-strip tabindex="0" aria-expanded="false">
+            <img src={r.img} alt="" loading="lazy" decoding="async" />
+            <span class="why-mark" aria-hidden="true">{num(i)}</span>
+            <div class="why-sheet">
+              <span class="why-n" aria-hidden="true">{num(i)}</span>
+              <h3>{r.title}</h3>
+              <p>{r.body}</p>
             </div>
           </li>
         ))}
@@ -83,7 +73,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     background: var(--gold);
   }
 
-  #pourquoi .flips {
+  #pourquoi .why-cards {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -92,169 +82,103 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     gap: 0.9rem;
     align-items: stretch;
   }
-  #pourquoi .flip {
+  #pourquoi .why-card {
     position: relative;
-    perspective: 1200px;
-    display: grid;
+    overflow: hidden;
     min-height: clamp(24rem, 46vh, 32rem);
+    border-radius: 24px;
     outline-offset: 4px;
     cursor: pointer;
-  }
-  #pourquoi .flips.is-playing .flip:not(.is-open)::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 24px;
-    background: rgb(2 18 16 / 0.42);
-    pointer-events: none;
-    z-index: 2;
-  }
-  #pourquoi .flip-inner {
-    position: relative;
-    min-height: 100%;
-    transform-style: preserve-3d;
-    transform: rotateX(0deg);
-  }
-  #pourquoi .flip-face {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    border-radius: 24px;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-  }
-  #pourquoi .flip-front {
-    transform: rotateX(0deg) translateZ(1px);
     box-shadow: 0 16px 40px rgb(0 16 12 / 0.22);
   }
-  #pourquoi .flip-front img {
+  #pourquoi .why-card img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: transform 0.7s var(--ease);
   }
-  #pourquoi .flip-front::before {
-    content: '';
+  #pourquoi .why-card:hover img,
+  #pourquoi .why-card:focus-visible img,
+  #pourquoi .why-card.is-open img { transform: scale(1.05); }
+  #pourquoi .why-mark {
     position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgb(0 22 18 / 0.82) 0%, rgb(0 22 18 / 0.12) 46%, transparent 68%);
     z-index: 1;
-  }
-  #pourquoi .flip-front::after {
-    content: '';
-    position: absolute;
-    inset: 0.6rem;
-    border: 1px solid rgb(217 201 135 / 0.55);
-    border-radius: 16px;
-    z-index: 2;
-    pointer-events: none;
-  }
-  #pourquoi .flip-tag {
-    position: absolute;
-    z-index: 3;
-    inset-inline: 1.15rem;
-    bottom: 1.05rem;
-    display: grid;
-    gap: 0.28rem;
-    color: var(--paper);
-  }
-  #pourquoi .flip-tag i {
-    font-style: normal;
-    font-size: 0.68rem;
+    top: 1rem;
+    inset-inline-start: 1rem;
+    font-size: 0.72rem;
     font-weight: 600;
     letter-spacing: 0.18em;
-    color: var(--gold);
+    color: var(--gold-soft);
   }
-  #pourquoi .flip-tag b {
-    font-family: var(--display);
-    font-weight: 500;
-    font-size: clamp(1rem, 1.15vw, 1.2rem);
-    line-height: 1.22;
-    text-wrap: balance;
-  }
-
-  #pourquoi .flip-back {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 1.15rem 1.15rem 1.35rem;
-    background:
-      radial-gradient(90% 55% at 50% 0%, rgb(200 181 104 / 0.34), transparent 62%),
-      var(--paper);
-    color: var(--ink);
-    border: 1px solid rgb(200 181 104 / 0.45);
-    box-shadow: inset 0 0 0 6px var(--paper), inset 0 0 0 7px rgb(200 181 104 / 0.45);
-    transform: rotateX(180deg) translateZ(1px);
-  }
-  #pourquoi .flip-ghost {
+  #pourquoi .why-sheet {
     position: absolute;
-    top: clamp(1.1rem, 1.6vw, 1.5rem);
-    inset-inline-start: clamp(1.25rem, 1.8vw, 1.6rem);
-    font-family: var(--display);
-    font-weight: 300;
-    font-size: clamp(3rem, 3.8vw, 4rem);
-    line-height: 0.8;
-    letter-spacing: -0.05em;
-    color: rgb(122 102 40 / 0.16);
-    pointer-events: none;
-  }
-  #pourquoi .flip-copy {
-    position: relative;
-    z-index: 1;
+    z-index: 2;
+    inset-inline: 0;
+    bottom: 0;
     display: grid;
-    gap: 0.55rem;
+    gap: 0.45rem;
+    padding: 1.15rem 1.15rem 1.3rem;
+    background:
+      linear-gradient(to top, rgb(255 252 244 / 0.98), rgb(255 252 244 / 0.94));
+    color: var(--ink);
+    transform: translateY(105%);
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  #pourquoi .flip-n {
+  #pourquoi .why-card:hover .why-sheet,
+  #pourquoi .why-card:focus-visible .why-sheet,
+  #pourquoi .why-card.is-open .why-sheet { transform: translateY(0); }
+  #pourquoi .why-n {
     font-size: 0.68rem;
     font-weight: 600;
     letter-spacing: 0.18em;
     color: var(--gold-text);
   }
-  #pourquoi .flip-back h3 {
+  #pourquoi .why-sheet h3 {
     margin: 0;
     font-family: var(--display);
     font-weight: 500;
-    font-size: clamp(1.2rem, 1.45vw, 1.5rem);
-    line-height: 1.18;
+    font-size: clamp(1.15rem, 1.35vw, 1.4rem);
+    line-height: 1.2;
     color: var(--ink);
     text-wrap: balance;
   }
-  #pourquoi .flip-back h3::after {
+  #pourquoi .why-sheet h3::after {
     content: '';
     display: block;
-    width: 2.25rem;
+    width: 2rem;
     height: 1px;
-    margin-top: 0.7rem;
+    margin-top: 0.6rem;
     background: var(--gold);
   }
-  #pourquoi .flip-back p {
+  #pourquoi .why-sheet p {
     margin: 0;
     color: var(--muted);
     font-size: 0.92rem;
-    line-height: 1.55;
+    line-height: 1.5;
   }
 
   @media (max-width: 900px) {
-    #pourquoi .flips { grid-template-columns: 1fr 1fr; }
-    #pourquoi .flip { min-height: 22rem; }
-    #pourquoi .flip-back p {
+    #pourquoi .why-cards { grid-template-columns: 1fr 1fr; }
+    #pourquoi .why-card { min-height: 22rem; }
+    #pourquoi .why-sheet p {
       display: -webkit-box;
-      -webkit-line-clamp: 7;
+      -webkit-line-clamp: 6;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
   }
   @media (max-width: 560px) {
-    #pourquoi .flips { grid-template-columns: 1fr; gap: 0.75rem; }
-    #pourquoi .flip { min-height: 19.5rem; }
-    #pourquoi .flip-face,
-    #pourquoi .flips.is-playing .flip:not(.is-open)::after { border-radius: 18px; }
-    #pourquoi .flip-tag b { font-size: 1.2rem; }
-    #pourquoi .flip-back p { -webkit-line-clamp: 5; }
+    #pourquoi .why-cards { grid-template-columns: 1fr; gap: 0.75rem; }
+    #pourquoi .why-card { min-height: 19.5rem; border-radius: 18px; }
+    #pourquoi .why-sheet p { -webkit-line-clamp: 5; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    #pourquoi .flip-inner,
+    #pourquoi .why-sheet,
+    #pourquoi .why-card img,
     #pourquoi .why-meter span { transition: none; }
   }
 </style>

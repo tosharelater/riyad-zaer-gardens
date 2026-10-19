@@ -370,63 +370,32 @@ function visionHorizontal() {
 }
 
 function reasonsScene() {
-  const wrap = document.querySelector<HTMLElement>('[data-strips]');
   const cards = gsap.utils.toArray<HTMLElement>('[data-strip]');
-  if (!wrap || !cards.length) return;
-
+  if (!cards.length) return;
   const ticks = gsap.utils.toArray<HTMLElement>('[data-why-meter] span');
-  const innerOf = (el: HTMLElement) => el.querySelector<HTMLElement>('.flip-inner');
-  let held: HTMLElement | null = null;
 
-  const sync = () => {
-    const active = cards.findIndex((el) => el === held);
-    cards.forEach((el, i) => el.classList.toggle('is-open', i === active));
-    wrap.classList.toggle('is-playing', active >= 0);
-    ticks.forEach((tick, i) => tick.classList.toggle('is-on', i === active));
-  };
-
-  // Hover and tap turn the photo over to its text.
-  const setFlip = (el: HTMLElement, deg: number) => {
-    const inner = innerOf(el);
-    if (!inner) return;
-    const pop = deg > 46 && deg < 314 ? 32 : 0;
-    inner.style.transition = reduce
-      ? 'none'
-      : 'transform 0.9s cubic-bezier(0.22, 1, 0.36, 1)';
-    inner.style.transform = `rotateX(${deg}deg) translateZ(${pop}px)`;
-    el.setAttribute('aria-expanded', String(deg > 70 && deg < 290));
-    sync();
-  };
-
-  const hold = (el: HTMLElement, open: boolean) => {
-    if (open) {
-      held = el;
-      cards.forEach((other) => {
-        if (other !== el) setFlip(other, 0);
-      });
-      setFlip(el, 180);
-      return;
-    }
-    if (held === el) {
-      held = null;
-      cards.forEach((card) => setFlip(card, 0));
-    }
+  const setOpen = (el: HTMLElement | null) => {
+    cards.forEach((card, i) => {
+      const on = card === el;
+      card.classList.toggle('is-open', on);
+      card.setAttribute('aria-expanded', String(on));
+      ticks[i]?.classList.toggle('is-on', on);
+    });
   };
 
   const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (fine) {
     cards.forEach((el) => {
-      el.addEventListener('mouseenter', () => hold(el, true));
-      el.addEventListener('mouseleave', () => hold(el, false));
-      el.addEventListener('focus', () => hold(el, true));
-      el.addEventListener('blur', () => hold(el, false));
+      el.addEventListener('mouseenter', () => setOpen(el));
+      el.addEventListener('mouseleave', () => setOpen(null));
+      el.addEventListener('focus', () => setOpen(el));
+      el.addEventListener('blur', () => setOpen(null));
     });
   } else {
     cards.forEach((el) => {
-      el.addEventListener('click', () => hold(el, el.getAttribute('aria-expanded') !== 'true'));
+      el.addEventListener('click', () => setOpen(el.classList.contains('is-open') ? null : el));
     });
   }
-
 }
 
 function polishScene() {
