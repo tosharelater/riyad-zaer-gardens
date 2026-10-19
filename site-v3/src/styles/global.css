@@ -510,42 +510,11 @@ body.nav-open .mbar {
 .link-cta:hover { border-color: var(--canopy); gap: 0.8rem; }
 [dir='rtl'] .link-cta .icon { transform: scaleX(-1); }
 
-/* Desktop: these four blocks are one screen, then the next one slides over them.
-   On a phone the copy needs more room than the screen, so the height follows the content. */
-@media (min-width: 901px) {
-  #projet,
-  #appartements,
-  #finitions,
-  #commerces {
-    box-sizing: border-box;
-    height: 100dvh;
-    max-height: 100dvh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-top: calc(var(--nav) + clamp(0.6rem, 2vh, 1.25rem));
-    padding-bottom: clamp(0.85rem, 2.5vh, 1.75rem);
-  }
-  #projet > .wrap,
-  #appartements > .wrap,
-  #finitions > .wrap,
-  #commerces > .wrap {
-    flex: 1 1 auto;
-    min-height: 0;
-    width: min(var(--wrap), calc(100% - 2 * var(--pad)));
-  }
-}
-@media (max-width: 900px) {
-  #projet,
-  #appartements,
-  #finitions,
-  #commerces {
-    height: auto;
-    max-height: none;
-    overflow: visible;
-    padding: var(--sec) 0;
-  }
+#projet,
+#appartements,
+#finitions,
+#commerces {
+  padding: var(--sec) 0;
 }
 @media (max-width: 800px) {
   #projet,
@@ -553,20 +522,5 @@ body.nav-open .mbar {
   #finitions,
   #commerces {
     padding-bottom: calc(var(--sec) + 3.75rem + env(safe-area-inset-bottom));
-  }
-}
-@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
-  #projet { position: sticky; z-index: 1; }
-  #appartements { position: sticky; z-index: 2; }
-  #finitions { position: sticky; z-index: 3; }
-  #commerces { position: sticky; z-index: 4; }
-  #aide,
-  #presence,
-  .vision,
-  #lieu,
-  #contact,
-  .foot {
-    position: relative;
-    z-index: 5;
   }
 }

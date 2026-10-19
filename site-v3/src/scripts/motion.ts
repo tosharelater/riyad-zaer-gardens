@@ -370,48 +370,23 @@ function visionHorizontal() {
 }
 
 function reasonsScene() {
-  const section = document.querySelector<HTMLElement>('#pourquoi');
   const wrap = document.querySelector<HTMLElement>('[data-strips]');
   const cards = gsap.utils.toArray<HTMLElement>('[data-strip]');
-  if (!section || !wrap || !cards.length) return;
+  if (!wrap || !cards.length) return;
 
-  const n = cards.length;
   const ticks = gsap.utils.toArray<HTMLElement>('[data-why-meter] span');
   const innerOf = (el: HTMLElement) => el.querySelector<HTMLElement>('.flip-inner');
-  const scrollDeg = new WeakMap<HTMLElement, number>();
   let held: HTMLElement | null = null;
 
-  // One card's slice of scroll: rest on the photo, turn to the back, stay there a while,
-  // turn back, rest again before the next card starts.
-  const ease = (t: number) => t * t * (3 - 2 * t);
-  const turn = (p: number) => {
-    if (p <= 0.08 || p >= 0.92) return 0;
-    if (p < 0.2) return ease((p - 0.08) / 0.12) * 180;
-    if (p <= 0.8) return 180;
-    return ease((0.92 - p) / 0.12) * 180;
-  };
-  // Each card owns an equal slice of the scroll, after a lead-in once the row is centred.
-  const lead = 0.1;
-  const angle = (progress: number, i: number) => turn(((progress - lead) / (1 - 2 * lead)) * n - i);
-
   const sync = () => {
-    let active = -1;
-    let best = 36;
-    cards.forEach((el, i) => {
-      const deg = el === held ? 180 : (scrollDeg.get(el) ?? 0);
-      const near = deg > 180 ? 360 - deg : deg;
-      if (near > best) {
-        best = near;
-        active = i;
-      }
-    });
+    const active = cards.findIndex((el) => el === held);
     cards.forEach((el, i) => el.classList.toggle('is-open', i === active));
     wrap.classList.toggle('is-playing', active >= 0);
     ticks.forEach((tick, i) => tick.classList.toggle('is-on', i === active));
   };
 
-  // Hover and tap turn the card over 0.9s; scroll eases in behind the wheel so a card never snaps.
-  const setFlip = (el: HTMLElement, deg: number, animate: boolean) => {
+  // Hover and tap turn the photo over to its text.
+  const setFlip = (el: HTMLElement, deg: number) => {
     const inner = innerOf(el);
     if (!inner) return;
     const pop = deg > 46 && deg < 314 ? 32 : 0;
@@ -423,27 +398,19 @@ function reasonsScene() {
     sync();
   };
 
-  const remember = (el: HTMLElement, deg: number) => {
-    scrollDeg.set(el, deg);
-    if (el !== held) setFlip(el, deg, false);
-    else sync();
-  };
-
-  const restore = () => {
-    held = null;
-    cards.forEach((el) => setFlip(el, scrollDeg.get(el) ?? 0, true));
-  };
-
   const hold = (el: HTMLElement, open: boolean) => {
     if (open) {
       held = el;
       cards.forEach((other) => {
-        if (other !== el) setFlip(other, 0, true);
+        if (other !== el) setFlip(other, 0);
       });
-      setFlip(el, 180, true);
+      setFlip(el, 180);
       return;
     }
-    if (held === el) restore();
+    if (held === el) {
+      held = null;
+      cards.forEach((card) => setFlip(card, 0));
+    }
   };
 
   const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -460,35 +427,6 @@ function reasonsScene() {
     });
   }
 
-  if (reduce) return;
-
-  const stage = section.querySelector<HTMLElement>('.why-stage') ?? section;
-  const wide = window.matchMedia('(min-width: 901px)').matches;
-  if (wide) {
-    // Pin only once the cards sit in the middle of the screen.
-    ScrollTrigger.create({
-      trigger: wrap,
-      start: 'center center',
-      end: `+=${n * 180}%`,
-      pin: stage,
-      pinSpacing: true,
-      anticipatePin: 1,
-      onUpdate: (self) => {
-        cards.forEach((el, i) => remember(el, angle(self.progress, i)));
-      },
-    });
-    return;
-  }
-
-  // On a phone the row is a stack. Each card turns while it passes the middle of the screen.
-  cards.forEach((el) => {
-    ScrollTrigger.create({
-      trigger: el,
-      start: 'center 92%',
-      end: 'center 8%',
-      onUpdate: (self) => remember(el, turn(self.progress)),
-    });
-  });
 }
 
 function polishScene() {
@@ -813,25 +751,6 @@ function pageHeroScene() {
   });
 }
 
-function stackScene() {
-  const sections = ['#projet', '#appartements', '#finitions', '#commerces']
-    .map((id) => document.querySelector<HTMLElement>(id))
-    .filter((el): el is HTMLElement => !!el);
-  if (sections.length < 4) return;
-
-  // On a wide screen, stick each block when its bottom meets the screen.
-  // On a phone the block is taller than the screen, so it just scrolls.
-  const place = () => {
-    const wide = window.matchMedia('(min-width: 901px)').matches;
-    sections.forEach((section) => {
-      section.style.top = wide ? `${window.innerHeight - section.offsetHeight}px` : '';
-    });
-  };
-  place();
-  window.addEventListener('resize', place);
-  ScrollTrigger.addEventListener('refresh', place);
-}
-
 function boot() {
   if (reduce) {
     document.querySelectorAll<HTMLElement>('[data-hero-brand] .w > span, h1[data-ph-title] .w > span').forEach((s) => {
@@ -849,7 +768,6 @@ function boot() {
   figuresScene();
   visionHorizontal();
   reasonsScene();
-  stackScene();
   polishScene();
   aidScene();
   waysScene();
