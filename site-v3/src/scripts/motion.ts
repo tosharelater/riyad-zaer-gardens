@@ -415,7 +415,7 @@ function polishScene() {
     });
 
   // Lists rise in one after another
-  ['.finishes-points li', '.pano-bar li', '.commerce .facts > div', '.aid-steps li', '.homes-price > *'].forEach((sel) => {
+  ['.finishes-points li', '.pano-bar li', '.commerce .facts > div', '.homes-price > *'].forEach((sel) => {
     const items = gsap.utils.toArray<HTMLElement>(sel);
     if (!items.length) return;
     gsap.from(items, {
@@ -436,51 +436,77 @@ const toNum = (t: string | null | undefined) => Number((t?.match(NUM)?.[0] ?? ''
 const group = (n: number) => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\u202f');
 
 function aidScene() {
-  const ticket = document.querySelector<HTMLElement>('.aid-ticket');
-  const after = document.querySelector<HTMLElement>('.aid-row.is-after');
-  if (!ticket || !after) return;
+  const sec = document.querySelector<HTMLElement>('#aide');
+  if (!sec) return;
 
-  gsap.fromTo(
-    ticket,
-    { y: 36, autoAlpha: 0 },
-    {
-      y: 0,
-      autoAlpha: 1,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.aid-ticket',
-        start: 'top 88%',
-        end: 'top 55%',
-        scrub: 0.7,
-      },
-    },
-  );
+  // the faded logo drifts slowly against the scroll
+  const mark = sec.querySelector<HTMLElement>('.aid-mark');
+  if (mark && !reduce) {
+    gsap.fromTo(mark, { yPercent: 14 }, { yPercent: -14, ease: 'none', scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom top', scrub: true } });
+  }
+  if (reduce) return;
 
-  gsap.fromTo(
-    '.aid-bar i',
-    { scaleX: 0 },
-    {
-      scaleX: 1,
-      ease: 'none',
-      stagger: 0.15,
-      scrollTrigger: { trigger: '.aid-ticket', start: 'top 85%', end: 'top 40%', scrub: 0.7 },
-    },
-  );
+  const rtl = document.documentElement.dir === 'rtl';
+  // thin gold lines draw themselves
+  sec.querySelectorAll<HTMLElement>('.kick i, .aid-save i').forEach((l) => {
+    gsap.fromTo(l, { scaleX: 0, transformOrigin: rtl ? 'right' : 'left' }, { scaleX: 1, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: l, start: 'top 94%', once: true } });
+  });
 
-  gsap.fromTo(
-    after,
-    { y: 24 },
-    {
-      y: 0,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.aid-ticket',
-        start: 'top 80%',
-        end: 'top 48%',
-        scrub: 0.65,
-      },
-    },
+  // figures count: the saving climbs up, the price falls from the old figure to the new one
+  const NUMRE = /\d[\d\s\u202f\u00a0]*\d/;
+  const digits = (t: string) => Number((t.match(NUMRE)?.[0] ?? '').replace(/\D/g, ''));
+  const group = (n: number) => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\u202f');
+  const countTo = (el: HTMLElement | null, from: number | null, trigger: Element) => {
+    if (!el) return;
+    const text = el.textContent ?? '';
+    const to = digits(text);
+    if (!to) return;
+    const mt = text.match(NUMRE)!;
+    const pre = text.slice(0, mt.index);
+    const post = text.slice((mt.index ?? 0) + mt[0].length);
+    const o = { v: from ?? 0 };
+    el.textContent = pre + group(o.v) + post;
+    gsap.to(o, {
+      v: to,
+      duration: 1.6,
+      ease: 'power2.out',
+      onUpdate: () => (el.textContent = pre + group(o.v) + post),
+      scrollTrigger: { trigger, start: 'top 85%', once: true },
+    });
+  };
+  countTo(sec.querySelector<HTMLElement>('.aid-save strong'), 0, sec.querySelector('.aid-save') as Element);
+  const priceDd = sec.querySelector<HTMLElement>('.aid-card:nth-child(2) .aid-fact dd');
+  if (priceDd) countTo(priceDd.querySelector('b'), digits(priceDd.querySelector('s')?.textContent ?? '') || null, priceDd);
+
+  // cards rise one after another; each icon ring pops in just after its card
+  const cards = gsap.utils.toArray<HTMLElement>('#aide .aid-card');
+  const nodes = gsap.utils.toArray<HTMLElement>('#aide .aid-ico, #aide .aid-n');
+  const st = { trigger: '#aide .aid-cards', start: 'top 86%', once: true };
+  gsap.from(cards, { y: 48, autoAlpha: 0, duration: 0.95, stagger: 0.15, ease: 'power3.out', clearProps: 'transform,opacity,visibility', scrollTrigger: st });
+  const facts = gsap.utils.toArray<HTMLElement>('#aide .aid-fact');
+  gsap.from(facts, { x: rtl ? -90 : 90, autoAlpha: 0, duration: 1.05, delay: 0.55, stagger: 0.18, ease: 'power3.out', clearProps: 'transform,opacity,visibility', scrollTrigger: st });
+  gsap.from(nodes, { scale: 0.5, autoAlpha: 0, duration: 0.7, delay: 0.3, stagger: 0.07, ease: 'back.out(2.2)', clearProps: 'transform,opacity,visibility', scrollTrigger: st });
+}
+
+/** Entry effects used all over the site: photos unveil upward, buttons settle in */
+function entryScene() {
+  if (reduce) return;
+
+  const photos = gsap.utils.toArray<HTMLElement>(
+    '.finishes-media, .commerce-media, .homes-media, .pano-photo, .fig-media, .aside-media, .partner-media, .feat-item figure, .entry-media',
   );
+  photos.forEach((fig) => {
+    gsap.fromTo(
+      fig,
+      { clipPath: 'inset(100% 0 0 0)' },
+      { clipPath: 'inset(0% 0 0 0)', duration: 1.25, ease: 'power3.inOut', clearProps: 'clipPath', scrollTrigger: { trigger: fig, start: 'top 88%', once: true } },
+    );
+  });
+
+  gsap.utils.toArray<HTMLElement>('main .btn:not(.top-cta), section .btn:not(.top-cta)').forEach((btn) => {
+    if (btn.closest('.hero, [data-hero], header.top, .top-drawer')) return;
+    gsap.from(btn, { y: 18, autoAlpha: 0, duration: 0.7, ease: 'power3.out', clearProps: 'transform,opacity,visibility', scrollTrigger: { trigger: btn, start: 'top 94%', once: true } });
+  });
 }
 
 function waysScene() {
@@ -739,6 +765,7 @@ function boot() {
   reasonsScene();
   polishScene();
   aidScene();
+  entryScene();
   waysScene();
   lieuScene();
   commerceScene();
