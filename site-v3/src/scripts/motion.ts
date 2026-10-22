@@ -383,17 +383,51 @@ function reasonsScene() {
     });
   };
 
+  // the cards rise one after another
+  if (!reduce) {
+    gsap.from(cards, {
+      y: 70,
+      autoAlpha: 0,
+      duration: 1,
+      stagger: 0.14,
+      ease: 'power3.out',
+      clearProps: 'transform,opacity,visibility',
+      scrollTrigger: { trigger: cards[0].parentElement, start: 'top 86%', once: true },
+    });
+  }
+
+  // while you scroll through the cards they open one after another; pointing at one takes over
+  const rows = cards[0].closest('.why-rows') as HTMLElement | null;
+  let manual = false;
+  let prog = 0;
+  const sync = () => {
+    if (manual || reduce) return;
+    setOpen(cards[Math.max(0, Math.min(cards.length - 1, Math.floor(prog * cards.length)))]);
+  };
+  if (rows && !reduce) {
+    ScrollTrigger.create({
+      trigger: rows,
+      start: 'top 68%',
+      end: 'bottom 48%',
+      onUpdate: (self) => {
+        prog = self.progress;
+        sync();
+      },
+      onLeaveBack: () => !manual && setOpen(null),
+    });
+  }
+
   const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (fine) {
     cards.forEach((el) => {
-      el.addEventListener('mouseenter', () => setOpen(el));
-      el.addEventListener('mouseleave', () => setOpen(null));
-      el.addEventListener('focus', () => setOpen(el));
-      el.addEventListener('blur', () => setOpen(null));
+      el.addEventListener('mouseenter', () => { manual = true; setOpen(el); });
+      el.addEventListener('mouseleave', () => { manual = false; setOpen(null); sync(); });
+      el.addEventListener('focus', () => { manual = true; setOpen(el); });
+      el.addEventListener('blur', () => { manual = false; setOpen(null); sync(); });
     });
   } else {
     cards.forEach((el) => {
-      el.addEventListener('click', () => setOpen(el.classList.contains('is-open') ? null : el));
+      el.addEventListener('click', () => { manual = true; setOpen(el.classList.contains('is-open') ? null : el); });
     });
   }
 }
@@ -480,12 +514,12 @@ function aidScene() {
 
   // cards rise one after another; each icon ring pops in just after its card
   const cards = gsap.utils.toArray<HTMLElement>('#aide .aid-card');
-  const nodes = gsap.utils.toArray<HTMLElement>('#aide .aid-ico, #aide .aid-n');
+  const nodes = gsap.utils.toArray<HTMLElement>('#aide .aid-node');
   const st = { trigger: '#aide .aid-cards', start: 'top 86%', once: true };
   gsap.from(cards, { y: 48, autoAlpha: 0, duration: 0.95, stagger: 0.15, ease: 'power3.out', clearProps: 'transform,opacity,visibility', scrollTrigger: st });
   const facts = gsap.utils.toArray<HTMLElement>('#aide .aid-fact');
   gsap.from(facts, { x: rtl ? -90 : 90, autoAlpha: 0, duration: 1.05, delay: 0.55, stagger: 0.18, ease: 'power3.out', clearProps: 'transform,opacity,visibility', scrollTrigger: st });
-  gsap.from(nodes, { scale: 0.5, autoAlpha: 0, duration: 0.7, delay: 0.3, stagger: 0.07, ease: 'back.out(2.2)', clearProps: 'transform,opacity,visibility', scrollTrigger: st });
+  gsap.from(nodes, { scale: 0.4, autoAlpha: 0, duration: 0.8, delay: 0.3, stagger: 0.15, ease: 'back.out(2.2)', clearProps: 'transform,opacity,visibility', scrollTrigger: st });
 }
 
 /** Entry effects used all over the site: photos unveil upward, buttons settle in */

@@ -31,14 +31,14 @@ const href = aid.cta.href.startsWith('/') ? localePath(locale, aid.cta.href) : a
 // Each card: number, icon + title, text, and one concrete fact (with its own small icon) at the bottom
 const cards = ar
   ? [
-      { n: '01', ico: 'house', art: 'house', h: 'الأهلية', p: aid.p1, fico: 'file-text', k: 'البرنامج', v: 'دعم الدولة للسكن' },
-      { n: '02', ico: 'coins', art: 'tag', h: 'سعر الدخول', p: aid.p2, fico: 'tag', k: 'ابتداءً من', v: after.fig, old: before.fig },
-      { n: '03', ico: 'users', art: 'hands', h: 'المرافقة', p: aid.p3, fico: 'shield-check', k: 'التحقق', v: 'مجاني وبدون التزام' },
+      { n: '01', ico: 'house', h: 'الأهلية', p: aid.p1, fico: 'file-text', k: 'البرنامج', v: 'دعم الدولة للسكن' },
+      { n: '02', ico: 'coins', h: 'سعر الدخول', p: aid.p2, fico: 'tag', k: 'ابتداءً من', v: after.fig, old: before.fig },
+      { n: '03', ico: 'users', h: 'المرافقة', p: aid.p3, fico: 'shield-check', k: 'التحقق', v: 'مجاني وبدون التزام' },
     ]
   : [
-      { n: '01', ico: 'house', art: 'house', h: 'Éligibilité', p: aid.p1, fico: 'file-text', k: 'Programme', v: 'Aide au logement de l’État' },
-      { n: '02', ico: 'coins', art: 'tag', h: 'Votre prix', p: aid.p2, fico: 'tag', k: 'Dès', v: after.fig, old: before.fig },
-      { n: '03', ico: 'users', art: 'hands', h: 'Accompagnement', p: aid.p3, fico: 'shield-check', k: 'Vérification', v: 'Gratuite, sans engagement' },
+      { n: '01', ico: 'house', h: 'Éligibilité', p: aid.p1, fico: 'file-text', k: 'Programme', v: 'Aide au logement de l’État' },
+      { n: '02', ico: 'coins', h: 'Votre prix', p: aid.p2, fico: 'tag', k: 'Dès', v: after.fig, old: before.fig },
+      { n: '03', ico: 'users', h: 'Accompagnement', p: aid.p3, fico: 'shield-check', k: 'Vérification', v: 'Gratuite, sans engagement' },
     ];
 ---
 <section class="aid" id="aide">
@@ -67,80 +67,7 @@ const cards = ar
     <ol class="aid-cards">
       {cards.map((c) => (
         <li class="aid-card">
-          <span class="aid-curve" aria-hidden="true"></span>
-          {c.art === 'house' && (
-            <svg class="aid-art art-house" viewBox="0 0 150 130" aria-hidden="true">
-              <ellipse cx="80" cy="121" rx="58" ry="6" fill="#8c764620" />
-              <g class="bush">
-                <circle cx="30" cy="108" r="12" fill="#4f7a52" /><circle cx="44" cy="112" r="10" fill="#6c9a67" /><circle cx="22" cy="115" r="8" fill="#3f6a47" />
-              </g>
-              <g class="home">
-                <rect x="44" y="62" width="66" height="54" rx="4" fill="#fff8e8" stroke="#2f5d44" stroke-width="2" />
-                <path d="M36 66 L77 32 L118 66 Z" fill="#3f6a47" stroke="#2f5d44" stroke-width="2" stroke-linejoin="round" />
-                <rect x="96" y="38" width="9" height="16" rx="1.5" fill="#2f5d44" />
-                <rect x="70" y="84" width="17" height="32" rx="3" fill="#c8a24a" />
-                <circle cx="83" cy="101" r="1.4" fill="#fff8e8" />
-                <rect x="51" y="74" width="14" height="14" rx="2" fill="#cfe3d0" stroke="#2f5d44" stroke-width="1.6" />
-                <path d="M58 74 V88 M51 81 H65" stroke="#2f5d44" stroke-width="1.2" />
-                <rect x="93" y="74" width="12" height="14" rx="2" fill="#cfe3d0" stroke="#2f5d44" stroke-width="1.6" />
-              </g>
-              <g class="badge">
-                <circle cx="116" cy="40" r="15" fill="#c8a24a" stroke="#fff8e8" stroke-width="3" />
-                <path d="M109 40.5 L114.5 46 L123.5 34.5" stroke="#fff8e8" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-              </g>
-            </svg>
-          )}
-          {c.art === 'tag' && (
-            <svg class="aid-art art-tag" viewBox="0 0 150 130" aria-hidden="true">
-              <ellipse cx="78" cy="122" rx="58" ry="5.5" fill="#8c764620" />
-              <g class="coins">
-                <g class="coin c1"><ellipse cx="38" cy="108" rx="22" ry="8" fill="#a9822f" /><ellipse cx="38" cy="104" rx="22" ry="8" fill="#e0bd5c" /><ellipse cx="38" cy="104" rx="14" ry="4.6" fill="none" stroke="#b78f34" stroke-width="1.4" /></g>
-                <g class="coin c2"><ellipse cx="38" cy="96" rx="22" ry="8" fill="#a9822f" /><ellipse cx="38" cy="92" rx="22" ry="8" fill="#ecca6e" /><ellipse cx="38" cy="92" rx="14" ry="4.6" fill="none" stroke="#b78f34" stroke-width="1.4" /></g>
-                <g class="coin c3"><ellipse cx="38" cy="84" rx="22" ry="8" fill="#a9822f" /><ellipse cx="38" cy="80" rx="22" ry="8" fill="#f2d57f" /><ellipse cx="38" cy="80" rx="14" ry="4.6" fill="none" stroke="#b78f34" stroke-width="1.4" /></g>
-              </g>
-              <g class="swing">
-                <path d="M104 2 C 100 22 96 34 92 46" stroke="#6f5a2c" stroke-width="1.8" fill="none" stroke-linecap="round" />
-                <g transform="rotate(14 92 50)">
-                  <path d="M74 52 H122 a6 6 0 0 1 6 6 V94 a6 6 0 0 1 -6 6 H74 L58 76 Z" fill="#fff8e8" stroke="#2f5d44" stroke-width="2" stroke-linejoin="round" />
-                  <circle cx="76" cy="76" r="4.2" fill="#e6d8b8" stroke="#2f5d44" stroke-width="1.6" />
-                  <text x="104" y="86" text-anchor="middle" font-size="26" font-weight="700" fill="#3f6a47" font-family="Poppins, sans-serif">%</text>
-                </g>
-              </g>
-              <g class="sprig">
-                <path d="M132 124 C 130 112 134 102 142 94" stroke="#3b5f43" stroke-width="2" fill="none" stroke-linecap="round" />
-                <path d="M133 112 C 123 110 118 104 118 96 C 128 98 133 104 133 112Z" fill="#5c8758" />
-                <path d="M139 100 C 148 99 152 92 151 85 C 142 86 138 92 139 100Z" fill="#4f7a52" />
-              </g>
-            </svg>
-          )}
-          {c.art === 'hands' && (
-            <svg class="aid-art art-hands" viewBox="0 0 150 130" aria-hidden="true">
-              <ellipse cx="76" cy="122" rx="60" ry="5.5" fill="#8c764620" />
-              <g class="bubble">
-                <path d="M58 6 H98 a8 8 0 0 1 8 8 V28 a8 8 0 0 1 -8 8 H80 L72 46 L70 36 H58 a8 8 0 0 1 -8 -8 V14 a8 8 0 0 1 8 -8Z" fill="#fff8e8" stroke="#2f5d44" stroke-width="2" stroke-linejoin="round" />
-                <circle class="dot d1" cx="66" cy="21" r="3.2" fill="#3f6a47" /><circle class="dot d2" cx="78" cy="21" r="3.2" fill="#3f6a47" /><circle class="dot d3" cx="90" cy="21" r="3.2" fill="#3f6a47" />
-              </g>
-              <g class="person p1">
-                <path d="M20 118 V92 a17 17 0 0 1 17 -17 h4 a17 17 0 0 1 17 17 V118Z" fill="#3f6a47" />
-                <circle cx="39" cy="58" r="12" fill="#e6b38f" />
-                <path d="M27 56 a12 12 0 0 1 24 -2 c-6 -6 -16 -7 -24 2Z" fill="#4a3322" />
-              </g>
-              <g class="person p2">
-                <path d="M96 118 V92 a17 17 0 0 1 17 -17 h4 a17 17 0 0 1 17 17 V118Z" fill="#c8a24a" />
-                <circle cx="115" cy="58" r="12" fill="#c98f6b" />
-                <path d="M103 59 a12 12 0 0 1 24 0 c0 -6 -4 -11 -12 -11 s-12 5 -12 11Z" fill="#2c2018" />
-              </g>
-              <g class="shake">
-                <path d="M52 92 C 62 96 66 96 76 90" stroke="#3f6a47" stroke-width="10" stroke-linecap="round" fill="none" />
-                <path d="M100 92 C 90 96 86 96 76 90" stroke="#c8a24a" stroke-width="10" stroke-linecap="round" fill="none" />
-                <circle cx="76" cy="90" r="8" fill="#e6b38f" stroke="#c98f6b" stroke-width="1.5" />
-              </g>
-            </svg>
-          )}
-          <div class="aid-row1">
-            <span class="aid-n">{c.n}</span>
-            <span class="aid-ico" aria-hidden="true"><Icon name={c.ico} size="2.3rem" strokeWidth={1.5} /></span>
-          </div>
+          <span class="aid-node" aria-hidden="true"><Icon name={c.ico} size="2.15rem" strokeWidth={1.25} /></span>
           <h3>{c.h}</h3>
           <p class="aid-text">{c.p}</p>
           <dl class="aid-fact">
@@ -202,105 +129,54 @@ const cards = ar
   .aid-save span { font-size: 1rem; color: rgb(246 240 228 / 0.82); }
   .aid-save i { display: block; width: 3.2rem; height: 1.5px; margin-top: 0.8rem; background: var(--gold); }
 
+  /* Same family as the Présence cards: flat cream, a ring on the top edge, a light title, centred text */
   .aid-cards {
     width: 100%;
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 2.75rem 0 0;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(0.9rem, 1.8vw, 1.3rem);
+    gap: 3.25rem clamp(1rem, 2.4vw, 1.75rem);
     align-items: stretch;
   }
   .aid-card {
     position: relative;
-    overflow: hidden;
-    isolation: isolate;
     display: grid;
-    grid-template-rows: auto auto 1fr auto;
+    grid-template-rows: auto 1fr auto;
+    justify-items: center;
     gap: 0.9rem;
-    padding: clamp(1.4rem, 2.3vw, 1.9rem);
-    border-radius: 22px;
-    background: linear-gradient(165deg, #faf4e7 0%, #f3ead8 100%);
+    padding: calc(4.75rem / 2 + 1.5rem) clamp(1.5rem, 2.6vw, 2.25rem) clamp(1.5rem, 2.6vw, 2rem);
+    border-radius: var(--radius);
+    background: var(--cream);
     color: var(--ink);
-    text-align: start;
-    box-shadow: 0 20px 44px rgb(0 20 16 / 0.26);
-    transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+    text-align: center;
   }
-  .aid-card:hover { transform: translateY(-6px); box-shadow: 0 30px 58px rgb(0 20 16 / 0.36); }
-
-  /* soft curve behind the illustration */
-  .aid-curve { position: absolute; z-index: -2; inset-inline-end: -30%; bottom: -40%; width: 88%; aspect-ratio: 1; border-radius: 50%; background: rgb(140 118 70 / 0.08); }
-
-  /* a small illustration in the corner of each card, moving all the time */
-  .aid-art {
+  .aid-node {
     position: absolute;
-    z-index: -1;
-    inset-inline-end: 0.6rem;
-    bottom: 0.4rem;
-    width: clamp(6.2rem, 40%, 9.2rem);
-    height: auto;
-    overflow: visible;
-    pointer-events: none;
-  }
-  [dir='rtl'] .aid-art { transform: scaleX(-1); }
-  .aid-art * { transform-box: fill-box; }
-
-  /* house: it bobs, the badge pulses, the bush sways */
-  .art-house .home { animation: aid-bob 4.2s ease-in-out infinite; }
-  .art-house .badge { transform-origin: center; animation: aid-pulse 3s ease-in-out infinite; }
-  .art-house .bush { transform-origin: 50% 100%; animation: aid-sway 5s ease-in-out infinite; }
-  /* tag: it swings from its string, the coins breathe, the sprig sways */
-  .art-tag .swing { transform-box: view-box; transform-origin: 104px 2px; animation: aid-swing 3.4s ease-in-out infinite alternate; }
-  .art-tag .coin { animation: aid-coin 3.6s ease-in-out infinite; }
-  .art-tag .c2 { animation-delay: 0.25s; }
-  .art-tag .c3 { animation-delay: 0.5s; }
-  .art-tag .sprig { transform-origin: 90% 100%; animation: aid-sway 4.6s ease-in-out infinite; }
-  /* handshake: the hands shake now and then, the bubble floats, the dots talk */
-  .art-hands .shake { animation: aid-shake 4s ease-in-out infinite; }
-  .art-hands .bubble { animation: aid-bob 3.6s ease-in-out infinite; }
-  .art-hands .dot { animation: aid-dot 1.6s ease-in-out infinite; }
-  .art-hands .d2 { animation-delay: 0.2s; }
-  .art-hands .d3 { animation-delay: 0.4s; }
-  .art-hands .p1 { transform-origin: 50% 100%; animation: aid-lean-r 4s ease-in-out infinite; }
-  .art-hands .p2 { transform-origin: 50% 100%; animation: aid-lean-l 4s ease-in-out infinite; }
-  @keyframes aid-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
-  @keyframes aid-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.14); } }
-  @keyframes aid-sway { 0%, 100% { transform: rotate(-2.5deg); } 50% { transform: rotate(2.5deg); } }
-  @keyframes aid-swing { from { transform: rotate(-9deg); } to { transform: rotate(9deg); } }
-  @keyframes aid-coin { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2.5px); } }
-  @keyframes aid-shake { 0%, 55%, 100% { transform: translateY(0); } 62% { transform: translateY(-3px); } 70% { transform: translateY(2px); } 78% { transform: translateY(-3px); } 86% { transform: translateY(1px); } }
-  @keyframes aid-dot { 0%, 100% { transform: translateY(0); opacity: 0.45; } 40% { transform: translateY(-3px); opacity: 1; } }
-  @keyframes aid-lean-r { 0%, 100% { transform: rotate(0); } 62% { transform: rotate(0); } 72% { transform: rotate(2deg); } 84% { transform: rotate(0); } }
-  @keyframes aid-lean-l { 0%, 100% { transform: rotate(0); } 62% { transform: rotate(0); } 72% { transform: rotate(-2deg); } 84% { transform: rotate(0); } }
-
-  .aid-row1 { display: flex; align-items: flex-start; justify-content: space-between; }
-  .aid-n {
-    padding: 0.4rem 0.95rem;
-    border-radius: 12px;
-    background: #e5d3b0;
-    color: #4d3f22;
-    font-size: 0.95rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-  }
-  .aid-ico { display: grid; color: var(--canopy); transition: transform 0.5s var(--ease); }
-  .aid-card:hover .aid-ico { transform: translateY(-3px) scale(1.06); }
-
-  .aid-card h3 { margin: 0.2rem 0 0; font-family: var(--display); font-weight: 600; font-size: clamp(1.35rem, 1.9vw, 1.65rem); line-height: 1.15; letter-spacing: -0.01em; color: var(--canopy); }
-  .aid-text { margin: 0; color: #3f4f4b; font-size: 0.9rem; line-height: 1.65; text-align: justify; text-justify: inter-word; hyphens: auto; -webkit-hyphens: auto; }
-
-  .aid-fact {
-    margin: 0.3rem 0 0;
-    max-width: 62%;
+    top: 0;
+    inset-inline-start: 50%;
+    translate: -50% -50%;
     display: grid;
-    gap: 0.15rem;
+    place-items: center;
+    width: 4.75rem;
+    height: 4.75rem;
+    border: 1.25px solid var(--ink);
+    border-radius: 50%;
+    background: var(--paper);
+    color: var(--ink);
   }
-  .aid-fact dt { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #6f6a58; }
-  .aid-fact dd { margin: 0; display: grid; gap: 0.05rem; justify-items: start; }
-  .aid-fact b { font-weight: 600; font-size: 1.08rem; line-height: 1.25; color: var(--canopy); }
-  .aid-fact s { font-size: 0.85rem; color: #6f6a58; }
-  .aid-card:nth-child(2) .aid-fact b { font-size: clamp(1.45rem, 2.1vw, 1.8rem); white-space: nowrap; }
+  [dir='rtl'] .aid-node { translate: 50% -50%; }
+  .aid-card h3 { margin: 0; font-family: var(--serif); font-weight: 300; font-size: clamp(1.7rem, 2.6vw, 2.2rem); line-height: 1.1; letter-spacing: -0.02em; color: var(--ink); }
+  .aid-text { margin: 0; max-width: 22rem; color: var(--muted); font-size: 1rem; line-height: 1.7; }
+
+  /* the one hard fact of each card, set like the facts lists elsewhere on the site */
+  .aid-fact { width: 100%; margin: 0.4rem 0 0; padding-top: 1rem; display: grid; justify-items: center; gap: 0.2rem; border-top: 1px solid color-mix(in srgb, var(--canopy) 18%, transparent); }
+  .aid-fact dt { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-text); }
+  .aid-fact dd { margin: 0; display: flex; justify-content: center; align-items: baseline; flex-wrap: wrap; gap: 0.1rem 0.7rem; }
+  .aid-fact b { font-weight: 500; font-size: 1.05rem; color: var(--ink); }
+  .aid-fact s { font-size: 0.92rem; color: var(--muted); }
+  .aid-card:nth-child(2) .aid-fact b { font-size: clamp(1.5rem, 2.2vw, 1.85rem); font-weight: 400; white-space: nowrap; }
 
   /* the action sits in the middle under the cards */
   .aid-cta { justify-self: center; }
@@ -309,13 +185,8 @@ const cards = ar
   .aid .btn { background: var(--gold); color: var(--ink); }
   .aid .btn:hover { background: var(--gold-soft); }
 
-  @media (prefers-reduced-motion: reduce) {
-    .aid-card, .aid-ico { transition: none; }
-    .aid-card:hover, .aid-card:hover .aid-ico { transform: none; }
-    .aid-art *, .aid-art { animation: none !important; }
-  }
   @media (max-width: 900px) {
-    .aid-cards { grid-template-columns: 1fr; }
+    .aid-cards { grid-template-columns: 1fr; max-width: 32rem; margin-inline: auto; }
     .aid-save { justify-items: start; text-align: start; }
     .aid-mark { width: clamp(11rem, 40vw, 16rem); }
   }

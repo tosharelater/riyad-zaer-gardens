@@ -87,21 +87,7 @@ ul, ol { list-style: none; padding: 0; }
   src: url('/fonts/audrey/Audrey-Normal.otf') format('opentype');
   font-weight: 400;
   font-display: swap;
-  unicode-range: U+0000-009F, U+00A1-00B1, U+00B4-0151, U+0154-2012, U+2015-2018, U+201A-202E, U+2030-FFFF;
-}
-@font-face {
-  font-family: 'RZ Audrey';
-  src: url('/fonts/audrey/Audrey-Medium.otf') format('opentype');
-  font-weight: 500;
-  font-display: swap;
-  unicode-range: U+0000-009F, U+00A1-00B1, U+00B4-0151, U+0154-2012, U+2015-2018, U+201A-202E, U+2030-FFFF;
-}
-@font-face {
-  font-family: 'RZ Audrey';
-  src: url('/fonts/audrey/Audrey-Bold.otf') format('opentype');
-  font-weight: 700;
-  font-display: swap;
-  unicode-range: U+0000-009F, U+00A1-00B1, U+00B4-0151, U+0154-2012, U+2015-2018, U+201A-202E, U+2030-FFFF;
+  unicode-range: U+0000-009F, U+00A1-00B1, U+00B4-00E3, U+00E5-00F5, U+00F7-0151, U+0154-2012, U+2015-2018, U+201A-202E, U+2030-FFFF;
 }
 
 .wrap {
