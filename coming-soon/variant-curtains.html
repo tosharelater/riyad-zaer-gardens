@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Riyad Zaer Gardens — Bientôt</title>
+<meta name="description" content="Riyad Zaer Gardens, un nouveau pôle urbain à 25 minutes de Rabat. Le rideau se lève bientôt.">
+<meta name="theme-color" content="#06261f">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #002d2d;
+    --canopy: #0a3d35;
+    --deep: #06261f;
+    --gold: #c8b568;
+    --gold-soft: #d9c987;
+    --cream: #f6f0e4;
+    --open: 0;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    overflow: hidden;
+    background: var(--deep);
+    color: var(--cream);
+    font-family: 'Poppins', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    touch-action: manipulation;
+  }
+
+  .stage { position: fixed; inset: 0; }
+  .building { position: absolute; inset: 0; overflow: hidden; }
+  .building img {
+    position: absolute;
+    inset: -4%;
+    width: 108%;
+    height: 108%;
+    object-fit: cover;
+    object-position: center 55%;
+    filter: brightness(calc(0.55 + var(--open) * 0.5)) saturate(calc(0.85 + var(--open) * 0.2));
+    animation: drift 40s ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    from { transform: scale(1) translate3d(0, 0, 0); }
+    to   { transform: scale(1.07) translate3d(-1.2%, -0.8%, 0); }
+  }
+  .glow {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(34% 70% at 50% 58%, rgb(255 226 150 / calc(0.34 - var(--open) * 0.3)), transparent 70%),
+      linear-gradient(to bottom, rgb(6 38 31 / 0.35), transparent 30%, rgb(6 38 31 / 0.5));
+    mix-blend-mode: screen;
+    pointer-events: none;
+    animation: breathe 6s ease-in-out infinite;
+  }
+  @keyframes breathe { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
+  .vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120% 90% at 50% 45%, transparent 55%, rgb(0 12 10 / 0.7));
+    pointer-events: none;
+  }
+
+  canvas#cloth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: pointer; }
+
+  .words {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: clamp(1.25rem, 5vw, 3rem);
+    text-align: center;
+    pointer-events: none;
+    opacity: calc(1 - var(--open) * 1.6);
+    transform: translateY(calc(var(--open) * -14px));
+  }
+  .words > div { display: grid; justify-items: center; gap: clamp(0.9rem, 2.4vh, 1.5rem); max-width: 36rem; }
+  .logo { width: clamp(7.5rem, 20vw, 11rem); height: auto; filter: drop-shadow(0 6px 24px rgb(0 0 0 / 0.45)); }
+  .kick {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    padding-left: 0.42em;
+  }
+  h1 {
+    font-weight: 200;
+    font-size: clamp(2.6rem, 8.5vw, 5.6rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: #fff;
+    text-shadow: 0 8px 40px rgb(0 0 0 / 0.55);
+  }
+  h1 em { font-style: normal; color: var(--gold); font-weight: 300; }
+  .sub {
+    font-weight: 300;
+    font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+    line-height: 1.6;
+    color: rgb(246 240 228 / 0.85);
+    text-shadow: 0 2px 16px rgb(0 0 0 / 0.6);
+  }
+  .en { font-size: 0.78rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgb(246 240 228 / 0.55); padding-left: 0.3em; }
+  .peek {
+    pointer-events: auto;
+    margin-top: 0.6rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.85rem 1.5rem;
+    border-radius: 999px;
+    border: 1px solid rgb(217 201 135 / 0.6);
+    background: rgb(6 38 31 / 0.35);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    color: var(--cream);
+    font: inherit;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: background 0.35s var(--ease), color 0.35s var(--ease), transform 0.35s var(--ease), border-color 0.35s var(--ease);
+  }
+  .peek:hover { background: var(--gold); color: var(--ink); border-color: var(--gold); transform: translateY(-2px); }
+  .peek svg { width: 1.05rem; height: 1.05rem; transition: transform 0.35s var(--ease); }
+  .peek:hover svg { transform: translateX(4px); }
+
+  .close {
+    position: absolute;
+    left: 50%;
+    bottom: calc(2rem + env(safe-area-inset-bottom));
+    transform: translate(-50%, 12px);
+    opacity: 0;
+    pointer-events: none;
+    padding: 0.8rem 1.4rem;
+    border-radius: 999px;
+    border: 1px solid rgb(246 240 228 / 0.5);
+    background: rgb(6 38 31 / 0.55);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    color: var(--cream);
+    font: inherit;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: opacity 0.6s var(--ease) 0.5s, transform 0.6s var(--ease) 0.5s, background 0.3s var(--ease);
+  }
+  .close:hover { background: rgb(6 38 31 / 0.85); }
+  body.is-open .close { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+  body.is-open .words { pointer-events: none; }
+  body.is-open .peek { pointer-events: none; }
+
+  .foot {
+    position: absolute;
+    inset-inline: 0;
+    bottom: calc(1.1rem + env(safe-area-inset-bottom));
+    text-align: center;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgb(246 240 228 / 0.5);
+    pointer-events: none;
+    opacity: calc(1 - var(--open) * 2);
+  }
+
+  .words > div > * { opacity: 0; transform: translateY(14px); animation: in 1.1s var(--ease) forwards; }
+  .words > div > *:nth-child(1) { animation-delay: 0.5s; }
+  .words > div > *:nth-child(2) { animation-delay: 0.7s; }
+  .words > div > *:nth-child(3) { animation-delay: 0.9s; }
+  .words > div > *:nth-child(4) { animation-delay: 1.1s; }
+  .words > div > *:nth-child(5) { animation-delay: 1.25s; }
+  .words > div > *:nth-child(6) { animation-delay: 1.4s; }
+  @keyframes in { to { opacity: 1; transform: none; } }
+  .stage { animation: fade 1.4s ease both; }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .building img, .glow, .words > div > *, .stage { animation: none; opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+<main class="stage" id="stage">
+  <div class="building">
+    <img src="assets/building.webp" alt="Les immeubles de Riyad Zaer Gardens, de nuit" fetchpriority="high">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+  </div>
+
+  <canvas id="cloth" aria-hidden="true"></canvas>
+
+  <section class="words">
+    <div>
+      <img class="logo" src="assets/logo.png" alt="Riyad Zaer Gardens" width="720" height="468">
+      <p class="kick">Bientôt</p>
+      <h1>Le rideau<br><em>se lève</em></h1>
+      <p class="sub">Un nouveau pôle urbain à 25 minutes de Rabat.<br>Riyad Zaer Gardens arrive.</p>
+      <p class="en">Coming soon</p>
+      <button class="peek" id="peek" type="button">
+        Entrouvrir le rideau
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <button class="close" id="close" type="button">Refermer le rideau</button>
+  <p class="foot">Riyad Zaer Gardens · Avenue Mohammed VI</p>
+</main>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  const cv = document.getElementById('cloth');
+  const ctx = cv.getContext('2d');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let W = 0, H = 0, dpr = 1;
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  addEventListener('resize', resize); resize();
+
+  let open = 0, target = 0, gust = 0, wind = 0, mx = 0.5, last = performance.now(), t = 0;
+  let manual = false;
+
+  const ease = (x) => x * x * (3 - 2 * x);
+  const mix = (a, b, k) => a + (b - a) * k;
+  const dark = [4, 30, 26], mid = [10, 61, 53], light = [38, 124, 106];
+
+  function color(L, sheen) {
+    let r, g, b;
+    if (L < 0.5) { const k = L * 2; r = mix(dark[0], mid[0], k); g = mix(dark[1], mid[1], k); b = mix(dark[2], mid[2], k); }
+    else { const k = (L - 0.5) * 2; r = mix(mid[0], light[0], k); g = mix(mid[1], light[1], k); b = mix(mid[2], light[2], k); }
+    const s = Math.max(0, sheen) * 0.35;
+    return `rgb(${(r + (200 - r) * s) | 0},${(g + (181 - g) * s) | 0},${(b + (104 - b) * s) | 0})`;
+  }
+
+  const FOLDS = 15, SUB = 7, ROD = 22;
+
+  function sway(xf, yn, side, openAmt) {
+    const a = yn * yn * 0.9 + yn * 0.1;
+    const amp = reduce ? 0 : (11 + 16 * (1 - openAmt)) + gust * 26;
+    const w = Math.sin(t * 0.85 + xf * 5.2 + yn * 2.3 + side) * amp
+            + Math.sin(t * 1.9 + xf * 11 + side * 2) * amp * 0.28
+            + wind * 40 * (side || 1) * 0.0 + (mx - 0.5) * 18 * (1 - openAmt) * yn;
+    return w * a;
+  }
+
+  function panel(side) {
+    const o = ease(open);
+    const seam = Math.max(6, W * 0.012);
+    const innerClosed = side < 0 ? W / 2 - seam / 2 : W / 2 + seam / 2;
+    const innerOpen = side < 0 ? W * 0.075 : W * 0.925;
+    const inner = mix(innerClosed, innerOpen, o);
+    const outer = side < 0 ? -W * 0.03 : W * 1.03;
+    const left = Math.min(inner, outer), right = Math.max(inner, outer);
+    const n = FOLDS * SUB;
+    const y0 = ROD, y1 = H + 40;
+    const yMid = (y0 + y1) / 2;
+
+    for (let q = 0; q < n; q++) {
+      const f0 = q / n, f1 = (q + 1) / n;
+      const x0 = left + (right - left) * f0, x1 = left + (right - left) * f1;
+      const phase = (q / SUB) + Math.sin(t * 0.55 + q * 0.04) * 0.12 * (reduce ? 0 : 1);
+      const L = Math.pow(0.5 + 0.5 * Math.cos(phase * Math.PI * 2), 1.15);
+      const edge = side < 0 ? f1 : 1 - f0;
+      const shade = L * (0.82 + 0.18 * (1 - Math.pow(edge, 6)));
+      ctx.fillStyle = color(shade, L - 0.88);
+
+      const sm = (xf, yn) => sway(xf, yn, side, o);
+      const mA = sm(f0, 0.5), mB = sm(f1, 0.5), bA = sm(f0, 1), bB = sm(f1, 1);
+      ctx.beginPath();
+      ctx.moveTo(x0, y0);
+      ctx.lineTo(x0 + mA, yMid);
+      ctx.lineTo(x0 + bA, y1);
+      ctx.lineTo(x1 + bB + 0.6, y1);
+      ctx.lineTo(x1 + mB + 0.6, yMid);
+      ctx.lineTo(x1 + 0.6, y0);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    const g = ctx.createLinearGradient(0, y0, 0, y1);
+    g.addColorStop(0, 'rgba(0,10,8,0.55)');
+    g.addColorStop(0.12, 'rgba(0,10,8,0.05)');
+    g.addColorStop(0.62, 'rgba(0,10,8,0)');
+    g.addColorStop(1, 'rgba(0,10,8,0.5)');
+    ctx.fillStyle = g;
+    ctx.fillRect(left - 40, y0, right - left + 80, y1 - y0);
+
+    const sx = side < 0 ? right : left;
+    const sg = ctx.createLinearGradient(sx, 0, sx + side * 46, 0);
+    sg.addColorStop(0, 'rgba(0,0,0,0.5)');
+    sg.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = sg;
+    ctx.fillRect(Math.min(sx, sx + side * 46), y0, 46, y1 - y0);
+
+    return { left, right };
+  }
+
+  function tieback(p, o, side) {
+    const a = Math.max(0, (o - 0.55) / 0.45);
+    if (a <= 0) return;
+    const y = H * 0.62;
+    const w = p.right - p.left;
+    const x = p.left - 6, ww = w + 12;
+    const gr = ctx.createLinearGradient(0, y, 0, y + 16);
+    gr.addColorStop(0, '#e9dca0'); gr.addColorStop(0.5, '#c8b568'); gr.addColorStop(1, '#8c7a3a');
+    ctx.globalAlpha = a;
+    ctx.fillStyle = gr;
+    ctx.fillRect(x, y, ww, 16);
+    const tx = side < 0 ? p.right - 8 : p.left + 8;
+    ctx.beginPath(); ctx.arc(tx, y + 8, 7, 0, Math.PI * 2); ctx.fill();
+    ctx.fillRect(tx - 2, y + 14, 4, 30);
+    ctx.beginPath(); ctx.moveTo(tx - 9, y + 44); ctx.lineTo(tx + 9, y + 44); ctx.lineTo(tx + 6, y + 82); ctx.lineTo(tx - 6, y + 82); ctx.closePath(); ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+
+  function rod() {
+    const gr = ctx.createLinearGradient(0, 8, 0, 22);
+    gr.addColorStop(0, '#f2e7b0'); gr.addColorStop(0.45, '#c8b568'); gr.addColorStop(1, '#7a6628');
+    ctx.fillStyle = gr;
+    ctx.fillRect(0, 8, W, 12);
+    ctx.strokeStyle = '#d9c987'; ctx.lineWidth = 2;
+    const count = Math.round(W / 46);
+    for (let i = 0; i <= count; i++) {
+      const x = (i / count) * W;
+      ctx.beginPath(); ctx.ellipse(x, 22, 6, 9, 0, 0, Math.PI * 2); ctx.stroke();
+    }
+    const sg = ctx.createLinearGradient(0, 20, 0, 60);
+    sg.addColorStop(0, 'rgba(0,0,0,0.45)'); sg.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = sg; ctx.fillRect(0, 20, W, 40);
+  }
+
+  function frame(now) {
+    const dt = Math.min(0.05, (now - last) / 1000); last = now; t += dt;
+    open += (target - open) * (1 - Math.exp(-dt * 3.4));
+    if (Math.abs(target - open) < 0.0005) open = target;
+    gust *= Math.exp(-dt * 1.6);
+
+    ctx.clearRect(0, 0, W, H);
+    const L = panel(-1), R = panel(1);
+    const o = ease(open);
+    tieback(L, o, -1); tieback(R, o, 1);
+    rod();
+
+    root.style.setProperty('--open', o.toFixed(3));
+    document.body.classList.toggle('is-open', target === 1 && open > 0.35);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  function toggle(v) { manual = true; target = typeof v === 'number' ? v : (target ? 0 : 1); }
+  document.getElementById('peek').addEventListener('click', (e) => { e.stopPropagation(); toggle(1); });
+  document.getElementById('close').addEventListener('click', (e) => { e.stopPropagation(); toggle(0); });
+  cv.addEventListener('click', () => toggle());
+  addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') toggle(0);
+    else if ((e.key === 'Enter' || e.key === ' ') && document.activeElement === document.body) { e.preventDefault(); toggle(); }
+  });
+
+  let px = 0;
+  addEventListener('pointermove', (e) => {
+    mx = e.clientX / W;
+    gust = Math.min(1.4, gust + Math.abs(e.clientX - px) / W * 14);
+    px = e.clientX;
+  }, { passive: true });
+  addEventListener('deviceorientation', (e) => {
+    if (e.gamma == null) return;
+    mx = 0.5 + Math.max(-30, Math.min(30, e.gamma)) / 60;
+  });
+
+  if (!reduce) {
+    setTimeout(() => { if (!manual) target = 0.1; }, 3200);
+    setTimeout(() => { if (!manual) target = 0; }, 5200);
+    setInterval(() => { if (!manual && target === 0) { target = 0.07; setTimeout(() => { if (!manual) target = 0; }, 1700); } }, 14000);
+  }
+})();
+</script>
+</body>
+</html>
